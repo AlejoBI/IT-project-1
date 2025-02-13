@@ -1,12 +1,11 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthFormProps, AuthFormInputs } from "./authFormTypes";
 
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { loginUser, registerUser } from "../../store/auth/authThunks";
 
 const AuthForm = ({ mode }: AuthFormProps) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const handleRegister = (data: AuthFormInputs) => {
     dispatch(registerUser(data));

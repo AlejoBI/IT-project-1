@@ -23,6 +23,7 @@ const authSlice = createSlice({
       // 🟡 LOGIN
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
@@ -38,6 +39,7 @@ const authSlice = createSlice({
       // 🟢 REGISTER
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;

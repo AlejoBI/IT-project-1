@@ -11,4 +11,4 @@ export const store = configureStore({
 authListener(store.dispatch); 
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch; // Esto es para poder usar useDispatch en los componentes 
