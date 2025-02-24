@@ -1,7 +1,5 @@
-import AuthForm from "../components/authForm/AuthForm";
+import AuthForm from "../components/forms/authForm/AuthForm";
 import { useState } from "react";
-
-import BackToHomeButton from "../components/ui/BackToHomeButton";
 
 import { useAuth } from "../hooks/useAuth";
 
@@ -12,7 +10,6 @@ const AuthPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-indigo-600">
-      <BackToHomeButton />
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-96 text-center">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6">
           {selectedMode === "login" ? "Iniciar sesión" : "Registrarse"}

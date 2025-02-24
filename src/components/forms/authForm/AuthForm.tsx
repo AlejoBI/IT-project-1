@@ -1,19 +1,10 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { loginUser, registerUser } from "../../../services/authServices";
 import { AuthFormProps, AuthFormInputs } from "./authFormTypes";
-
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { loginUser, registerUser } from "../../store/auth/authThunks";
 
 const AuthForm = ({ mode }: AuthFormProps) => {
   const dispatch = useAppDispatch();
-
-  const handleRegister = (data: AuthFormInputs) => {
-    dispatch(registerUser(data));
-  };
-
-  const handleLogin = (data: AuthFormInputs) => {
-    dispatch(loginUser(data));
-  };
 
   const {
     register,
@@ -24,9 +15,9 @@ const AuthForm = ({ mode }: AuthFormProps) => {
 
   const onFormSubmit: SubmitHandler<AuthFormInputs> = (data) => {
     if (mode === "register") {
-      handleRegister(data);
+      dispatch(registerUser(data));
     } else {
-      handleLogin(data);
+      dispatch(loginUser(data));
     }
   };
 
@@ -51,7 +42,6 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           )}
         </div>
       )}
-
       <div className="flex flex-col">
         <label htmlFor="email" className="font-medium text-gray-700">
           Email:
@@ -62,7 +52,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           {...register("email", {
             required: "Email is required",
             pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // value is a regex pattern for valid email
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
               message: "Invalid email address",
             },
           })}
@@ -72,7 +62,6 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           <p className="text-red-500 text-sm">{errors.email.message}</p>
         )}
       </div>
-
       <div className="flex flex-col">
         <label htmlFor="password" className="font-medium text-gray-700">
           Password:
@@ -87,7 +76,6 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           <p className="text-red-500 text-sm">{errors.password.message}</p>
         )}
       </div>
-
       {mode === "register" && (
         <div className="flex flex-col">
           <label
@@ -113,7 +101,6 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           )}
         </div>
       )}
-
       <button
         type="submit"
         className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300"

@@ -3,11 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth } from "../../../hooks/useAuth";
 
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { logoutUser } from "../../../store/auth/authThunks";
+import { logoutUser } from "../../../services/authServices";
 
 import logo from "../../../assets/img/ByteForge.webp";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 const Header = () => {
   const { isAuthenticated } = useAuth();
@@ -15,7 +14,7 @@ const Header = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const logout = () => dispatch(logoutUser());
 
   const navigation = [

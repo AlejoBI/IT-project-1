@@ -9,11 +9,11 @@ import { ReactNode } from "react";
 import Header from "../components/layout/header/Header";
 import Footer from "../components/layout/footer/Footer";
 
-import ScrollToTop from "../components/utils/ScrollToTop";
+import { ScrollToTop } from "../utils/helpers";
 
-import Home from "../pages/HomePage";
-import AuthPage from "../pages/AuthPage";
-import NotFoundPage from "../pages/NotFoundPage";
+import Home from "../pages/Home";
+import Auth from "../pages/Auth";
+import NotFound from "../pages/NotFound";
 
 import PublicRoute from "./protected/PublicRoute";
 /* import ProtectedRoute from "./protected/ProtectedRoute"; */
@@ -50,7 +50,7 @@ const App = () => {
             path="/login"
             element={
               <Layout>
-                <AuthPage />
+                <Auth />
               </Layout>
             }
           />
@@ -60,7 +60,7 @@ const App = () => {
           path="*"
           element={
             <Layout>
-              <NotFoundPage />
+              <NotFound />
             </Layout>
           }
         />

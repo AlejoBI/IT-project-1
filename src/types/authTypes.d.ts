@@ -1,7 +1,8 @@
 export interface User {
   uid: string;
-  name: string | null;
+  name: string | null; // displayName de Firebase
   email: string | null;
+  emailVerified: boolean; // emailVerified de Firebase
 }
 
 export interface AuthState {
@@ -12,6 +13,7 @@ export interface AuthState {
 }
 
 export interface AuthPayload {
+  username?: string; // displayName
   email: string;
   password: string;
 }

@@ -3,11 +3,11 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../../config/firebaseConfig";
-import { AuthPayload, User } from "./authTypes";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
-import { firestore } from "../../config/firebaseConfig";
+import { auth } from "../config/firebaseConfig";
+import { AuthPayload, User } from "../types/authTypes";
 
 export const loginUser = createAsyncThunk<User, AuthPayload>(
   "auth/login",
@@ -19,7 +19,17 @@ export const loginUser = createAsyncThunk<User, AuthPayload>(
         password
       );
       const user = userCredential.user;
-      return { uid: user.uid, name: user.displayName, email: user.email };
+
+      if (!user.emailVerified) {
+        return rejectWithValue("Debes verificar tu correo electrónico.");
+      }
+
+      return {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        emailVerified: user.emailVerified,
+      };
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
@@ -28,22 +38,29 @@ export const loginUser = createAsyncThunk<User, AuthPayload>(
 
 export const registerUser = createAsyncThunk<User, AuthPayload>(
   "auth/register",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, username }, { rejectWithValue }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-
       const user = userCredential.user;
-      await setDoc(doc(firestore, "users", user.uid), {
-        name: "User",
-        email: user.email,
-        state: "active",
-        createdAt: Timestamp.now(),
+
+      await updateProfile(user, {
+        displayName: username,
       });
-      return { uid: user.uid, name: user.displayName, email: user.email };
+
+      await sendEmailVerification(user);
+
+      await signOut(auth);
+
+      return {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        emailVerified: user.emailVerified,
+      };
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }

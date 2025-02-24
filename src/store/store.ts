@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./auth/authSlice";
-import { authListener } from "./auth/authListener";
+import authReducer from "./slices/authSlice";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(authMiddleware),
 });
 
-authListener(store.dispatch); 
-
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch; // Esto es para poder usar useDispatch en los componentes 
+export type AppDispatch = typeof store.dispatch; // Esto es para poder usar useDispatch en los componentes
