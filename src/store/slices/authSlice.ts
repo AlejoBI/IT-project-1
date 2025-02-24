@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState, User } from "../../types/authTypes";
-import { loginUser, registerUser, logoutUser } from "../../services/authServices";
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
+} from "../../services/authServices";
+
+import { FIREBASE_AUTH_ERROR_CODES } from "../../utils/constants";
 
 const initialState: AuthState = {
   user: null,
@@ -31,9 +37,17 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.error = null;
       })
-      .addCase(loginUser.rejected, (state) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = "Error en autenticación";
+        const errorCode = action.payload as
+          | keyof typeof FIREBASE_AUTH_ERROR_CODES
+          | undefined;
+
+        if (errorCode && FIREBASE_AUTH_ERROR_CODES[errorCode]) {
+          state.error = FIREBASE_AUTH_ERROR_CODES[errorCode];
+        } else {
+          state.error = "Error desconocido durante el inicio de sesión.";
+        }
       })
 
       // 🟢 REGISTER
@@ -47,9 +61,17 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.error = null;
       })
-      .addCase(registerUser.rejected, (state) => {
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = "Error en registro";
+        const errorCode = action.payload as
+          | keyof typeof FIREBASE_AUTH_ERROR_CODES
+          | undefined;
+
+        if (errorCode && FIREBASE_AUTH_ERROR_CODES[errorCode]) {
+          state.error = FIREBASE_AUTH_ERROR_CODES[errorCode];
+        } else {
+          state.error = "Error desconocido durante el inicio de sesión.";
+        }
       })
 
       // 🔴 LOGOUT

@@ -9,34 +9,40 @@ import {
 import { auth } from "../config/firebaseConfig";
 import { AuthPayload, User } from "../types/authTypes";
 
-export const loginUser = createAsyncThunk<User, AuthPayload>(
-  "auth/login",
-  async ({ email, password }, { rejectWithValue }) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+export const loginUser = createAsyncThunk<
+  User,
+  AuthPayload,
+  { rejectValue: string }
+>("auth/login", async ({ email, password }, { rejectWithValue }) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
 
-      if (!user.emailVerified) {
-        return rejectWithValue("Debes verificar tu correo electrónico.");
-      }
-
-      return {
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        emailVerified: user.emailVerified,
-      };
-    } catch (error) {
-      return rejectWithValue((error as Error).message);
+    if (!user.emailVerified) {
+      return rejectWithValue("Debes verificar tu correo electrónico.");
     }
-  }
-);
 
-export const registerUser = createAsyncThunk<User, AuthPayload>(
+    return {
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      emailVerified: user.emailVerified,
+    };
+  } catch (error) {
+    const firebaseError = error as { code: string; message: string };
+    return rejectWithValue(firebaseError.code);
+  }
+});
+
+export const registerUser = createAsyncThunk<
+  User,
+  AuthPayload,
+  { rejectValue: string }
+>(
   "auth/register",
   async ({ email, password, username }, { rejectWithValue }) => {
     try {
@@ -62,7 +68,8 @@ export const registerUser = createAsyncThunk<User, AuthPayload>(
         emailVerified: user.emailVerified,
       };
     } catch (error) {
-      return rejectWithValue((error as Error).message);
+      const firebaseError = error as { code: string; message: string };
+      return rejectWithValue(firebaseError.code);
     }
   }
 );
