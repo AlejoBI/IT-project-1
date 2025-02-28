@@ -5,4 +5,6 @@ export const FIREBASE_AUTH_ERROR_CODES = {
   "auth/email-already-in-use": "El correo electrónico ya está en uso.",
   "auth/weak-password": "La contraseña es débil.",
   "auth/invalid-credential": "Correo o contraseña incorrectos.",
+  "auth/invalid-email": "El correo no es válido.",
+  "auth/network-request-failed": "Error de conexión, intenta más tarde.",
 };

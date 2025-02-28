@@ -39,15 +39,11 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        const errorCode = action.payload as
-          | keyof typeof FIREBASE_AUTH_ERROR_CODES
-          | undefined;
+        const errorCode =
+          action.payload as keyof typeof FIREBASE_AUTH_ERROR_CODES;
 
-        if (errorCode && FIREBASE_AUTH_ERROR_CODES[errorCode]) {
-          state.error = FIREBASE_AUTH_ERROR_CODES[errorCode];
-        } else {
-          state.error = "Error desconocido durante el inicio de sesión.";
-        }
+        state.error =
+          FIREBASE_AUTH_ERROR_CODES[errorCode] || "Error desconocido.";
       })
 
       // 🟢 REGISTER
@@ -63,15 +59,11 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        const errorCode = action.payload as
-          | keyof typeof FIREBASE_AUTH_ERROR_CODES
-          | undefined;
+        const errorCode =
+          action.payload as keyof typeof FIREBASE_AUTH_ERROR_CODES;
 
-        if (errorCode && FIREBASE_AUTH_ERROR_CODES[errorCode]) {
-          state.error = FIREBASE_AUTH_ERROR_CODES[errorCode];
-        } else {
-          state.error = "Error desconocido durante el inicio de sesión.";
-        }
+        state.error =
+          FIREBASE_AUTH_ERROR_CODES[errorCode] || "Error desconocido.";
       })
 
       // 🔴 LOGOUT
