@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1741153583573" clover="3.2.0">
-  <project timestamp="1741153583574" name="All files">
+<coverage generated="1741153726851" clover="3.2.0">
+  <project timestamp="1741153726851" name="All files">
     <metrics statements="24" coveredstatements="19" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3" elements="29" coveredelements="23" complexity="0" loc="24" ncloc="24" packages="1" files="1" classes="1"/>
     <file name="authServices.ts" path="C:\Users\Gamer\Desktop\Repositories\IT-project-1\src\services\authServices.ts">
       <metrics statements="24" coveredstatements="19" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
