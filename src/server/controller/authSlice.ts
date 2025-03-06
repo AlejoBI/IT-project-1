@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthState, User } from "../../types/authTypes";
+import { AuthState, User } from "../models/authTypes";
 import {
   loginUser,
   registerUser,
   logoutUser,
-} from "../../services/authServices";
+} from "../services/authServices";
 
 import { FIREBASE_AUTH_ERROR_CODES } from "../../utils/constants";
 

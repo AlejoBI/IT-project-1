@@ -1,6 +1,7 @@
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { loginUser, registerUser } from "../../../services/authServices";
+import { loginUser, registerUser } from "../../../server/services/authServices";
 import { AuthFormProps, AuthFormInputs } from "./authFormTypes";
 
 const AuthForm = ({ mode }: AuthFormProps) => {

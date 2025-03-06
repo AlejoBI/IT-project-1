@@ -1,16 +1,8 @@
 name: Run Tests
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-      - master
-  pull_request:
-    branches:
-      - main
-      - develop
-      - master
+  - push
+  - pull_request
 
 jobs:
   test:
@@ -35,3 +27,6 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3

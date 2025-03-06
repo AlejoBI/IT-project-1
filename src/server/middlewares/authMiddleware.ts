@@ -1,7 +1,7 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
-import { setUser } from "../store/slices/authSlice";
+import { setUser } from "../controller/authSlice";
 
 export const authMiddleware: Middleware = (store) => (next) => {
   // usa store para acceder al estado global de la app y next para pasar la acción al siguiente middleware

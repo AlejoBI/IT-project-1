@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth } from "../../../hooks/useAuth";
 
-import { logoutUser } from "../../../services/authServices";
+import { logoutUser } from "../../../server/services/authServices";
 
 import logo from "../../../assets/img/ByteForge.webp";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";

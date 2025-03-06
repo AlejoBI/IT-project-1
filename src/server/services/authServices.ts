@@ -7,7 +7,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
-import { AuthPayload, User } from "../types/authTypes";
+import { AuthPayload, User } from "../models/authTypes";
 
 export const loginUser = createAsyncThunk<
   User,

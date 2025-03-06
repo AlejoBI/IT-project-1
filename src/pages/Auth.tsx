@@ -1,3 +1,4 @@
+import React from "react";
 import AuthForm from "../components/forms/authForm/AuthForm";
 import { useState } from "react";
 

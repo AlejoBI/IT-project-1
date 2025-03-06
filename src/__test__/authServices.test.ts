@@ -2,8 +2,8 @@ import {
   loginUser,
   registerUser,
   logoutUser,
-} from "../src/services/authServices";
-import { auth } from "../src/config/firebaseConfig";
+} from "../server/services/authServices"; // Importa las funciones de autenticación
+import { auth } from "../server/config/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 
 jest.mock("firebase/auth"); // Mockea el módulo de autenticación de Firebase para las pruebas
-jest.mock("../src/config/firebaseConfig", () => ({
+jest.mock("../server/config/firebaseConfig", () => ({
   firebaseConfig: {
     apiKey: "test-api-key",
     authDomain: "test-auth-domain",
