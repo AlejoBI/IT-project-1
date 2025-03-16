@@ -1,18 +1,27 @@
 import {
-  loginUser,
-  registerUser,
-  logoutUser,
-} from "../server/services/authServices"; // Importa las funciones de autenticación
-import { auth } from "../server/config/firebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signOut,
   updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
+import { auth } from "../server/config/firebaseConfig";
+import {
+  loginService,
+  registerService,
+  logoutService,
+} from "../server/services/auth/authService";
+import { getUserFromFirestore } from "../server/services/user/userService";
 
-jest.mock("firebase/auth"); // Mockea el módulo de autenticación de Firebase para las pruebas
+// Mockear funciones de Firebase
+jest.mock("firebase/auth", () => ({
+  signInWithEmailAndPassword: jest.fn(),
+  createUserWithEmailAndPassword: jest.fn(),
+  signOut: jest.fn(),
+  updateProfile: jest.fn(),
+  sendEmailVerification: jest.fn(),
+}));
+
 jest.mock("../server/config/firebaseConfig", () => ({
   firebaseConfig: {
     apiKey: "test-api-key",
@@ -22,129 +31,193 @@ jest.mock("../server/config/firebaseConfig", () => ({
     messagingSenderId: "test-messaging-sender-id",
     appId: "test-app-id",
   },
-})); // Mockea el módulo de configuración de Firebase para las pruebas
+}));
 
-const createThunkArgs = () => {
-  const dispatch = jest.fn();
-  const getState = jest.fn();
-  const extra = undefined;
-  const requestId = "";
-  const signal = new AbortController().signal;
-  const rejectWithValue = jest.fn();
-
-  return { dispatch, getState, extra, requestId, signal, rejectWithValue };
-};
+// Mockear getUserFromFirestore
+jest.mock("../server/services/user/userService", () => ({
+  getUserFromFirestore: jest.fn(),
+}));
 
 describe("Auth Services", () => {
-  // Describe el grupo de pruebas para los servicios de autenticación
+  const mockUser = {
+    uid: "mock-uid",
+    email: "test@example.com",
+    displayName: "Test User",
+    emailVerified: true,
+  };
+
+  const mockUserData = {
+    uid: "mock-uid",
+    name: "Test User",
+    email: "test@example.com",
+    emailVerified: true,
+    role: "standard_user",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
   beforeEach(() => {
-    jest.clearAllMocks(); // Limpia todos los mocks antes de cada prueba
+    jest.clearAllMocks();
   });
 
-  test("loginUser should login a user with valid credentials", async () => {
-    // Prueba que loginUser debe iniciar sesión con credenciales válidas
-    const mockUser = {
-      // Define un usuario mock
-      uid: "123",
-      displayName: "Test User",
-      email: "test@example.com",
-      emailVerified: true,
-    };
+  describe("loginService", () => {
+    it("should log in a user and return user data", async () => {
+      // Simular signInWithEmailAndPassword
+      (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({
+        user: mockUser,
+      });
 
-    (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({
-      // Mockea la función signInWithEmailAndPassword para que resuelva con el usuario mock
-      user: mockUser,
+      // Simular getUserFromFirestore
+      (getUserFromFirestore as jest.Mock).mockResolvedValue(mockUserData);
+
+      const result = await loginService({
+        email: "test@example.com",
+        password: "password123",
+      });
+
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        "test@example.com",
+        "password123"
+      );
+      expect(getUserFromFirestore).toHaveBeenCalledWith(mockUser.uid);
+      expect(result).toEqual({
+        uid: mockUser.uid,
+        name: mockUser.displayName,
+        email: mockUser.email,
+        emailVerified: mockUser.emailVerified,
+        role: mockUserData.role,
+        createdAt: mockUserData.createdAt,
+        updatedAt: mockUserData.updatedAt,
+      });
     });
 
-    const thunk = loginUser({
-      // Crea el thunk para loginUser con las credenciales de prueba
-      email: "test@example.com",
-      password: "password",
+    it("should throw an error if the email is not verified", async () => {
+      (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({
+        user: { ...mockUser, emailVerified: false },
+      });
+
+      await expect(
+        loginService({ email: "test@example.com", password: "password123" })
+      ).rejects.toThrow("Debes verificar tu correo electrónico.");
+
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        "test@example.com",
+        "password123"
+      );
     });
 
-    const { dispatch, getState, extra, requestId, signal, rejectWithValue } =
-      createThunkArgs();
+    it("should throw an error if user data is not found in Firestore", async () => {
+      (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({
+        user: mockUser,
+      });
+      (getUserFromFirestore as jest.Mock).mockResolvedValue(null);
 
-    const result = await thunk(dispatch, getState, {
-      // Ejecuta el thunk con los mocks y parámetros definidos
-      extra,
-      requestId,
-      signal,
-      rejectWithValue,
+      await expect(
+        loginService({ email: "test@example.com", password: "password123" })
+      ).rejects.toThrow("No se encontraron datos del usuario en Firestore.");
+
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        "test@example.com",
+        "password123"
+      );
+      expect(getUserFromFirestore).toHaveBeenCalledWith(mockUser.uid);
     });
 
-    expect(result.payload).toEqual({
-      // Verifica que el resultado tenga el payload esperado
-      uid: "123",
-      name: "Test User",
-      email: "test@example.com",
-      emailVerified: true,
-    });
-  });
+    it("should handle Firebase errors during login", async () => {
+      const firebaseError = {
+        code: "auth/wrong-password",
+        message: "Invalid credentials",
+      };
+      (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(
+        firebaseError
+      );
 
-  test("registerUser should register a new user and send email verification", async () => {
-    // Prueba que registerUser debe registrar un nuevo usuario y enviar verificación de email
-    const mockUser = {
-      // Define un usuario mock
-      uid: "123",
-      displayName: "Test User",
-      email: "test@example.com",
-      emailVerified: false,
-    };
+      await expect(
+        loginService({ email: "test@example.com", password: "password123" })
+      ).rejects.toThrow("Invalid credentials");
 
-    (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
-      // Mockea la función createUserWithEmailAndPassword para que resuelva con el usuario mock
-      user: mockUser,
-    });
-
-    const thunk = registerUser({
-      // Crea el thunk para registerUser con los datos de prueba
-      email: "test@example.com",
-      password: "password",
-      username: "Test User",
-    });
-
-    const { dispatch, getState, extra, requestId, signal, rejectWithValue } =
-      createThunkArgs();
-
-    const result = await thunk(dispatch, getState, {
-      // Ejecuta el thunk con los mocks y parámetros definidos
-      extra,
-      requestId,
-      signal,
-      rejectWithValue,
-    });
-
-    expect(updateProfile).toHaveBeenCalledWith(mockUser, {
-      // Verifica que updateProfile haya sido llamado con el usuario mock y el displayName
-      displayName: "Test User",
-    });
-    expect(sendEmailVerification).toHaveBeenCalledWith(mockUser); // Verifica que sendEmailVerification haya sido llamado con el usuario mock
-    expect(signOut).toHaveBeenCalledWith(auth); // Verifica que signOut haya sido llamado con auth
-    expect(result.payload).toEqual({
-      // Verifica que el resultado tenga el payload esperado
-      uid: "123",
-      name: "Test User",
-      email: "test@example.com",
-      emailVerified: false,
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        "test@example.com",
+        "password123"
+      );
     });
   });
 
-  test("logoutUser should sign out the user", async () => {
-    // Prueba que logoutUser debe cerrar sesión del usuario
-    const thunk = logoutUser(); // Crea el thunk para logoutUser
+  describe("registerService", () => {
+    it("should register a new user and send email verification", async () => {
+      (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
+        user: mockUser,
+      });
 
-    const { dispatch, getState, extra, requestId, signal, rejectWithValue } =
-      createThunkArgs();
+      const result = await registerService({
+        email: "test@example.com",
+        password: "password123",
+        username: "Test User",
+      });
 
-    await thunk(dispatch, getState, {
-      // Ejecuta el thunk con los mocks y parámetros definidos
-      extra,
-      requestId,
-      signal,
-      rejectWithValue,
+      expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        "test@example.com",
+        "password123"
+      );
+      expect(updateProfile).toHaveBeenCalledWith(mockUser, {
+        displayName: "Test User",
+      });
+      expect(sendEmailVerification).toHaveBeenCalledWith(mockUser);
+      expect(result).toEqual({
+        uid: mockUser.uid,
+        name: mockUser.displayName,
+        email: mockUser.email,
+        emailVerified: mockUser.emailVerified,
+      });
     });
 
-    expect(signOut).toHaveBeenCalledWith(auth); // Verifica que signOut haya sido llamado con auth
+    it("should handle Firebase errors during registration", async () => {
+      const firebaseError = {
+        code: "auth/email-already-in-use",
+        message: "Email already in use",
+      };
+      (createUserWithEmailAndPassword as jest.Mock).mockRejectedValue(
+        firebaseError
+      );
+
+      await expect(
+        registerService({
+          email: "test@example.com",
+          password: "password123",
+          username: "Test User",
+        })
+      ).rejects.toThrow("auth/email-already-in-use");
+
+      expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        "test@example.com",
+        "password123"
+      );
+    });
+  });
+
+  describe("logoutService", () => {
+    it("should log out the user successfully", async () => {
+      await logoutService();
+
+      expect(signOut).toHaveBeenCalledWith(auth);
+    });
+
+    it("should handle Firebase errors during logout", async () => {
+      const firebaseError = {
+        code: "auth/network-request-failed",
+        message: "Network error",
+      };
+      (signOut as jest.Mock).mockRejectedValue(firebaseError);
+
+      await expect(logoutService()).rejects.toThrow("auth/network-request-failed");
+
+      expect(signOut).toHaveBeenCalledWith(auth);
+    });
   });
 });

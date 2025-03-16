@@ -1,19 +1,13 @@
-export interface User {
-  uid: string;
-  name: string | null; // displayName de Firebase
-  email: string | null;
-  emailVerified: boolean; // emailVerified de Firebase
+export interface AuthPayload {
+  username?: string; // Nombre de usuario (opcional, usado en registro)
+  email: string; // Correo electrónico
+  password: string; // Contraseña
+  confirmPassword?: string; // Confirmación de contraseña (opcional, usado en registro)
 }
 
 export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  error: string | null;
-}
-
-export interface AuthPayload {
-  username?: string; // displayName
-  email: string;
-  password: string;
+  user: User | null; // Información del usuario actual
+  isAuthenticated: boolean; // Indica si el usuario está autenticado
+  loading: boolean; // Indica si hay una operación en curso
+  error: string | null; // Mensaje de error, si existe
 }

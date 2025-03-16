@@ -1,25 +1,32 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
-import { setUser } from "../controller/authSlice";
+import { setUser as setAuthUser } from "../controller/authSlice";
+import { fetchUserAction } from "../services/user/userActions";
 
 export const authMiddleware: Middleware = (store) => (next) => {
-  // usa store para acceder al estado global de la app y next para pasar la acción al siguiente middleware
-  // Esto se debe a que el middleware tiene acceso directo al store y su dispatch, y no necesita depender de hooks de React.
-  onAuthStateChanged(auth, (firebaseUser) => {
+  // Observar cambios en la autenticación
+  onAuthStateChanged(auth, async (firebaseUser) => {
     if (firebaseUser) {
+      // Establecer datos básicos del usuario en el estado `auth`
       store.dispatch(
-        setUser({
+        setAuthUser({
           uid: firebaseUser.uid,
           email: firebaseUser.email || null,
           name: firebaseUser.displayName || null,
           emailVerified: firebaseUser.emailVerified,
         })
       );
+
+      // Obtener datos extendidos del usuario desde Firestore
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await store.dispatch(fetchUserAction(firebaseUser.uid) as any);
     } else {
-      store.dispatch(setUser(null));
+      // Limpiar el estado si no hay usuario autenticado
+      store.dispatch(setAuthUser(null));
     }
   });
 
+  // Pasar la acción al siguiente middleware
   return (action) => next(action);
 };

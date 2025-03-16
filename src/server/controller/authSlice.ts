@@ -1,12 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthState, User } from "../models/authTypes";
+import { createSlice } from "@reduxjs/toolkit";
+import { FIREBASE_SERVICE_ERROR_CODES } from "../../utils/constants";
+import { AuthState } from "../models/authTypes";
 import {
   loginUser,
   registerUser,
   logoutUser,
-} from "../services/authServices";
-
-import { FIREBASE_AUTH_ERROR_CODES } from "../../utils/constants";
+} from "../services/auth/authActions";
 
 const initialState: AuthState = {
   user: null,
@@ -19,7 +18,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<User | null>) => {
+    setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
     },
@@ -31,7 +30,7 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
@@ -40,10 +39,9 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         const errorCode =
-          action.payload as keyof typeof FIREBASE_AUTH_ERROR_CODES;
-
+          action.payload as keyof typeof FIREBASE_SERVICE_ERROR_CODES;
         state.error =
-          FIREBASE_AUTH_ERROR_CODES[errorCode] || "Error desconocido.";
+          FIREBASE_SERVICE_ERROR_CODES[errorCode] || "Error desconocido.";
       })
 
       // 🟢 REGISTER
@@ -51,7 +49,7 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
@@ -60,10 +58,9 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         const errorCode =
-          action.payload as keyof typeof FIREBASE_AUTH_ERROR_CODES;
-
+          action.payload as keyof typeof FIREBASE_SERVICE_ERROR_CODES;
         state.error =
-          FIREBASE_AUTH_ERROR_CODES[errorCode] || "Error desconocido.";
+          FIREBASE_SERVICE_ERROR_CODES[errorCode] || "Error desconocido.";
       })
 
       // 🔴 LOGOUT
@@ -75,6 +72,13 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
         state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        const errorCode =
+          action.payload as keyof typeof FIREBASE_SERVICE_ERROR_CODES;
+        state.error =
+          FIREBASE_SERVICE_ERROR_CODES[errorCode] || "Error desconocido.";
       });
   },
 });
