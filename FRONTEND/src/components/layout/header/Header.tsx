@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../../assets/img/ISOlytics.webp";
-import DarkModeToggle from "../../../components/common/DarkModeToggle";
+import DarkModeToggle from "../../common/DarkModeToggle";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,

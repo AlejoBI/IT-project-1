@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL as string;
+import api from "../axios";
 
 interface User {
   uid: string;
@@ -14,28 +12,20 @@ interface User {
 // Obtener perfiles de usuarios
 export const getUserProfiles = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/v1/users/`);
+    const response = await api.get("/api/users/");
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw Error(error.response.data.error);
-    } else {
-      throw "Error al obtener usuarios";
-    }
+    console.log(error);
   }
 };
 
 // Obtener perfil de usuario
 export const getUserProfile = async (uid: string) => {
   try {
-    const response = await axios.get(`${API_URL}/api/v1/users/${uid}`);
+    const response = await api.get(`/api/users/${uid}`);
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw Error(error.response.data.error);
-    } else {
-      throw "Error al registrar usuario";
-    }
+    console.log(error);
   }
 };
 
@@ -45,13 +35,9 @@ export const updateUserProfile = async (
   updates: Partial<User>
 ) => {
   try {
-    const response = await axios.put(`${API_URL}/api/v1/users/${uid}`, updates);
+    const response = await api.put(`/api/users/${uid}`, updates);
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw Error(error.response.data.error);
-    } else {
-      throw "Error al registrar usuario";
-    }
+    console.log(error);
   }
 };

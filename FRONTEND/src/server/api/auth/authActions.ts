@@ -1,13 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { loginService, registerService, logoutService } from "./authService";
 
+interface AuthUser {
+  uid: string;
+  name: string | null;
+  email: string | null;
+  emailVerified: boolean;
+}
+
 export const registerUser = createAsyncThunk<
-  {
-    uid: string;
-    name: string | null;
-    email: string | null;
-    emailVerified: boolean;
-  },
+  AuthUser,
   {
     email: string;
     password: string;
@@ -31,12 +33,7 @@ export const registerUser = createAsyncThunk<
 });
 
 export const loginUser = createAsyncThunk<
-  {
-    uid: string;
-    name: string | null;
-    email: string | null;
-    emailVerified: boolean;
-  }, // Tipo de dato que retorna
+  AuthUser, // Tipo de dato que retorna
   {
     email: string;
     password: string;
@@ -45,7 +42,6 @@ export const loginUser = createAsyncThunk<
 >("auth/login", async (payload, { rejectWithValue }) => {
   try {
     const authUser = await loginService(payload);
-
     return authUser;
   } catch (error) {
     return rejectWithValue((error as Error).message);
