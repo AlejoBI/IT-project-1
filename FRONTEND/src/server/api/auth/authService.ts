@@ -1,23 +1,14 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL as string;
+import api from "../axios";
 
 export const registerService = async (userData: {
   email: string;
   password: string;
 }) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/api/v1/auth/register`,
-      userData
-    );
+    const response = await api.post("/api/auth/register", userData);
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw Error(error.response.data.error);
-    } else {
-      throw "Error al registrar usuario";
-    }
+    console.log(error);
   }
 };
 
@@ -26,29 +17,18 @@ export const loginService = async (credentials: {
   password: string;
 }) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/api/v1/auth/login`,
-      credentials
-    );
+    const response = await api.post("/api/auth/login", credentials);
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw Error(error.response.data.error);
-    } else {
-      throw "Error al iniciar sesión";
-    }
+    console.log(error);
   }
 };
 
 export const logoutService = async () => {
   try {
-    await axios.post(`${API_URL}/api/v1/auth/logout`);
+    await api.post("/api/auth/logout");
     return true;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw Error(error.response.data.error);
-    } else {
-      throw "Error al cerrar sesión";
-    }
+    console.log(error);
   }
 };

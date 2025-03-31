@@ -1,0 +1,35 @@
+services:
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - auth-service
+      - user-service
+    networks:
+      - app-network
+  auth-service:
+    build: ./services/auth-service
+    container_name: auth-service
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./services/auth-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+  user-service:
+    build: ./services/user-service
+    container_name: user-service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./services/user-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
