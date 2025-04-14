@@ -7,6 +7,7 @@ services:
     depends_on:
       - auth-service
       - user-service
+      - notification-service
     networks:
       - app-network
   auth-service:
@@ -26,6 +27,16 @@ services:
       - "5001:5001"
     env_file:
       - ./services/user-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+  notification-service:
+    build: ./services/notification-service
+    container_name: notification-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./services/notification-service/.env
     restart: unless-stopped
     networks:
       - app-network

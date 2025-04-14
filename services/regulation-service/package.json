@@ -1,0 +1,33 @@
+{
+  "name": "regulation-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "tsc && node dist/app.js",
+    "test": "jest --watchAll=false --ci --coverage --collectCoverageFrom='src/controllers/*.ts'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase": "^11.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/firebase": "^2.4.32",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.14",
+    "eslint": "^9.22.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.29.0"
+  }
+}
