@@ -1,13 +1,5 @@
 import api from "./axios";
-
-interface User {
-  uid: string;
-  email: string | null;
-  emailVerified: boolean;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from "../../domain/models/types";
 
 // Obtener perfiles de usuarios
 export const getUserProfiles = async () => {

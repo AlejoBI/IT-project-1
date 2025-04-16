@@ -45,12 +45,12 @@ const FinalCTA = ({
             )}
           </>
         )}
+        {!isAuthenticated && (
+          <>
+            <Button onClick={onSubmit} children="Empieza ahora" type="submit" />{" "}
+          </>
+        )}
       </p>
-      <Button
-        onClick={onSubmit}
-        children={isAuthenticated ? "Verifica tu correo" : "Empieza ahora"}
-        type="submit"
-      />
     </section>
   );
 };
