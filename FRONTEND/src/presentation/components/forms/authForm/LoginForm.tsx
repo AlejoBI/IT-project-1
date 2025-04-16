@@ -2,12 +2,13 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { loginUser } from "../../../../application/store/auth/authActions";
-
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
   ANIMATION_TIMINGS,
 } from "../../../../shared/constants";
+import Button from "../../UI/Button";
+import Label from "../../UI/Label";
 
 interface LoginFormProps {
   onSwitchToRegister: () => void; // Función para cambiar al formulario de registro
@@ -38,12 +39,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
     >
       {/* Campo de correo electrónico */}
       <div className="flex flex-col">
-        <label
-          htmlFor="email"
-          className={`font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Email:
-        </label>
+        <Label htmlFor="email" children="Correo Electrónico:" />
         <input
           type="email"
           id="email"
@@ -65,12 +61,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
 
       {/* Campo de contraseña */}
       <div className="flex flex-col">
-        <label
-          htmlFor="password"
-          className={`font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Contraseña:
-        </label>
+        <Label htmlFor="password" children="Contraseña:" />
         <input
           type="password"
           id="password"
@@ -87,12 +78,9 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
       </div>
 
       {/* Botón de envío */}
-      <button
-        type="submit"
-        className={`w-full bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white p-3 rounded-lg font-medium transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-      >
-        Iniciar Sesión
-      </button>
+      <div className="flex justify-center mt-4">
+        <Button children="Iniciar Sesión" type="submit" />
+      </div>
 
       {/* Enlace para cambiar al formulario de registro */}
       <p className="text-center text-sm">

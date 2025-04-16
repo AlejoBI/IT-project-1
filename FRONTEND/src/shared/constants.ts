@@ -1,25 +1,45 @@
 // Modo Claro
 export const LIGHT_MODE_COLORS = {
-  BACKGROUND: "bg-gray-50", // Fondo principal
-  TEXT_PRIMARY: "text-gray-800", // Texto principal
-  TEXT_SECONDARY: "text-gray-600", // Texto secundario
-  ACCENT: "text-indigo-600", // Acento primario
-  BUTTON_BG: "bg-indigo-500", // Fondo de botones
-  BUTTON_HOVER_BG: "hover:bg-indigo-600", // Hover de botones
-  SIDEBAR_BG: "bg-gray-100", // Fondo del Sidebar
-  HOVER_BG: "hover:bg-indigo-100", // Hover general
+  BACKGROUND: "bg-[#F9FAFB]", // Fondo principal
+  BACKGROUND_COMPONENT: "bg-[#9AC4D4]", // Fondo de componentes
+  TEXT_PRIMARY: "text-[#1F2937]", // Texto principal
+  TEXT_SECONDARY: "text-[#4B5563]", // Texto secundario
+  INPUT_BACKGROUND: "bg-[#FFFFFF]", // Fondo de los inputs
+  ACCENT: "text-[#729CAC]", // Acento primario
+  BUTTON_BG: "bg-[#729CAC]", // Fondo de botones
+  BUTTON_HOVER_BG: "hover:bg-[#36697C]", // Hover de botones
+  SIDEBAR_BG: "bg-[#F3F4F6]", // Fondo del Sidebar
+  HOVER_BG: "hover:bg-[#E0E7FF]", // Hover general
+  PROGRESS_BAR_BACKGROUND: "bg-[#E5E7EB]", // Fondo de la barra de progreso
+  PROGRESS_BAR_FILL: "bg-[#729CAC]", // Relleno de la barra de progreso
 };
 
 // Modo Oscuro
 export const DARK_MODE_COLORS = {
-  BACKGROUND: "dark:bg-gray-900", // Fondo principal
-  TEXT_PRIMARY: "dark:text-gray-200", // Texto principal
-  TEXT_SECONDARY: "dark:text-gray-400", // Texto secundario
-  ACCENT: "dark:text-indigo-400", // Acento primario
-  BUTTON_BG: "dark:bg-indigo-600", // Fondo de botones
-  BUTTON_HOVER_BG: "dark:hover:bg-indigo-700", // Hover de botones
-  SIDEBAR_BG: "dark:bg-gray-800", // Fondo del Sidebar
-  HOVER_BG: "dark:hover:bg-indigo-900", // Hover general
+  BACKGROUND: "dark:bg-[#0F1D2C]", // Fondo principal
+  BACKGROUND_COMPONENT: "dark:bg-[#1F3A4D]", // Fondo componentes
+  TEXT_PRIMARY: "dark:text-[#E6EDF3]", // Texto principal
+  TEXT_SECONDARY: "dark:text-[#A0B5C3]", // Texto secundario
+  INPUT_BACKGROUND: "dark:bg-[#1A2B3A]", // Fondo de los inputs
+  ACCENT: "dark:text-[#8CCBE2]", // Acento primario
+  BUTTON_BG: "dark:bg-[#336E86]", // Fondo de botones
+  BUTTON_HOVER_BG: "dark:hover:bg-[#61A0B9]", // Hover de botones
+  SIDEBAR_BG: "dark:bg-[#1A2B3A]", // Fondo del Sidebar
+  HOVER_BG: "dark:hover:bg-[#2A4C61]", // Hover general
+  PROGRESS_BAR_BACKGROUND: "dark:bg-[#2A4C61]", // Fondo de la barra de progreso
+  PROGRESS_BAR_FILL: "dark:bg-[#8CCBE2]", // Relleno de la barra de progreso
+};
+
+// Gradientes
+export const GRADIENTS = {
+  WELCOME_BANNER: "bg-gradient-to-r from-[#9AC4D4] via-[#75B5CE] to-[#729CAC]",
+  BUTTON_BG: "bg-gradient-to-r from-[#729CAC] to-[#75B5CE]",
+};
+
+export const DARK_GRADIENTS = {
+  WELCOME_BANNER:
+    "dark:bg-gradient-to-r dark:from-[#336E86] dark:via-[#3D8BA6] dark:to-[#1F3A4D]",
+  BUTTON_BG: "dark:bg-gradient-to-r dark:from-[#336E86] dark:to-[#3D8BA6]",
 };
 
 // Tiempos de Animación
