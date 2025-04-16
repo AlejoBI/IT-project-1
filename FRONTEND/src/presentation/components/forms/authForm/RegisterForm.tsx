@@ -2,12 +2,13 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { registerUser } from "../../../../application/store/auth/authActions";
-
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
   ANIMATION_TIMINGS,
 } from "../../../../shared/constants";
+import Button from "../../UI/Button";
+import Label from "../../UI/Label";
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
@@ -41,12 +42,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
     >
       {/* Campo de nombre de usuario */}
       <div className="flex flex-col">
-        <label
-          htmlFor="username"
-          className={`font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Nombre de Usuario:
-        </label>
+        <Label htmlFor="username" children="Nombre de Usuario:" />
         <input
           type="text"
           id="username"
@@ -64,12 +60,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
 
       {/* Campo de correo electrónico */}
       <div className="flex flex-col">
-        <label
-          htmlFor="email"
-          className={`font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Correo Electrónico:
-        </label>
+        <Label htmlFor="email" children="Correo Electrónico:" />
         <input
           type="email"
           id="email"
@@ -91,12 +82,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
 
       {/* Campo de contraseña */}
       <div className="flex flex-col">
-        <label
-          htmlFor="password"
-          className={`font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Contraseña:
-        </label>
+        <Label htmlFor="password" children="Contraseña:" />
         <input
           type="password"
           id="password"
@@ -114,12 +100,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
 
       {/* Confirmación de contraseña */}
       <div className="flex flex-col">
-        <label
-          htmlFor="confirmPassword"
-          className={`font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Confirmar Contraseña:
-        </label>
+        <Label htmlFor="confirmPassword" children="Confirmar Contraseña:" />
         <input
           type="password"
           id="confirmPassword"
@@ -138,12 +119,9 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
       </div>
 
       {/* Botón de envío */}
-      <button
-        type="submit"
-        className={`w-full bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white p-3 rounded-lg font-medium transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-      >
-        Registrarse
-      </button>
+      <div className="flex justify-center mt-4">
+        <Button children="Registrarse" type="submit" />
+      </div>
 
       {/* Enlace para cambiar al formulario de login */}
       <p className="text-center text-sm">
