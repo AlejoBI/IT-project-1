@@ -6,13 +6,7 @@ import {
   updateUserAction,
 } from "./usersActions";
 
-interface User {
-  uid: string;
-  email: string | null;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from "../../../domain/models/types";
 
 interface UserState {
   user: User | null;

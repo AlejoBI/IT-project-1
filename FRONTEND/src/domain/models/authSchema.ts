@@ -10,6 +10,3 @@ export const loginSchema = z.object({
   email: z.string().email("Correo inválido"),
   password: z.string().min(6, "Contraseña muy corta"),
 });
-
-export type RegisterPayload = z.infer<typeof registerSchema>;
-export type LoginPayload = z.infer<typeof loginSchema>;

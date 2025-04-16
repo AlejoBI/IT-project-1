@@ -9,13 +9,7 @@ import {
   validateUid,
 } from "../../../domain/services/userService";
 
-interface User {
-  uid: string;
-  email: string | null;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from "../../../domain/models/types";
 
 // Obtener datos de todos los usuarios desde Firestore
 export const fetchUsersAction = createAsyncThunk(
