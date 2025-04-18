@@ -2,12 +2,17 @@
   "name": "my-microservices",
   "version": "1.0.0",
   "scripts": {
-    "install-all": "npm run install-auth && npm run install-user && npm run install-compliance && npm run install-notification && npm run install-report && npm run install-evaluation-form",
+    "install-all": "npm run install-auth && npm run install-user && npm run install-compliance && npm run install-notification && npm run install-regulation && npm run install-evaluation-form",
     "install-auth": "cd auth-service && npm install",
     "install-user": "cd user-service && npm install",
     "install-compliance": "cd compliance-service && npm install",
     "install-notification": "cd notification-service && npm install",
-    "install-report": "cd report-service && npm install",
+    "install-regulation": "cd regulation-service && npm install",
     "install-evaluation-form": "cd evaluation-form-service && npm install"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "firebase": "^11.6.0"
   }
 }
