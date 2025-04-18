@@ -8,6 +8,7 @@ services:
       - auth-service
       - user-service
       - notification-service
+      - regulation-service
     networks:
       - app-network
   auth-service:
@@ -40,7 +41,16 @@ services:
     restart: unless-stopped
     networks:
       - app-network
-
+  regulation-service:
+    build: ./services/regulation-service  
+    container_name: regulation-service
+    ports:
+      - "5004:5004"
+    env_file:
+      - ./services/regulation-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
 networks:
   app-network:
     driver: bridge
