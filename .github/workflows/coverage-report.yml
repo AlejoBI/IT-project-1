@@ -10,30 +10,43 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        project:
+          - FRONTEND
+          - services/auth-service
+          - services/compliance-service
+          - services/evaluation-form-service
+          - services/notification-service
+          - services/regulation-service
+          - services/user-service
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Obtiene el historial completo para un análisis más preciso
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22.x"
-          cache: "npm" # Optimiza la instalación con caché
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm ci # Usa 'ci' en lugar de 'install' para instalaciones más rápidas y consistentes
+        run: npm ci
+        working-directory: ${{ matrix.project }}
 
       - name: Run tests and generate coverage
         run: npm test
+        working-directory: ${{ matrix.project }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage
+          directory: ${{ matrix.project }}/coverage
           fail_ci_if_error: true
           verbose: true
           flags: unittests
-          name: codecov-umbrella
+          name: ${{ matrix.project }}
