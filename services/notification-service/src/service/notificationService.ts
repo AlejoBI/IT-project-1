@@ -28,9 +28,7 @@ export const sendEmail = async (
       .setText(textContent);
 
     await mailerSend.email.send(emailParams);
-    console.log("Correo electrónico enviado exitosamente");
   } catch (error) {
-    console.error("Error al enviar el correo electrónico:", error);
     throw error;
   }
 };

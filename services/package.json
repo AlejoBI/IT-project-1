@@ -8,11 +8,14 @@
     "install-compliance": "cd compliance-service && npm install",
     "install-notification": "cd notification-service && npm install",
     "install-regulation": "cd regulation-service && npm install",
-    "install-evaluation-form": "cd evaluation-form-service && npm install"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "firebase": "^11.6.0"
+    "install-evaluation-form": "cd evaluation-form-service && npm install",
+
+    "build-all": "npm run build-auth && npm run build-user && npm run build-compliance && npm run build-notification && npm run build-regulation && npm run build-evaluation-form",
+    "build-auth": "cd auth-service && npm run build",
+    "build-user": "cd user-service && npm run build",
+    "build-compliance": "cd compliance-service && npm run build",
+    "build-notification": "cd notification-service && npm run build",
+    "build-regulation": "cd regulation-service && npm run build",
+    "build-evaluation-form": "cd evaluation-form-service && npm run build"
   }
 }
