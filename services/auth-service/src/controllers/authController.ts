@@ -9,7 +9,7 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../utils/firebaseConfig.js";
 
-import { FIREBASE_AUTH_ERRORS } from "../utils/constants.js";
+import { FIREBASE_ERRORS } from "../utils/constants.js";
 
 export const register = async (req: Request, res: Response) => {
   const { email, password, username } = req.body;
@@ -41,9 +41,9 @@ export const register = async (req: Request, res: Response) => {
     });
   } catch (error) {
     const firebaseError = (error as any)
-      .code as keyof typeof FIREBASE_AUTH_ERRORS;
+      .code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_AUTH_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -66,9 +66,9 @@ export const login = async (req: Request, res: Response) => {
     });
   } catch (error) {
     const firebaseError = (error as any)
-      .code as keyof typeof FIREBASE_AUTH_ERRORS;
+      .code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_AUTH_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -79,9 +79,9 @@ export const logout = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     const firebaseError = (error as any)
-      .code as keyof typeof FIREBASE_AUTH_ERRORS;
+      .code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_AUTH_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };

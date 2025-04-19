@@ -7,7 +7,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
-import { FIREBASE_USERS_ERRORS } from "../utils/constants.js";
+import { FIREBASE_ERRORS } from "../utils/constants.js";
 
 // Obtener perfiles de usuarios
 export const getUsers = async (req: Request, res: Response) => {
@@ -26,10 +26,9 @@ export const getUsers = async (req: Request, res: Response) => {
 
     res.status(200).json(users);
   } catch (error) {
-    const firebaseError = (error as any)
-      .code as keyof typeof FIREBASE_USERS_ERRORS;
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_USERS_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -48,18 +47,11 @@ export const getUser = async (req: Request, res: Response) => {
     res.status(200).json({
       uid: userSnapshot.id,
       ...userSnapshot.data(),
-    } as {
-      uid: string;
-      email: string | null;
-      role: string;
-      createdAt: Date;
-      updatedAt: Date;
     });
   } catch (error) {
-    const firebaseError = (error as any)
-      .code as keyof typeof FIREBASE_USERS_ERRORS;
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_USERS_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -79,10 +71,9 @@ export const updateUser = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {
-    const firebaseError = (error as any)
-      .code as keyof typeof FIREBASE_USERS_ERRORS;
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_USERS_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };

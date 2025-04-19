@@ -1,4 +1,4 @@
-export const FIREBASE_AUTH_ERRORS = {
+export const FIREBASE_ERRORS = {
   "auth/user-not-found": "El usuario no existe.",
   "auth/wrong-password": "La contraseña es incorrecta.",
   "auth/email-already-exists": "El correo electrónico ya está en uso.",

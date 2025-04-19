@@ -1,15 +1,15 @@
 export default {
-  preset: "ts-jest", // Soporte para TypeScript con Jest
-  testEnvironment: "node", // Configuración para entorno Node.js
-  setupFiles: ["dotenv/config"], // Cargar variables de entorno desde .env
-  roots: ["<rootDir>/src"], // Carpeta raíz para los tests
+  preset: "ts-jest",
+  testEnvironment: "node",
+  setupFiles: ["dotenv/config"],
+  roots: ["<rootDir>/src"],
   transform: {
-    "^.+\\.ts$": "ts-jest", // Transformar solo archivos TypeScript
+    "^.+\\.ts$": "ts-jest"
   },
-  moduleFileExtensions: ["ts", "js", "json", "node"], // Extensiones admitidas
+  moduleFileExtensions: ["ts", "js", "json", "node"],
   moduleNameMapper: {
-    "^@utils/(.*)$": "<rootDir>/src/utils/$1", // Alias para utilidades
-    "^(.*)\\.js$": "$1.ts", // Mapear imports terminados en .js a .ts
+    "^@utils/(.*)$": "<rootDir>/src/utils/$1",
+    "^(\\.{1,2}/.*)\\.js$": "$1"  // Esto para ignorar .js en tests
   },
-  collectCoverageFrom: ["src/**/*.ts"], // Archivos para cobertura
+  collectCoverageFrom: ["src/**/*.ts"]
 };

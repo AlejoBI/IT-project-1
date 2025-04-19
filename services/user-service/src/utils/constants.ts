@@ -1,4 +1,4 @@
-export const FIREBASE_USERS_ERRORS = {
+export const FIREBASE_ERRORS = {
   // Errores generales de Firestore
   "not-found": "El recurso solicitado no fue encontrado en Firestore.",
   "permission-denied": "No tienes permiso para acceder a este recurso.",
