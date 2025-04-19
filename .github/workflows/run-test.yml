@@ -31,19 +31,9 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         working-directory: ${{ matrix.project }}
 
       - name: Run tests
         run: npm test
         working-directory: ${{ matrix.project }}
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ${{ matrix.project }}/coverage
-          name: ${{ matrix.project }}
-          flags: unittests
-          fail_ci_if_error: true 
-          verbose: true
