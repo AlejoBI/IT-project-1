@@ -28,7 +28,7 @@ export const getUsers = async (req: Request, res: Response) => {
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -51,7 +51,7 @@ export const getUser = async (req: Request, res: Response) => {
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al obtener el usuario";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -73,7 +73,7 @@ export const updateUser = async (req: Request, res: Response) => {
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al actualizar el perfil";
     res.status(400).json({ error: errorMessage });
   }
 };
