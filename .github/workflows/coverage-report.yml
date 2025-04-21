@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         project:
-          - FRONTEND
           - services/auth-service
           - services/compliance-service
           - services/evaluation-form-service
