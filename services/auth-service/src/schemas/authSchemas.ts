@@ -2,6 +2,10 @@ import { z } from "zod";
 
 // Registro
 export const registerSchema = z.object({
+  name: z
+    .string()
+    .min(3, "El nombre debe tener al menos 3 caracteres")
+    .max(50, "El nombre no puede exceder los 50 caracteres"),
   email: z.string().email("Correo inválido"),
   password: z
     .string()
@@ -20,7 +24,8 @@ export const registerSchema = z.object({
     }),
   username: z
     .string()
-    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+    .min(3, "El nombre de usuario debe tener al menos 3 caracteres")
+    .max(50, "El nombre no puede exceder los 50 caracteres"),
 });
 
 // Login
