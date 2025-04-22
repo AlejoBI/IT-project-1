@@ -9,6 +9,7 @@ services:
       - user-service
       - notification-service
       - regulation-service
+      - evaluation-form-service
     networks:
       - app-network
   auth-service:
@@ -48,6 +49,16 @@ services:
       - "5004:5004"
     env_file:
       - ./services/regulation-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+  evaluation-form-service:
+    build: ./services/evaluation-form-service
+    container_name: evaluation-service
+    ports:
+      - "5005:5005"
+    env_file:
+      - ./services/evaluation-form-service/.env
     restart: unless-stopped
     networks:
       - app-network
