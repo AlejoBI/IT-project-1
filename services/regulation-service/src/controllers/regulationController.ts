@@ -90,12 +90,6 @@ export const updateRegulation = async (req: Request, res: Response): Promise<any
   const { id } = req.params;
   const { name, description, version } = req.body;
 
-  if (!name || !description || !version) {
-    return res.status(400).json({
-      message: "Todos los campos (name, description, version) son requeridos.",
-    });
-  }
-
   try {
     const regulationRef = doc(firestore, "regulations", id);
     const regulationSnapshot = await getDoc(regulationRef);
