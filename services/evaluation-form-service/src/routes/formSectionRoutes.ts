@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   addFormSection,
   getFormSections,
-  getFormSection,
   updateFormSection,
   deleteFormSection,
 } from "../controllers/sectionsController.js";
@@ -15,8 +14,7 @@ import {
 const router = Router();
 
 router.post("/", validate(formSectionSchema), addFormSection);
-router.get("/form/:formId", getFormSections);
-router.get("/:formId/:sectionId", getFormSection);
+router.get("/:formId", getFormSections);
 router.put("/:sectionId", validate(formSectionUpdateSchema), updateFormSection);
 router.delete("/:sectionId", deleteFormSection);
 
