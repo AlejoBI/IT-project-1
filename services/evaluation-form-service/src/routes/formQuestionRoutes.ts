@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   addFormQuestion,
   getFormQuestions,
-  getFormQuestion,
   updateFormQuestion,
   deleteFormQuestion,
 } from "../controllers/questionsController.js";
@@ -15,8 +14,7 @@ import {
 const router = Router();
 
 router.post("/", validate(formQuestionSchema), addFormQuestion);
-router.get("/section/:sectionId", getFormQuestions);
-router.get("/:questionId", getFormQuestion);
+router.get("/:sectionId", getFormQuestions);
 router.put(
   "/:questionId",
   validate(formQuestionUpdateSchema),

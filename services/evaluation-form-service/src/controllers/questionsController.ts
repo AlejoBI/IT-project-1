@@ -10,16 +10,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
-
-type FormQuestion = {
-  id: string;
-  sectionId: string;
-  text: string;
-  type: string;
-  options?: string[];
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { FormQuestion } from "../models/formModels.js";
 
 // Crear una nueva pregunta
 export const addFormQuestion = async (
@@ -28,6 +19,7 @@ export const addFormQuestion = async (
 ): Promise<any> => {
   try {
     const questionData = req.body;
+
     const sectionRef = doc(firestore, "formSections", questionData.sectionId);
     const sectionSnapshot = await getDoc(sectionRef);
 
@@ -36,7 +28,7 @@ export const addFormQuestion = async (
     }
 
     const questionsRef = collection(firestore, "formQuestions");
-    const newQuestionRef = await addDoc(questionsRef, {
+    await addDoc(questionsRef, {
       ...questionData,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -79,32 +71,6 @@ export const getFormQuestions = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al obtener las preguntas";
-    res.status(400).json({ error: errorMessage });
-  }
-};
-
-// Obtener una pregunta específica
-export const getFormQuestion = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  const { questionId } = req.params;
-  try {
-    const questionRef = doc(firestore, "formQuestions", questionId);
-    const snapshot = await getDoc(questionRef);
-
-    if (!snapshot.exists()) {
-      return res.status(404).json({ message: "Pregunta no encontrada." });
-    }
-
-    res.status(200).json({
-      id: snapshot.id,
-      ...snapshot.data(),
-    });
-  } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener la pregunta";
     res.status(400).json({ error: errorMessage });
   }
 };

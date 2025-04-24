@@ -10,15 +10,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
-
-type FormSection = {
-  id: string;
-  formId: string;
-  title: string;
-  description?: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { FormSection } from "../models/formModels.js";
 
 // Crear una nueva sección en un formulario
 export const addFormSection = async (
@@ -82,32 +74,6 @@ export const getFormSections = async (
   }
 };
 
-// Obtener una sección específica
-export const getFormSection = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  const { formId, sectionId } = req.params;
-  try {
-    const sectionRef = doc(firestore, "formSections", sectionId);
-    const snapshot = await getDoc(sectionRef);
-
-    if (!snapshot.exists()) {
-      return res.status(404).json({ message: "Sección no encontrada." });
-    }
-
-    res.status(200).json({
-      id: snapshot.id,
-      ...snapshot.data(),
-    });
-  } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener la sección";
-    res.status(400).json({ error: errorMessage });
-  }
-};
-
 // Actualizar una sección de un formulario
 export const updateFormSection = async (
   req: Request,
@@ -123,6 +89,12 @@ export const updateFormSection = async (
     }
 
     const updateData = req.body;
+
+    if (updateData.formId && updateData.formId !== snapshot.data().formId) {
+      return res
+        .status(400)
+        .json({ message: "No se permite cambiar el formId." });
+    }
 
     await updateDoc(sectionRef, {
       ...updateData,

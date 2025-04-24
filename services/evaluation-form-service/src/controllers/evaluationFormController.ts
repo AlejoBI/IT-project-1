@@ -7,9 +7,16 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
+import {
+  EvaluationForm,
+  FormSection,
+  FormQuestion,
+} from "../models/formModels.js";
 
 export const createFullEvaluationForm = async (
   req: Request,
@@ -27,11 +34,10 @@ export const createFullEvaluationForm = async (
         .json({ message: "La normativa especificada no existe." });
     }
 
-    // Validar que no exista un formulario con el mismo regulationId
+    // Validar duplicado por regulationId
     const existingFormsSnapshot = await getDocs(
       collection(firestore, "evaluationForms")
     );
-
     const formWithSameRegulation = existingFormsSnapshot.docs.find(
       (doc) => doc.data().regulationId === regulationId
     );
@@ -43,39 +49,52 @@ export const createFullEvaluationForm = async (
     }
 
     // Crear el formulario
-    const formRef = await addDoc(collection(firestore, "evaluationForms"), {
+    const now = new Date();
+    const formData: EvaluationForm = {
       regulationId,
       name,
       description,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+      createdAt: now,
+      updatedAt: now,
+    };
 
-    // Crear secciones y preguntas
-    const sectionPromises = sections.map(async (section: any) => {
-      const sectionRef = await addDoc(collection(firestore, "formSections"), {
-        formId: formRef.id,
-        title: section.title,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+    const formRef = await addDoc(
+      collection(firestore, "evaluationForms"),
+      formData
+    );
 
-      const questionPromises = section.questions.map((question: any) =>
-        addDoc(collection(firestore, "formQuestions"), {
-          sectionId: sectionRef.id,
-          text: question.text,
-          type: question.type,
-          options: question.options || [],
-          isRequired: question.isRequired,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        })
-      );
+    // Crear secciones y preguntas en paralelo
+    await Promise.all(
+      sections.map(async (section: any) => {
+        const sectionData: FormSection = {
+          formId: formRef.id,
+          title: section.title,
+          createdAt: now,
+          updatedAt: now,
+        };
 
-      await Promise.all(questionPromises);
-    });
+        const sectionRef = await addDoc(
+          collection(firestore, "formSections"),
+          sectionData
+        );
 
-    await Promise.all(sectionPromises);
+        await Promise.all(
+          section.questions.map((question: any) => {
+            const questionData: FormQuestion = {
+              sectionId: sectionRef.id,
+              text: question.text,
+              type: question.type,
+              options: question.options || [],
+              subQuestions: question.subQuestions || [],
+              createdAt: now,
+              updatedAt: now,
+            };
+
+            return addDoc(collection(firestore, "formQuestions"), questionData);
+          })
+        );
+      })
+    );
 
     res.status(201).json({
       message: "Formulario, secciones y preguntas creados exitosamente.",
@@ -88,7 +107,7 @@ export const createFullEvaluationForm = async (
   }
 };
 
-// Crear un nuevo formulario de evaluación
+// Crear un nuevo formulario de evaluación individualmente sin secciones y preguntas
 export const addEvaluationForm = async (
   req: Request,
   res: Response
@@ -138,52 +157,63 @@ export const addEvaluationForm = async (
   }
 };
 
-// Obtener todos los formularios de evaluación
-export const getEvaluationForms = async (
-  _req: Request,
-  res: Response
-): Promise<any> => {
-  try {
-    const formsRef = collection(firestore, "evaluationForms");
-    const snapshot = await getDocs(formsRef);
-
-    if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ message: "No se encontraron formularios." });
-    }
-
-    const forms = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    res.status(200).json(forms);
-  } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener los formularios";
-    res.status(400).json({ error: errorMessage });
-  }
-};
-
-// Obtener un formulario específico
-export const getEvaluationForm = async (
+// Obtener un formulario específico con secciones y preguntas
+export const getEvaluationFormByRegulationId = async (
   req: Request,
   res: Response
 ): Promise<any> => {
-  const { id } = req.params;
-  try {
-    const formRef = doc(firestore, "evaluationForms", id);
-    const snapshot = await getDoc(formRef);
+  const { regulationId } = req.params;
 
-    if (!snapshot.exists()) {
+  try {
+    const formQuery = query(
+      collection(firestore, "evaluationForms"),
+      where("regulationId", "==", regulationId)
+    );
+    const formSnapshot = await getDocs(formQuery);
+
+    if (formSnapshot.empty) {
       return res.status(404).json({ message: "Formulario no encontrado." });
     }
 
+    const formData = formSnapshot.docs[0].data();
+    const formId = formSnapshot.docs[0].id;
+
+    // Obtener secciones asociadas al formulario
+    const sectionQuery = query(
+      collection(firestore, "formSections"),
+      where("formId", "==", formId)
+    );
+    const sectionsSnapshot = await getDocs(sectionQuery);
+
+    const sections = await Promise.all(
+      sectionsSnapshot.docs.map(async (sectionDoc) => {
+        const sectionData = sectionDoc.data();
+        const sectionId = sectionDoc.id;
+
+        // Obtener preguntas asociadas a la sección
+        const questionsQuery = query(
+          collection(firestore, "formQuestions"),
+          where("sectionId", "==", sectionId)
+        );
+        const questionsSnapshot = await getDocs(questionsQuery);
+
+        const questions = questionsSnapshot.docs.map((questionDoc) => ({
+          id: questionDoc.id,
+          ...questionDoc.data(),
+        }));
+
+        return {
+          id: sectionId,
+          ...sectionData,
+          questions,
+        };
+      })
+    );
+
     res.status(200).json({
-      id: snapshot.id,
-      ...snapshot.data(),
+      id: formId,
+      ...formData,
+      sections,
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
@@ -225,55 +255,60 @@ export const updateEvaluationForm = async (
 };
 
 // Eliminar un formulario de evaluación, sus secciones y preguntas asociadas
-export const deleteEvaluationForm = async (
+export const deleteEvaluationFormByRegulationId = async (
   req: Request,
   res: Response
 ): Promise<any> => {
-  const { id } = req.params;
-  try {
-    const formRef = doc(firestore, "evaluationForms", id);
-    const formSnapshot = await getDoc(formRef);
+  const { regulationId } = req.params;
 
-    if (!formSnapshot.exists()) {
+  try {
+    // Paso 1: Buscar el formulario por regulationId
+    const formQuery = query(
+      collection(firestore, "evaluationForms"),
+      where("regulationId", "==", regulationId)
+    );
+    const formSnapshot = await getDocs(formQuery);
+
+    if (formSnapshot.empty) {
       return res.status(404).json({ message: "Formulario no encontrado." });
     }
 
-    // Eliminar secciones asociadas
-    const sectionsRef = collection(firestore, "formSections");
-    const sectionsSnapshot = await getDocs(sectionsRef);
+    const formDoc = formSnapshot.docs[0];
+    const formId = formDoc.id;
 
-    const sectionsToDelete = sectionsSnapshot.docs.filter(
-      (doc) => doc.data().formId === id
+    // Paso 2: Obtener secciones del formulario
+    const sectionsQuery = query(
+      collection(firestore, "formSections"),
+      where("formId", "==", formId)
     );
+    const sectionsSnapshot = await getDocs(sectionsQuery);
 
-    // Por cada sección eliminar sus preguntas y luego la sección
-    const deleteSectionsAndQuestions = sectionsToDelete.map(
-      async (sectionDoc) => {
+    await Promise.all(
+      sectionsSnapshot.docs.map(async (sectionDoc) => {
         const sectionId = sectionDoc.id;
 
-        // Eliminar preguntas asociadas a esta sección
-        const questionsRef = collection(firestore, "formQuestions");
-        const questionsSnapshot = await getDocs(questionsRef);
-
-        const questionsToDelete = questionsSnapshot.docs.filter(
-          (questionDoc) => questionDoc.data().sectionId === sectionId
+        // Paso 3: Obtener y eliminar preguntas asociadas a esta sección
+        const questionsQuery = query(
+          collection(firestore, "formQuestions"),
+          where("sectionId", "==", sectionId)
+        );
+        const questionsSnapshot = await getDocs(questionsQuery);
+        console.log(
+          `Preguntas encontradas para la sección ${sectionId}: ${questionsSnapshot.docs.length}`
+        );
+        await Promise.all(
+          questionsSnapshot.docs.map((questionDoc) =>
+            deleteDoc(doc(firestore, "formQuestions", questionDoc.id))
+          )
         );
 
-        const deleteQuestionsPromises = questionsToDelete.map((questionDoc) =>
-          deleteDoc(doc(firestore, "formQuestions", questionDoc.id))
-        );
-
-        await Promise.all(deleteQuestionsPromises);
-
-        // Eliminar la sección
+        // Paso 4: Eliminar la sección
         await deleteDoc(doc(firestore, "formSections", sectionId));
-      }
+      })
     );
 
-    await Promise.all(deleteSectionsAndQuestions);
-
-    // Eliminar el formulario
-    await deleteDoc(formRef);
+    // Paso 5: Eliminar el formulario
+    await deleteDoc(doc(firestore, "evaluationForms", formId));
 
     res.status(200).json({
       message: "Formulario, secciones y preguntas eliminadas exitosamente.",

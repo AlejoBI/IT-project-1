@@ -2,10 +2,9 @@ import { Router } from "express";
 import {
   createFullEvaluationForm,
   addEvaluationForm,
-  getEvaluationForms,
-  getEvaluationForm,
+  getEvaluationFormByRegulationId,
   updateEvaluationForm,
-  deleteEvaluationForm,
+  deleteEvaluationFormByRegulationId,
 } from "../controllers/evaluationFormController.js";
 import { validate } from "../middlewares/validate.js";
 import {
@@ -20,15 +19,14 @@ router.post(
   "/full",
   validate(fullEvaluationFormSchema),
   createFullEvaluationForm
-);
+); 
 router.post("/", validate(evaluationFormSchema), addEvaluationForm);
-router.get("/", getEvaluationForms);
-router.get("/:formId", getEvaluationForm);
+router.get("/:regulationId", getEvaluationFormByRegulationId);
 router.put(
   "/:formId",
   validate(evaluationFormUpdateSchema),
   updateEvaluationForm
 );
-router.delete("/:formId", deleteEvaluationForm);
+router.delete("/:regulationId", deleteEvaluationFormByRegulationId);
 
 export default router;
