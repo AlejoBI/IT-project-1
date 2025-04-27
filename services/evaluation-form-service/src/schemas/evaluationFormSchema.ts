@@ -11,7 +11,9 @@ const questionSchema: z.ZodType<any> = z
   .refine(
     (data) =>
       (data.type === answerEnum.TEXT && !data.options) ||
-      ([answerEnum.MULTIPLE_CHOICE, answerEnum.SINGLE_CHOICE].includes(data.type) &&
+      ([answerEnum.MULTIPLE_CHOICE, answerEnum.SINGLE_CHOICE].includes(
+        data.type
+      ) &&
         Array.isArray(data.options) &&
         data.options.length > 0),
     {
