@@ -15,6 +15,7 @@ interface RegisterFormProps {
 }
 
 interface RegisterFormValues {
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -54,6 +55,24 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
         {errors.username && (
           <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
             {errors.username.message}
+          </p>
+        )}
+      </div>
+
+      {/* Campo de nombre completo */}
+      <div className="flex flex-col">
+        <Label htmlFor="name" children="Nombre:" />
+        <input
+          type="text"
+          id="name"
+          {...register("name", {
+            required: "El nombre completo es obligatorio",
+          })}
+          className={`p-3 border rounded-lg outline-none focus:ring-2 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:ring-indigo-400 dark:focus:ring-indigo-500 transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          />
+        {errors.name && (
+          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
+            {errors.name.message}
           </p>
         )}
       </div>

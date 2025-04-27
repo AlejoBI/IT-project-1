@@ -1,24 +1,53 @@
-import React from "react";
-import StatsOverview from "../components/dashboard/StatsOverview";
-//import ComplianceProgressChart from "../components/dashboard/ComplianceProgressChart";
-import PendingTasksList from "../components/dashboard/PendingTasksList";
-import WeakControlsTable from "../components/dashboard/WeakControlsTable";
-import ActivityFeed from "../components/dashboard/ActivityFeed";
+import React, { useState } from "react";
+import UserManagement from "../components/dashboard/UserManagement";
+import StandardManagement from "../components/dashboard/StandardManagement";
 
-const DashboardPage = () => {
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
+
+import ButtonGradient from "../components/UI/ButtonGradient";
+
+const Dashboard = () => {
+  const [selectedSection, setSelectedSection] = useState<
+    "user" | "standard" | null
+  >(null);
+
   return (
     <div className="flex flex-col gap-6 p-4 min-h-screen">
-      <StatsOverview />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/*<ComplianceProgressChart />*/}
-        <PendingTasksList />
+      <h1
+        className={`text-2xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+      >
+        Panel de Administración
+      </h1>
+
+      {/* Menú de navegación */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        <ButtonGradient
+          onClick={() => setSelectedSection("user")}
+          children="Gestión de Usuarios"
+          type="button"
+        />
+        <ButtonGradient
+          onClick={() => setSelectedSection("standard")}
+          children="Gestión de Normativas"
+          type="button"
+        />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <WeakControlsTable />
-        <ActivityFeed />
-      </div>
+
+      {/* Secciones condicionales */}
+      {selectedSection === "user" && <UserManagement />}
+      {selectedSection === "standard" && <StandardManagement />}
+
+      {/* Mensaje inicial */}
+      {!selectedSection && (
+        <div
+          className={`p-4 text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        >
+          Selecciona una opción del menú para gestionar usuarios y roles, o
+          normativas.
+        </div>
+      )}
     </div>
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

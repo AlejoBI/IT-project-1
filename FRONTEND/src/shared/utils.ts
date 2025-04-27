@@ -1,4 +1,11 @@
 export const norms = ["ISO 9001", "ITIL 4", "ISO 27001", "NIST"];
+
+export const roles = {
+  "admin": "Administrador",
+  "auditor": "Auditor",
+  "standard_user": "Usuario estándar",
+};
+
 export const normatives = {
     "ISO 9001": [
       {

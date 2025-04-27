@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../hooks/useAuth";
 import Notification from "../components/common/Notification";
-import EvaluationForm from "../components/compliance/EvaluationForm";
-import ProgressTracker from "../components/compliance/ProgressTracker";
+
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
 
 const Compliance = () => {
   const { user, isAuthenticated } = useAuth();
-  const [answeredQuestions, setAnsweredQuestions] = useState(0); // Estado para el número de preguntas respondidas
-  const [totalQuestions, setTotalQuestions] = useState(0); // Estado para el número total de preguntas
 
   if (!isAuthenticated) {
     return <p>Debes iniciar sesión para acceder a esta página.</p>;
@@ -29,16 +26,6 @@ const Compliance = () => {
           type="warning"
         />
       )}
-      <ProgressTracker
-        totalQuestions={totalQuestions}
-        answeredQuestions={answeredQuestions}
-      />
-      <EvaluationForm
-        onQuestionsUpdate={(total, answered) => {
-          setTotalQuestions(total);
-          setAnsweredQuestions(answered);
-        }}
-      />
     </>
   );
 };

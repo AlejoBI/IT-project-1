@@ -10,7 +10,7 @@ import {
   validateRegisterData,
 } from "../../../domain/services/authService";
 
-import { AuthUser } from "../../../domain/models/types";
+import { AuthUser } from "../../../domain/models/types/authTypes";
 
 export const registerUser = createAsyncThunk<
   AuthUser,
@@ -27,7 +27,9 @@ export const registerUser = createAsyncThunk<
 
     return {
       uid: authUser.uid,
-      name: authUser.name || payload.username,
+      username: authUser.username || payload.username,
+      name: authUser.name || null,
+      role: authUser.role || null,
       email: authUser.email || null,
       emailVerified: authUser.emailVerified,
     };

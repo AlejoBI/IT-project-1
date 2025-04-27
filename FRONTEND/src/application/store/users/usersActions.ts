@@ -4,12 +4,9 @@ import {
   getUserProfile,
   updateUserProfile,
 } from "../../../infrastructure/api/usersApi";
-import {
-  validateUserData,
-  validateUid,
-} from "../../../domain/services/userService";
+import { validateUserData } from "../../../domain/services/userService";
 
-import { User } from "../../../domain/models/types";
+import { User } from "../../../domain/models/types/userTypes";
 
 // Obtener datos de todos los usuarios desde Firestore
 export const fetchUsersAction = createAsyncThunk(
@@ -30,13 +27,8 @@ export const fetchUserAction = createAsyncThunk<
   string,
   { rejectValue: string | string[] }
 >("user/fetch", async (uid, { rejectWithValue }) => {
-  const validation = validateUid(uid);
-  if (!validation.success) {
-    return rejectWithValue(validation.errors ?? "UID inválido");
-  }
-
   try {
-    const user = await getUserProfile(validation.data!);
+    const user = await getUserProfile(uid);
     if (!user) throw new Error("Usuario no encontrado");
     return user;
   } catch (error) {

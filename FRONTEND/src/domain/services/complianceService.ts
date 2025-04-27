@@ -1,4 +1,4 @@
-import { complianceSchema, CompliancePayload} from "../models/complianceSchema";
+import { complianceSchema, CompliancePayload} from "../models/schemas/complianceSchema";
 
 export function validateComplianceData(data: unknown): {
   success: boolean;

@@ -10,7 +10,7 @@ const Label: React.FC<LabelProps> = ({ htmlFor, children }) => {
   return (
     <label
       htmlFor={htmlFor}
-      className={`font-medium text-sm mb-1font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+      className={`font-medium mb-1font-medium text-sm mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
     >
       {children}
     </label>

@@ -1,5 +1,5 @@
 import api from "./axios";
-import { User } from "../../domain/models/types";
+import { User } from "../../domain/models/types/userTypes";
 
 // Obtener perfiles de usuarios
 export const getUserProfiles = async () => {

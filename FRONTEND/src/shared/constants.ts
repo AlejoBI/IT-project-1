@@ -7,7 +7,9 @@ export const LIGHT_MODE_COLORS = {
   INPUT_BACKGROUND: "bg-[#FFFFFF]", // Fondo de los inputs
   ACCENT: "text-[#729CAC]", // Acento primario
   BUTTON_BG: "bg-[#729CAC]", // Fondo de botones
+  BUTTON_BG_SECONDARY: "bg-[#36697C]", // Fondo de botones secundarios
   BUTTON_HOVER_BG: "hover:bg-[#36697C]", // Hover de botones
+  BUTTON_HOVER_BG_SECONDARY: "hover:bg-[#729CAD]", // Hover de botones secundarios
   SIDEBAR_BG: "bg-[#F3F4F6]", // Fondo del Sidebar
   HOVER_BG: "hover:bg-[#E0E7FF]", // Hover general
   PROGRESS_BAR_BACKGROUND: "bg-[#E5E7EB]", // Fondo de la barra de progreso
@@ -23,7 +25,9 @@ export const DARK_MODE_COLORS = {
   INPUT_BACKGROUND: "dark:bg-[#1A2B3A]", // Fondo de los inputs
   ACCENT: "dark:text-[#8CCBE2]", // Acento primario
   BUTTON_BG: "dark:bg-[#336E86]", // Fondo de botones
+  BUTTON_BG_SECONDARY: "dark:bg-[#61A0B9]", // Fondo de botones secundarios
   BUTTON_HOVER_BG: "dark:hover:bg-[#61A0B9]", // Hover de botones
+  BUTTON_HOVER_BG_SECONDARY: "dark:hover:bg-[#336E81]", // Hover de botones secundarios
   SIDEBAR_BG: "dark:bg-[#1A2B3A]", // Fondo del Sidebar
   HOVER_BG: "dark:hover:bg-[#2A4C61]", // Hover general
   PROGRESS_BAR_BACKGROUND: "dark:bg-[#2A4C61]", // Fondo de la barra de progreso
