@@ -5,6 +5,7 @@ import {
   signOut,
   updateProfile,
   sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../utils/firebaseConfig.js";
@@ -35,12 +36,15 @@ export const register = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({
-      message: "User registered successfully",
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      emailVerified: user.emailVerified,
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al crear la cuenta";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -48,10 +52,18 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
 
     res.status(200).json({
-      message: "User logged in successfully",
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      emailVerified: user.emailVerified,
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
@@ -68,7 +80,20 @@ export const logout = async (req: Request, res: Response) => {
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
+      FIREBASE_ERRORS[firebaseError] || "Error al cerrar sesión";
+    res.status(400).json({ error: errorMessage });
+  }
+};
+
+export const recoverPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  try {
+    await sendPasswordResetEmail(auth, email);
+    res.status(200).json({ message: "Password reset email sent" });
+  } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error al enviar el correo de recuperación";
     res.status(400).json({ error: errorMessage });
   }
 };

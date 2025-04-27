@@ -1,6 +1,6 @@
 services:
   api-gateway:
-    build: ./api-gateway
+    build: ./services/api-gateway
     container_name: api-gateway
     ports:
       - "80:80"
