@@ -13,7 +13,6 @@ const onSubmit = () => {
 };
 
 const FinalCTA = ({
-  user,
   isAuthenticated,
   emailVerified,
 }: {

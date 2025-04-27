@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, registerUser, logoutUser } from "./authActions";
-import { AuthUser } from "../../../domain/models/types";
+import { AuthUser } from "../../../domain/models/types/authTypes";
 
 const initialState = {
   user: null as AuthUser | null,

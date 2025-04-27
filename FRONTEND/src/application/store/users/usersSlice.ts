@@ -6,16 +6,16 @@ import {
   updateUserAction,
 } from "./usersActions";
 
-import { User } from "../../../domain/models/types";
+import { User } from "../../../domain/models/types/userTypes";
 
-interface UserState {
-  user: User | null;
+interface UsersState {
+  users: User[] | null;
   loading: boolean;
   error: string | null;
 }
 
-const initialState: UserState = {
-  user: null,
+const initialState: UsersState = {
+  users: [],
   loading: false,
   error: null,
 };
@@ -32,7 +32,7 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchUsersAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.users = action.payload;
     });
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
       state.loading = false;
@@ -46,7 +46,7 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchUserAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.users = [action.payload];
     });
     builder.addCase(fetchUserAction.rejected, (state, action) => {
       state.loading = false;

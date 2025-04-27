@@ -16,10 +16,10 @@ const Sidebar = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const dispatch = useAppDispatch();
   const logout = () => dispatch(logoutUser());
 
@@ -36,6 +36,7 @@ const Sidebar = ({
   const filteredNavigation = navigation.filter((item) => {
     if (item.name === "Login" && isAuthenticated) return false;
     if (item.name === "Logout" && !isAuthenticated) return false;
+    if (item.name === "Dashboard" && user?.role !== "admin") return false;
     return true;
   });
 
