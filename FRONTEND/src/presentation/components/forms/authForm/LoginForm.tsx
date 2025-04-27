@@ -95,6 +95,10 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
         >
           Regístrate aquí
         </span>
+        <br />
+        <a href="/recover-password" className="hover:underline">
+          Olvidaste tu contraseña?
+        </a>
       </p>
     </form>
   );

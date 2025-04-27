@@ -33,3 +33,12 @@ export const logoutApi = async () => {
     console.log(error);
   }
 };
+
+export const recoverPasswordApi = async (email: string) => {
+  try {
+    const response = await api.post("/api/auth/recover-password", { email });
+    return response.data;
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};

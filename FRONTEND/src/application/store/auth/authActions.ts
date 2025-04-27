@@ -3,6 +3,7 @@ import {
   loginApi,
   registerApi,
   logoutApi,
+  recoverPasswordApi,
 } from "../../../infrastructure/api/authApi";
 
 import {
@@ -61,6 +62,17 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
   async (_, { rejectWithValue }) => {
     try {
       await logoutApi();
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
+export const recoverPasswordUser = createAsyncThunk<void, string, { rejectValue: string }>(
+  "auth/recoverPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      await recoverPasswordApi(email);
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }

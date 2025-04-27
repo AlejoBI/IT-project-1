@@ -12,6 +12,7 @@ import Compliance from "../pages/Compliance";
 import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard";
 import NotFound from "../pages/NotFound";
+import RecoverPassword from "../pages/RecoverPassword";
 
 import PublicRoute from "./protected/PublicRoute";
 import ProtectedRoute from "./protected/ProtectedRoute";
@@ -31,6 +32,7 @@ const App = () => {
 
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Auth />} />
+              <Route path="/recover-password" element={<RecoverPassword />} />
             </Route>
 
             <Route element={<ProtectedRoute />}>
