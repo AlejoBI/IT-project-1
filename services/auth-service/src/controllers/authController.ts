@@ -12,7 +12,7 @@ import { auth, firestore } from "../utils/firebaseConfig.js";
 
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response): Promise<any> => {
   const { email, password, username, name } = req.body;
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -58,7 +58,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
   try {
     const userCredential = await signInWithEmailAndPassword(
