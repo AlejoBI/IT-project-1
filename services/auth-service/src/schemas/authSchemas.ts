@@ -10,17 +10,17 @@ export const registerSchema = z.object({
   password: z
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres")
-    .refine((val) => (val.match(/[A-Z]/g) || []).length >= 2, {
-      message: "La contraseña debe contener al menos dos letras mayúsculas",
+    .refine((val) => (val.match(/[A-Z]/g) || []).length >= 1, {
+      message: "La contraseña debe contener al menos una letra mayúscula",
     })
-    .refine((val) => (val.match(/[a-z]/g) || []).length >= 2, {
-      message: "La contraseña debe contener al menos dos letras minúsculas",
+    .refine((val) => (val.match(/[a-z]/g) || []).length >= 1, {
+      message: "La contraseña debe contener al menos una letra minúscula",
     })
-    .refine((val) => (val.match(/[0-9]/g) || []).length >= 2, {
-      message: "La contraseña debe contener al menos dos números",
+    .refine((val) => (val.match(/[0-9]/g) || []).length >= 1, {
+      message: "La contraseña debe contener al menos 1 número",
     })
-    .refine((val) => (val.match(/[\W_]/g) || []).length >= 2, {
-      message: "La contraseña debe contener al menos dos caracteres especiales",
+    .refine((val) => (val.match(/[\W_]/g) || []).length >= 1, {
+      message: "La contraseña debe contener al menos 1 caracter especial",
     }),
   username: z
     .string()

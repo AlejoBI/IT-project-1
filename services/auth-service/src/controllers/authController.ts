@@ -7,7 +7,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, firestore } from "../utils/firebaseConfig.js";
 
 import { FIREBASE_ERRORS } from "../utils/constants.js";
@@ -35,11 +35,20 @@ export const register = async (req: Request, res: Response) => {
       updatedAt: new Date(),
     });
 
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userData = userDoc.data();
+
     res.status(201).json({
       uid: user.uid,
       name: user.displayName,
       email: user.email,
       emailVerified: user.emailVerified,
+      role: userData.role,
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
@@ -59,11 +68,21 @@ export const login = async (req: Request, res: Response) => {
     );
     const user = userCredential.user;
 
+    const userRef = doc(firestore, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userData = userDoc.data();
+
     res.status(200).json({
       uid: user.uid,
       name: user.displayName,
       email: user.email,
       emailVerified: user.emailVerified,
+      role: userData.role,
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
@@ -93,7 +112,8 @@ export const recoverPassword = async (req: Request, res: Response) => {
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al enviar el correo de recuperación";
+      FIREBASE_ERRORS[firebaseError] ||
+      "Error al enviar el correo de recuperación";
     res.status(400).json({ error: errorMessage });
   }
 };
