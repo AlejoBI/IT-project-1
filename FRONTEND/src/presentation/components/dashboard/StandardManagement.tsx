@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
@@ -6,9 +6,16 @@ import {
   DARK_GRADIENTS,
   ANIMATION_TIMINGS,
 } from "../../../shared/constants";
+import Button from "../UI/Button";
 import NormativeForm from "./NormativeForm";
+import RegulationForm from "./RegulationForm";
+import RegulationList from "./RegulationList";
+import DeleteEvaluationForm from "./DeleteEvaluationForm";
 
 const StandardManagement = () => {
+  const [selectedSection, setSelectedSection] = useState<
+    "createRegulation" | "createForm" | "regulationList" | "deleteEvaluationForm" | null
+  >(null);
 
   return (
     <section
@@ -25,10 +32,47 @@ const StandardManagement = () => {
         Aquí puedes crear, editar y eliminar las preguntas de normativas del
         sistema.
       </p>
-      <NormativeForm />
+
+      {/* Menú de navegación */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        <Button
+          onClick={() => setSelectedSection("createRegulation")}
+          children="Crear Normativa"
+          type="button"
+        />
+          <Button
+            onClick={() => setSelectedSection("regulationList")}
+            children="Editar Normativa"
+            type="button"
+          />
+        <Button
+          onClick={() => setSelectedSection("createForm")}
+          children="Crear Formulario"
+          type="button"
+        />
+        <Button
+          onClick={() => setSelectedSection("deleteEvaluationForm")}
+          children="Eliminar Formulario"
+          type="button"
+        />
+      </div>
+
+      {/* Secciones condicionales */}
+      {selectedSection === "createRegulation" && <RegulationForm />}
+      {selectedSection === "createForm" && <NormativeForm />}
+      {selectedSection === "regulationList" && <RegulationList />}
+      {selectedSection === "deleteEvaluationForm" && <DeleteEvaluationForm />}
+
+      {/* Mensaje inicial */}
+      {!selectedSection && (
+        <div
+          className={`p-4 text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        >
+          Selecciona una opción del menú para gestionar normativas.
+        </div>
+      )}
     </section>
   );
 };
 
 export default StandardManagement;
-

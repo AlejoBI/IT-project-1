@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { useForm, useFieldArray, FormProvider, SubmitHandler } from "react-hook-form";
+import {
+  useForm,
+  useFieldArray,
+  FormProvider,
+  SubmitHandler,
+} from "react-hook-form";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { createEvaluationForm } from "../../../application/store/evaluationForm/evaluationFormActions";
@@ -105,10 +110,9 @@ const NormativeForm = () => {
               <Button
                 type="button"
                 onClick={() => appendSection({ title: "", questions: [] })}
-              >
-                Agregar Sección
-              </Button>
-              <Button type="submit">Guardar Formulario</Button>
+                children="Agregar Sección"
+              />
+              <Button type="submit" children="Guardar Formulario" />
             </div>
           </form>
         )}
