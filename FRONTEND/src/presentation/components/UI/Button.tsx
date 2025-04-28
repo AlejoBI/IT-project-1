@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       type={type}
-      className={`font-semibold px-6 py-3 rounded-xl transition-all
+      className={`font-semibold px-6 py-3 mx-2 rounded-xl transition-all
                         ${LIGHT_MODE_COLORS.BUTTON_BG} 
                         ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} 
                         ${DARK_MODE_COLORS.BUTTON_BG} 
