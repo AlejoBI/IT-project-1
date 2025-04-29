@@ -10,7 +10,6 @@ import Button from "../UI/Button";
 import NormativeForm from "./NormativeForm";
 import RegulationForm from "./RegulationForm";
 import RegulationList from "./RegulationList";
-import DeleteEvaluationForm from "./DeleteEvaluationForm";
 
 const StandardManagement = () => {
   const [selectedSection, setSelectedSection] = useState<
@@ -50,18 +49,12 @@ const StandardManagement = () => {
           children="Crear Formulario"
           type="button"
         />
-        <Button
-          onClick={() => setSelectedSection("deleteEvaluationForm")}
-          children="Eliminar Formulario"
-          type="button"
-        />
       </div>
 
       {/* Secciones condicionales */}
       {selectedSection === "createRegulation" && <RegulationForm />}
       {selectedSection === "createForm" && <NormativeForm />}
       {selectedSection === "regulationList" && <RegulationList />}
-      {selectedSection === "deleteEvaluationForm" && <DeleteEvaluationForm />}
 
       {/* Mensaje inicial */}
       {!selectedSection && (
