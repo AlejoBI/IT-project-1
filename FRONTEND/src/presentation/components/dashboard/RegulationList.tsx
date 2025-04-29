@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import { useRegulation } from "../../hooks/useRegulation";
 import {
   deleteRegulationAction,
   fetchRegulationsAction,
   updateRegulationAction,
 } from "../../../application/store/regulations/regulationsActions";
-import {
-  GRADIENTS,
-  DARK_GRADIENTS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
-import Button from "../UI/Button";
+import ButtonSecundary from "../UI/ButtonSecundary";
+import { deleteEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 
 const RegulationList = () => {
   const dispatch = useAppDispatch();
-  const { regulations, loading } = useAppSelector((state) => state.regulation);
+  const { regulations, loading } = useRegulation();
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [localData, setLocalData] = useState<
@@ -79,7 +75,8 @@ const RegulationList = () => {
     setDeleteError(null);
     try {
       await dispatch(deleteRegulationAction(uid)).unwrap();
-      dispatch(fetchRegulationsAction());
+      await dispatch(deleteEvaluationFormAction(uid)).unwrap();
+      await dispatch(fetchRegulationsAction());
 
       setSuccessMessage("Normativa eliminada con éxito");
       setTimeout(() => setSuccessMessage(""), 3000);
@@ -95,9 +92,7 @@ const RegulationList = () => {
   };
 
   return (
-    <section
-      className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-    >
+    <section>
       <h2 className="text-xl font-semibold mb-4 text-center">Regulaciones</h2>
 
       {successMessage && (
@@ -165,12 +160,12 @@ const RegulationList = () => {
                         />
                       </td>
                       <td className="px-4 py-2">
-                        <Button
+                        <ButtonSecundary
                           type="button"
                           onClick={() => handleUpdate(id)}
                           children="Actualizar"
                         />
-                        <Button
+                        <ButtonSecundary
                           type="button"
                           onClick={() => handleDelete(id)}
                           children="Eliminar"

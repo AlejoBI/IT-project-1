@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import { useUser } from "../../hooks/useUser";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
@@ -13,10 +13,11 @@ import {
   fetchUsersAction,
   updateUserAction,
 } from "../../../application/store/users/usersActions";
+import ButtonSecundary from "../UI/ButtonSecundary";
 
 const UserManagement = () => {
   const dispatch = useAppDispatch();
-  const { users, loading } = useAppSelector((state) => state.users);
+  const { users, loading } = useUser();
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [localData, setLocalData] = useState<
@@ -153,20 +154,11 @@ const UserManagement = () => {
                     </select>
                   </td>
                   <td>
-                    <button
+                    <ButtonSecundary
                       onClick={() => handleUpdate(user.uid)}
-                      className={`font-semibold px-6 py-3 rounded-xl transition-all
-                                              ${LIGHT_MODE_COLORS.BUTTON_BG_SECONDARY} 
-                                              ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG_SECONDARY} 
-                                              ${DARK_MODE_COLORS.BUTTON_BG_SECONDARY} 
-                                              ${DARK_MODE_COLORS.BUTTON_HOVER_BG_SECONDARY} 
-                                              ${ANIMATION_TIMINGS.TRANSITION_DURATION}
-                                              ${LIGHT_MODE_COLORS.TEXT_PRIMARY}
-                                              ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                                              shadow-md`}
-                    >
-                      Actualizar
-                    </button>
+                      type="button"
+                      children="Actualizar"
+                    />
                   </td>
                 </tr>
               ))}

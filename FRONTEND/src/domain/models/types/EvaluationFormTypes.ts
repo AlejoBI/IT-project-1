@@ -1,4 +1,5 @@
 export type Form = {
+  uid: string;
   regulationId: string;
   name: string;
   description: string;
@@ -6,6 +7,7 @@ export type Form = {
 };
 
 export type FormPayload = {
+  id?: string;
   regulationId: string;
   name: string;
   description: string;
@@ -20,9 +22,14 @@ export type Section = {
 export interface Question {
   text: string;
   type: "text" | "single-choice" | "multiple-choice";
-  options?: string[];
+  options?: Option[];
   subQuestions?: Question[];
 }
+
+export type Option = {
+  label: string;
+  score: number;
+};
 
 export enum QuestionType {
   TEXT = "text",

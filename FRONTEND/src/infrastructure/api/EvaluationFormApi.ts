@@ -18,3 +18,30 @@ export const deleteEvaluationFormApi = async (regulationId: string) => {
     console.log(error);
   }
 }
+
+export const getEvaluationFormsApi = async () => {
+  try {
+    const response = await api.get("/api/forms/");
+    return response.data;
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export const getEvaluationFormById = async (uid: string) => {
+  try {
+    const response = await api.get(`/api/forms/${uid}`);
+    return response.data;
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export const updateEvaluationFormApi = async (uid: string, updates: Partial<Form>) => {
+  try {
+    const response = await api.put(`/api/forms/${uid}`, updates);
+    return response.data;
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};

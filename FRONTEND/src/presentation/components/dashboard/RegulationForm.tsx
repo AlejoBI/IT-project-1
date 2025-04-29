@@ -3,13 +3,13 @@ import Label from "../UI/Label";
 import { Regulation } from "../../../domain/models/types/regulationsTypes";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import { useRegulation } from "../../hooks/useRegulation";
 import { createRegulationAction } from "../../../application/store/regulations/regulationsActions";
 import Button from "../UI/Button";
 
 const RegulationForm = () => {
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.regulation);
+  const { loading } = useRegulation();
 
   const methods = useForm<Regulation>({
     defaultValues: {
@@ -41,10 +41,9 @@ const RegulationForm = () => {
           <p>Cargando...</p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <h2 className="text-2xl font-bold mb-6 text-center">
+            <h2 className="text-xl font-semibold mb-4 text-center">
               Crear Normativa
             </h2>
-
             <div>
               <Label children="Nombre de la normativa" htmlFor="name" />
               <input

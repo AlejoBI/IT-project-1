@@ -6,21 +6,16 @@ import {
   SubmitHandler,
 } from "react-hook-form";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { createEvaluationForm } from "../../../application/store/evaluationForm/evaluationFormActions";
+import { createEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 import { fetchRegulationsAction } from "../../../application/store/regulations/regulationsActions";
 import { Form } from "../../../domain/models/types/EvaluationFormTypes";
 import SectionEditor from "./SectionEditor";
-import {
-  GRADIENTS,
-  DARK_GRADIENTS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
 import Button from "../UI/Button";
+import { useRegulation } from "../../hooks/useRegulation"
 
 const NormativeForm = () => {
   const dispatch = useAppDispatch();
-  const { regulations, loading } = useAppSelector((state) => state.regulation);
+  const { regulations, loading } = useRegulation();
 
   const methods = useForm<Form>({
     defaultValues: {
@@ -48,22 +43,20 @@ const NormativeForm = () => {
   const onSubmit: SubmitHandler<Form> = (data) => {
     // Aquí despachas la acción para crear el formulario
     console.log("Formulario enviado:", data);
-    dispatch(createEvaluationForm(data));
+    dispatch(createEvaluationFormAction(data));
   };
 
   return (
     <FormProvider {...methods}>
-      <section
-        className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-      >
+      <section>
+        <h2 className="text-xl font-semibold mb-4 text-center">
+          Crear Formulario
+        </h2>
         {loading ? (
           <p>Cargando...</p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label className="block mb-2 font-medium">
-                Selecciona una normativa:
-              </label>
               <select
                 {...register("regulationId", { required: true })}
                 className="w-full p-2 border rounded-md"

@@ -65,7 +65,7 @@ export const fetchRegulationAction = createAsyncThunk<
 
 // Actualizar datos de una regulación en Firestore
 export const updateRegulationAction = createAsyncThunk(
-  "user/update",
+  "regulation/update",
   async (
     { uid, updates }: { uid: string; updates: Partial<Regulation> },
     { rejectWithValue }
