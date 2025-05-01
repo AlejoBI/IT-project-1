@@ -19,11 +19,16 @@ export interface FormSection {
   updatedAt?: Date;
 }
 
+export interface QuestionOption {
+  label: string;
+  score: number; // de 0 a 100
+}
+
 export interface FormQuestion {
   sectionId: string;
   text: string;
   type: string;
-  options?: string[];
+  options?: QuestionOption[];
   subQuestions?: FormQuestion[];
   createdAt?: Date;
   updatedAt?: Date;
