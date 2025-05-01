@@ -1,12 +1,17 @@
 import { z } from "zod";
 import { answerEnum } from "../models/formModels.js";
-// Schemas for full evaluation form creation
-const questionSchema: z.ZodType<any> = z
+
+export const optionSchema = z.object({
+  label: z.string(),
+  score: z.number().min(0).max(100),
+});
+
+export const questionSchema: z.ZodType<any> = z
   .object({
     text: z.string(),
     type: z.nativeEnum(answerEnum),
-    options: z.array(z.string()).optional(),
-    subQuestions: z.lazy(() => z.array(questionSchema)).optional(), // Referencia recursiva
+    options: z.array(optionSchema).optional(),
+    subQuestions: z.lazy(() => z.array(questionSchema)).optional(),
   })
   .refine(
     (data) =>
@@ -21,7 +26,7 @@ const questionSchema: z.ZodType<any> = z
         "Las opciones son obligatorias para 'single-choice' y 'multiple-choice', y deben omitirse en 'text'.",
     }
   );
-// Schemas for full evaluation form creation
+
 export const fullEvaluationFormSchema = z.object({
   regulationId: z.string(),
   name: z.string(),
