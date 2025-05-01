@@ -1,12 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser, logoutUser, recoverPasswordUser } from "./authActions";
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
+  recoverPasswordUser,
+} from "./authActions";
 import { AuthUser } from "../../../domain/models/types/authTypes";
 
-const initialState = {
-  user: null as AuthUser | null,
+interface AuthState {
+  user: AuthUser | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
+  notification: {
+    message: string;
+    type: "success" | "error" | "warning";
+  } | null;
+}
+
+const initialState: AuthState = {
+  user: null,
   isAuthenticated: false,
   loading: false,
-  error: null as string | null,
+  error: null,
+  notification: null,
 };
 
 const authSlice = createSlice({
@@ -16,6 +33,17 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
+    },
+    setNotification: (
+      state,
+      action: {
+        payload: { message: string; type: "success" | "error" | "warning" };
+      }
+    ) => {
+      state.notification = action.payload;
+    },
+    clearNotification: (state) => {
+      state.notification = null;
     },
   },
   extraReducers: (builder) => {
@@ -80,5 +108,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setNotification, clearNotification } =
+  authSlice.actions;
 export default authSlice.reducer;

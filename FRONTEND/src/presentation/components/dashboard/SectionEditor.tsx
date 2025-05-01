@@ -19,7 +19,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
   });
 
   return (
-    <div className="border p-4 rounded-lg mb-4 space-y-3">
+    <div className="border p-6 rounded-lg mb-4 space-y-3">
       <input
         {...register(`sections.${sectionIndex}.title`, { required: true })}
         placeholder="Título de la sección"
@@ -27,7 +27,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
       />
 
       {questions.map((question, questionIndex) => (
-        <div>
+        <div key={question.id}>
           <div className="flex flex-row">
             <button
               type="button"

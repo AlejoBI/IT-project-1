@@ -12,8 +12,6 @@ import { deleteEvaluationFormAction } from "../../../application/store/evaluatio
 const RegulationList = () => {
   const dispatch = useAppDispatch();
   const { regulations, loading } = useRegulation();
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [localData, setLocalData] = useState<
     Record<string, { name: string; description: string; version: string }>
   >({});
@@ -59,15 +57,12 @@ const RegulationList = () => {
     const updates = localData[uid];
     try {
       await dispatch(updateRegulationAction({ uid, updates })).unwrap();
-      setSuccessMessage("Normativa actualizada con éxito");
-      setTimeout(() => setSuccessMessage(""), 3000);
+      await dispatch(fetchRegulationsAction()).unwrap();
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Error al actualizar la normativa"
+      setDeleteError(
+        error instanceof Error ? error.message : "Error al actualizar la normativa"
       );
-      setTimeout(() => setErrorMessage(""), 3000);
+      setTimeout(() => setDeleteError(null), 3000);
     }
   };
 
@@ -78,14 +73,9 @@ const RegulationList = () => {
       await dispatch(deleteEvaluationFormAction(uid)).unwrap();
       await dispatch(fetchRegulationsAction());
 
-      setSuccessMessage("Normativa eliminada con éxito");
-      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
-      console.error("Error al eliminar la normativa:", error);
       setDeleteError(
-        error instanceof Error
-          ? error.message
-          : "Error al eliminar la normativa"
+        error instanceof Error ? error.message : "Error al eliminar la normativa"
       );
       setTimeout(() => setDeleteError(null), 3000);
     }
@@ -94,13 +84,6 @@ const RegulationList = () => {
   return (
     <section>
       <h2 className="text-xl font-semibold mb-4 text-center">Regulaciones</h2>
-
-      {successMessage && (
-        <p className="text-green-600 font-medium mb-2">{successMessage}</p>
-      )}
-      {errorMessage && (
-        <p className="text-red-600 font-medium mb-2">{errorMessage}</p>
-      )}
 
       {/* Cargando... */}
       {loading ? (
