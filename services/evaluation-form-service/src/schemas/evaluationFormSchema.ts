@@ -15,15 +15,33 @@ export const questionSchema: z.ZodType<any> = z
   })
   .refine(
     (data) =>
-      (data.type === answerEnum.TEXT && !data.options) ||
-      ([answerEnum.MULTIPLE_CHOICE, answerEnum.SINGLE_CHOICE].includes(
-        data.type
-      ) &&
-        Array.isArray(data.options) &&
-        data.options.length > 0),
+      data.type !== answerEnum.TEXT ||
+      !data.options ||
+      (Array.isArray(data.options) && data.options.length === 0),
     {
       message:
-        "Las opciones son obligatorias para 'single-choice' y 'multiple-choice', y deben omitirse en 'text'.",
+        "Para preguntas de tipo 'text', las opciones deben ser un array vacío o estar ausentes.",
+      path: ["options"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.type !== answerEnum.SINGLE_CHOICE ||
+      (Array.isArray(data.options) && data.options.length >= 1),
+    {
+      message:
+        "Las preguntas de tipo 'single-choice' deben tener al menos 1 opción.",
+      path: ["options"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.type !== answerEnum.MULTIPLE_CHOICE ||
+      (Array.isArray(data.options) && data.options.length >= 2),
+    {
+      message:
+        "Las preguntas de tipo 'multiple-choice' deben tener al menos 2 opciones.",
+      path: ["options"],
     }
   );
 
