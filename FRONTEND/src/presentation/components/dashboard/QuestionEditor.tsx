@@ -40,7 +40,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
   const questionType = watch(`${basePath}.type`);
 
   return (
-    <div className="border p-4 rounded-md space-y-2 bg-gray-50 dark:bg-gray-800">
+    <div className="border p-6 rounded-md space-y-2">
       <input
         {...register(`${basePath}.text`, { required: true })}
         placeholder="Texto de la pregunta"
@@ -75,6 +75,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   required: true,
                   min: 0,
                   max: 100,
+                  valueAsNumber: true,
                 })}
                 placeholder="Valor porcentual de la opción (0-100)"
                 type="number"
@@ -100,38 +101,36 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
       )}
 
       {/* Subpreguntas */}
-      <div className="ml-4 space-y-2">
-        {subQuestions.map((sub, subIndex) => (
-          <div key={sub.id}>
-            <div className="flex flex-row items-center gap-2">
-              <button
-                type="button"
-                onClick={() => removeSubQuestion(subIndex)}
-                className="text-red-500 hover:text-red-700"
-              >
-                ❌
-              </button>
-              <h3 className="text-lg font-semibold">
-                Subpregunta {subIndex + 1}
-              </h3>
-            </div>
-            <QuestionEditor
-              sectionIndex={sectionIndex}
-              questionIndex={subIndex}
-              parentQuestionPath={basePath}
-            />
+      {subQuestions.map((sub, subIndex) => (
+        <div key={sub.id}>
+          <div className="flex flex-row">
+            <button
+              type="button"
+              onClick={() => removeSubQuestion(subIndex)}
+              className="flex text-red-500 hover:text-red-700 transition-colors"
+            >
+              ❌
+            </button>
+            <h3 className="flex text-lg font-semibold">
+              Subpregunta {subIndex + 1}
+            </h3>
           </div>
-        ))}
-        <button
-          type="button"
-          onClick={() =>
-            appendSubQuestion({ text: "", type: "text", options: [] })
-          }
-          className="btn-sm"
-        >
-          Agregar subpregunta
-        </button>
-      </div>
+          <QuestionEditor
+            sectionIndex={sectionIndex}
+            questionIndex={subIndex}
+            parentQuestionPath={basePath}
+          />
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() =>
+          appendSubQuestion({ text: "", type: "text", options: [] })
+        }
+        className="btn"
+      >
+        Agregar subpregunta
+      </button>
     </div>
   );
 };

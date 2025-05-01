@@ -14,12 +14,13 @@ import {
   updateUserAction,
 } from "../../../application/store/users/usersActions";
 import ButtonSecundary from "../UI/ButtonSecundary";
+import Notification from "../common/Notification";
+import { clearNotification } from "../../../application/store/users/usersSlice";
 
 const UserManagement = () => {
   const dispatch = useAppDispatch();
-  const { users, loading } = useUser();
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const { users, loading, notification } = useUser(); // Acceder a la notificación del slice
+
   const [localData, setLocalData] = useState<
     Record<string, { name: string; role: string }>
   >({});
@@ -59,22 +60,30 @@ const UserManagement = () => {
     const updates = localData[uid];
     try {
       await dispatch(updateUserAction({ uid, updates })).unwrap();
-      setSuccessMessage("Usuario actualizado con éxito");
-      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Error al actualizar el usuario"
-      );
-      setTimeout(() => setErrorMessage(""), 3000);
+      console.error(error);
     }
   };
+
+  // Limpiar la notificación después de un tiempo
+  useEffect(() => {
+    if (notification?.message) {
+      const timeout = setTimeout(() => {
+        dispatch(clearNotification());
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [notification?.message, dispatch]);
 
   return (
     <section
       className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
+      {notification?.message && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
+
       <h2
         className={`text-xl font-semibold mb-4 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
@@ -85,13 +94,6 @@ const UserManagement = () => {
       >
         Aquí puedes editar, eliminar y gestionar los usuarios del sistema.
       </p>
-
-      {successMessage && (
-        <p className="text-green-600 font-medium mb-2">{successMessage}</p>
-      )}
-      {errorMessage && (
-        <p className="text-red-600 font-medium mb-2">{errorMessage}</p>
-      )}
 
       {loading ? (
         <p>Cargando...</p>

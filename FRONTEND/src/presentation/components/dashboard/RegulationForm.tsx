@@ -1,3 +1,4 @@
+// RegulationForm.tsx
 import React from "react";
 import Label from "../UI/Label";
 import { Regulation } from "../../../domain/models/types/regulationsTypes";
@@ -18,6 +19,7 @@ const RegulationForm = () => {
       version: "",
     },
   });
+
   const { register, handleSubmit, reset } = methods;
 
   const onSubmit: SubmitHandler<Regulation> = async (data) => {
@@ -29,6 +31,7 @@ const RegulationForm = () => {
         description: "",
         version: "",
       });
+
     } catch (error) {
       console.error("Error al crear la normativa:", error);
     }
