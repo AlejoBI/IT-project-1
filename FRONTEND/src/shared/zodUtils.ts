@@ -1,18 +1,12 @@
 import { ZodSchema } from "zod";
 
-function parseZodResult<T>(
-  schema: ZodSchema<T>,
-  data: unknown
-): { success: boolean; data?: T; errors?: string[] } {
-  const result = schema.safeParse(data);
-  if (!result.success) {
-    const errors = result.error.errors.map(
-      (err) => `${err.path[0]}: ${err.message}`
-    );
-    return { success: false, errors };
-  }
-  return { success: true, data: result.data };
-}
+export const validateClient = <T>(schema: ZodSchema<T>, payload: unknown) => {
+  const result = schema.safeParse(payload);
 
-export { parseZodResult };
-export type { ZodSchema };
+  if (!result.success) {
+    const message = result.error.errors[0]?.message || "Datos inválidos";
+    return { success: false, error: message };
+  }
+
+  return { success: true, data: result.data as T };
+};

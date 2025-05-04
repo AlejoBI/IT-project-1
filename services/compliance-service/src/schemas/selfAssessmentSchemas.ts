@@ -20,7 +20,6 @@ export const saveDraftSchema = z.object({
   userId: z.string(),
   regulationId: z.string(),
   formId: z.string(),
-  formVersion: z.number(),
   sectionId: z.string(),
   sectionTitle: z.string(),
   answers: z.array(answerSchema),

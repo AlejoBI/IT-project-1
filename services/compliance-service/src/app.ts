@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-app.use("/api", router);
+app.use("/api/compliance", router);
 
 app.listen(PORT, () =>
   console.log(`Compliance service running on http://localhost:${PORT}`)
