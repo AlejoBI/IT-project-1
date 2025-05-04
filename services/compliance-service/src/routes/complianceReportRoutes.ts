@@ -1,9 +1,9 @@
 // routes/complianceReportRoutes.ts
 import { Router } from "express";
-import { getComplianceReportByUser } from "../controllers/complianceReportController";
+import { createComplianceReport } from "../controllers/complianceReportController.js";
 
 const router = Router();
 
-router.get("/:userId", getComplianceReportByUser);
+router.post("/create", createComplianceReport);
 
 export default router;

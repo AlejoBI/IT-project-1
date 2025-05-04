@@ -1,53 +1,86 @@
-// src/presentation/store/evaluationSlice.ts
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { saveComplianceApi } from "../../../infrastructure/api/complianceApi";
-import { validateComplianceData } from "../../../domain/services/complianceService";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  fetchSelfAssessment,
+  saveSelfAssessmentDraft,
+  completeSelfAssessment,
+} from "./complianceActions";
+import {
+  GetDraftResponse,
+} from "../../../domain/models/types/complianceTypes";
 
-interface EvaluationState {
+interface ComplianceState {
+  currentDraft: GetDraftResponse | null;
   loading: boolean;
   error: string | null;
+  message: string | null;
 }
 
-const initialState: EvaluationState = {
+const initialState: ComplianceState = {
+  currentDraft: null,
   loading: false,
   error: null,
+  message: null,
 };
 
-export const saveEvaluation = createAsyncThunk<
-  void, // No retorna datos
-  { responses: { [key: string]: string } }, // Payload de entrada
-  { rejectValue: string }
->("evaluation/save", async (payload, { rejectWithValue }) => {
-  const validation = validateComplianceData(payload);
-  if (!validation.success) {
-    return rejectWithValue(validation.errors?.join(", ") || "Datos inválidos");
-  }
-
-  try {
-    await saveComplianceApi(validation.data!);
-    return;
-  } catch (error) {
-    return rejectWithValue((error as Error).message);
-  }
-});
-
-const evaluationSlice = createSlice({
-  name: "evaluation",
+const complianceSlice = createSlice({
+  name: "compliance",
   initialState,
-  reducers: {},
+  reducers: {
+    clearComplianceState: (state) => {
+      state.currentDraft = null;
+      state.error = null;
+      state.loading = false;
+      state.message = null;
+    },
+    clearNotificationState: (state) => {
+      state.error = null;
+      state.message = null;
+    }
+  },
   extraReducers: (builder) => {
-    builder.addCase(saveEvaluation.pending, (state) => {
+    // fetch
+    builder.addCase(fetchSelfAssessment.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(saveEvaluation.fulfilled, (state) => {
+    builder.addCase(fetchSelfAssessment.fulfilled, (state, action) => {
       state.loading = false;
+      state.currentDraft = action.payload;
     });
-    builder.addCase(saveEvaluation.rejected, (state, action) => {
+    builder.addCase(fetchSelfAssessment.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload || "Error desconocido";
+      state.error = action.payload as string;
+    });
+
+    // save draft
+    builder.addCase(saveSelfAssessmentDraft.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(saveSelfAssessmentDraft.fulfilled, (state, action) => {
+      state.loading = false;
+      state.message = action.payload as string;
+    });
+    builder.addCase(saveSelfAssessmentDraft.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // complete
+    builder.addCase(completeSelfAssessment.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(completeSelfAssessment.fulfilled, (state, action) => {
+      state.loading = false;
+      state.message = action.payload as string;
+    });
+    builder.addCase(completeSelfAssessment.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
     });
   },
 });
 
-export default evaluationSlice.reducer;
+export const { clearComplianceState, clearNotificationState } = complianceSlice.actions;
+export default complianceSlice.reducer;

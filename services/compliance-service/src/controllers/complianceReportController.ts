@@ -1,6 +1,6 @@
-import { firestore } from "../utils/firebaseConfig";
+import { firestore } from "../utils/firebaseConfig.js";
 import { collection, addDoc } from "firebase/firestore";
-import { CreateComplianceReportParams } from "../models/complianceReportModel";
+import { CreateComplianceReportParams } from "../models/complianceReportModel.js";
 
 const determineComplianceStatus = (
   score: number

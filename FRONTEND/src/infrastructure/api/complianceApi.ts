@@ -1,13 +1,34 @@
 import api from "./axios";
+import {
+  SaveDraftPayload,
+  SubmitSelfAssessmentRequest,
+  GetDraftRequest,
+} from "../../domain/models/types/complianceTypes";
 
-export const saveComplianceApi = async (complianceData: {
-  responses: { [key: string]: string };
-}) => {
-  try {
-    const response = await api.post("/api/compliance/save", complianceData);
-    return response.data;
-  } catch (error: unknown) {
-    console.error("Error al guardar la evaluación:", error);
-    throw error;
-  }
+// GET: Obtener la autoevaluación en progreso
+export const fetchSelfAssessmentApi = async (data: GetDraftRequest) => {
+  const response = await api.get(
+    `/api/compliance/self-assessments/draft/${data.regulationId}/${data.userId}`
+  );
+  return response.data;
+};
+
+// POST: Guardar una autoevaluación (borrador o avance)
+export const saveSelfAssessmentApi = async (draft: SaveDraftPayload) => {
+  const response = await api.post(
+    "/api/compliance/self-assessments/save",
+    draft
+  );
+  return response.data;
+};
+
+// POST: Completar la autoevaluación
+export const completeSelfAssessmentApi = async (
+  payload: SubmitSelfAssessmentRequest
+) => {
+  const response = await api.post(
+    `/api/compliance/self-assessments/submit`,
+    payload
+  );
+  return response.data;
 };

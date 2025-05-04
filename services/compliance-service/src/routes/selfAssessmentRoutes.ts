@@ -3,17 +3,17 @@ import {
   saveDraftController,
   getDraftController,
   submitSelfAssessmentController,
-} from "../controllers/selfAssessmentController";
-import { validate } from "../middlewares/validate";
+} from "../controllers/selfAssessmentController.js";
+import { validate } from "../middlewares/validate.js";
 import {
   saveDraftSchema,
   submitAssessmentSchema,
-} from "../schemas/selfAssessmentSchemas";
+} from "../schemas/selfAssessmentSchemas.js";
 
 const router = Router();
 
-router.post("/draft", validate(saveDraftSchema), saveDraftController);
-router.get("/draft/:userId/:formId", getDraftController);
+router.get("/draft/:regulationId/:userId", getDraftController);
+router.post("/save", validate(saveDraftSchema), saveDraftController);
 router.post(
   "/submit",
   validate(submitAssessmentSchema),

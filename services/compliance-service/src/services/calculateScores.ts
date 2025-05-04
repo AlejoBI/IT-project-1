@@ -37,7 +37,7 @@ export const calculateScores = (answers: Answer[]) => {
             return Math.min(ans.value.score || 0, 100);
           }
 
-          return 0;
+          return 100; // Default case for text or other types
         })
         .reduce((sum, val) => sum + val, 0);
 

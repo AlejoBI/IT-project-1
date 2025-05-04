@@ -2,17 +2,17 @@ import { Request, Response } from "express";
 import {
   collection,
   doc,
-  getDoc,
   setDoc,
   updateDoc,
-  serverTimestamp,
   getDocs,
   query,
   where,
+  addDoc,
 } from "firebase/firestore";
-import { firestore } from "../utils/firebaseConfig";
-import { calculateScores } from "../services/calculateScores";
-import { createComplianceReport } from "./complianceReportController";
+import { firestore } from "../utils/firebaseConfig.js";
+import { calculateScores } from "../services/calculateScores.js";
+import { createComplianceReport } from "./complianceReportController.js";
+import { FIREBASE_ERRORS } from "../utils/constants.js";
 
 export const saveDraftController = async (
   req: Request,
@@ -23,29 +23,40 @@ export const saveDraftController = async (
       userId,
       regulationId,
       formId,
-      formVersion,
       sectionId,
       sectionTitle,
       answers,
     } = req.body;
-    const docId = `${userId}_${formId}`; 
-    const draftRef = doc(firestore, "selfAssessmentSessions", docId);
-    const draftSnap = await getDoc(draftRef);
 
-    if (!draftSnap.exists()) {
-      await setDoc(draftRef, {
+    const q = query(
+      collection(firestore, "selfAssessmentSessions"),
+      where("userId", "==", userId),
+      where("regulationId", "==", regulationId),
+      where("status", "==", "in_progress")
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      // no sesión activa, se crea nueva
+      await addDoc(collection(firestore, "selfAssessmentSessions"), {
         userId,
         regulationId,
         formId,
-        formVersion,
         answers,
-        completedSections: [sectionId],
+        completedSections: [{ sectionId, sectionTitle }],
         status: "in_progress",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
+      return res
+        .status(201)
+        .json({ message: "Nueva evaluación iniciada y avance guardado." });
     } else {
-      const existing = draftSnap.data();
+      // solo debe haber una activa, tomamos la primera
+      const draftDoc = snapshot.docs[0];
+      const existing = draftDoc.data();
+
       const updatedAnswers = [
         ...existing.answers.filter((a: any) => a.sectionId !== sectionId),
         ...answers,
@@ -55,19 +66,21 @@ export const saveDraftController = async (
         new Set([...(existing.completedSections || []), sectionId])
       );
 
-      await updateDoc(draftRef, {
+      await updateDoc(draftDoc.ref, {
         answers: updatedAnswers,
         completedSections: updatedSections,
-        updatedAt: serverTimestamp(),
+        updatedAt: new Date(),
       });
-    }
 
-    return res.status(200).json({ message: "Avance guardado exitosamente." });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Error guardando avance",
-      error: (err as Error).message,
-    });
+      return res
+        .status(200)
+        .json({ message: "Avance actualizado exitosamente." });
+    }
+  } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error guardando avance.";
+    res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -76,24 +89,29 @@ export const getDraftController = async (
   res: Response
 ): Promise<any> => {
   try {
-    const { userId, formId } = req.params;
-    const docId = `${userId}_${formId}`;
-    const draftSnap = await getDoc(
-      doc(firestore, "selfAssessmentSessions", docId)
+    const { userId, regulationId } = req.params;
+
+    const q = query(
+      collection(firestore, "selfAssessmentSessions"),
+      where("userId", "==", userId),
+      where("regulationId", "==", regulationId),
+      where("status", "==", "in_progress")
     );
 
-    if (!draftSnap.exists()) {
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
       return res
         .status(404)
-        .json({ message: "No hay avance guardado para este formulario." });
+        .json({ message: "No hay avance guardado para esta normativa." });
     }
 
-    return res.status(200).json(draftSnap.data());
-  } catch (err) {
-    return res.status(500).json({
-      message: "Error obteniendo avance",
-      error: (err as Error).message,
-    });
+    return res.status(200).json(snapshot.docs[0].data());
+  } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error obteniendo avance.";
+    res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -103,24 +121,23 @@ export const submitSelfAssessmentController = async (
 ): Promise<any> => {
   try {
     const { userId, regulationId, regulationName, formId, formName } = req.body;
-    const docId = `${userId}_${formId}`;
-    const draftSnap = await getDoc(
-      doc(firestore, "selfAssessmentSessions", docId)
+
+    const q = query(
+      collection(firestore, "selfAssessmentSessions"),
+      where("userId", "==", userId),
+      where("regulationId", "==", regulationId),
+      where("status", "==", "in_progress")
     );
 
-    if (!draftSnap.exists()) {
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
       return res
         .status(404)
         .json({ message: "No existe evaluación en progreso para enviar." });
     }
 
-    const draft = draftSnap.data();
-
-    if (draft.status === "completed") {
-      return res
-        .status(400)
-        .json({ message: "Esta evaluación ya fue enviada." });
-    }
+    const draftDoc = snapshot.docs[0];
+    const draft = draftDoc.data();
 
     const { totalScore, sectionScores } = calculateScores(draft.answers);
 
@@ -135,7 +152,7 @@ export const submitSelfAssessmentController = async (
       totalScore,
       sectionScores,
       observations: "",
-      createdAt: serverTimestamp(),
+      createdAt: new Date(),
     });
 
     await createComplianceReport({
@@ -149,18 +166,18 @@ export const submitSelfAssessmentController = async (
       sectionScores,
     });
 
-    await updateDoc(doc(firestore, "selfAssessmentSessions", docId), {
+    await updateDoc(draftDoc.ref, {
       status: "completed",
-      updatedAt: serverTimestamp(),
+      updatedAt: new Date(),
     });
 
     return res
-      .status(201)
+      .status(200)
       .json({ message: "Autoevaluación enviada exitosamente." });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Error al enviar evaluación",
-      error: (err as Error).message,
-    });
+  } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error enviando autoevaluación.";
+    res.status(400).json({ error: errorMessage });
   }
 };
