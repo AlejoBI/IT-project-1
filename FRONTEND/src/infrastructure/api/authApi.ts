@@ -5,40 +5,24 @@ export const registerApi = async (userData: {
   email: string;
   password: string;
 }) => {
-  try {
-    const response = await api.post("/api/auth/register", userData);
-    return response.data;
-  } catch (error: unknown) {
-    console.log(error);
-  }
+  const response = await api.post("/api/auth/register", userData);
+  return response.data;
 };
 
 export const loginApi = async (credentials: {
   email: string;
   password: string;
 }) => {
-  try {
-    const response = await api.post("/api/auth/login", credentials);
-    return response.data;
-  } catch (error: unknown) {
-    console.log(error);
-  }
+  const response = await api.post("/api/auth/login", credentials);
+  return response.data;
 };
 
 export const logoutApi = async () => {
-  try {
-    await api.post("/api/auth/logout");
-    return true;
-  } catch (error: unknown) {
-    console.log(error);
-  }
+  await api.post("/api/auth/logout");
+  return true;
 };
 
 export const recoverPasswordApi = async (email: string) => {
-  try {
-    const response = await api.post("/api/auth/recover-password", { email });
-    return response.data;
-  } catch (error: unknown) {
-    console.log(error);
-  }
+  const response = await api.post("/api/auth/recover-password", { email });
+  return response.data;
 };

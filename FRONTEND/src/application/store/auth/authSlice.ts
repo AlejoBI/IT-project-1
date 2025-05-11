@@ -12,10 +12,6 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
-  notification: {
-    message: string;
-    type: "success" | "error" | "warning";
-  } | null;
 }
 
 const initialState: AuthState = {
@@ -23,7 +19,6 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
-  notification: null,
 };
 
 const authSlice = createSlice({
@@ -34,16 +29,8 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
     },
-    setNotification: (
-      state,
-      action: {
-        payload: { message: string; type: "success" | "error" | "warning" };
-      }
-    ) => {
-      state.notification = action.payload;
-    },
     clearNotification: (state) => {
-      state.notification = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -52,10 +39,9 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(loginUser.fulfilled, (state, action) => {
+    builder.addCase(loginUser.fulfilled, (state) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
@@ -67,10 +53,9 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(registerUser.fulfilled, (state, action) => {
+    builder.addCase(registerUser.fulfilled, (state) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
@@ -85,7 +70,6 @@ const authSlice = createSlice({
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.loading = false;
       state.isAuthenticated = false;
-      state.user = null;
     });
     builder.addCase(logoutUser.rejected, (state, action) => {
       state.loading = false;
@@ -108,6 +92,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, setNotification, clearNotification } =
+export const { setUser, clearNotification } =
   authSlice.actions;
 export default authSlice.reducer;

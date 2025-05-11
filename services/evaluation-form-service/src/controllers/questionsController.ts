@@ -24,7 +24,7 @@ export const addFormQuestion = async (
     const sectionSnapshot = await getDoc(sectionRef);
 
     if (!sectionSnapshot.exists()) {
-      return res.status(404).json({ message: "Sección no encontrada." });
+      return res.status(404).json({ error: "Sección no encontrada." });
     }
 
     const questionsRef = collection(firestore, "formQuestions");
@@ -63,7 +63,7 @@ export const getFormQuestions = async (
       .filter((question) => question.sectionId === sectionId);
 
     if (questions.length === 0) {
-      return res.status(404).json({ message: "No se encontraron preguntas." });
+      return res.status(404).json({ error: "No se encontraron preguntas." });
     }
 
     res.status(200).json(questions);
@@ -86,7 +86,7 @@ export const updateFormQuestion = async (
     const snapshot = await getDoc(questionRef);
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ message: "Pregunta no encontrada." });
+      return res.status(404).json({ error: "Pregunta no encontrada." });
     }
 
     const updateData = req.body;
@@ -116,7 +116,7 @@ export const deleteFormQuestion = async (
     const snapshot = await getDoc(questionRef);
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ message: "Pregunta no encontrada." });
+      return res.status(404).json({ error: "Pregunta no encontrada." });
     }
 
     await deleteDoc(questionRef);

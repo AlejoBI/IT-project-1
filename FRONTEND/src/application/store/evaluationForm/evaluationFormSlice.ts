@@ -3,30 +3,22 @@ import {
   createEvaluationFormAction,
   deleteEvaluationFormAction,
   fetchEvaluationFormsAction,
-  updateEvaluationFormAction
+  updateEvaluationFormAction,
 } from "./evaluationFormActions";
 import { Form } from "../../../domain/models/types/EvaluationFormTypes";
-
-interface NotificationState {
-  type: "success" | "error" | "warning" | "info" | null;
-  message: string | null;
-}
 
 interface EvaluationFormState {
   forms: Form | null;
   loading: boolean;
   error: string | null;
-  notification: NotificationState;
+  message: string;
 }
 
 const initialState: EvaluationFormState = {
   forms: null,
   loading: false,
   error: null,
-  notification: {
-    type: null,
-    message: null,
-  },
+  message: "",
 };
 
 const evaluationFormSlice = createSlice({
@@ -36,14 +28,9 @@ const evaluationFormSlice = createSlice({
     setForm: (state, action: PayloadAction<Form>) => {
       state.forms = action.payload;
     },
-    clearForm: (state) => {
-      state.forms = null;
-    },
-    setNotification: (state, action: PayloadAction<NotificationState>) => {
-      state.notification = action.payload;
-    },
     clearNotification: (state) => {
-      state.notification = { type: null, message: null };
+      state.error = null;
+      state.message = "";
     },
   },
   extraReducers: (builder) => {
@@ -54,19 +41,11 @@ const evaluationFormSlice = createSlice({
     });
     builder.addCase(createEvaluationFormAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.forms = action.payload;
-      state.notification = {
-        type: "success",
-        message: "Formulario creado exitosamente",
-      };
+      state.message = action.payload.message;      
     });
     builder.addCase(createEvaluationFormAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
-      state.notification = {
-        type: "error",
-        message: action.payload as string,
-      };
+      state.error = action.payload?.error as string;
     });
 
     // Eliminar formulario
@@ -74,21 +53,13 @@ const evaluationFormSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(deleteEvaluationFormAction.fulfilled, (state) => {
+    builder.addCase(deleteEvaluationFormAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.forms = null;
-      state.notification = {
-        type: "success",
-        message: "Formulario eliminado correctamente",
-      };
+      state.message = action.payload.message;
     });
     builder.addCase(deleteEvaluationFormAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
-      state.notification = {
-        type: "error",
-        message: action.payload as string,
-      };
+      state.error = action.payload?.error as string;
     });
 
     // Obtener formularios
@@ -98,15 +69,11 @@ const evaluationFormSlice = createSlice({
     });
     builder.addCase(fetchEvaluationFormsAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.forms = action.payload;
+      state.message = action.payload as string;
     });
     builder.addCase(fetchEvaluationFormsAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
-      state.notification = {
-        type: "error",
-        message: action.payload as string,
-      };
     });
 
     // Actualizar formulario
@@ -114,29 +81,18 @@ const evaluationFormSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(updateEvaluationFormAction.fulfilled, (state) => {
+    builder.addCase(updateEvaluationFormAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.notification = {
-        type: "success",
-        message: "Formulario actualizado correctamente",
-      };
+      state.message = action.payload.message;
     });
     builder.addCase(updateEvaluationFormAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
-      state.notification = {
-        type: "error",
-        message: action.payload as string,
-      };
+      state.error = action.payload?.error as string;
     });
   },
 });
 
-export const {
-  setForm,
-  clearForm,
-  setNotification,
-  clearNotification,
-} = evaluationFormSlice.actions;
+export const { setForm, clearNotification } =
+  evaluationFormSlice.actions;
 
 export default evaluationFormSlice.reducer;

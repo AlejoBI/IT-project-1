@@ -8,32 +8,25 @@ import FinalCTA from "../components/home/FinalCTA";
 import Notification from "../components/common/Notification";
 import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import {
-  setNotification,
-  clearNotification,
-} from "../../application/store/auth/authSlice";
+import { clearNotification } from "../../application/store/auth/authSlice";
 
 const HomePage = () => {
-  const { user, isAuthenticated, notification } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isAuthenticated && user && !user.emailVerified) {
-      dispatch(
-        setNotification({
-          message: "Por favor, verifica tu dirección de correo electrónico.",
-          type: "warning",
-        })
-      );
-      setTimeout(() => dispatch(clearNotification()), 3000);
-    }
-  }, [isAuthenticated, user, dispatch]);
+    dispatch(clearNotification());
+  }, [dispatch]);
 
   return (
     <>
-      {notification && (
-        <Notification message={notification.message} type={notification.type} />
+      {isAuthenticated && !user?.emailVerified && (
+        <Notification
+          message="Por favor, verifica tu dirección de correo electrónico."
+          type="warning"
+        />
       )}
+
       <WelcomeBanner
         user={user?.name}
         isAuthenticated={isAuthenticated}

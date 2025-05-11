@@ -19,7 +19,7 @@ import { clearNotification } from "../../../application/store/users/usersSlice";
 
 const UserManagement = () => {
   const dispatch = useAppDispatch();
-  const { users, loading, notification } = useUser(); // Acceder a la notificación del slice
+  const { users, loading, message } = useUser();
 
   const [localData, setLocalData] = useState<
     Record<string, { name: string; role: string }>
@@ -67,22 +67,20 @@ const UserManagement = () => {
 
   // Limpiar la notificación después de un tiempo
   useEffect(() => {
-    if (notification?.message) {
+    if (message) {
       const timeout = setTimeout(() => {
         dispatch(clearNotification());
       }, 3000);
 
       return () => clearTimeout(timeout);
     }
-  }, [notification?.message, dispatch]);
+  }, [message, dispatch]);
 
   return (
     <section
       className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
-      {notification?.message && (
-        <Notification message={notification.message} type={notification.type} />
-      )}
+      {message && <Notification message={message} type="success" />}
 
       <h2
         className={`text-xl font-semibold mb-4 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}

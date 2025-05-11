@@ -23,7 +23,7 @@ export const addFormSection = async (
     const formSnapshot = await getDoc(formRef);
 
     if (!formSnapshot.exists()) {
-      return res.status(404).json({ message: "Formulario no encontrado." });
+      return res.status(404).json({ error: "Formulario no encontrado." });
     }
 
     const sectionsRef = collection(firestore, "formSections");
@@ -62,7 +62,7 @@ export const getFormSections = async (
       .filter((section) => section.formId === formId);
 
     if (sections.length === 0) {
-      return res.status(404).json({ message: "No se encontraron secciones." });
+      return res.status(404).json({ error: "No se encontraron secciones." });
     }
 
     res.status(200).json(sections);
@@ -85,7 +85,7 @@ export const updateFormSection = async (
     const snapshot = await getDoc(sectionRef);
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ message: "Sección no encontrada." });
+      return res.status(404).json({ error: "Sección no encontrada." });
     }
 
     const updateData = req.body;
@@ -93,7 +93,7 @@ export const updateFormSection = async (
     if (updateData.formId && updateData.formId !== snapshot.data().formId) {
       return res
         .status(400)
-        .json({ message: "No se permite cambiar el formId." });
+        .json({ error: "No se permite cambiar el formId." });
     }
 
     await updateDoc(sectionRef, {
@@ -121,7 +121,7 @@ export const deleteFormSection = async (
     const sectionSnapshot = await getDoc(sectionRef);
 
     if (!sectionSnapshot.exists()) {
-      return res.status(404).json({ message: "Sección no encontrada." });
+      return res.status(404).json({ error: "Sección no encontrada." });
     }
 
     // Eliminar preguntas asociadas a esta sección

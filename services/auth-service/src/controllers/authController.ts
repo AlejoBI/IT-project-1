@@ -38,7 +38,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     const userData = userDoc.data();
@@ -72,7 +72,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     const userData = userDoc.data();
@@ -95,7 +95,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 export const logout = async (req: Request, res: Response) => {
   try {
     await signOut(auth);
-    res.status(200).json({ message: "Logged out successfully" });
+    res.status(200).json({ message: "Sesión cerrada exitosamente" });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
@@ -108,7 +108,7 @@ export const recoverPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
   try {
     await sendPasswordResetEmail(auth, email);
-    res.status(200).json({ message: "Password reset email sent" });
+    res.status(200).json({ message: "Correo de recuperación enviado" });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =

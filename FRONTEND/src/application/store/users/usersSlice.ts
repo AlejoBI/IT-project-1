@@ -10,17 +10,14 @@ interface UsersState {
   users: User[] | null;
   loading: boolean;
   error: string | null;
-  notification: {
-    message: string;
-    type: "success" | "error" | "warning";
-  } | null;
+  message: string;
 }
 
 const initialState: UsersState = {
   users: [],
   loading: false,
   error: null,
-  notification: null, // Agregar estado para notificaciones
+  message: "",
 };
 
 const userSlice = createSlice({
@@ -28,7 +25,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearNotification(state) {
-      state.notification = null; // Limpiar notificación
+      state.message = "";
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -38,7 +36,7 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchUsersAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.users = action.payload;
+      state.users = action.payload as User[];
     });
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
       state.loading = false;
@@ -61,22 +59,15 @@ const userSlice = createSlice({
     builder.addCase(updateUserAction.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = "";
     });
-    builder.addCase(updateUserAction.fulfilled, (state) => {
+    builder.addCase(updateUserAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.notification = {
-        // Notificación de éxito
-        message: "Usuario actualizado con éxito",
-        type: "success",
-      };
+      state.message = action.payload.message;
     });
     builder.addCase(updateUserAction.rejected, (state, action) => {
       state.loading = false;
-      state.notification = {
-        // Notificación de error
-        message: (action.payload as string) || "Error al actualizar el usuario",
-        type: "error",
-      };
+      state.error = action.payload?.error as string;
     });
   },
 });

@@ -8,7 +8,6 @@ import {
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { createEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 import { fetchRegulationsAction } from "../../../application/store/regulations/regulationsActions";
-import { setNotification } from "../../../application/store/evaluationForm/evaluationFormSlice";
 import { Form } from "../../../domain/models/types/EvaluationFormTypes";
 import SectionEditor from "./SectionEditor";
 import Button from "../UI/Button";
@@ -43,21 +42,17 @@ const NormativeForm = () => {
   }, [dispatch]);
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
-    try {
-      await dispatch(createEvaluationFormAction(data)).unwrap();
-      dispatch(setNotification({ message: "Formulario creado exitosamente", type: "success" }));
-      methods.reset();
-    } catch (error) {
-      console.error("Error al crear el formulario:", error);
-      dispatch(setNotification({ message: "Error al crear el formulario", type: "error" }));
-    }
+    await dispatch(createEvaluationFormAction(data)).unwrap();
+    methods.reset();
   };
 
   return (
     <FormProvider {...methods}>
       {error && <Notification message={error} type="error" />}
       <section>
-        <h2 className="text-xl font-semibold mb-4 text-center">Crear Formulario</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">
+          Crear Formulario
+        </h2>
         {loading ? (
           <p>Cargando...</p>
         ) : (

@@ -68,7 +68,7 @@ export const getRegulation  = async (req: Request, res: Response): Promise<any> 
     const regulationSnapshot = await getDoc(regulationRef);
 
     if (!regulationSnapshot.exists()) {
-      return res.status(404).json({ message: "Normativa no encontrada." });
+      return res.status(404).json({ error: "Normativa no encontrada." });
     }
 
     const regulation = {
@@ -95,7 +95,7 @@ export const updateRegulation = async (req: Request, res: Response): Promise<any
     const regulationSnapshot = await getDoc(regulationRef);
 
     if (!regulationSnapshot.exists()) {
-      return res.status(404).json({ message: "Normativa no encontrada." });
+      return res.status(404).json({ error: "Normativa no encontrada." });
     }
 
     await updateDoc(regulationRef, {
@@ -122,7 +122,7 @@ export const deleteRegulation = async (req: Request, res: Response): Promise<any
     const regulationSnapshot = await getDoc(regulationRef);
 
     if (!regulationSnapshot.exists()) {
-      return res.status(404).json({ message: "Normativa no encontrada." });
+      return res.status(404).json({ error: "Normativa no encontrada." });
     }
 
     await deleteDoc(regulationRef);
