@@ -103,7 +103,7 @@ export const getDraftController = async (
     if (snapshot.empty) {
       return res
         .status(404)
-        .json({ message: "No hay avance guardado para esta normativa." });
+        .json({ error: "No hay avance guardado para esta normativa." });
     }
 
     return res.status(200).json(snapshot.docs[0].data());
@@ -133,7 +133,7 @@ export const submitSelfAssessmentController = async (
     if (snapshot.empty) {
       return res
         .status(404)
-        .json({ message: "No existe evaluación en progreso para enviar." });
+        .json({ error: "No existe evaluación en progreso para enviar." });
     }
 
     const draftDoc = snapshot.docs[0];

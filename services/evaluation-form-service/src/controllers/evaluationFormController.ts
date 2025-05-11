@@ -31,7 +31,7 @@ export const createFullEvaluationForm = async (
     if (!regulationSnapshot.exists()) {
       return res
         .status(404)
-        .json({ message: "La normativa especificada no existe." });
+        .json({ error: "La normativa especificada no existe." });
     }
 
     // Validar duplicado por regulationId
@@ -44,7 +44,7 @@ export const createFullEvaluationForm = async (
 
     if (formWithSameRegulation) {
       return res.status(400).json({
-        message: "Ya existe un formulario asociado a esta normativa.",
+        error: "Ya existe un formulario asociado a esta normativa.",
       });
     }
 
@@ -121,7 +121,7 @@ export const addEvaluationForm = async (
     if (!regulationSnapshot.exists()) {
       return res
         .status(404)
-        .json({ message: "La normativa especificada no existe." });
+        .json({ error: "La normativa especificada no existe." });
     }
 
     // Validar que no exista un formulario con el mismo regulationId
@@ -135,7 +135,7 @@ export const addEvaluationForm = async (
 
     if (formWithSameRegulation) {
       return res.status(400).json({
-        message: "Ya existe un formulario asociado a esta normativa.",
+        error: "Ya existe un formulario asociado a esta normativa.",
       });
     }
 
@@ -172,7 +172,7 @@ export const getEvaluationFormByRegulationId = async (
     const formSnapshot = await getDocs(formQuery);
 
     if (formSnapshot.empty) {
-      return res.status(404).json({ message: "Formulario no encontrado." });
+      return res.status(404).json({ error: "Formulario no encontrado." });
     }
 
     const formData = formSnapshot.docs[0].data();
@@ -235,7 +235,7 @@ export const updateEvaluationForm = async (
     const snapshot = await getDoc(formRef);
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ message: "Formulario no encontrado." });
+      return res.status(404).json({ error: "Formulario no encontrado." });
     }
 
     const updateData = req.body;
@@ -270,7 +270,7 @@ export const deleteEvaluationFormByRegulationId = async (
     const formSnapshot = await getDocs(formQuery);
 
     if (formSnapshot.empty) {
-      return res.status(404).json({ message: "Formulario no encontrado." });
+      return res.status(404).json({ error: "Formulario no encontrado." });
     }
 
     const formDoc = formSnapshot.docs[0];

@@ -16,7 +16,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const usersSnapshot = await getDocs(usersRef);
 
     if (usersSnapshot.empty) {
-      throw new Error("No se encontraron usuarios en Firestore.");
+      res.status(404).json({ error: "No se encontraron usuarios." });
     }
 
     const users = usersSnapshot.docs.map((doc) => ({
@@ -41,7 +41,7 @@ export const getUser = async (req: Request, res: Response) => {
     const userSnapshot = await getDoc(userRef);
 
     if (!userSnapshot.exists()) {
-      throw new Error("No se encontraron datos del usuario en Firestore.");
+      res.status(404).json({ error: "Usuario no encontrado." });
     }
 
     res.status(200).json({
@@ -62,6 +62,11 @@ export const updateUser = async (req: Request, res: Response) => {
   const updates = req.body;
   try {
     const userRef = doc(firestore, "users", uid);
+
+    if (!userRef) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
     await updateDoc(userRef, {
       ...updates,
       updatedAt: new Date(),

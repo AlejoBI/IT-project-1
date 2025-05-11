@@ -9,23 +9,18 @@ import {
 
 import { Regulation } from "../../../domain/models/types/regulationsTypes";
 
-interface Notification {
-  message: string;
-  type: "success" | "error";
-}
-
 interface RegulationsState {
   regulations: Regulation[] | null;
   loading: boolean;
   error: string | null;
-  notification: Notification;
+  message: string;
 }
 
 const initialState: RegulationsState = {
   regulations: [],
   loading: false,
   error: null,
-  notification: { message: "", type: "success" },
+  message: "",
 };
 
 const regulationSlice = createSlice({
@@ -33,7 +28,8 @@ const regulationSlice = createSlice({
   initialState,
   reducers: {
     clearNotification: (state) => {
-      state.notification = { message: "", type: "success" };
+      state.message = "";
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -44,34 +40,21 @@ const regulationSlice = createSlice({
     });
     builder.addCase(createRegulationAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.notification = {
-        message: "Normativa creada correctamente.",
-        type: "success",
-      };
-      state.regulations = [action.payload];
+      state.message = action.payload.message;
     });
     builder.addCase(createRegulationAction.rejected, (state, action) => {
       state.loading = false;
-      state.notification = {
-        message: action.payload as string,
-        type: "error",
-      };
+      state.error = action.payload?.error as string;
     });
 
     // Eliminar
-    builder.addCase(deleteRegulationAction.fulfilled, (state) => {
+    builder.addCase(deleteRegulationAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.notification = {
-        message: "Normativa eliminada correctamente.",
-        type: "success",
-      };
+      state.message = action.payload.message;
     });
     builder.addCase(deleteRegulationAction.rejected, (state, action) => {
       state.loading = false;
-      state.notification = {
-        message: action.payload as string,
-        type: "error",
-      };
+      state.error = action.payload?.error as string;
     });
 
     // Obtener
@@ -89,19 +72,13 @@ const regulationSlice = createSlice({
     });
 
     // Actualizar
-    builder.addCase(updateRegulationAction.fulfilled, (state) => {
+    builder.addCase(updateRegulationAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.notification = {
-        message: "Normativa actualizada correctamente.",
-        type: "success",
-      };
+      state.message = action.payload.message;
     });
     builder.addCase(updateRegulationAction.rejected, (state, action) => {
       state.loading = false;
-      state.notification = {
-        message: action.payload as string,
-        type: "error",
-      };
+      state.error = action.payload?.error as string;
     });
   },
 });

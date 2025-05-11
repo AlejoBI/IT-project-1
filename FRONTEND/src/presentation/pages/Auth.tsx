@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthForm from "../components/forms/authForm/AuthForm";
 import Notification from "../components/common/Notification";
 
 import { useAuth } from "../hooks/useAuth";
 import logo from "../../assets/img/ISOlytics.webp"; // Asegúrate de tener un logo en tu proyecto
-
-// Importar constantes
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { clearNotification } from "../../application/store/auth/authSlice";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
@@ -13,12 +13,18 @@ import {
 } from "../../shared/constants";
 
 const AuthPage = () => {
-  const { error } = useAuth();
+  const { error, message } = useAuth();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(clearNotification());
+  }, [dispatch]);
 
   return (
     <>
       {/* Notificación de errores */}
       {error && <Notification message={error} type="error" />}
+      {message && <Notification message={message} type="success" />}
 
       {/* Contenedor principal */}
       <div

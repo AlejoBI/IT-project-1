@@ -23,18 +23,13 @@ const RegulationForm = () => {
   const { register, handleSubmit, reset } = methods;
 
   const onSubmit: SubmitHandler<Regulation> = async (data) => {
-    try {
-      await dispatch(createRegulationAction(data)).unwrap();
+    await dispatch(createRegulationAction(data)).unwrap();
 
-      reset({
-        name: "",
-        description: "",
-        version: "",
-      });
-
-    } catch (error) {
-      console.error("Error al crear la normativa:", error);
-    }
+    reset({
+      name: "",
+      description: "",
+      version: "",
+    });
   };
 
   return (
