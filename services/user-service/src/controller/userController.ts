@@ -57,7 +57,7 @@ export const getUser = async (req: Request, res: Response) => {
 };
 
 // Actualizar perfil de usuario
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response): Promise<any> => {
   const { uid } = req.params;
   const updates = req.body;
   try {
