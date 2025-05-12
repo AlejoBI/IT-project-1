@@ -3,6 +3,8 @@ import {
   fetchSelfAssessmentApi,
   saveSelfAssessmentApi,
   completeSelfAssessmentApi,
+  getComplianceReportsApi,
+  getSelfAssessmentReportApi,
 } from "../../../infrastructure/api/complianceApi";
 import { validateClient } from "../../../shared/zodUtils";
 import {
@@ -10,11 +12,14 @@ import {
   SubmitSelfAssessmentRequest,
   GetDraftRequest,
   GetDraftResponse,
+  ComplianceReport,
+  SelfAssessmentReport,
 } from "../../../domain/models/types/complianceTypes";
 import {
   SaveDraftSchema,
   SubmitAssessmentSchema,
 } from "../../../domain/models/schemas/complianceSchema";
+import { AxiosError } from "axios";
 
 export const fetchSelfAssessment = createAsyncThunk<
   GetDraftResponse,
@@ -73,3 +78,39 @@ export const completeSelfAssessment = createAsyncThunk<
     return rejectWithValue((error as Error).message);
   }
 });
+
+// Obtener los reportes de cumplimiento
+export const fetchComplianceReports = createAsyncThunk<
+  ComplianceReport[],
+  string,
+  { rejectValue: string }
+>("compliance/fetchComplianceReports", async (userId, { rejectWithValue }) => {
+  try {
+    const response = await getComplianceReportsApi(userId);
+    return response;
+  } catch (error: unknown) {
+    const axiosError = error as AxiosError;
+    const errorData = axiosError.response?.data as { error: string };
+    const errorMessage = errorData?.error || "Error al obtener los reportes";
+    return rejectWithValue(errorMessage);
+  }
+});
+
+export const fetchSelfAssessmentReport = createAsyncThunk<
+  SelfAssessmentReport[],
+  string,
+  { rejectValue: string }
+>(
+  "compliance/fetchSelfAssessmentReport",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await getSelfAssessmentReportApi(userId);
+      return response;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data as { error: string };
+      const errorMessage = errorData?.error || "Error al obtener los reportes";
+      return rejectWithValue(errorMessage);
+    }
+  }
+);

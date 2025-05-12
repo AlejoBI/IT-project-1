@@ -72,3 +72,33 @@ export interface GetDraftResponse {
   createdAt: string; // Firestore devuelve fecha como string ISO
   updatedAt: string;
 }
+
+// Scores de las secciones
+export interface SectionScore {
+  sectionId: string;
+  score: number;
+  sectionTitle: string;
+}
+
+export interface ComplianceReport {
+  id: string;
+  userId: string;
+  regulationId: string;
+  regulationName: string;
+  formId: string;
+  formName: string;
+  sectionScores: SectionScore[];
+  complianceStatus: "Cumple" | "No Cumple";
+  selfAssessmentId: string;
+  totalScore: number;
+  createdAt: Date;
+}
+
+export interface SelfAssessmentReport {
+  answers: DraftAnswer[];
+  completedSections: CompletedSection[];
+  formId: string;
+  regulationId: string;
+  userId: string;
+  status: "completed" | "in_progress" | string;
+}
