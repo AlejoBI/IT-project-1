@@ -2,6 +2,7 @@
 export const LIGHT_MODE_COLORS = {
   BACKGROUND: "bg-[#F9FAFB]", // Fondo principal
   BACKGROUND_COMPONENT: "bg-[#9AC4D4]", // Fondo de componentes
+  BACKGROUND_WHITE: "bg-[#FFFFFF]", // Fondo blanco
   TEXT_PRIMARY: "text-[#1F2937]", // Texto principal
   TEXT_SECONDARY: "text-[#4B5563]", // Texto secundario
   INPUT_BACKGROUND: "bg-[#FFFFFF]", // Fondo de los inputs

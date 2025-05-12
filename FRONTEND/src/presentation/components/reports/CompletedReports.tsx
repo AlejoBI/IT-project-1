@@ -1,0 +1,82 @@
+import React, { useEffect } from "react";
+import { useCompliance } from "../../hooks/useCompliance";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { fetchSelfAssessmentReport } from "../../../application/store/compliance/complianceActions";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  DARK_MODE_COLORS,
+  LIGHT_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../shared/constants";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+interface Props {
+  userId: string;
+}
+
+const CompletedReports = ({ userId }: Props) => {
+  const { selfAssessmentReport } = useCompliance();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!selfAssessmentReport?.length) {
+      dispatch(fetchSelfAssessmentReport(userId));
+    }
+  }, [dispatch, userId, selfAssessmentReport?.length]);
+
+  const completedCount =
+    selfAssessmentReport?.filter((report) => report.status === "completed")
+      .length || 0;
+
+  const inProgressCount =
+    selfAssessmentReport?.filter((report) => report.status === "in_progress")
+      .length || 0;
+
+  const data = {
+    labels: ["Completos", "En Proceso"],
+    datasets: [
+      {
+        data: [completedCount, inProgressCount],
+        backgroundColor: ["#4CAF50", "#FF9800"],
+        hoverBackgroundColor: ["#45A049", "#FB8C00"],
+        borderColor: "#ffffff",
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom" as const,
+      },
+    },
+  };
+
+  return (
+    <div
+      className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION} rounded-xl shadow-md w-full max-w-md mx-auto p-6`}
+    >
+      <h2
+        className={`text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION} mb-2`}
+      >
+        Estado de Autoevaluaciones
+      </h2>
+      {selfAssessmentReport?.length ? (
+        <div className="relative w-full h-80">
+          <Pie data={data} options={options} />
+        </div>
+      ) : (
+        <p className="text-gray-500 text-sm text-center">
+          No hay datos disponibles
+        </p>
+      )}
+    </div>
+  );
+};
+
+export default CompletedReports;

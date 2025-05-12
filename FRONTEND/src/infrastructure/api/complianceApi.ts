@@ -32,3 +32,18 @@ export const completeSelfAssessmentApi = async (
   );
   return response.data;
 };
+
+// GET: Obtener los reportes de cumplimiento
+export const getComplianceReportsApi = async (userId: string) => {
+  const response = await api.get(
+    `/api/compliance/compliance-reports/${userId}`
+  );
+  return response.data;
+};
+
+export const getSelfAssessmentReportApi = async (userId: string) => {
+  const reponse = await api.get(
+    `/api/compliance/self-assessments/${userId}`
+  );
+  return reponse.data;
+}

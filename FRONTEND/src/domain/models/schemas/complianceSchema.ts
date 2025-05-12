@@ -33,3 +33,7 @@ export const SubmitAssessmentSchema = z.object({
   formId: z.string(),
   formName: z.string(),
 });
+
+export const SectionSchemaId = z.string().uuid();
+
+export const CompliancesReportSchemaId = z.string().uuid();

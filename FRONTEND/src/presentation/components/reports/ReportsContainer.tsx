@@ -1,39 +1,75 @@
 import React, { useEffect } from "react";
-import { SectionScoresChart } from "./SectionScoresChart";
 import { fetchRegulationsAction } from "../../../application/store/regulations/regulationsActions";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useRegulation } from "../../hooks/useRegulation";
+import { useAuth } from "../../hooks/useAuth";
+import SectionScoresChart from "./SectionScoresChart";
+import CompletedReports from "./CompletedReports";
+import RegulationReport from "./RegulationReport";
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../shared/constants";
+
+import { useState } from "react";
 
 const ReportsContainer = () => {
   const dispatch = useAppDispatch();
-
-  const { regulations, loading } = useRegulation();
+  const { loading } = useRegulation();
+  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     dispatch(fetchRegulationsAction());
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col p-6">
-      <h1 className="text-3xl font-bold mb-6">Reportes de Cumplimiento</h1>
+    <div
+      className={`flex flex-col p-6 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+    >
+      <h1
+        className={`text-3xl font-bold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      >
+        Reportes de Cumplimiento
+      </h1>
+      <div className="flex flex-row gap-6">
+        <CompletedReports userId={user?.uid || ""} />
+        <RegulationReport userId={user?.uid || ""} />
+      </div>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-1">Resultados por Normativa</h2>
-        <p className="text-sm text-gray-600 mb-4">
-          Visualiza el nivel de cumplimiento por sección según cada estándar.
-        </p>
+      <br />
+      <section className="mb-8 border rounded-lg overflow-hidden">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`w-full text-left px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-1000 font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+        >
+          {isOpen ? "▼" : "►"} Resultados por Normativa
+        </button>
 
-        {loading ? (
-          <p>Cargando estándares...</p>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {regulations?.map((regulation) => (
-              <div key={regulation.id} className="rounded-2xl shadow">
-                <SectionScoresChart standard={regulation.name} />
-              </div>
-            ))}
-          </div>
-        )}
+        <div
+          className={`transition-all duration-1000 ${
+            isOpen ? "opacity-100" : "max-h-0 opacity-0"
+          }`}
+          style={{ overflow: "hidden" }}
+        >
+          {isOpen && (
+            <div className="px-4 py-4">
+              <p
+                className={`text-sm mb-4 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+              >
+                Visualiza el nivel de cumplimiento por sección según cada
+                estándar.
+              </p>
+
+              {loading ? (
+                <p className="text-gray-500">Cargando estándares...</p>
+              ) : (
+                <SectionScoresChart userId={user?.uid || ""} />
+              )}
+            </div>
+          )}
+        </div>
       </section>
     </div>
   );
