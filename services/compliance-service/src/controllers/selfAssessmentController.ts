@@ -19,14 +19,8 @@ export const saveDraftController = async (
   res: Response
 ): Promise<any> => {
   try {
-    const {
-      userId,
-      regulationId,
-      formId,
-      sectionId,
-      sectionTitle,
-      answers,
-    } = req.body;
+    const { userId, regulationId, formId, sectionId, sectionTitle, answers } =
+      req.body;
 
     const q = query(
       collection(firestore, "selfAssessmentSessions"),
@@ -178,6 +172,40 @@ export const submitSelfAssessmentController = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error enviando autoevaluación.";
+    res.status(400).json({ error: errorMessage });
+  }
+};
+
+export const getSelfAssessmentController = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const { userId } = req.params;
+
+    const q = query(
+      collection(firestore, "selfAssessmentSessions"),
+      where("userId", "==", userId)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      return res
+        .status(404)
+        .json({ error: "No hay autoevaluaciones completadas o iniciadas." });
+    }
+
+    const selfAssessmentsSessions = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return res.status(200).json(selfAssessmentsSessions);
+  } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
     res.status(400).json({ error: errorMessage });
   }
 };
