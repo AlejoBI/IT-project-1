@@ -11,6 +11,7 @@ export interface SectionAnswer {
   sectionTitle: string;
   questionId: string;
   questionText: string;
+  questionUrl?: string;
   subQuestionId?: string;
   subQuestionText?: string;
   type: QuestionType;

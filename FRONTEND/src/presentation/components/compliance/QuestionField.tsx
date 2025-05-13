@@ -11,9 +11,14 @@ interface Props {
   question: QuestionGetResponse;
   sectionId: string;
   fieldName?: string;
+  isSubQuestion?: boolean; // ✅ nueva prop
 }
 
-const QuestionField: React.FC<Props> = ({ question, sectionId }) => {
+const QuestionField: React.FC<Props> = ({
+  question,
+  sectionId,
+  isSubQuestion = false,
+}) => {
   const {
     register,
     control,
@@ -119,6 +124,30 @@ const QuestionField: React.FC<Props> = ({ question, sectionId }) => {
         />
       )}
 
+      {/* ✅ Campo de evidencia solo si NO es subpregunta */}
+      {!isSubQuestion && (
+        <div className="mt-4">
+          <label
+            className={`block text-sm font-medium mb-1 
+            ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
+            ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+          >
+            URL de evidencia (opcional)
+          </label>
+          <input
+            type="url"
+            placeholder="https://ejemplo.com/evidencia"
+            {...register(`sections.${sectionId}.answers.${question.id}_url`, {
+              required: false,
+            })}
+            className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 
+            ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} 
+            ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+            focus:ring-[#729CAC]`}
+          />
+        </div>
+      )}
+
       {/* Error */}
       {errors[fieldName] && (
         <p className="text-sm text-red-500 mt-2">Este campo es obligatorio.</p>
@@ -135,6 +164,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId }) => {
               question={sub}
               sectionId={sectionId}
               fieldName={`sections.${sectionId}.answers.${sub.id}`}
+              isSubQuestion={true} // ✅ Aquí se indica que es subpregunta
             />
           </div>
         ))}

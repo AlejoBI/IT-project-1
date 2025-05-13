@@ -72,6 +72,7 @@ export const completeSelfAssessment = createAsyncThunk<
 
   try {
     const result = await completeSelfAssessmentApi(payload);
+    console.log("RESULT", result);
     return result.message;
   } catch (error) {
     return rejectWithValue((error as Error).message);
