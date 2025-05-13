@@ -24,7 +24,7 @@ interface Props {
 }
 
 const RegulationReport = ({ userId }: Props) => {
-  const { complianceReport, loading } = useCompliance();
+  const { complianceReport } = useCompliance();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -33,15 +33,21 @@ const RegulationReport = ({ userId }: Props) => {
     }
   }, [dispatch, userId, complianceReport?.length]);
 
-  if (loading) return <p className="text-center text-gray-500">Cargando...</p>;
+  if (!complianceReport || complianceReport.length === 0) return;
 
-  if (!complianceReport || complianceReport.length === 0)
-    return (
-      <p className="text-center text-gray-500">No hay datos disponibles.</p>
-    );
-
+  const versionMap: Record<string, number> = {}; 
   const chartData = {
-    labels: complianceReport.map((report) => report.regulationName),
+    labels: complianceReport.map((report) => {
+      const { regulationId, regulationName } = report;
+
+      if (!versionMap[regulationId]) {
+        versionMap[regulationId] = 1;
+      } else {
+        versionMap[regulationId] += 1;
+      }
+
+      return `${regulationName} v${versionMap[regulationId]}`;
+    }),
     datasets: [
       {
         label: "Puntaje total (%)",
@@ -89,9 +95,16 @@ const RegulationReport = ({ userId }: Props) => {
       >
         Comparativa de Cumplimiento por Normativa
       </h2>
-      <div className="relative w-full h-80">
-        <Bar data={chartData} options={options} />
-      </div>
+
+      {complianceReport?.length ? (
+        <div className="relative w-full h-80">
+          <Bar data={chartData} options={options} />
+        </div>
+      ) : (
+        <p className="text-gray-500 text-sm text-center">
+          No hay datos disponibles
+        </p>
+      )}
     </div>
   );
 };

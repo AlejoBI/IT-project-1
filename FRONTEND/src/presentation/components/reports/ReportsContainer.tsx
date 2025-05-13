@@ -18,27 +18,39 @@ const ReportsContainer = () => {
   const dispatch = useAppDispatch();
   const { loading } = useRegulation();
   const { user } = useAuth();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchRegulationsAction());
   }, [dispatch]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500">Cargando...</p>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`flex flex-col p-6 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`flex flex-col p-6 min-h-screen ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       <h1
         className={`text-3xl font-bold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
       >
         Reportes de Cumplimiento
       </h1>
-      <div className="flex flex-row gap-6">
-        <CompletedReports userId={user?.uid || ""} />
-        <RegulationReport userId={user?.uid || ""} />
+
+      <div className="flex flex-row mb-8">
+        <div className="w-1/2">
+          <CompletedReports userId={user?.uid || ""} />
+        </div>
+        <div className="w-1/2">
+          <RegulationReport userId={user?.uid || ""} />
+        </div>
       </div>
 
-      <br />
       <section className="mb-8 border rounded-lg overflow-hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -48,13 +60,12 @@ const ReportsContainer = () => {
         </button>
 
         <div
-          className={`transition-all duration-1000 ${
-            isOpen ? "opacity-100" : "max-h-0 opacity-0"
+          className={`transition-all duration-1000 overflow-hidden ${
+            isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
           }`}
-          style={{ overflow: "hidden" }}
         >
           {isOpen && (
-            <div className="px-4 py-4">
+            <div className="px-4 py-6">
               <p
                 className={`text-sm mb-4 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
               >

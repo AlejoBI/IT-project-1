@@ -184,6 +184,7 @@ const EvaluationFormPage = () => {
       };
       dispatch(completeSelfAssessment(submitSelfAssessmentRequest));
     }
+    window.location.reload();
   };
 
   if (formLoading) return <div>Cargando...</div>;
