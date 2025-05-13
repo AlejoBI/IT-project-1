@@ -11,6 +11,7 @@ const answerSchema = z.object({
   sectionTitle: z.string(),
   questionId: z.string(),
   questionText: z.string(),
+  questionUrl: z.union([z.string().url(), z.literal("")]).optional(),
   subQuestionId: z.string().optional(),
   subQuestionText: z.string().optional(),
   type: z.enum(["single-choice", "multiple-choice", "text"]),

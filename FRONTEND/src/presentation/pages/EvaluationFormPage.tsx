@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCompliance } from "../hooks/useCompliance";
 import { useEvaluation } from "../hooks/useEvaluation";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -24,6 +24,7 @@ const EvaluationFormPage = () => {
   const dispatch = useAppDispatch();
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const [completedSections, setCompletedSections] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const { regulationId } = useParams<{ regulationId: string }>();
   const { user } = useAuth();
@@ -184,7 +185,9 @@ const EvaluationFormPage = () => {
       };
       dispatch(completeSelfAssessment(submitSelfAssessmentRequest));
     }
-    window.location.reload();
+    setTimeout(() => {
+      navigate("/self-assessments");
+    }, 3000);
   };
 
   if (formLoading) return <div>Cargando...</div>;

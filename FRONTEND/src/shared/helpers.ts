@@ -66,12 +66,14 @@ export const transformSectionAnswers = (
 
     const rawValue = rawAnswers[q.id];
     const mainValue = transformValue(q.type, rawValue, q.options);
+    const evidenceUrl = rawAnswers[`${q.id}_url`] as string | undefined;
 
     if (mainValue !== null) {
       answers.push({
         ...baseAnswer,
         type: q.type,
         value: mainValue,
+        questionUrl: evidenceUrl,
       });
     }
 
