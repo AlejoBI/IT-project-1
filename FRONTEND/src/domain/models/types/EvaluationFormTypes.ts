@@ -36,3 +36,31 @@ export enum QuestionType {
   SINGLE_CHOICE = "single-choice",
   MULTIPLE_CHOICE = "multiple-choice",
 }
+
+export type FormGetResponse = {
+  id: string;
+  regulationId: string;
+  name: string;
+  description: string;
+  sections: SectionGetResponse[];
+};
+
+export type SectionGetResponse = {
+  id: string;
+  title: string;
+  questions: QuestionGetResponse[];
+};
+
+export type QuestionGetResponse = {
+  id: string;
+  text: string;
+  type: "text" | "single-choice" | "multiple-choice";
+  options?: OptionGetResponse[]; 
+  subQuestions?: QuestionGetResponse[]; 
+};
+
+export type OptionGetResponse = {
+  id?: string; // si agregas `id` para opciones más adelante
+  label: string;
+  score: number;
+};

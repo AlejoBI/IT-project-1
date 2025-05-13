@@ -18,6 +18,8 @@ import {
   FormQuestion,
 } from "../models/formModels.js";
 
+import { uid } from "uid";
+
 export const createFullEvaluationForm = async (
   req: Request,
   res: Response
@@ -84,10 +86,20 @@ export const createFullEvaluationForm = async (
               sectionId: sectionRef.id,
               text: question.text,
               type: question.type,
-              options: question.options || [],
-              subQuestions: question.subQuestions || [],
-              createdAt: now,
-              updatedAt: now,
+              options: (question.options || []).map((option: any) => ({
+                id: uid(25),
+                ...option,
+              })),
+              subQuestions: (question.subQuestions || []).map((sub: any) => ({
+                id: uid(25),
+                ...sub,
+                options: (sub.options || []).map((subOption: any) => ({
+                  id: uid(25),
+                  ...subOption,
+                })),
+              })),
+              createdAt: new Date(),
+              updatedAt: new Date(),
             };
 
             return addDoc(collection(firestore, "formQuestions"), questionData);

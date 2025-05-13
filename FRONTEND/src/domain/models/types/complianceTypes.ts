@@ -1,6 +1,7 @@
 export type QuestionType = "single-choice" | "multiple-choice" | "text";
 
 export interface ChoiceOption {
+  id: string;
   label: string;
   score: number;
 }

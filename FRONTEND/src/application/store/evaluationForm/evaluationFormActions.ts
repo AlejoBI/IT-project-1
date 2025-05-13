@@ -7,7 +7,7 @@ import {
   getEvaluationFormById,
   updateEvaluationFormApi,
 } from "../../../infrastructure/api/EvaluationFormApi";
-import { Form } from "../../../domain/models/types/EvaluationFormTypes";
+import { Form, FormGetResponse } from "../../../domain/models/types/EvaluationFormTypes";
 import { validateClient } from "../../../shared/zodUtils";
 import { formSchema } from "../../../domain/models/schemas/evaluationFormSchema";
 
@@ -50,7 +50,7 @@ export const fetchEvaluationFormsAction = createAsyncThunk(
 
 // Obtener un formulario de evaluación por ID
 export const fetchEvaluationFormByIdAction = createAsyncThunk<
-  Form,
+  FormGetResponse,
   string,
   { rejectValue: string }
 >("evaluationForm/fetchById", async (uid, { rejectWithValue }) => {

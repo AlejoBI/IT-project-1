@@ -13,6 +13,7 @@ import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard";
 import NotFound from "../pages/NotFound";
 import RecoverPassword from "../pages/RecoverPassword";
+import EvaluationFormPage from "../pages/EvaluationFormPage";
 
 import PublicRoute from "./protected/PublicRoute";
 import ProtectedRoute from "./protected/ProtectedRoute";
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="/self-assessments" element={<Compliance />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/evaluation/:regulationId" element={<EvaluationFormPage />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

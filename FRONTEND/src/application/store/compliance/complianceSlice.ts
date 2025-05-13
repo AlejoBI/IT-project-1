@@ -10,7 +10,7 @@ import {
   GetDraftResponse,
   SectionScore,
   ComplianceReport,
-  SelfAssessmentReport
+  SelfAssessmentReport,
 } from "../../../domain/models/types/complianceTypes";
 
 interface ComplianceState {
@@ -30,7 +30,7 @@ const initialState: ComplianceState = {
   message: null,
   sectionScores: [],
   complianceReport: [],
-  selfAssessmentReport: []
+  selfAssessmentReport: [],
 };
 
 const complianceSlice = createSlice({
@@ -67,6 +67,7 @@ const complianceSlice = createSlice({
     builder.addCase(saveSelfAssessmentDraft.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = null;
     });
     builder.addCase(saveSelfAssessmentDraft.fulfilled, (state, action) => {
       state.loading = false;
@@ -75,12 +76,14 @@ const complianceSlice = createSlice({
     builder.addCase(saveSelfAssessmentDraft.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.message = null;
     });
 
     // complete
     builder.addCase(completeSelfAssessment.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = null;
     });
     builder.addCase(completeSelfAssessment.fulfilled, (state, action) => {
       state.loading = false;
@@ -89,6 +92,7 @@ const complianceSlice = createSlice({
     builder.addCase(completeSelfAssessment.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.message = null;
     });
 
     // fetch compliance reports
