@@ -4,7 +4,7 @@ import ReportsContainer from "../components/reports/ReportsContainer";
 const Reports = () => {
   return (
     <div>
-      <ReportsContainer />{/*complianceReports-selfAssessmentSessions*/}
+      <ReportsContainer />
     </div>
   );
 };

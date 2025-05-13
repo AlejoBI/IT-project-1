@@ -2,9 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import { SectionGetResponse } from "../../../domain/models/types/EvaluationFormTypes";
-import {
-  SaveDraftPayload,
-} from "../../../domain/models/types/complianceTypes";
+import { SaveDraftPayload } from "../../../domain/models/types/complianceTypes";
 import QuestionField from "./QuestionField";
 import { useAuth } from "../../hooks/useAuth";
 import { useEvaluation } from "../../hooks/useEvaluation";
@@ -65,7 +63,10 @@ const SectionForm: React.FC<Props> = ({ section }) => {
   return (
     <form
       id={section.id}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        handleSubmit(onSubmit)(e);
+        window.location.reload();
+      }}
       className={`
     mb-10 rounded-2xl shadow-sm p-6 border 
     ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} 
