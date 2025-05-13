@@ -46,14 +46,13 @@ export const saveSelfAssessmentDraft = createAsyncThunk<
     if (!validation.success) {
       return rejectWithValue(validation.error ?? "Datos inválidos");
     }
-
     if (!validation.data) {
-      throw new Error("Información inválida");
+      throw new Error("Validation data is undefined");
     }
 
     try {
       const saved = await saveSelfAssessmentApi(validation.data);
-      return saved;
+      return saved.message;
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
@@ -73,7 +72,7 @@ export const completeSelfAssessment = createAsyncThunk<
 
   try {
     const result = await completeSelfAssessmentApi(payload);
-    return result;
+    return result.message;
   } catch (error) {
     return rejectWithValue((error as Error).message);
   }

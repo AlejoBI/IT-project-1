@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const choiceOptionSchema = z.object({
+  id: z.string(),
   label: z.string(),
   score: z.number().min(0).max(100),
 });

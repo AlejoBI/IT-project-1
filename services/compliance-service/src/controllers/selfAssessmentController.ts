@@ -57,7 +57,12 @@ export const saveDraftController = async (
       ];
 
       const updatedSections = Array.from(
-        new Set([...(existing.completedSections || []), sectionId])
+        new Map(
+          [
+        ...(existing.completedSections || []),
+        { sectionId, sectionTitle },
+          ].map((section) => [section.sectionId, section])
+        ).values()
       );
 
       await updateDoc(draftDoc.ref, {

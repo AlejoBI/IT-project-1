@@ -3,12 +3,13 @@ import {
   createEvaluationFormAction,
   deleteEvaluationFormAction,
   fetchEvaluationFormsAction,
+  fetchEvaluationFormByIdAction,
   updateEvaluationFormAction,
 } from "./evaluationFormActions";
-import { Form } from "../../../domain/models/types/EvaluationFormTypes";
+import { FormGetResponse } from "../../../domain/models/types/EvaluationFormTypes";
 
 interface EvaluationFormState {
-  forms: Form | null;
+  forms: FormGetResponse | null;
   loading: boolean;
   error: string | null;
   message: string;
@@ -25,8 +26,11 @@ const evaluationFormSlice = createSlice({
   name: "evaluationForm",
   initialState,
   reducers: {
-    setForm: (state, action: PayloadAction<Form>) => {
+    setForm: (state, action: PayloadAction<FormGetResponse>) => {
       state.forms = action.payload;
+    },
+    clearForms: (state) => {
+      state.forms = null;
     },
     clearNotification: (state) => {
       state.error = null;
@@ -41,7 +45,7 @@ const evaluationFormSlice = createSlice({
     });
     builder.addCase(createEvaluationFormAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.message = action.payload.message;      
+      state.message = action.payload.message;
     });
     builder.addCase(createEvaluationFormAction.rejected, (state, action) => {
       state.loading = false;
@@ -69,9 +73,26 @@ const evaluationFormSlice = createSlice({
     });
     builder.addCase(fetchEvaluationFormsAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.message = action.payload as string;
+      state.forms = action.payload;
     });
     builder.addCase(fetchEvaluationFormsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // Obtener formulario por ID
+    builder.addCase(fetchEvaluationFormByIdAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      fetchEvaluationFormByIdAction.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.forms = action.payload;
+      }
+    );
+    builder.addCase(fetchEvaluationFormByIdAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
@@ -92,7 +113,7 @@ const evaluationFormSlice = createSlice({
   },
 });
 
-export const { setForm, clearNotification } =
+export const { setForm, clearNotification, clearForms } =
   evaluationFormSlice.actions;
 
 export default evaluationFormSlice.reducer;
