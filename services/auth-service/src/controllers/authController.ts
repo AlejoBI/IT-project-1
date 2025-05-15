@@ -12,43 +12,31 @@ import { auth, firestore } from "../utils/firebaseConfig.js";
 
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
-export const register = async (req: Request, res: Response): Promise<any> => {
+export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password, username, name } = req.body;
+
   try {
-    const userCredential = await createUserWithEmailAndPassword(
+    const { user } = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    const user = userCredential.user;
+    await signOut(auth);
 
     await updateProfile(user, { displayName: username });
     await sendEmailVerification(user);
 
-    const userRef = doc(firestore, "users", user.uid);
-    await setDoc(userRef, {
+    await setDoc(doc(firestore, "users", user.uid), {
       uid: user.uid,
-      name: name,
+      name,
       email: user.email,
       role: "standard_user",
       createdAt: new Date(),
       updatedAt: new Date(),
     });
 
-    const userDoc = await getDoc(userRef);
-
-    if (!userDoc.exists()) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-
-    const userData = userDoc.data();
-
     res.status(201).json({
-      uid: user.uid,
-      name: user.displayName,
-      email: user.email,
-      emailVerified: user.emailVerified,
-      role: userData.role,
+      message: "Registro exitoso. Por favor verifica tu correo electrónico.",
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
@@ -73,6 +61,12 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 
     if (!userDoc.exists()) {
       return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    if (!user.emailVerified) {
+      return res
+        .status(403)
+        .json({ error: "Por favor verifica tu correo electrónico" });
     }
 
     const userData = userDoc.data();

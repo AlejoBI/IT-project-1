@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { registerUser } from "../../../../application/store/auth/authActions";
+import { registerUser, logoutUser } from "../../../../application/store/auth/authActions";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
@@ -34,6 +34,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
 
   const onFormSubmit: SubmitHandler<RegisterFormValues> = (data) => {
     dispatch(registerUser(data));
+    dispatch(logoutUser());
   };
 
   return (

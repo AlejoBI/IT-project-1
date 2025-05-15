@@ -14,7 +14,7 @@ import {
 } from "../../../domain/models/schemas/authSchema";
 
 export const registerUser = createAsyncThunk<
-  AuthUser,
+  string,
   { username: string; email: string; password: string },
   { rejectValue: string | string[] }
 >("auth/register", async (payload, { rejectWithValue }) => {
@@ -23,17 +23,13 @@ export const registerUser = createAsyncThunk<
     return rejectWithValue(validation.error ?? "Datos inválidos");
   }
 
-  try {
-    const authUser = await registerApi(validation.data!);
+  if (!validation.data) {
+    return rejectWithValue("Datos inválidos");
+  }
 
-    return {
-      uid: authUser.uid,
-      username: authUser.username || payload.username,
-      name: authUser.name || null,
-      role: authUser.role || null,
-      email: authUser.email || null,
-      emailVerified: authUser.emailVerified,
-    };
+  try {
+    const authUser = await registerApi(validation.data);
+    return authUser;
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
     const errorData = axiosError.response?.data as { error: string };
@@ -70,20 +66,21 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
       await logoutApi();
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
-    const errorData = axiosError.response?.data as { error: string };
-    const errorMessage = errorData?.error || "Error al cerrar sesión";
-    return rejectWithValue(errorMessage);
+      const errorData = axiosError.response?.data as { error: string };
+      const errorMessage = errorData?.error || "Error al cerrar sesión";
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
 export const recoverPasswordUser = createAsyncThunk<
-  void,
+  string,
   string,
   { rejectValue: string }
 >("auth/recoverPassword", async (email, { rejectWithValue }) => {
   try {
-    await recoverPasswordApi(email);
+    const res = await recoverPasswordApi(email);
+    return res.data.message;
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
     const errorData = axiosError.response?.data as { error: string };

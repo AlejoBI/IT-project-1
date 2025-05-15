@@ -6,7 +6,7 @@ import { Middleware } from "@reduxjs/toolkit";
 export const authMiddleware: Middleware = (store) => (next) => {
   onAuthStateChanged(auth, async (user) => {
     const currentState = store.getState().auth;
-    if (user) {
+    if (user && !currentState.user) {
       store.dispatch(
         setUser({
           uid: user.uid,
