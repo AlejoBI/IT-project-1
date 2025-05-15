@@ -16,7 +16,6 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "firebase": "^11.4.0",
     "morgan": "^1.10.0",
     "mailersend": "^2.5.0"
   },

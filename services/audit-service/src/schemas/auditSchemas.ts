@@ -1,7 +1,14 @@
 import { z } from "zod";
 
-export const AuditSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  action: z.string()
+export const sectionAuditSchema = z.object({
+  sectionId: z.string(),
+  sectionTitle: z.string(),
+  status: z.enum(["Cumple", "No cumple", "Parcialmente cumple"]),
+  observation: z.string().max(1000).optional(),
+});
+
+export const auditSchema = z.object({
+  selfAssessmentId: z.string(),
+  auditorId: z.string(),
+  sectionAudit: sectionAuditSchema, // solo 1 sección a la vez
 });
