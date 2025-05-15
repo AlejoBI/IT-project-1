@@ -4,6 +4,7 @@ import {
   getDraftController,
   submitSelfAssessmentController,
   getSelfAssessmentController,
+  getSelfAssessmentToAuditsByUserId,
 } from "../controllers/selfAssessmentController.js";
 import { validate } from "../middlewares/validate.js";
 import {
@@ -20,6 +21,7 @@ router.post(
   validate(submitAssessmentSchema),
   submitSelfAssessmentController
 );
+router.get("/for-audits/:userId", getSelfAssessmentToAuditsByUserId);
 router.get("/:userId", getSelfAssessmentController);
 
 export default router;

@@ -59,8 +59,8 @@ export const saveDraftController = async (
       const updatedSections = Array.from(
         new Map(
           [
-        ...(existing.completedSections || []),
-        { sectionId, sectionTitle },
+            ...(existing.completedSections || []),
+            { sectionId, sectionTitle },
           ].map((section) => [section.sectionId, section])
         ).values()
       );
@@ -150,7 +150,6 @@ export const submitSelfAssessmentController = async (
       answers: draft.answers,
       totalScore,
       sectionScores,
-      observations: "",
       createdAt: new Date(),
     });
 
@@ -207,6 +206,103 @@ export const getSelfAssessmentController = async (
     }));
 
     return res.status(200).json(selfAssessmentsSessions);
+  } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    res.status(400).json({ error: errorMessage });
+  }
+};
+
+export const getSelfAssessmentToAuditsByUserId = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const { userId } = req.params;
+
+    const q = query(
+      collection(firestore, "selfAssessments"),
+      where("userId", "==", userId)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      return res
+        .status(404)
+        .json({ error: "No hay autoevaluaciones completadas." });
+    }
+
+    // Agrupar por formId y regulationId
+    const grouped: Record<string, any[]> = {};
+    snapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      const { totalScore, createdAt, answers, sectionScores, ...rest } = data;
+      const key = `${data.formId}_${data.regulationId}`;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push({
+        id: doc.id,
+        createdAt,
+        sectionScores,
+        ...rest,
+      });
+    });
+
+    const result = await Promise.all(
+      Object.values(grouped).flatMap((group) => {
+        // Ordenar cada grupo por fecha (más antigua primero)
+        const sortedGroup = [...group].sort((a, b) => {
+          const dateA = new Date(a.createdAt).getTime();
+          const dateB = new Date(b.createdAt).getTime();
+          return dateA - dateB;
+        });
+
+        return sortedGroup.map(async (item, idx) => {
+          const selfAssessmentId = item.id;
+          const totalSections = Object.keys(item.sectionScores || {}).length;
+
+          const auditQuery = query(
+            collection(firestore, "audits"),
+            where("selfAssessmentId", "==", selfAssessmentId)
+          );
+          const auditSnapshot = await getDocs(auditQuery);
+
+          let auditStatus = "sin_auditar";
+          if (!auditSnapshot.empty) {
+            const auditDoc = auditSnapshot.docs[0].data();
+            const sectionAudits = auditDoc.sectionAudits || [];
+            auditStatus =
+              sectionAudits.length >= totalSections
+                ? "completada"
+                : "en_proceso";
+          }
+
+          // Construir solo los campos visibles + auditStatus
+          const {
+            id,
+            formId,
+            regulationId,
+            formName,
+            regulationName,
+            observations,
+            userId,
+          } = item;
+
+          return {
+            id,
+            formId,
+            regulationId,
+            formName: `${formName} v${idx + 1}`,
+            regulationName: `${regulationName} v${idx + 1}`,
+            userId,
+            auditStatus,
+          };
+        });
+      })
+    );
+
+    return res.status(200).json(result);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =

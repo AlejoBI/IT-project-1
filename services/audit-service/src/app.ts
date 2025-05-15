@@ -6,7 +6,7 @@ import auditRoutes from "./routes/auditRoutes.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.AUTH_PORT;
+const PORT = process.env.AUDIT_PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

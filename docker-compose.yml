@@ -10,6 +10,7 @@ services:
       - notification-service
       - regulation-service
       - evaluation-form-service
+      - audit-service
     networks:
       - app-network
   auth-service:
@@ -69,6 +70,16 @@ services:
       - "5005:5005"
     env_file:
       - ./services/evaluation-form-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+  audit-service:
+    build: ./services/audit-service
+    container_name: audit-service
+    ports:
+      - "5006:5006"
+    env_file:
+      - ./services/audit-service/.env
     restart: unless-stopped
     networks:
       - app-network
