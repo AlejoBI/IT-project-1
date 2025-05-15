@@ -10,11 +10,9 @@ import {
 const WelcomeBanner = ({
   user,
   isAuthenticated,
-  emailVerified,
 }: {
   user: string | null | undefined;
   isAuthenticated: boolean | null | undefined;
-  emailVerified: boolean | null | undefined;
 }) => {
   return (
     <section
@@ -40,12 +38,6 @@ const WelcomeBanner = ({
               Hola, <strong>{user || "Usuario"}</strong>! Continúa trabajando en
               tu cumplimiento normativo.
               <br />
-              {!emailVerified && (
-                <>
-                  Por favor, verifica tu correo electrónico para acceder a todas
-                  las funciones.
-                </>
-              )}
             </>
           ) : (
             "Inicia sesión para acceder a tus herramientas de cumplimiento."

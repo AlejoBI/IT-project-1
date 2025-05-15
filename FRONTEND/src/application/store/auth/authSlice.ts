@@ -12,6 +12,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  message?: string;
 }
 
 const initialState: AuthState = {
@@ -19,6 +20,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  message: undefined,
 };
 
 const authSlice = createSlice({
@@ -38,34 +40,42 @@ const authSlice = createSlice({
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = undefined;
     });
-    builder.addCase(loginUser.fulfilled, (state) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
+      state.error = null;
       state.isAuthenticated = true;
+      state.user = action.payload;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.message = undefined;
     });
 
     // Register
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = undefined;
     });
-    builder.addCase(registerUser.fulfilled, (state) => {
+    builder.addCase(registerUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.isAuthenticated = true;
+      state.isAuthenticated = false;
+      state.message = action.payload as string;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.message = undefined;
     });
 
     // Logout
     builder.addCase(logoutUser.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = undefined;
     });
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.loading = false;
@@ -74,24 +84,27 @@ const authSlice = createSlice({
     builder.addCase(logoutUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.message = undefined;
     });
 
     // Recover Password
     builder.addCase(recoverPasswordUser.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.message = undefined;
     });
-    builder.addCase(recoverPasswordUser.fulfilled, (state) => {
+    builder.addCase(recoverPasswordUser.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.message = action.payload as string;
     });
     builder.addCase(recoverPasswordUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.message = undefined;
     });
   },
 });
 
-export const { setUser, clearNotification } =
-  authSlice.actions;
+export const { setUser, clearNotification } = authSlice.actions;
 export default authSlice.reducer;

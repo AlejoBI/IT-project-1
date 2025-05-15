@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   GRADIENTS,
   DARK_GRADIENTS,
@@ -8,18 +9,18 @@ import {
 } from "../../../shared/constants";
 import Button from "../UI/Button";
 
-const onSubmit = () => {
-  window.location.href = "/login";
-};
-
 const FinalCTA = ({
   isAuthenticated,
-  emailVerified,
 }: {
   user: string | null | undefined;
   isAuthenticated: boolean | null | undefined;
-  emailVerified: boolean | null | undefined;
 }) => {
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
+    navigate("/login");
+  };
+
   return (
     <section
       className={`py-20 px-4 text-center transition-all 
@@ -34,16 +35,6 @@ const FinalCTA = ({
       </h2>
 
       <p className="mt-2">
-        {isAuthenticated && (
-          <>
-            {!emailVerified && (
-              <>
-                Por favor, verifica tu correo electrónico para acceder a todas
-                las funciones.
-              </>
-            )}
-          </>
-        )}
         {!isAuthenticated && (
           <>
             <Button onClick={onSubmit} children="Empieza ahora" type="submit" />{" "}
