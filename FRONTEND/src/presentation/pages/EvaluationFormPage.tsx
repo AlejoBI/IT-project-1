@@ -16,6 +16,8 @@ import { SubmitSelfAssessmentRequest } from "../../domain/models/types/complianc
 
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
 import Notification from "../components/common/Notification";
+import { sendEmailNotification } from "../components/notification/sendEmailNotification";
+import { EmailTemplateType } from "../../domain/models/types/notificationTypes";
 
 const EvaluationFormPage = () => {
   const methods = useForm();
@@ -29,6 +31,7 @@ const EvaluationFormPage = () => {
   const { regulationId } = useParams<{ regulationId: string }>();
   const { user } = useAuth();
   const userId = user?.uid || "";
+  const urlDeploy = import.meta.env.VITE_URL_DEPLOY || "http://localhost:5173";
 
   useEffect(() => {
     if (regulationId && userId) {
@@ -184,6 +187,19 @@ const EvaluationFormPage = () => {
         formName: forms?.name || "",
       };
       dispatch(completeSelfAssessment(submitSelfAssessmentRequest));
+      sendEmailNotification({
+        to: user?.email || "",
+        subject: "Formulario Completado",
+        appName: "ISOlytics",
+        currentName: user?.name || "",
+        buttonText: "Ver reporte",
+        buttonUrl: `${urlDeploy}/reports`,
+        formTitle: forms?.name || "Formulario sin título",
+        plainTextContent:
+          "Has completado el formulario de autoevaluación exitosamente.",
+        type: EmailTemplateType.FORM_COMPLETED,
+        dispatch,
+      });
     }
     setTimeout(() => {
       navigate("/self-assessments");

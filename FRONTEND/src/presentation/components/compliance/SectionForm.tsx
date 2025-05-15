@@ -16,6 +16,8 @@ import {
 } from "../../../shared/constants";
 
 import { transformSectionAnswers } from "../../../shared/helpers";
+import { sendEmailNotification } from "../notification/sendEmailNotification";
+import { EmailTemplateType } from "../../../domain/models/types/notificationTypes";
 
 interface Props {
   section: SectionGetResponse;
@@ -39,6 +41,7 @@ const SectionForm: React.FC<Props> = ({ section }) => {
   const formId = forms?.id;
   const { regulationId } = useParams<{ regulationId: string }>();
   const dispatch = useAppDispatch();
+  const urlDeploy = import.meta.env.VITE_URL_DEPLOY || "http://localhost:5173";
 
   const onSubmit = async (data: SectionFormData) => {
     const sectionAnswers = data.sections?.[section.id]?.answers || {};
@@ -58,16 +61,29 @@ const SectionForm: React.FC<Props> = ({ section }) => {
     };
 
     await dispatch(saveSelfAssessmentDraft(payload));
+    sendEmailNotification({
+      to: user.email || "",
+      subject: "Sección Actualizada",
+      appName: "ISOlytics",
+      currentName: user.name || "",
+      buttonText: "Continuar evaluación",
+      buttonUrl: `${urlDeploy}/evaluation`,
+      sectionTitle: section.title || "Sección sin título",
+      formTitle: forms?.name || "Formulario sin título",
+      plainTextContent: "Has realizado un avance de una sección del formulario.",
+      type: EmailTemplateType.SECTION_COMPLETED,
+      dispatch,
+    });
   };
 
   return (
     <form
       id={section.id}
       onSubmit={handleSubmit(async (e) => {
-      await onSubmit(e);
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+        await onSubmit(e);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })}
       className={`
     mb-10 rounded-2xl shadow-sm p-6 border 
@@ -77,25 +93,25 @@ const SectionForm: React.FC<Props> = ({ section }) => {
     `}
     >
       <h3
-      className={`
+        className={`
       text-2xl font-semibold mb-4 
       ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
       ${DARK_MODE_COLORS.TEXT_PRIMARY}
     `}
       >
-      {section.title ? section.title : "Sección sin título"}
+        {section.title ? section.title : "Sección sin título"}
       </h3>
 
       <div className="space-y-6">
-      {section.questions.map((q) => (
-        <QuestionField key={q.id} question={q} sectionId={section.id} />
-      ))}
+        {section.questions.map((q) => (
+          <QuestionField key={q.id} question={q} sectionId={section.id} />
+        ))}
       </div>
 
       <div className="mt-6 text-right">
-      <button
-        type="submit"
-        className={`
+        <button
+          type="submit"
+          className={`
       px-6 py-2 rounded-xl shadow transition text-white 
       ${LIGHT_MODE_COLORS.BUTTON_BG} 
       ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} 
@@ -103,9 +119,9 @@ const SectionForm: React.FC<Props> = ({ section }) => {
       ${DARK_MODE_COLORS.BUTTON_HOVER_BG} 
       ${ANIMATION_TIMINGS.TRANSITION_DURATION}
       `}
-      >
-        Guardar Respuestas
-      </button>
+        >
+          Guardar Respuestas
+        </button>
       </div>
     </form>
   );

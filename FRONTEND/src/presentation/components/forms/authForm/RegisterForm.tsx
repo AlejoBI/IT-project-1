@@ -1,7 +1,10 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { registerUser, logoutUser } from "../../../../application/store/auth/authActions";
+import {
+  registerUser,
+  logoutUser,
+} from "../../../../application/store/auth/authActions";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
@@ -9,6 +12,8 @@ import {
 } from "../../../../shared/constants";
 import Button from "../../UI/Button";
 import Label from "../../UI/Label";
+import { sendEmailNotification } from "../../notification/sendEmailNotification";
+import { EmailTemplateType } from "../../../../domain/models/types/notificationTypes";
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
@@ -24,6 +29,7 @@ interface RegisterFormValues {
 
 const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
   const dispatch = useAppDispatch();
+  const urlDeploy = import.meta.env.VITE_URL_DEPLOY || "http://localhost:5173";
 
   const {
     register,
@@ -35,6 +41,17 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
   const onFormSubmit: SubmitHandler<RegisterFormValues> = (data) => {
     dispatch(registerUser(data));
     dispatch(logoutUser());
+    sendEmailNotification({
+      to: data.email,
+      subject: "Bienvenido a ISOlytics",
+      currentName: data.name,
+      appName: "ISOlytics",
+      buttonText: "Explorar",
+      buttonUrl: `${urlDeploy}/`,
+      plainTextContent: `Bienvenido a ISOlytics, ${data.name}. Haz clic aquí para comenzar.`,
+      type: EmailTemplateType.WELCOME,
+      dispatch,
+    });
   };
 
   return (
@@ -70,7 +87,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
             required: "El nombre completo es obligatorio",
           })}
           className={`p-3 border rounded-lg outline-none focus:ring-2 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:ring-indigo-400 dark:focus:ring-indigo-500 transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-          />
+        />
         {errors.name && (
           <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
             {errors.name.message}
