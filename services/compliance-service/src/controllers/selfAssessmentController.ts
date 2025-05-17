@@ -8,6 +8,7 @@ import {
   query,
   where,
   addDoc,
+  getDoc,
 } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { calculateScores } from "../services/calculateScores.js";
@@ -279,15 +280,8 @@ export const getSelfAssessmentToAuditsByUserId = async (
           }
 
           // Construir solo los campos visibles + auditStatus
-          const {
-            id,
-            formId,
-            regulationId,
-            formName,
-            regulationName,
-            observations,
-            userId,
-          } = item;
+          const { id, formId, regulationId, formName, regulationName, userId } =
+            item;
 
           return {
             id,
@@ -304,6 +298,41 @@ export const getSelfAssessmentToAuditsByUserId = async (
 
     return res.status(200).json(result);
   } catch (error) {
+    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
+    const errorMessage =
+      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    res.status(400).json({ error: errorMessage });
+  }
+};
+
+export const getSelfAssessmentByAssessmentId = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const { selfAssessmentId } = req.params;
+    
+    const selfAssessmentRef = doc(
+      firestore,
+      "selfAssessments",
+      selfAssessmentId
+    );
+    const snapshot = await getDoc(selfAssessmentRef);
+
+    if (!snapshot.exists()) {
+      return res
+        .status(404)
+        .json({ error: "No hay autoevaluaciones completadas con ese ID." });
+    }
+
+    const selfAssessment = snapshot.data();
+
+    return res.status(200).json({
+      id: snapshot.id,
+      ...selfAssessment,
+    });
+  } catch (error) {
+    console.log(error);
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
