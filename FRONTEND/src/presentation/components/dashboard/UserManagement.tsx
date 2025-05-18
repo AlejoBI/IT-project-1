@@ -16,6 +16,7 @@ import {
 import ButtonSecundary from "../UI/ButtonSecundary";
 import Notification from "../common/Notification";
 import { clearNotification } from "../../../application/store/users/usersSlice";
+import Loader from "../common/Loader";
 
 const UserManagement = () => {
   const dispatch = useAppDispatch();
@@ -58,14 +59,9 @@ const UserManagement = () => {
 
   const handleUpdate = async (uid: string) => {
     const updates = localData[uid];
-    try {
-      await dispatch(updateUserAction({ uid, updates })).unwrap();
-    } catch (error) {
-      console.error(error);
-    }
+    await dispatch(updateUserAction({ uid, updates })).unwrap();
   };
 
-  // Limpiar la notificación después de un tiempo
   useEffect(() => {
     if (message) {
       const timeout = setTimeout(() => {
@@ -94,7 +90,7 @@ const UserManagement = () => {
       </p>
 
       {loading ? (
-        <p>Cargando...</p>
+        <Loader />
       ) : (
         <div className="mt-4 overflow-x-auto">
           <table className="w-full table-auto text-left">

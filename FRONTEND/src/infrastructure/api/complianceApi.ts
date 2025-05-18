@@ -42,8 +42,15 @@ export const getComplianceReportsApi = async (userId: string) => {
 };
 
 export const getSelfAssessmentReportApi = async (userId: string) => {
-  const reponse = await api.get(
-    `/api/compliance/self-assessments/${userId}`
-  );
+  const reponse = await api.get(`/api/compliance/self-assessments/${userId}`);
   return reponse.data;
-}
+};
+
+export const getSelfAssessmentByAssessmentId = async (
+  selfAssessmentId: string
+) => {
+  const response = await api.get(
+    `/api/compliance/self-assessments/assessment/${selfAssessmentId}`
+  );
+  return response.data;
+};

@@ -71,12 +71,12 @@ export interface GetDraftResponse {
   answers: DraftAnswer[];
   completedSections: CompletedSection[];
   status: "in_progress";
-  createdAt: string; // Firestore devuelve fecha como string ISO
+  createdAt: string;
   updatedAt: string;
 }
 
 // Scores de las secciones
-export interface SectionScore {
+export type SectionScore = {
   sectionId: string;
   score: number;
   sectionTitle: string;

@@ -14,6 +14,8 @@ import Dashboard from "../pages/Dashboard";
 import NotFound from "../pages/NotFound";
 import RecoverPassword from "../pages/RecoverPassword";
 import EvaluationFormPage from "../pages/EvaluationFormPage";
+import AuditListPage from "../pages/AuditListPage"; 
+import AuditFormPage from "../pages/AuditFormPage";
 
 import PublicRoute from "./protected/PublicRoute";
 import ProtectedRoute from "./protected/ProtectedRoute";
@@ -38,6 +40,8 @@ const App = () => {
 
             <Route element={<ProtectedRoute />}>
               <Route path="/audits" element={<Audit />} />
+              <Route path="/audit-list/:userId" element={<AuditListPage />} />
+              <Route path="/audit-form/:selfAssessmentId" element={<AuditFormPage />} />
               <Route path="/self-assessments" element={<Compliance />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/dashboard" element={<Dashboard />} />

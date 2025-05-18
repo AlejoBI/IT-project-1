@@ -30,7 +30,7 @@ export const createRegulationAction = createAsyncThunk<
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
     const errorData = axiosError.response?.data as { error: string };
-    const errorMessage = errorData?.error || "Error al obtener los usuarios";
+    const errorMessage = errorData?.error || "Error al crear la regulación";
     return rejectWithValue({ error: errorMessage });
   }
 });

@@ -5,6 +5,7 @@ import {
   completeSelfAssessmentApi,
   getComplianceReportsApi,
   getSelfAssessmentReportApi,
+  getSelfAssessmentByAssessmentId,
 } from "../../../infrastructure/api/complianceApi";
 import { validateClient } from "../../../shared/zodUtils";
 import {
@@ -15,6 +16,7 @@ import {
   ComplianceReport,
   SelfAssessmentReport,
 } from "../../../domain/models/types/complianceTypes";
+import { SelfAssessmentToAudit } from "../../../domain/models/types/auditTypes";
 import {
   SaveDraftSchema,
   SubmitAssessmentSchema,
@@ -110,6 +112,25 @@ export const fetchSelfAssessmentReport = createAsyncThunk<
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
       const errorMessage = errorData?.error || "Error al obtener los reportes";
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const fetchSelfAssessmentByAssessmentId = createAsyncThunk<
+  SelfAssessmentToAudit,
+  string,
+  { rejectValue: string }
+>(
+  "compliance/fetchSelfAssessmentByAssessmentId",
+  async (selfAssessmentId, { rejectWithValue }) => {
+    try {
+      const response = await getSelfAssessmentByAssessmentId(selfAssessmentId);
+      return response;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data as { error: string };
+      const errorMessage = errorData?.error || "Error al obtener los resultados";
       return rejectWithValue(errorMessage);
     }
   }

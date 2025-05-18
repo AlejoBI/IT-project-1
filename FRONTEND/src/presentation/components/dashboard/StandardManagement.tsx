@@ -15,11 +15,20 @@ import { useRegulation } from "../../hooks/useRegulation";
 import { useEvaluation } from "../../hooks/useEvaluation";
 import { clearNotification } from "../../../application/store/evaluationForm/evaluationFormSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import Loader from "../common/Loader";
 
 const StandardManagement = () => {
-  const { error: regulationError, message: regulationMessage} = useRegulation();
-  const { error: formsError, message: formsMessage } = useEvaluation();
-  
+  const {
+    error: regulationError,
+    message: regulationMessage,
+    loading: loadingRegulations,
+  } = useRegulation();
+  const {
+    error: formsError,
+    message: formsMessage,
+    loading: loadingForms,
+  } = useEvaluation();
+
   const dispatch = useAppDispatch();
   const error = regulationError || formsError;
   const message = regulationMessage || formsMessage;
@@ -31,6 +40,10 @@ const StandardManagement = () => {
   const [selectedSection, setSelectedSection] = useState<
     "createRegulation" | "createForm" | "regulationList" | null
   >(null);
+
+  if (loadingRegulations || loadingForms) {
+    return <Loader />;
+  }
 
   return (
     <section

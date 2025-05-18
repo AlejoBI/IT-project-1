@@ -1,63 +1,67 @@
-import React from "react";
-/*<div className="mt-8 p-6 rounded-2xl shadow bg-white dark:bg-[#1A2733]">
-        <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">
-          Comentarios de Auditoría y Cumplimiento
-        </h3>
-        <div className="mb-4">
-          <label
-        htmlFor="auditComment"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-        Comentario de auditoría
-          </label>
-          <textarea
-        id="auditComment"
-        {...methods.register("auditComment")}
-        rows={3}
-        className="w-full rounded border border-gray-300 dark:border-[#2A4C61] p-2 bg-white dark:bg-[#223548] text-gray-900 dark:text-gray-100"
-        placeholder="Escribe tus comentarios aquí..."
-          />
-        </div>
-        <div className="mb-4">
-          <label
-        htmlFor="complianceStatus"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-        Cumplimiento
-          </label>
-          <select
-        id="complianceStatus"
-        {...methods.register("complianceStatus")}
-        className="w-full rounded border border-gray-300 dark:border-[#2A4C61] p-2 bg-white dark:bg-[#223548] text-gray-900 dark:text-gray-100"
-        defaultValue=""
-          >
-        <option value="" disabled>
-          Selecciona el estado de cumplimiento
-        </option>
-        <option value="cumple">Cumple</option>
-        <option value="no_cumple">No cumple</option>
-        <option value="parcial">Parcialmente cumple</option>
-          </select>
-        </div>
-        <button
-          type="button"
-          className="mt-4 px-6 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-          onClick={() => {
-        methods.handleSubmit((data) => {
-          // Aquí puedes manejar el guardado de los comentarios de cumplimiento
-          // Por ejemplo, podrías llamar a un dispatch o función para guardar
-          // console.log("Datos de cumplimiento:", data);
-          // dispatch(saveComplianceSection(data));
-        })();
-          }}
-        >
-          Guardar sección de cumplimiento
-        </button>
-      </div> */
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/UI/Button";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
+import { useUser } from "../hooks/useUser";
+import { User } from "../../domain/models/types/userTypes";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { fetchUsersWithEvaluationsAndAuditsAction } from "../../application/store/users/usersActions";
+import Loader from "../components/common/Loader";
+
 const Audit = () => {
-  return <div>Audit
-    
-  </div>;
+  const navigate = useNavigate();
+  const { users, loading } = useUser();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUsersWithEvaluationsAndAuditsAction());
+  }, [dispatch]);
+
+  const handleNavigate = (userId: string) => {
+    navigate(`/audit-list/${userId}`);
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="p-6">
+      <h1
+        className={`text-2xl font-bold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+      >
+        Usuarios para auditoría
+      </h1>
+
+      {users?.map((user: User) => (
+        <div
+          key={user.uid}
+          className={`flex items-center justify-between p-4 mb-4 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} rounded-lg border border-gray-300 dark:border-[#2A4C61]`}
+        >
+          <span
+            className={`font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} w-1/4`}
+          >
+            {user.name || "Sin nombre"}
+          </span>
+          <span
+            className={`text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} w-1/4`}
+          >
+            {user.evaluationsCount ?? 0}
+          </span>
+          <span
+            className={`text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} w-1/4`}
+          >
+            {user.auditsCount ?? 0}
+          </span>
+          <div className="w-1/4 text-right">
+            <Button onClick={() => handleNavigate(user.uid)}>
+              Listar Evaluaciones
+            </Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Audit;

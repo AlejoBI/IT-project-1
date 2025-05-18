@@ -4,6 +4,7 @@ export const LIGHT_MODE_COLORS = {
   BACKGROUND_COMPONENT: "bg-[#9AC4D4]", // Fondo de componentes
   BACKGROUND_WHITE: "bg-[#FFFFFF]", // Fondo blanco
   TEXT_PRIMARY: "text-[#1F2937]", // Texto principal
+  TEXT_PRIMARY_HOVER: "hover:text-[#111827]", // Hover para texto principal
   TEXT_SECONDARY: "text-[#4B5563]", // Texto secundario
   INPUT_BACKGROUND: "bg-[#FFFFFF]", // Fondo de los inputs
   ACCENT: "text-[#729CAC]", // Acento primario
@@ -22,6 +23,7 @@ export const DARK_MODE_COLORS = {
   BACKGROUND: "dark:bg-[#0F1D2C]", // Fondo principal
   BACKGROUND_COMPONENT: "dark:bg-[#1F3A4D]", // Fondo componentes
   TEXT_PRIMARY: "dark:text-[#E6EDF3]", // Texto principal
+  TEXT_PRIMARY_HOVER: "dark:hover:text-[#FFFFFF]", // Hover para texto principal
   TEXT_SECONDARY: "dark:text-[#A0B5C3]", // Texto secundario
   INPUT_BACKGROUND: "dark:bg-[#1A2B3A]", // Fondo de los inputs
   ACCENT: "dark:text-[#8CCBE2]", // Acento primario
