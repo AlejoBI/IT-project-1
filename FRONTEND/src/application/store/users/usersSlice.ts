@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchUsersAction,
   fetchUserAction,
+  fetchUsersWithEvaluationsAndAuditsAction,
   updateUserAction,
 } from "./usersActions";
 import { User } from "../../../domain/models/types/userTypes";
@@ -30,6 +31,19 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchUserAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = [action.payload];
+    });
+    builder.addCase(fetchUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
     builder.addCase(fetchUsersAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -43,15 +57,18 @@ const userSlice = createSlice({
       state.error = action.payload as string;
     });
 
-    builder.addCase(fetchUserAction.pending, (state) => {
+    builder.addCase(fetchUsersWithEvaluationsAndAuditsAction.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(fetchUserAction.fulfilled, (state, action) => {
-      state.loading = false;
-      state.users = [action.payload];
-    });
-    builder.addCase(fetchUserAction.rejected, (state, action) => {
+    builder.addCase(
+      fetchUsersWithEvaluationsAndAuditsAction.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.users = action.payload as User[];
+      }
+    );
+    builder.addCase(fetchUsersWithEvaluationsAndAuditsAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });

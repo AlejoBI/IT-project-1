@@ -5,6 +5,8 @@ export interface User {
   email: string | null;
   emailVerified: boolean;
   role: string;
+  evaluationsCount?: number;
+  auditsCount?: number;
 }
 
 export interface UserPayload {

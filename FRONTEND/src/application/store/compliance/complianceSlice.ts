@@ -5,6 +5,7 @@ import {
   completeSelfAssessment,
   fetchComplianceReports,
   fetchSelfAssessmentReport,
+  fetchSelfAssessmentByAssessmentId,
 } from "./complianceActions";
 import {
   GetDraftResponse,
@@ -12,6 +13,7 @@ import {
   ComplianceReport,
   SelfAssessmentReport,
 } from "../../../domain/models/types/complianceTypes";
+import { SelfAssessmentToAudit } from "../../../domain/models/types/auditTypes";
 
 interface ComplianceState {
   currentDraft: GetDraftResponse | null;
@@ -21,6 +23,7 @@ interface ComplianceState {
   sectionScores: SectionScore[] | null;
   complianceReport: ComplianceReport[] | null;
   selfAssessmentReport: SelfAssessmentReport[] | null;
+  selfAssessmentToAudit: SelfAssessmentToAudit | null;
 }
 
 const initialState: ComplianceState = {
@@ -31,6 +34,7 @@ const initialState: ComplianceState = {
   sectionScores: [],
   complianceReport: [],
   selfAssessmentReport: [],
+  selfAssessmentToAudit: null,
 };
 
 const complianceSlice = createSlice({
@@ -39,6 +43,10 @@ const complianceSlice = createSlice({
   reducers: {
     clearComplianceState: (state) => {
       state.currentDraft = null;
+      state.sectionScores = [];
+      state.complianceReport = [];
+      state.selfAssessmentReport = [];
+      state.selfAssessmentToAudit = null;
       state.error = null;
       state.loading = false;
       state.message = null;
@@ -119,6 +127,20 @@ const complianceSlice = createSlice({
       state.selfAssessmentReport = action.payload;
     });
     builder.addCase(fetchSelfAssessmentReport.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // fetch self-assessment to audit
+    builder.addCase(fetchSelfAssessmentByAssessmentId.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchSelfAssessmentByAssessmentId.fulfilled, (state, action) => {
+      state.loading = false;
+      state.selfAssessmentToAudit = action.payload;
+    });
+    builder.addCase(fetchSelfAssessmentByAssessmentId.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });

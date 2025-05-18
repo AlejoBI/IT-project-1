@@ -7,6 +7,7 @@ import { useRegulation } from "../hooks/useRegulation";
 import { fetchRegulationsAction } from "../../application/store/regulations/regulationsActions";
 import { clearComplianceState } from "../../application/store/compliance/complianceSlice";
 import { clearForms } from "../../application/store/evaluationForm/evaluationFormSlice";
+import Loader from "../components/common/Loader";
 
 const Compliance = () => {
   const { user, isAuthenticated } = useAuth();
@@ -44,7 +45,7 @@ const Compliance = () => {
 
       {loading && (
         <p className="text-center text-gray-600 dark:text-gray-300">
-          Cargando regulaciones...
+          <Loader />
         </p>
       )}
       {error && <p className="text-center text-red-500">{error}</p>}

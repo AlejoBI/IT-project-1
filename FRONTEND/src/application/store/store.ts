@@ -10,6 +10,7 @@ import usersReducer from "./users/usersSlice";
 import complianceReducer from "./compliance/complianceSlice";
 import regulationReducer from "./regulations/regulationsSlice";
 import EvaluationFormReducer from "./evaluationForm/evaluationFormSlice";
+import auditReducer from "./audits/auditSlice";
 
 const persistConfig = {
   key: "root",
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   compliance: complianceReducer,
   regulation: regulationReducer,
   evaluationForm: EvaluationFormReducer,
+  audit: auditReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { sendNotificationApi } from "../../infrastructure/api/notificationApi";
-import { Notification } from "../../domain/models/types/notificationTypes";
+import { sendNotificationApi } from "../../../infrastructure/api/notificationApi";
 import { AxiosError } from "axios";
+import { Notification } from "../../../domain/models/types/notificationTypes";
 
 export const sendNotification = createAsyncThunk<
   string,

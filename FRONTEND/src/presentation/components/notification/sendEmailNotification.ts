@@ -1,5 +1,5 @@
 import { generateEmailTemplate } from "./emailTemplates";
-import { sendNotification } from "../../../application/notification/notificationActions";
+import { sendNotification } from "../../../application/store/notification/notificationActions";
 import {
   EmailTemplate,
   EmailTemplateType,
