@@ -36,7 +36,7 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 // Obtener perfil de usuario
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response): Promise<any> => {
   const { userId } = req.params;
   try {
     const userRef = doc(firestore, "users", userId);
@@ -46,9 +46,29 @@ export const getUser = async (req: Request, res: Response) => {
       res.status(404).json({ error: "Usuario no encontrado." });
     }
 
+    const evaluationsQuery = query(
+      collection(firestore, "selfAssessments"),
+      where("userId", "==", userId)
+    );
+    const evaluationsSnapshot = await getDocs(evaluationsQuery);
+    const evaluationsCount = evaluationsSnapshot.size;
+
+    if (evaluationsCount === 0) {
+      return null;
+    }
+
+    const auditsQuery = query(
+      collection(firestore, "audits"),
+      where("userId", "==", userId)
+    );
+    const auditsSnapshot = await getDocs(auditsQuery);
+    const auditsCount = auditsSnapshot.size;
+
     res.status(200).json({
       userId: userSnapshot.id,
       ...userSnapshot.data(),
+      evaluationsCount,
+      auditsCount,
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
@@ -64,8 +84,9 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
   const updates = req.body;
   try {
     const userRef = doc(firestore, "users", userId);
+    const userSnapshot = await getDoc(userRef);
 
-    if (!userRef) {
+    if (!userSnapshot.exists()) {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
 
@@ -78,6 +99,7 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
       .status(200)
       .json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {
+    console.log(error);
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al actualizar el perfil";
