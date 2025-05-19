@@ -13,6 +13,6 @@ const router = express.Router();
 router.get("/", getUsers);
 router.get("/audit", getUsersWithEvaluationsAndAudits);
 router.get("/:uid", getUser);
-router.put("/:uid", validate(updateUserSchema), updateUser);
+router.put("/:userId", validate(updateUserSchema), updateUser);
 
 export default router;
