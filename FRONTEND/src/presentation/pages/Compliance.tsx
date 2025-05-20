@@ -43,11 +43,7 @@ const Compliance = () => {
         />
       )}
 
-      {loading && (
-        <p className="text-center text-gray-600 dark:text-gray-300">
-          <Loader />
-        </p>
-      )}
+      {loading && <Loader />}
       {error && <p className="text-center text-red-500">{error}</p>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">

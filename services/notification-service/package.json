@@ -1,5 +1,5 @@
 {
-  "name": "user-service",
+  "name": "notification-service",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,8 +10,8 @@
     "start:dev": "concurrently \"tsc -w\" \"nodemon dist/app.js\"",
     "test": "jest --watchAll=false --ci --coverage --collectCoverageFrom='src/controllers/*.ts'",
     "lint": "eslint 'src/**/*.ts'",
-    "docker:build": "docker build -t user-service .",
-    "docker:run": "docker run -p 3000:3000 user-service"
+    "docker:build": "docker build -t notification-service .",
+    "docker:run": "docker run -p 3000:3000 notification-service"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

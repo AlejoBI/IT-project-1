@@ -85,7 +85,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
       {/* Enlace para cambiar al formulario de registro */}
       <p className="text-center text-sm">
         <span
-          className={`text-gray-600 dark:text-gray-400 ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
         >
           ¿No tienes una cuenta?{" "}
         </span>
@@ -96,7 +96,10 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           Regístrate aquí
         </span>
         <br />
-        <a href="/recover-password" className="hover:underline">
+        <a
+          href="/recover-password"
+          className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER} hover:underline`}
+        >
           Olvidaste tu contraseña?
         </a>
       </p>

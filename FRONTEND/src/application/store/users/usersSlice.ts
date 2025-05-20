@@ -9,6 +9,7 @@ import { User } from "../../../domain/models/types/userTypes";
 
 interface UsersState {
   users: User[] | null;
+  user?: User | null;
   loading: boolean;
   error: string | null;
   message: string;
@@ -16,6 +17,7 @@ interface UsersState {
 
 const initialState: UsersState = {
   users: [],
+  user: null,
   loading: false,
   error: null,
   message: "",
@@ -37,7 +39,7 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchUserAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.users = [action.payload];
+      state.user = action.payload;
     });
     builder.addCase(fetchUserAction.rejected, (state, action) => {
       state.loading = false;

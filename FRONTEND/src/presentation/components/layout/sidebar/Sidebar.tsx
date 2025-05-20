@@ -23,10 +23,20 @@ const Sidebar = ({
   const dispatch = useAppDispatch();
   const logout = () => dispatch(logoutUser());
 
+  // Determinar la ruta de "Auditorías" según el rol del usuario
+  const getAuditsHref = () => {
+    if (user?.role === "auditor") return "/audits";
+    if (user?.role === "standard_user") return "/audit-user";
+    return undefined;
+  };
+
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Autoevaluaciones", href: "/self-assessments" },
-    { name: "Auditorías", href: "/audits" },
+    // Solo agregar "Auditorías" si el usuario es auditor o standard_user
+    ...(user?.role === "auditor" || user?.role === "standard_user"
+      ? [{ name: "Auditorías", href: getAuditsHref() }]
+      : []),
     { name: "Reportes", href: "/reports" },
     { name: "Dashboard", href: "/dashboard" },
     { name: "Login", href: "/login" },
@@ -37,6 +47,9 @@ const Sidebar = ({
     if (item.name === "Login" && isAuthenticated) return false;
     if (item.name === "Logout" && !isAuthenticated) return false;
     if (item.name === "Dashboard" && user?.role !== "admin") return false;
+    if (item.name === "Auditorías" && user?.role == "admin") return false;
+    if (item.name === "Reportes" && user?.role !== "standard_user") return false;
+    if (item.name === "Autoevaluaciones" && user?.role !== "standard_user") return false;
     return true;
   });
 

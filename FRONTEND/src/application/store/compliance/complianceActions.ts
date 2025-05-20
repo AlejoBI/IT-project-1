@@ -49,7 +49,7 @@ export const saveSelfAssessmentDraft = createAsyncThunk<
       return rejectWithValue(validation.error ?? "Datos inválidos");
     }
     if (!validation.data) {
-      throw new Error("Validation data is undefined");
+      throw new Error("Validación fallida");
     }
 
     try {
@@ -74,7 +74,6 @@ export const completeSelfAssessment = createAsyncThunk<
 
   try {
     const result = await completeSelfAssessmentApi(payload);
-    console.log("RESULT", result);
     return result.message;
   } catch (error) {
     return rejectWithValue((error as Error).message);
@@ -130,7 +129,8 @@ export const fetchSelfAssessmentByAssessmentId = createAsyncThunk<
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
-      const errorMessage = errorData?.error || "Error al obtener los resultados";
+      const errorMessage =
+        errorData?.error || "Error al obtener los resultados";
       return rejectWithValue(errorMessage);
     }
   }

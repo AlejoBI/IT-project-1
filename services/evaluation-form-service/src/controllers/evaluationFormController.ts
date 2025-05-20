@@ -305,9 +305,7 @@ export const deleteEvaluationFormByRegulationId = async (
           where("sectionId", "==", sectionId)
         );
         const questionsSnapshot = await getDocs(questionsQuery);
-        console.log(
-          `Preguntas encontradas para la sección ${sectionId}: ${questionsSnapshot.docs.length}`
-        );
+        
         await Promise.all(
           questionsSnapshot.docs.map((questionDoc) =>
             deleteDoc(doc(firestore, "formQuestions", questionDoc.id))
