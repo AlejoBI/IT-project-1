@@ -45,6 +45,7 @@ const Sidebar = ({
 
   const filteredNavigation = navigation.filter((item) => {
     if (item.name === "Login" && isAuthenticated) return false;
+    if (item.name === "Dashboard" && !isAuthenticated) return false;
     if (item.name === "Logout" && !isAuthenticated) return false;
     if (item.name === "Dashboard" && user?.role !== "admin") return false;
     if (item.name === "Auditorías" && user?.role == "admin") return false;

@@ -11,6 +11,7 @@ services:
       - regulation-service
       - evaluation-form-service
       - audit-service
+      - compliance-service
     networks:
       - app-network
   auth-service:

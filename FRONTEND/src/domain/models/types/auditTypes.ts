@@ -5,6 +5,9 @@ export type Audit = {
   auditorName: string;
   selfAssessmentId: string;
   sectionAudit: AuditSection;
+  sectionAudits?: AuditSection[]; 
+  sectionAuditIds?: string[]; 
+  auditedAt?: string;
 };
 
 export type AuditByUser = {

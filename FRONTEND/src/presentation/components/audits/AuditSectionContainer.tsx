@@ -109,7 +109,7 @@ const AuditSectionContainer = ({
           selectedSectionId={selectedSectionId}
         />
       </div>
-      {user?.role === "auditor" || user?.role === "admin" ? (
+      {user?.role === "auditor" ? (
         selectedSectionId && (
           <div
             className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow`}
