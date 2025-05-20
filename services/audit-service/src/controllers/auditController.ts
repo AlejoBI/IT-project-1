@@ -18,7 +18,7 @@ export const createOrUpdateAudit = async (
   req: Request,
   res: Response
 ): Promise<any> => {
-  const { selfAssessmentId, auditorId, sectionAudit } = req.body;
+  const { selfAssessmentId, auditorId, auditorName, sectionAudit } = req.body;
   try {
     // Verificar si la sección ya fue auditada por cualquier auditor
     const auditsQuery = query(
@@ -45,6 +45,7 @@ export const createOrUpdateAudit = async (
       await setDoc(auditDocRef, {
         selfAssessmentId,
         auditorId,
+        auditorName,
         auditedAt: new Date().toISOString(),
         sectionAudits: [sectionAudit],
         sectionAuditIds: [sectionAudit.sectionId],
@@ -62,7 +63,6 @@ export const createOrUpdateAudit = async (
       message: "Sección auditada correctamente.",
     });
   } catch (error) {
-    console.error("Error en createOrUpdateAudit:", error);
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] ||
