@@ -124,23 +124,33 @@ export const getUsersWithEvaluationsAndAudits = async (
       usersSnapshot.docs.map(async (userDoc) => {
         const userId = userDoc.id;
 
+        // Buscar evaluaciones del usuario
         const evaluationsQuery = query(
           collection(firestore, "selfAssessments"),
           where("userId", "==", userId)
         );
         const evaluationsSnapshot = await getDocs(evaluationsQuery);
-        const evaluationsCount = evaluationsSnapshot.size;
+        const evaluations = evaluationsSnapshot.docs;
 
-        if (evaluationsCount === 0) {
+        if (evaluations.length === 0) {
           return null;
         }
 
-        const auditsQuery = query(
-          collection(firestore, "audits"),
-          where("userId", "==", userId)
+        // Para cada evaluación, buscar si hay audits con selfAssessmentId igual al id de la evaluación
+        const auditsCounts = await Promise.all(
+          evaluations.map(async (evalDoc) => {
+            const selfAssessmentId = evalDoc.id;
+            const auditsQuery = query(
+              collection(firestore, "audits"),
+              where("selfAssessmentId", "==", selfAssessmentId)
+            );
+            const auditsSnapshot = await getDocs(auditsQuery);
+            return auditsSnapshot.size;
+          })
         );
-        const auditsSnapshot = await getDocs(auditsQuery);
-        const auditsCount = auditsSnapshot.size;
+        const auditsCount = auditsCounts.reduce((acc, count) => acc + count, 0);
+
+        const evaluationsCount = evaluations.length;
 
         return {
           userId,
