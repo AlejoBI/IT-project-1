@@ -12,11 +12,12 @@ import { useAudit } from "../../hooks/useAudit";
 import { useAuth } from "../../hooks/useAuth";
 import { fetchSelfAssessmentToAudits } from "../../../application/store/audits/auditActions";
 import { SelfAssessmentToAudit } from "../../../domain/models/types/auditTypes";
+import ButtonPDF from "../UI/ButtonPDF";
 
 const AuditListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useAuth()
+  const { user } = useAuth();
   const { selfAssessmentToAudits, loading } = useAudit();
 
   const [isOpen, setIsOpen] = useState<Record<string, boolean>>({});
@@ -83,6 +84,9 @@ const AuditListPage = () => {
                   <span className="w-1/3 text-gray-800 dark:text-white font-medium">
                     {form.formName}
                   </span>
+                  <div className="w-1/3 text-right">
+                    <ButtonPDF selfAssessmentId={form.id || ""} />
+                  </div>
                   <div className="w-1/3 text-right">
                     <Button onClick={() => handleAudit(form.id || "")}>
                       Revisar
