@@ -13,7 +13,7 @@ import {
 } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
-const ReportsContainer = () => {
+const Reports = () => {
   const dispatch = useAppDispatch();
   const { loading } = useRegulation();
   const { user } = useAuth();
@@ -81,4 +81,4 @@ const ReportsContainer = () => {
   );
 };
 
-export default ReportsContainer;
+export default Reports;

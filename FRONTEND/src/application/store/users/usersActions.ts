@@ -6,7 +6,7 @@ import {
   getUserProfilesWithEvaluationsAndAudits,
   updateUserProfile,
 } from "../../../infrastructure/api/usersApi";
-import { userUpdateSchema } from "../../../domain/models/schemas/userSchema";
+import { updateUserSchema } from "../../../domain/models/schemas/userSchema";
 import { User } from "../../../domain/models/types/userTypes";
 import { validateClient } from "../../../shared/zodUtils";
 
@@ -18,7 +18,6 @@ export const fetchUserAction = createAsyncThunk<
 >("user/fetch", async (uid, { rejectWithValue }) => {
   try {
     const user = await getUserProfile(uid);
-    if (!user) throw new Error("Usuario no encontrado");
     return user;
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
@@ -73,7 +72,7 @@ export const updateUserAction = createAsyncThunk<
     { uid, updates }: { uid: string; updates: Partial<User> },
     { rejectWithValue }
   ) => {
-    const validation = validateClient(userUpdateSchema, updates);
+    const validation = validateClient(updateUserSchema, updates);
     if (!validation.success) {
       return rejectWithValue({ error: validation.error ?? "Datos inválidos" });
     }

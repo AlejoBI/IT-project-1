@@ -14,3 +14,8 @@ export const getSelfAssessmentToAuditsApi = async (userId: string) => {
   return response.data;
 };
 
+// GET: Obtener las auditorías por ID de autoevaluación
+export const getAuditsBySelfAssessmentIdApi = async (selfAssessmentId: string) => {
+  const response = await api.get(`/api/audit/${selfAssessmentId}`);
+  return response.data;
+};

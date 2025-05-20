@@ -163,7 +163,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
       {/* Enlace para cambiar al formulario de login */}
       <p className="text-center text-sm">
         <span
-          className={`text-gray-600 dark:text-gray-400 ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
         >
           ¿Ya estás registrado?{" "}
         </span>

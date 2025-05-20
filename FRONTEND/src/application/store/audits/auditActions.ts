@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { createOrUpdateAuditApi, getSelfAssessmentToAuditsApi } from "../../../infrastructure/api/auditApi";
+import { createOrUpdateAuditApi, getSelfAssessmentToAuditsApi, getAuditsBySelfAssessmentIdApi } from "../../../infrastructure/api/auditApi";
 import { auditSchema } from "../../../domain/models/schemas/auditSchema";
 import { SelfAssessmentToAudit } from "../../../domain/models/types/auditTypes";
 import { Audit } from "../../../domain/models/types/auditTypes";
@@ -41,6 +41,25 @@ export const fetchSelfAssessmentToAudits = createAsyncThunk<
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
       const errorMessage = errorData?.error || "Error al obtener los reportes";
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const fetchAuditsBySelfAssessmentId = createAsyncThunk<
+  Audit,
+  string,
+  { rejectValue: string }
+>(
+  "audit/fetchAuditsBySelfAssessmentId",
+  async (selfAssessmentId, { rejectWithValue }) => {
+    try {
+      const response = await getAuditsBySelfAssessmentIdApi(selfAssessmentId);
+      return response;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data as { error: string };
+      const errorMessage = errorData?.error || "Error al obtener las auditorías";
       return rejectWithValue(errorMessage);
     }
   }

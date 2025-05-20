@@ -7,6 +7,7 @@ export interface User {
   role: string;
   evaluationsCount?: number;
   auditsCount?: number;
+  evaluationsAverage?: number;
 }
 
 export interface UserPayload {

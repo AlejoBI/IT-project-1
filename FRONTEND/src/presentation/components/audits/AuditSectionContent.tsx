@@ -26,8 +26,12 @@ const AuditSectionContent = ({
 }) => {
   if (!selectedSectionId) {
     return (
-      <div className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow`}>
-        <p className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
+      <div
+        className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mb-6 mt-4 h-auto w-screen max-w-screen-lg mx-auto`}
+      >
+        <p
+          className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} text-center`}
+        >
           Seleccione una sección para auditar.
         </p>
       </div>
@@ -40,8 +44,12 @@ const AuditSectionContent = ({
 
   if (filteredAnswers.length === 0) {
     return (
-      <div className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow`}>
-        <p className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
+      <div
+        className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} h-auto w-auto p-6 rounded-2xl shadow`}
+      >
+        <p
+          className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        >
           Esta sección no contiene preguntas.
         </p>
       </div>
@@ -62,7 +70,9 @@ const AuditSectionContent = ({
                 ? String(v.label)
                 : String(v)
             )
-          : typeof item.value === "object" && item.value !== null && "label" in item.value
+          : typeof item.value === "object" &&
+            item.value !== null &&
+            "label" in item.value
           ? String(item.value.label)
           : String(item.value),
         subQuestions: [],
@@ -79,7 +89,9 @@ const AuditSectionContent = ({
                 ? String(v.label)
                 : String(v)
             )
-          : typeof item.value === "object" && item.value !== null && "label" in item.value
+          : typeof item.value === "object" &&
+            item.value !== null &&
+            "label" in item.value
           ? String(item.value.label)
           : typeof item.value === "string"
           ? item.value
@@ -94,8 +106,12 @@ const AuditSectionContent = ({
   }, {});
 
   return (
-    <div className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mb-6 mt-4 h-auto w-screen max-w-screen-lg mx-auto`}>
-      <h3 className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} text-xl font-semibold mb-4`}>
+    <div
+      className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mb-6 mt-4 h-auto w-screen max-w-screen-lg mx-auto`}
+    >
+      <h3
+        className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} text-xl font-semibold mb-4`}
+      >
         Preguntas de la sección
       </h3>
       <div className="space-y-6">
@@ -104,11 +120,15 @@ const AuditSectionContent = ({
             key={questionId}
             className="border border-gray-300 dark:border-[#2A4C61] rounded-lg p-4"
           >
-            <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} font-medium`}>
+            <p
+              className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} font-medium`}
+            >
               Pregunta: {question.questionText}
             </p>
             {question.value !== null && (
-              <p className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-2`}>
+              <p
+                className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-2`}
+              >
                 Respuesta: {String(question.value)}
               </p>
             )}
@@ -117,10 +137,14 @@ const AuditSectionContent = ({
               <div className="ml-4 p-3 border-l-4 border-blue-400 bg-gray-50 dark:bg-[#0F172A]">
                 {question.subQuestions.map((sub) => (
                   <div key={sub.id} className="mb-3">
-                    <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} text-sm`}>
+                    <p
+                      className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} text-sm`}
+                    >
                       Subpregunta: {sub.text}
                     </p>
-                    <p className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} text-sm`}>
+                    <p
+                      className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} text-sm`}
+                    >
                       Respuesta: {String(sub.value)}
                     </p>
                     {sub.evidenceLink && (

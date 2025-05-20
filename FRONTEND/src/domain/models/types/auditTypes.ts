@@ -1,10 +1,24 @@
-import { SectionScore, SectionAnswer } from './complianceTypes';
+import { SectionScore, SectionAnswer } from "./complianceTypes";
 
 export type Audit = {
   auditorId: string;
+  auditorName: string;
   selfAssessmentId: string;
   sectionAudit: AuditSection;
-}
+};
+
+export type AuditByUser = {
+  userId: string;
+  selfAssessmentId: string;
+  regulationId: string;
+  regulationName: string;
+  formId: string;
+  formName: string;
+  auditStatus?: string;
+  totalScore?: number;
+  answers?: SectionAnswer[];
+  sectionScores?: SectionScore[];
+};
 
 export type AuditSection = {
   sectionId: string;

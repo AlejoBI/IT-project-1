@@ -332,7 +332,6 @@ export const getSelfAssessmentByAssessmentId = async (
       ...selfAssessment,
     });
   } catch (error) {
-    console.log(error);
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";

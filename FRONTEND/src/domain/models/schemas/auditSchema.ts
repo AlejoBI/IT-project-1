@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const auditSchemaId = z.string().uuid();
 
-// Crear auditoria (campos requeridos)
 export const sectionAuditSchema = z.object({
   sectionId: z.string(),
   sectionTitle: z.string(),
@@ -13,6 +12,6 @@ export const sectionAuditSchema = z.object({
 export const auditSchema = z.object({
   selfAssessmentId: z.string(),
   auditorId: z.string(),
-  sectionAudit: sectionAuditSchema, // solo 1 sección a la vez
+  auditorName: z.string(),
+  sectionAudit: sectionAuditSchema,
 });
-

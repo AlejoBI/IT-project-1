@@ -53,6 +53,8 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
       state.message = undefined;
+      state.isAuthenticated = false;
+      state.user = null;
     });
 
     // Register

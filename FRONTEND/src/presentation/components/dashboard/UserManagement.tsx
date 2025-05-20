@@ -20,7 +20,7 @@ import Loader from "../common/Loader";
 
 const UserManagement = () => {
   const dispatch = useAppDispatch();
-  const { users, loading, message } = useUser();
+  const { users, loading, message, error } = useUser();
 
   const [localData, setLocalData] = useState<
     Record<string, { name: string; role: string }>
@@ -77,6 +77,7 @@ const UserManagement = () => {
       className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       {message && <Notification message={message} type="success" />}
+      {error && <Notification message={error} type="error" />}
 
       <h2
         className={`text-xl font-semibold mb-4 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}

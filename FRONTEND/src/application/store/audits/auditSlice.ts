@@ -1,9 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createOrUpdateAudit, fetchSelfAssessmentToAudits } from "./auditActions";
-import { SelfAssessmentToAudit } from "../../../domain/models/types/auditTypes";
+import {
+  createOrUpdateAudit,
+  fetchSelfAssessmentToAudits,
+  fetchAuditsBySelfAssessmentId,
+} from "./auditActions";
+import {
+  SelfAssessmentToAudit,
+  Audit,
+} from "../../../domain/models/types/auditTypes";
 
 interface AuditState {
   selfAssessmentToAudits: SelfAssessmentToAudit[] | null;
+  audits: Audit | null;
   loading: boolean;
   error: string | null;
   message: string | null;
@@ -11,6 +19,7 @@ interface AuditState {
 
 const initialState: AuditState = {
   selfAssessmentToAudits: null,
+  audits: null,
   loading: false,
   error: null,
   message: null,
@@ -22,6 +31,7 @@ const auditSlice = createSlice({
   reducers: {
     clearSelfAssessmentState: (state) => {
       state.selfAssessmentToAudits = null;
+      state.audits = null;
       state.error = null;
       state.loading = false;
       state.message = null;
@@ -56,6 +66,23 @@ const auditSlice = createSlice({
       state.selfAssessmentToAudits = action.payload;
     });
     builder.addCase(fetchSelfAssessmentToAudits.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // fetch audits by self-assessment ID
+    builder.addCase(fetchAuditsBySelfAssessmentId.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      fetchAuditsBySelfAssessmentId.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.audits = action.payload;
+      }
+    );
+    builder.addCase(fetchAuditsBySelfAssessmentId.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
