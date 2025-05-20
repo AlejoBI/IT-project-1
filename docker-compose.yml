@@ -1,4 +1,13 @@
 services:
+  frontend:
+    build: ./FRONTEND
+    container_name: frontend-service
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-gateway
+    networks:
+      - app-network
   api-gateway:
     build: ./services/api-gateway
     container_name: api-gateway
