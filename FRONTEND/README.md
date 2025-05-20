@@ -51,32 +51,100 @@ Asegúrate de tener instalado **Node.js** y **npm** o **yarn** en tu sistema.
 ```
 /
 ├── src/
-|   |-- assets/          # Recursos varios y estilos
-│   ├── components/      # Componentes reutilizables
-|   |-- config/          # Configuracion firebase
-│   ├── hooks/           # Custom Hooks
-│   ├── pages/           # Páginas principales
-|   |-- routes/          # Router del sistema
-│   ├── store/           # Configuración de Redux
-│   ├── main.tsx         # Punto de entrada de la aplicación
-├── .env                 # Variables de entorno
-├── package.json         # Configuración de dependencias
-├── README.md            # Documentación del proyecto
-|-- tailwind.config.js   # Configuracion de tailwind
-|-- vercel.json          # Configuraicon de vercel para desplegue
+│   ├── application/
+│   │   └── store/
+│   │       ├── audits/
+│   │       ├── auth/
+│   │       ├── compliance/
+│   │       ├── evaluationForm/
+│   │       ├── notification/
+│   │       ├── regulations/
+│   │       ├── users/
+│   │       └── store.ts
+│   ├── assets/
+│   ├── domain/
+│   │   └── models/
+│   │       ├── schemas/
+│   │       └── types/
+│   ├── infrastructure/
+│   │   ├── api/
+│   │   └── middlewares/
+│   ├── presentation/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   └── routes/
+│   ├── shared/
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── .env
+├── README.md
+
 ```
+
+---
+
+## Explicación de la Arquitectura
+
+### 1. `application/`
+Contiene la lógica de negocio de la aplicación y la configuración del store de Redux. Aquí se gestionan los diferentes slices y acciones relacionadas con el estado global.
+
+- **store/**: Slices y lógica de Redux para cada dominio (auth, users, audits, etc).
+
+### 2. `domain/`
+Define los modelos, tipos y esquemas que representan la lógica de negocio y las entidades principales de la aplicación.
+
+- **models/**: Modelos y tipos TypeScript, organizados en `schemas/` y `types/`.
+
+### 3. `infrastructure/`
+Incluye la integración con servicios externos, APIs y middlewares.
+
+- **api/**: Llamadas a servicios externos o APIs.
+- **middlewares/**: Middlewares personalizados para Redux u otras integraciones.
+
+### 4. `presentation/`
+Contiene todo lo relacionado con la interfaz de usuario.
+
+- **components/**: Componentes reutilizables.
+- **hooks/**: Custom hooks para lógica de UI.
+- **pages/**: Vistas principales de la aplicación.
+- **routes/**: Definición de rutas y navegación.
+
+### 5. `shared/`
+Recursos compartidos como constantes, utilidades, helpers y estilos globales.
+
+---
 
 ## Uso de Redux
 
-La gestión del estado global se realiza con Redux Toolkit. Cada funcionalidad está separada en la carpeta `features/`, con su respectivo **slice** para manejar acciones y reducers.
+La gestión del estado global se realiza con Redux Toolkit. Cada funcionalidad está separada en la carpeta correspondiente dentro de `application/store/`, con su respectivo **slice** para manejar acciones y reducers.
 
 Ejemplo de un slice de Redux:
 
 ```ts
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
+  recoverPasswordUser,
+} from "./authActions";
+import { AuthUser } from "../../../domain/models/types/authTypes";
 
-const initialState = {
+interface AuthState {
+  user: AuthUser | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
+  message?: string;
+}
+
+const initialState: AuthState = {
   user: null,
+  isAuthenticated: false,
+  loading: false,
+  error: null,
+  message: undefined,
 };
 
 const authSlice = createSlice({
@@ -85,39 +153,94 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+      state.isAuthenticated = !!action.payload;
     },
-    logout: (state) => {
+    clearNotification: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    // Login
+    builder.addCase(loginUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.message = undefined;
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.message = undefined;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    });
+    builder.addCase(loginUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+      state.message = undefined;
+      state.isAuthenticated = false;
       state.user = null;
-    },
+    });
+
+    // Register
+    builder.addCase(registerUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.message = undefined;
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.message = action.payload as string;
+      state.message = undefined;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+      state.message = undefined;
+    });
+
+    // Logout
+    builder.addCase(logoutUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.message = undefined;
+    });
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+    });
+    builder.addCase(logoutUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+      state.message = undefined;
+    });
+
+    // Recover Password
+    builder.addCase(recoverPasswordUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.message = undefined;
+    });
+    builder.addCase(recoverPasswordUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.message = action.payload as string;
+    });
+    builder.addCase(recoverPasswordUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+      state.message = undefined;
+    });
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, clearNotification } = authSlice.actions;
 export default authSlice.reducer;
 ```
 
-## Autenticación con Firebase
-
-Para manejar la autenticación con Firebase, se usa el servicio de autenticación con correo y Google.
-
-Ejemplo de autenticación con Google:
-
-```ts
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
-
-export const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    return result.user;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
-```
+---
 
 ## Estilos con Tailwind CSS
 
@@ -125,14 +248,47 @@ Los estilos se gestionan con Tailwind, permitiendo clases utilitarias para una m
 Ejemplo de un componente estilizado:
 
 ```tsx
-const Button = () => {
+import React from "react";
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../shared/constants";
+
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset";
+}
+
+const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  type = "button",
+}) => {
   return (
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-      Click me
+    <button
+      type={type}
+      className={`font-semibold px-6 py-3 mx-2 rounded-xl transition-all
+                        ${LIGHT_MODE_COLORS.BUTTON_BG} 
+                        ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} 
+                        ${DARK_MODE_COLORS.BUTTON_BG} 
+                        ${DARK_MODE_COLORS.BUTTON_HOVER_BG} 
+                        ${ANIMATION_TIMINGS.TRANSITION_DURATION}
+                        ${LIGHT_MODE_COLORS.TEXT_PRIMARY}
+                        ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                        shadow-md`}
+      onClick={onClick}
+    >
+      {children}
     </button>
   );
 };
+
+export default Button;
 ```
+
+---
 
 ## Contribución
 
@@ -150,78 +306,65 @@ Este proyecto implementa autenticación con **Redux Toolkit** y **Firebase**, si
 
 ---
 
-## 🔥 1. Configuración del **Store** (`store.js`)
+## 🔥 1. Configuración del **Store** (`store.ts`)
 
 El **store** es el estado global de Redux donde se combinan los diferentes slices.
 
-```js
+```ts
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice";
+import { combineReducers } from "@reduxjs/toolkit";
+import { authMiddleware } from "../../infrastructure/middlewares/authMiddleware";
+
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+import authReducer from "./auth/authSlice";
+import usersReducer from "./users/usersSlice";
+import complianceReducer from "./compliance/complianceSlice";
+import regulationReducer from "./regulations/regulationsSlice";
+import EvaluationFormReducer from "./evaluationForm/evaluationFormSlice";
+import auditReducer from "./audits/auditSlice";
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"],
+};
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  users: usersReducer,
+  compliance: complianceReducer,
+  regulation: regulationReducer,
+  evaluationForm: EvaluationFormReducer,
+  audit: auditReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-  },
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(authMiddleware),
 });
+
+export const persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 ```
 
 ✅ **¿Qué hace esto?**
 
 - `configureStore`: Crea el store global.
 - `authReducer`: Se agrega al store para manejar el estado de autenticación.
+- `combineReducers`: Une todos los reducers (auth, users, compliance, regulation, evaluationForm, audit) en un solo reducer raíz.
+- `persistReducer` y `persistStore`: Permiten que el estado de ciertos slices (en este caso, solo `auth`) se guarde en el almacenamiento local del navegador y se recupere al recargar la página.
+- `authMiddleware`: Middleware personalizado que se ejecuta en cada acción despachada, útil para lógica adicional como validación de tokens.
+- `middleware: getDefaultMiddleware({ serializableCheck: false })`: Desactiva la verificación de serializabilidad para evitar advertencias con objetos no serializables (útil cuando se usa redux-persist).
 
 ---
-
-## 🔹 2. Slice de Autenticación (`authSlice.js`)
-
-Define el estado inicial, las acciones y cómo cambia el estado.
-
-```js
-import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser, logoutUser } from "./authThunks";
-
-const initialState = {
-  user: null,
-  token: null,
-  status: "idle", // "idle", "loading", "succeeded", "failed"
-  error: null,
-};
-
-const authSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.status = "idle";
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(loginUser.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.status = "succeeded";
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.status = "succeeded";
-      });
-  },
-});
-
-export const { logout } = authSlice.actions;
-export default authSlice.reducer;
-```
 
 ✅ **Explicación**
 
@@ -229,14 +372,16 @@ export default authSlice.reducer;
 - `extraReducers`: Maneja acciones asincrónicas (`loginUser`, `registerUser`).
 - `state.status`: Indica el estado de la autenticación.
 - `state.error`: Almacena errores si algo falla.
+- `persistConfig`: Configura qué parte del estado se persiste y en qué almacenamiento (localStorage por defecto).
+- `RootState` y `AppDispatch`: Tipos TypeScript para el estado global y el dispatch, útiles para tipar correctamente los hooks de Redux en componentes.
 
 ---
 
-## 🔹 3. Acciones Asíncronas (`authThunks.js`)
+## 🔹 2. Acciones Asíncronas (`authThunks`)
 
 Maneja las peticiones a Firebase para login, registro y logout.
 
-```js
+```ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getAuth,
@@ -305,66 +450,156 @@ export const logoutUser = createAsyncThunk(
 - `registerUser`: Registra un usuario en Firebase.
 - `logoutUser`: Cierra sesión.
 
+Este módulo define tres acciones asíncronas usando `createAsyncThunk` de Redux Toolkit para manejar la autenticación de usuarios con Firebase Authentication:
+
+- `loginUser`: Recibe un objeto con `email` y `password`, intenta iniciar sesión usando `signInWithEmailAndPassword` de Firebase. Si tiene éxito, retorna el usuario autenticado y su token de sesión (`getIdToken`). Si ocurre un error, retorna el mensaje de error.
+- `registerUser`: Recibe un objeto con `email` y `password`, intenta registrar un nuevo usuario usando `createUserWithEmailAndPassword` de Firebase. Si tiene éxito, retorna el usuario creado y su token de sesión. Si ocurre un error, retorna el mensaje de error.
+- `logoutUser`: No recibe parámetros. Cierra la sesión del usuario autenticado usando `signOut` de Firebase. Si tiene éxito, retorna `null`. Si ocurre un error, retorna el mensaje de error.
+
+Estas acciones permiten manejar el flujo de autenticación (login, registro y logout) de manera centralizada y controlada en una aplicación React/Redux, facilitando la gestión del estado global de autenticación y el manejo de errores.
+
 ---
 
-## 🔹 4. Uso en Componentes React
+## 🔹 3. Uso en Componentes React
 
-### ✅ **LoginForm.js**
+### ✅ **LoginForm.tsx**
 
-```js
-import { useDispatch } from "react-redux";
-import { loginUser } from "../store/authThunks";
+```tsx
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { loginUser } from "../../../../application/store/auth/authActions";
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../../shared/constants";
+import Button from "../../UI/Button";
+import Label from "../../UI/Label";
 
-const LoginForm = () => {
-  const dispatch = useDispatch();
+interface LoginFormProps {
+  onSwitchToRegister: () => void; // Función para cambiar al formulario de registro
+}
 
-  const handleLogin = (email, password) => {
-    dispatch(loginUser({ email, password }));
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
+  const dispatch = useAppDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>();
+
+  const onFormSubmit: SubmitHandler<LoginFormValues> = (data) => {
+    dispatch(loginUser(data));
   };
 
   return (
-    <form>
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
-      <button onClick={() => handleLogin("test@example.com", "123456")}>
-        Login
-      </button>
+    <form
+      onSubmit={handleSubmit(onFormSubmit)}
+      className={`bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl space-y-4 max-w-md mx-auto transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+    >
+      {/* Campo de correo electrónico */}
+      <div className="flex flex-col">
+        <Label htmlFor="email" children="Correo Electrónico:" />
+        <input
+          type="email"
+          id="email"
+          {...register("email", {
+            required: "El correo electrónico es obligatorio",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Dirección de correo electrónico no válida",
+            },
+          })}
+          className={`p-3 border rounded-lg outline-none focus:ring-2 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:ring-indigo-400 dark:focus:ring-indigo-500 transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+        />
+        {errors.email && (
+          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
+            {errors.email.message}
+          </p>
+        )}
+      </div>
+
+      {/* Campo de contraseña */}
+      <div className="flex flex-col">
+        <Label htmlFor="password" children="Contraseña:" />
+        <input
+          type="password"
+          id="password"
+          {...register("password", {
+            required: "La contraseña es obligatoria",
+          })}
+          className={`p-3 border rounded-lg outline-none focus:ring-2 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:ring-indigo-400 dark:focus:ring-indigo-500 transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+        />
+        {errors.password && (
+          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
+            {errors.password.message}
+          </p>
+        )}
+      </div>
+
+      {/* Botón de envío */}
+      <div className="flex justify-center mt-4">
+        <Button children="Iniciar Sesión" type="submit" />
+      </div>
+
+      {/* Enlace para cambiar al formulario de registro */}
+      <p className="text-center text-sm">
+        <span
+          className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+        >
+          ¿No tienes una cuenta?{" "}
+        </span>
+        <span
+          className="text-indigo-500 dark:text-indigo-400 cursor-pointer hover:underline transition-colors"
+          onClick={onSwitchToRegister}
+        >
+          Regístrate aquí
+        </span>
+        <br />
+        <a
+          href="/recover-password"
+          className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER} hover:underline`}
+        >
+          Olvidaste tu contraseña?
+        </a>
+      </p>
     </form>
   );
 };
+
+export default LoginForm;
 ```
 
 ✅ **Explicación**
 
-- `useDispatch()`: Permite despachar acciones de Redux.
-- `dispatch(loginUser({ email, password }))`: Inicia el proceso de autenticación.
+- `useAppDispatch()`: Hook personalizado para obtener el `dispatch` tipado de Redux.
+- `useForm()`: Hook de React Hook Form para gestionar el estado y validación del formulario.
+- `register`: Registra los campos del formulario y aplica reglas de validación (por ejemplo, email requerido y formato válido, contraseña requerida).
+- `handleSubmit`: Maneja el envío del formulario y ejecuta la función `onFormSubmit` solo si la validación es exitosa.
+- `formState.errors`: Contiene los errores de validación para mostrar mensajes al usuario.
+- `dispatch(loginUser(data))`: Envía la acción asíncrona de login a Redux, que a su vez interactúa con Firebase.
+- El formulario incluye campos estilizados con Tailwind CSS y constantes de colores para soportar modo claro/oscuro.
+- Se muestra retroalimentación inmediata de errores bajo cada campo.
+- Incluye enlaces para cambiar al formulario de registro y para recuperar la contraseña, mejorando la experiencia de usuario.
 
----
-
-### ✅ **LogoutButton.js**
-
-```js
-import { useDispatch } from "react-redux";
-import { logout } from "../store/authSlice";
-
-const LogoutButton = () => {
-  const dispatch = useDispatch();
-
-  return <button onClick={() => dispatch(logout())}>Logout</button>;
-};
-```
-
-✅ **Explicación**
-
-- `dispatch(logout())`: Llama al reducer `logout`, eliminando al usuario del estado global.
+Este componente encapsula la lógica de autenticación y validación de forma clara y reutilizable, integrando Redux y React Hook Form para un flujo robusto y escalable.
 
 ---
 
 ## 🚀 Conclusión
 
-1. **Redux almacena el estado global de autenticación**.
-2. **`authSlice.js` maneja los cambios de estado** (loading, success, error).
-3. **`authThunks.js` maneja la comunicación con Firebase**.
-4. **Los componentes usan `dispatch` para llamar a las acciones**.
+1. **Redux almacena el estado global de autenticación** y otros dominios clave de la aplicación, permitiendo un flujo de datos centralizado y predecible.
+2. **`authSlice` gestiona los cambios de estado** (loading, success, error) y define las acciones y reducers necesarios para la autenticación.
+3. **Las acciones asíncronas (`authThunks`) se encargan de la comunicación con Firebase**, facilitando el manejo de peticiones como login, registro y logout de manera desacoplada y reutilizable.
+4. **Los componentes React interactúan con Redux usando `dispatch` y hooks personalizados**, lo que permite una integración sencilla y tipada entre la UI y la lógica de negocio.
+5. **La estructura modular del proyecto** (application, domain, infrastructure, presentation, shared) favorece la escalabilidad, el mantenimiento y la colaboración en equipo.
+6. **El uso de herramientas modernas como TypeScript, Redux Toolkit, Firebase y Tailwind CSS** garantiza un desarrollo robusto, seguro y con una experiencia de usuario moderna.
 
-🔥 **Este patrón mantiene la app escalable, modular y fácil de mantener.**
+🔥 **Este patrón mantiene la app escalable, modular y fácil de mantener, permitiendo agregar nuevas funcionalidades y dominios sin afectar la estabilidad del sistema.**
