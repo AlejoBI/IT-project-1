@@ -11,20 +11,18 @@ import NormativeForm from "./NormativeForm";
 import RegulationForm from "./RegulationForm";
 import RegulationList from "./RegulationList";
 import Notification from "../common/Notification";
+import FileUpload from "./FileUpload";
 import { useRegulation } from "../../hooks/useRegulation";
 import { useEvaluation } from "../../hooks/useEvaluation";
 import { clearNotification } from "../../../application/store/evaluationForm/evaluationFormSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { Form } from "../../../domain/models/types/EvaluationFormTypes";
+import { createEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 
 const StandardManagement = () => {
-  const {
-    error: regulationError,
-    message: regulationMessage,
-  } = useRegulation();
-  const {
-    error: formsError,
-    message: formsMessage,
-  } = useEvaluation();
+  const { error: regulationError, message: regulationMessage } =
+    useRegulation();
+  const { error: formsError, message: formsMessage } = useEvaluation();
 
   const dispatch = useAppDispatch();
   const error = regulationError || formsError;
@@ -37,6 +35,20 @@ const StandardManagement = () => {
   const [selectedSection, setSelectedSection] = useState<
     "createRegulation" | "createForm" | "regulationList" | null
   >(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  const handleJsonUpload = async (data: Form) => {
+    try {
+      await dispatch(createEvaluationFormAction(data)).unwrap();
+      setSelectedSection("regulationList");
+    } catch {
+      setUploadError("Error al crear el formulario.");
+    }
+  };
+
+  const handleUploadError = (message: string) => {
+    setUploadError(message);
+  };
 
   return (
     <section
@@ -77,7 +89,16 @@ const StandardManagement = () => {
 
       {/* Secciones condicionales */}
       {selectedSection === "createRegulation" && <RegulationForm />}
-      {selectedSection === "createForm" && <NormativeForm />}
+      {selectedSection === "createForm" && (
+        <div className="flex flex-col gap-4">
+          <FileUpload
+            onJsonExtracted={handleJsonUpload}
+            onError={handleUploadError}
+          />
+          {uploadError && <Notification message={uploadError} type="error" />}
+          <NormativeForm />
+        </div>
+      )}
       {selectedSection === "regulationList" && <RegulationList />}
 
       {/* Mensaje inicial */}
