@@ -31,11 +31,6 @@ services:
     env_file:
       - ./services/auth-service/.env
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
   user-service:
@@ -46,11 +41,6 @@ services:
     env_file:
       - ./services/user-service/.env
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
   compliance-service:
@@ -61,11 +51,6 @@ services:
     env_file:
       - ./services/compliance-service/.env
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
   notification-service:
@@ -76,11 +61,6 @@ services:
     env_file:
       - ./services/notification-service/.env
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5003/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
   regulation-service:
@@ -91,11 +71,6 @@ services:
     env_file:
       - ./services/regulation-service/.env
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5004/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
   evaluation-form-service:
@@ -107,10 +82,6 @@ services:
       - ./services/evaluation-form-service/.env
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5005/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
   audit-service:
@@ -121,11 +92,6 @@ services:
     env_file:
       - ./services/audit-service/.env
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5006/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - app-network
 networks:
