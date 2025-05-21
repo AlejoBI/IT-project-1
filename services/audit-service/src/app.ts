@@ -14,12 +14,6 @@ app.use(morgan("dev"));
 
 app.use("/api/audit", auditRoutes);
 
-// Ruta de salud (para healthcheck de Docker)
-app.get("/health", (_req: Request, res: Response): any =>
-  res.status(200).send("OK")
-);
-
-// Error handling genérico opcional (recomendado)
 app.use((err: any, _req: Request, res: Response) => {
   console.error(err.stack);
   res.status(500).json({ error: "Internal Server Error" });
