@@ -7,7 +7,7 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-const AuditSectionSidebar = ({
+const AuditSidebar = ({
   sections,
   selectedSectionId,
   onSelect,
@@ -41,4 +41,4 @@ const AuditSectionSidebar = ({
   );
 };
 
-export default AuditSectionSidebar;
+export default AuditSidebar;

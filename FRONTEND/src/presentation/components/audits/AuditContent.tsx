@@ -12,12 +12,11 @@ interface GroupedQuestions {
       id: string;
       text: string;
       value: string | string[];
-      evidenceLink?: string;
     }[];
   };
 }
 
-const AuditSectionContent = ({
+const AuditContent = ({
   sectionAnswers,
   selectedSectionId,
 }: {
@@ -98,7 +97,6 @@ const AuditSectionContent = ({
           : item.value !== undefined && item.value !== null
           ? String(item.value)
           : "",
-        evidenceLink: item.questionUrl,
       });
     }
 
@@ -120,6 +118,8 @@ const AuditSectionContent = ({
             key={questionId}
             className="border border-gray-300 dark:border-[#2A4C61] rounded-lg p-4"
           >
+            console.log("Pregunta:", question.questionText, "URL:",
+            question.questionUrl);
             <p
               className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} font-medium`}
             >
@@ -132,9 +132,15 @@ const AuditSectionContent = ({
                 Respuesta: {String(question.value)}
               </p>
             )}
-
+            {question.questionUrl !== null && (
+              <p
+                className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-2`}
+              >
+                URL: {question.questionUrl}
+              </p>
+            )}
             {question.subQuestions.length > 0 && (
-              <div className="ml-4 p-3 border-l-4 border-blue-400 bg-gray-50 dark:bg-[#0F172A]">
+              <div className="ml-4 p-3 mt-4 border-l-4 border-blue-400 bg-gray-50 dark:bg-[#0F172A]">
                 {question.subQuestions.map((sub) => (
                   <div key={sub.id} className="mb-3">
                     <p
@@ -147,17 +153,6 @@ const AuditSectionContent = ({
                     >
                       Respuesta: {String(sub.value)}
                     </p>
-                    {sub.evidenceLink && (
-                      <p className="text-sm text-blue-600">
-                        <a
-                          href={sub.evidenceLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Ver evidencia
-                        </a>
-                      </p>
-                    )}
                   </div>
                 ))}
               </div>
@@ -169,4 +164,4 @@ const AuditSectionContent = ({
   );
 };
 
-export default AuditSectionContent;
+export default AuditContent;

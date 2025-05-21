@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import AuditSectionContainer from "../components/audits/AuditSectionContainer";
+import AuditUserContainer from "../components/audits/AuditUserContainer";
 import { useAudit } from "../hooks/useAudit";
 import Notification from "../components/common/Notification";
 import Loader from "../components/common/Loader";
@@ -19,9 +19,7 @@ const AuditReport = () => {
     navigate(`/audit-user`);
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
     <div>
@@ -49,7 +47,7 @@ const AuditReport = () => {
       </button>
       {error && <Notification message={error} type="error" />}
       {message && <Notification message={message} type="success" />}
-      <AuditSectionContainer selfAssessmentId={selfAssessmentId || ""} />
+      <AuditUserContainer selfAssessmentId={selfAssessmentId || ""} />
     </div>
   );
 };
