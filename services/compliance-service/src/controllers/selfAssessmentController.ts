@@ -80,7 +80,7 @@ export const saveDraftController = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error guardando avance.";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -111,7 +111,7 @@ export const getDraftController = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error obteniendo avance.";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -176,8 +176,8 @@ export const submitSelfAssessmentController = async (
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error enviando autoevaluación.";
-    res.status(400).json({ error: errorMessage });
+      FIREBASE_ERRORS[firebaseError] || error;
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -211,7 +211,7 @@ export const getSelfAssessmentController = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -239,7 +239,7 @@ export const getSelfAssessmentToAuditsByUserId = async (
     const grouped: Record<string, any[]> = {};
     snapshot.docs.forEach((doc) => {
       const data = doc.data();
-      const { totalScore, createdAt, answers, sectionScores, ...rest } = data;
+      const { createdAt, sectionScores, ...rest } = data;
       const key = `${data.formId}_${data.regulationId}`;
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push({
@@ -301,7 +301,7 @@ export const getSelfAssessmentToAuditsByUserId = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -335,6 +335,6 @@ export const getSelfAssessmentByAssessmentId = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };

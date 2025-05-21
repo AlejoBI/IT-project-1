@@ -34,7 +34,7 @@ export const createComplianceReport = async ({
       sectionScores,
       createdAt: new Date(),
     });
-  } catch (error) {
+  } catch {
     throw new Error("Error al crear compliance report");
   }
 };
