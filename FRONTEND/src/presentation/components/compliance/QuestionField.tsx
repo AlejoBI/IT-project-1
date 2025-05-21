@@ -11,7 +11,7 @@ interface Props {
   question: QuestionGetResponse;
   sectionId: string;
   fieldName?: string;
-  isSubQuestion?: boolean; // ✅ nueva prop
+  isSubQuestion?: boolean; 
 }
 
 const QuestionField: React.FC<Props> = ({
@@ -32,7 +32,8 @@ const QuestionField: React.FC<Props> = ({
     (opt) => opt.id === answerValue
   );
   const shouldShowSubQuestions =
-    selectedOption?.label === "Sí" || selectedOption?.label === "Parcialmente";
+    selectedOption?.label?.toLowerCase().includes("sí") ||
+    selectedOption?.label?.toLowerCase().includes("parcialmente");
 
   const responseTypeText =
     question.type === "single-choice"

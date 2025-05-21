@@ -84,8 +84,8 @@ export const transformSectionAnswers = (
 
     const showSubQuestions =
       selectedMainOption &&
-      (selectedMainOption.label === "Sí" ||
-        selectedMainOption.label === "Parcialmente");
+      (selectedMainOption.label.toLowerCase().includes("sí") ||
+      selectedMainOption.label.toLowerCase().includes("parcialmente"));
 
     if (showSubQuestions && q.subQuestions?.length) {
       q.subQuestions.forEach((sub) => {

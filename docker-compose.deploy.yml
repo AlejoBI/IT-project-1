@@ -1,0 +1,107 @@
+services:
+  frontend:
+    image: alejandrobi/it-project:frontend-v1
+    container_name: frontend-service
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-gateway
+    networks:
+      - app-network
+
+  api-gateway:
+    image: alejandrobi/it-project:api-gateway-v1
+    container_name: api-gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - auth-service
+      - user-service
+      - notification-service
+      - regulation-service
+      - evaluation-form-service
+      - audit-service
+      - compliance-service
+    networks:
+      - app-network
+
+  auth-service:
+    image: alejandrobi/it-project:auth-service-v1
+    container_name: auth-service
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./services/auth-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  user-service:
+    image: alejandrobi/it-project:user-service-v1
+    container_name: user-service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./services/user-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  compliance-service:
+    image: alejandrobi/it-project:compliance-service-v1
+    container_name: compliance-service
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./services/compliance-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  notification-service:
+    image: alejandrobi/it-project:notification-service-v1
+    container_name: notification-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./services/notification-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  regulation-service:
+    image: alejandrobi/it-project:regulation-service-v1
+    container_name: regulation-service
+    ports:
+      - "5004:5004"
+    env_file:
+      - ./services/regulation-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  evaluation-form-service:
+    image: alejandrobi/it-project:evaluation-form-service-v1
+    container_name: evaluation-service
+    ports:
+      - "5005:5005"
+    env_file:
+      - ./services/evaluation-form-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  audit-service:
+    image: alejandrobi/it-project:audit-service-v1
+    container_name: audit-service
+    ports:
+      - "5006:5006"
+    env_file:
+      - ./services/audit-service/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

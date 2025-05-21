@@ -39,7 +39,7 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
 
   useEffect(() => {
     const generatePDF = async () => {
-      if (shouldDownload.current && user && selfAssessmentToAudit && audits) {
+      if (shouldDownload.current && user && selfAssessmentToAudit) {
         try {
           const doc = (
             <PDFTemplateReports
@@ -49,7 +49,10 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
             />
           );
           const blob = await pdf(doc).toBlob();
-          downloadBlob(blob, `reporte.pdf`);
+          downloadBlob(
+            blob,
+            `reporte-${user?.name ?? "usuario"}-${Date.now()}.pdf`
+          );
         } catch (err) {
           console.error("Error al generar el PDF:", err);
         } finally {
