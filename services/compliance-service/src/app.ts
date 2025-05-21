@@ -12,6 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
+app.get("/", (_req: Request, res: Response) => {
+  res.status(200).send("Compliance service running");
+});
+
 app.use("/api/compliance", router);
 
 app.use((err: any, _req: Request, res: Response) => {

@@ -12,6 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
+app.get("/", (_req: Request, res: Response) => {
+  res.status(200).send("Regulation service running");
+});
+
 app.use('/api/regulations', regulationRoutes);  
 
 app.use((err: any, _req: Request, res: Response) => {

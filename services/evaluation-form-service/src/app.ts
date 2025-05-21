@@ -14,6 +14,10 @@ app.use(express.json({
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(morgan("dev"));
 
+app.get("/", (_req: Request, res: Response) => {
+  res.status(200).send("Evaluation Form service running");
+});
+
 app.use("/api/evaluation", router);
 
 app.use((err: any, _req: Request, res: Response) => {
