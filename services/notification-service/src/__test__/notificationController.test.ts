@@ -54,7 +54,7 @@ describe("NotificationController", () => {
 
   it("debería manejar error al enviar notificación", async () => {
     (sendEmail as jest.Mock).mockRejectedValue(
-      new Error("Error sending email")
+      new Error("Error al enviar el correo electrónico")
     );
 
     await notificationController.sendNotification(

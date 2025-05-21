@@ -109,7 +109,7 @@ describe("regulationController", () => {
 
       expect(mockRes.status).toHaveBeenCalledWith(404);
       expect(mockRes.json).toHaveBeenCalledWith({
-        message: "Normativa no encontrada.",
+        error: "Normativa no encontrada.",
       });
     });
   });
@@ -188,7 +188,7 @@ describe("regulationController", () => {
 
       expect(mockRes.status).toHaveBeenCalledWith(404);
       expect(mockRes.json).toHaveBeenCalledWith({
-        message: "Normativa no encontrada.",
+        error: "Normativa no encontrada.",
       });
     });
   });
@@ -220,7 +220,7 @@ describe("regulationController", () => {
 
       expect(mockRes.status).toHaveBeenCalledWith(404);
       expect(mockRes.json).toHaveBeenCalledWith({
-        message: "Normativa no encontrada.",
+        error: "Normativa no encontrada.",
       });
     });
   });

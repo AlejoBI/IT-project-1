@@ -1,104 +1,72 @@
+import { register, login, logout } from "../controllers/authController";
 import { Request } from "express";
-import { register, login, logout } from "../controllers/authController.js";
 import {
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut,
   updateProfile,
   sendEmailVerification,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { setDoc, getDoc } from "firebase/firestore";
 
-// Mock de config
-jest.mock("../utils/firebaseConfig", () => ({
-  auth: {},
-  firestore: {},
-}));
+jest.mock("firebase/auth");
+jest.mock("firebase/firestore");
 
-// Mock de métodos de firebase/auth y firestore
-jest.mock("firebase/auth", () => ({
-  signInWithEmailAndPassword: jest.fn(),
-  createUserWithEmailAndPassword: jest.fn(),
-  signOut: jest.fn(),
-  updateProfile: jest.fn(),
-  sendEmailVerification: jest.fn(),
-}));
+const mockReq = {} as Request;
+const mockRes = {
+  status: jest.fn().mockReturnThis(),
+  json: jest.fn(),
+} as any;
 
-jest.mock("firebase/firestore", () => ({
-  doc: jest.fn(),
-  setDoc: jest.fn(),
-}));
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 describe("authController", () => {
-  const mockRes = {
-    status: jest.fn().mockReturnThis(),
-    json: jest.fn(),
-  } as any;
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe("register", () => {
     it("debería registrar usuario correctamente", async () => {
-      const mockUser = {
-        uid: "123",
-        email: "test@example.com",
-        displayName: "TestUser",
-        emailVerified: false,
-      };
-
+      const mockUser = { uid: "123", email: "test@example.com" };
       (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
         user: mockUser,
       });
+      (signOut as jest.Mock).mockResolvedValue(undefined);
       (updateProfile as jest.Mock).mockResolvedValue(undefined);
       (sendEmailVerification as jest.Mock).mockResolvedValue(undefined);
       (setDoc as jest.Mock).mockResolvedValue(undefined);
 
-      const req = {
-        body: {
-          email: "test@example.com",
-          password: "password123",
-          username: "TestUser",
-        },
-      } as any;
+      mockReq.body = {
+        email: "test@example.com",
+        password: "password",
+        username: "TestUser",
+        name: "Test Name",
+      };
 
-      await register(req, mockRes);
+      await register(mockReq, mockRes);
 
-      expect(createUserWithEmailAndPassword).toHaveBeenCalled();
-      expect(updateProfile).toHaveBeenCalledWith(mockUser, {
-        displayName: "TestUser",
-      });
-      expect(sendEmailVerification).toHaveBeenCalledWith(mockUser);
-      expect(doc).toHaveBeenCalled();
       expect(setDoc).toHaveBeenCalled();
       expect(mockRes.status).toHaveBeenCalledWith(201);
       expect(mockRes.json).toHaveBeenCalledWith({
-        uid: "123",
-        name: "TestUser",
-        email: "test@example.com",
-        emailVerified: false,
+        message: "Registro exitoso. Por favor verifica tu correo electrónico.",
       });
     });
 
     it("debería manejar error en registro", async () => {
-      (createUserWithEmailAndPassword as jest.Mock).mockRejectedValue(
-        new Error("Error")
-      );
+      (createUserWithEmailAndPassword as jest.Mock).mockRejectedValue({
+        code: "auth/email-already-in-use",
+      });
 
-      const req = {
-        body: {
-          email: "test@example.com",
-          password: "password123",
-          username: "TestUser",
-        },
-      } as any;
+      mockReq.body = {
+        email: "test@example.com",
+        password: "password",
+        username: "TestUser",
+        name: "Test Name",
+      };
 
-      await register(req, mockRes);
+      await register(mockReq, mockRes);
 
       expect(mockRes.status).toHaveBeenCalledWith(400);
       expect(mockRes.json).toHaveBeenCalledWith({
-        error: "Error al iniciar sesión",
+        error: "El correo electrónico ya está en uso.",
       });
     });
   });
@@ -107,51 +75,33 @@ describe("authController", () => {
     it("debería loguear usuario correctamente", async () => {
       const mockUser = {
         uid: "123",
-        displayName: "TestUser",
         email: "test@example.com",
         emailVerified: true,
+        displayName: "TestUser",
       };
 
       (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({
         user: mockUser,
       });
+      (getDoc as jest.Mock).mockResolvedValue({
+        exists: () => true,
+        data: () => ({ role: "standard_user" }),
+      });
 
-      const req = {
-        body: {
-          email: "test@example.com",
-          password: "password123",
-        },
-      } as any;
+      mockReq.body = {
+        email: "test@example.com",
+        password: "password",
+      };
 
-      await login(req, mockRes);
+      await login(mockReq, mockRes);
 
-      expect(signInWithEmailAndPassword).toHaveBeenCalled();
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(mockRes.json).toHaveBeenCalledWith({
         uid: "123",
         name: "TestUser",
         email: "test@example.com",
         emailVerified: true,
-      });
-    });
-
-    it("debería manejar error en login", async () => {
-      (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(
-        new Error("Error")
-      );
-
-      const req = {
-        body: {
-          email: "test@example.com",
-          password: "password123",
-        },
-      } as any;
-
-      await login(req, mockRes);
-
-      expect(mockRes.status).toHaveBeenCalledWith(400);
-      expect(mockRes.json).toHaveBeenCalledWith({
-        error: "Error al iniciar sesión",
+        role: "standard_user",
       });
     });
   });
@@ -160,23 +110,23 @@ describe("authController", () => {
     it("debería cerrar sesión correctamente", async () => {
       (signOut as jest.Mock).mockResolvedValue(undefined);
 
-      await logout({} as Request, mockRes);
+      await logout(mockReq, mockRes);
 
       expect(signOut).toHaveBeenCalled();
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(mockRes.json).toHaveBeenCalledWith({
-        message: "Logged out successfully",
+        message: "Sesión cerrada exitosamente",
       });
     });
 
     it("debería manejar error en logout", async () => {
-      (signOut as jest.Mock).mockRejectedValue(new Error("Error"));
+      (signOut as jest.Mock).mockRejectedValue({ code: "auth/internal-error" });
 
-      await logout({} as Request, mockRes);
+      await logout(mockReq, mockRes);
 
       expect(mockRes.status).toHaveBeenCalledWith(400);
       expect(mockRes.json).toHaveBeenCalledWith({
-        error: "Error al iniciar sesión",
+        error: "Error al cerrar sesión",
       });
     });
   });

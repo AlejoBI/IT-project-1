@@ -18,7 +18,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const usersSnapshot = await getDocs(usersRef);
 
     if (usersSnapshot.empty) {
-      res.status(404).json({ error: "No se encontraron usuarios." });
+      return res.status(404).json({ error: "No se encontraron usuarios." });
     }
 
     const users = usersSnapshot.docs.map((doc) => ({
@@ -26,12 +26,12 @@ export const getUsers = async (req: Request, res: Response) => {
       ...doc.data(),
     }));
 
-    res.status(200).json(users);
+    return res.status(200).json(users);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -43,7 +43,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     const userSnapshot = await getDoc(userRef);
 
     if (!userSnapshot.exists()) {
-      res.status(404).json({ error: "Usuario no encontrado." });
+      return res.status(404).json({ error: "Usuario no encontrado." });
     }
 
     const evaluationsQuery = query(
@@ -57,7 +57,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     if (evaluationsCount === 0) {
       return null;
     }
-    
+
     const auditsCounts = await Promise.all(
       evaluations.map(async (evalDoc) => {
         const selfAssessmentId = evalDoc.id;
@@ -93,7 +93,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
       }
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       userId: userSnapshot.id,
       ...userSnapshot.data(),
       evaluationsCount,
@@ -104,7 +104,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al obtener el usuario";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -125,14 +125,14 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
       updatedAt: new Date(),
     });
 
-    res
+    return res
       .status(200)
       .json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al actualizar el perfil";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -198,6 +198,6 @@ export const getUsersWithEvaluationsAndAudits = async (
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
-    res.status(400).json({ error: errorMessage });
+    return res.status(400).json({ error: errorMessage });
   }
 };

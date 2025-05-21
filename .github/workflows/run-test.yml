@@ -12,6 +12,7 @@ jobs:
       matrix:
         node-version: [22.x]
         project:
+          - services/audit-service
           - services/auth-service
           - services/compliance-service
           - services/evaluation-form-service
@@ -23,16 +24,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: ${{ matrix.project }}
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --ci --passWithNoTests
         working-directory: ${{ matrix.project }}

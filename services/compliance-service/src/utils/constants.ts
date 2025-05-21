@@ -20,6 +20,7 @@ export const FIREBASE_ERRORS = {
     "Se ha enviado un correo de verificación. Revisa tu bandeja de entrada.",
   "auth/logout-success": "Sesión cerrada exitosamente.",
   "auth/logout-failed": "No se pudo cerrar la sesión. Intenta nuevamente.",
+  "permission-denied": "Permiso denegado.",
 
   // Errores generales de Firestore
   "firestore/permission-denied":

@@ -8,7 +8,7 @@
     "build": "tsc && tsc-alias",
     "start": "npm run build && node dist/app.js",
     "start:dev": "concurrently \"tsc -w\" \"nodemon dist/app.js\"",
-    "test": "jest --watchAll=false --ci --coverage --collectCoverageFrom='src/controllers/*.ts'",
+    "test": "jest --watchAll=false --ci --coverage --collectCoverageFrom='src/controller/*.ts'",
     "lint": "eslint . --ext .ts",
     "docker:build": "docker build -t user-service .",
     "docker:run": "docker run -p 3000:3000 user-service"
