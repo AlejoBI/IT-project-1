@@ -12,7 +12,7 @@ import { firestore } from "../utils/firebaseConfig.js";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
 // Obtener perfiles de usuarios
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response): Promise<any> => {
   try {
     const usersRef = collection(firestore, "users");
     const usersSnapshot = await getDocs(usersRef);
