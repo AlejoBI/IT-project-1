@@ -114,9 +114,13 @@ const AuditListPage = () => {
                     {form.formName}
                   </span>
                   <span className="w-1/3 text-center text-gray-700 dark:text-gray-300">
-                    {form.auditStatus === "completed"
-                      ? "Auditada"
-                      : "Sin auditar"}
+                    {form.auditStatus === "sin_auditar"
+                      ? "Sin auditar"
+                      : form.auditStatus === "en_proceso"
+                      ? "En proceso"
+                      : form.auditStatus === "completado"
+                      ? "Completado"
+                      : ""}
                   </span>
                   <div className="w-1/3 text-right">
                     <Button onClick={() => handleAudit(form.id || "")}>
