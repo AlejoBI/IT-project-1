@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useCompliance } from "../../hooks/useCompliance";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { fetchSelfAssessmentByAssessmentId } from "../../../application/store/compliance/complianceActions";
+import {
+  clearComplianceState,
+  clearNotificationState,
+} from "../../../application/store/compliance/complianceSlice";
 import AuditSidebar from "./AuditSidebar";
 import AuditContent from "./AuditContent";
 import AuditUserView from "./AuditUserView";
@@ -10,10 +16,19 @@ const AuditUserContainer = ({
 }: {
   selfAssessmentId: string;
 }) => {
+  const dispatch = useAppDispatch();
   const { selfAssessmentToAudit, loading } = useCompliance();
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
     null
   );
+
+  useEffect(() => {
+    dispatch(fetchSelfAssessmentByAssessmentId(selfAssessmentId));
+    return () => {
+      dispatch(clearComplianceState());
+      dispatch(clearNotificationState());
+    };
+  }, [dispatch, selfAssessmentId]);
 
   const sectionAnswers = selfAssessmentToAudit?.answers || [];
 
