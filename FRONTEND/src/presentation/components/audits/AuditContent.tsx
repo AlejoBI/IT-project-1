@@ -118,8 +118,6 @@ const AuditContent = ({
             key={questionId}
             className="border border-gray-300 dark:border-[#2A4C61] rounded-lg p-4"
           >
-            console.log("Pregunta:", question.questionText, "URL:",
-            question.questionUrl);
             <p
               className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} font-medium`}
             >
