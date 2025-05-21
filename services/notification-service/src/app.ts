@@ -6,6 +6,7 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.NOTIFICATION_PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -13,7 +14,6 @@ app.use(morgan("dev"));
 
 app.use("/api/notifications", notificationRoutes);
 
-const PORT = process.env.NOTIFICATION_PORT;
 
 app.listen(PORT, () => {
   console.log(`Notification service running on http://localhost:${PORT}`);
