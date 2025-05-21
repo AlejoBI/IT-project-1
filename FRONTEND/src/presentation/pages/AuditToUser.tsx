@@ -12,10 +12,11 @@ import { useUser } from "../hooks/useUser";
 import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchUserAction } from "../../application/store/users/usersActions";
+import Loader from "../components/common/Loader";
 
 const AuditToUser = () => {
-  const { user: AuthUser } = useAuth();
-  const { user } = useUser();
+  const { user: AuthUser, loading: AuthLoading } = useAuth();
+  const { user, loading: UserLoading } = useUser();
   const dispatch = useAppDispatch();
 
   const evaluationCount = user?.evaluationsCount || 0;
@@ -28,6 +29,8 @@ const AuditToUser = () => {
   useEffect(() => {
     dispatch(fetchUserAction(AuthUser?.uid || ""));
   }, [AuthUser, dispatch]);
+
+  if (AuthLoading || UserLoading) return <Loader />;
 
   return (
     <div

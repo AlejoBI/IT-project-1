@@ -21,9 +21,7 @@ const Audit = () => {
     navigate(`/audit-list/${userId}`);
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
     <div className="p-6">
