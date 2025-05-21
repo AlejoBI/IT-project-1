@@ -81,7 +81,6 @@ services:
     env_file:
       - ./services/evaluation-form-service/.env
     restart: unless-stopped
-    healthcheck:
     networks:
       - app-network
   audit-service:
