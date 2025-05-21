@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { UploadCloud, Loader2 } from "lucide-react";
 import { Form } from "../../../domain/models/types/EvaluationFormTypes";
+import { GRADIENTS, DARK_GRADIENTS } from "../../../shared/constants"; // Asegúrate de ajustar la ruta
 
 interface FileUploadProps {
   onJsonExtracted: (data: Form) => void;
@@ -42,6 +43,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
     }
   };
 
+  const gradientClasses = `${GRADIENTS.BUTTON_BG_SECONDARY} ${DARK_GRADIENTS.BUTTON_BG_SECONDARY}`;
+
   return (
     <div className="mb-6">
       <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
@@ -63,7 +66,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         className={`flex items-center gap-2 px-5 py-3 rounded-xl shadow-lg font-medium text-white transition-transform duration-300 ${
           isUploading
             ? "bg-gray-400 cursor-not-allowed"
-            : "bg-gradient-to-r from-indigo-500 to-purple-600 hover:scale-105"
+            : `${gradientClasses} hover:scale-105`
         }`}
       >
         {isUploading ? (

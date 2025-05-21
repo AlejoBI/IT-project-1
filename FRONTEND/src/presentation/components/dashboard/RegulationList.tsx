@@ -81,6 +81,21 @@ const RegulationList = () => {
     }
   };
 
+  const handleDeleteEvaluationForm = async (uid: string) => {
+    setDeleteError(null);
+    try {
+      await dispatch(deleteEvaluationFormAction(uid)).unwrap();
+      await dispatch(fetchRegulationsAction());
+    } catch (error) {
+      setDeleteError(
+        error instanceof Error
+          ? error.message
+          : "Error al eliminar el formulario de evaluación"
+      );
+      setTimeout(() => setDeleteError(null), 3000);
+    }
+  }
+
   return (
     <section>
       <h2 className="text-xl font-semibold mb-4 text-center">Regulaciones</h2>
@@ -94,9 +109,9 @@ const RegulationList = () => {
             <table className="min-w-full table-auto">
               <thead>
                 <tr>
-                  <th className="px-4 py-2">Nombre</th>
-                  <th className="px-4 py-2">Descripción</th>
-                  <th className="px-4 py-2">Versión</th>
+                  <th className="px-1 py-2">Nombre</th>
+                  <th className="px-2 py-2">Descripción</th>
+                  <th className="px-1 py-2">Versión</th>
                   <th className="px-4 py-2"></th>
                 </tr>
               </thead>
@@ -111,7 +126,7 @@ const RegulationList = () => {
 
                   return (
                     <tr key={id}>
-                      <td className="px-4 py-2">
+                      <td className="px-1 py-2">
                         <input
                           type="text"
                           value={currentEditData.name}
@@ -121,7 +136,7 @@ const RegulationList = () => {
                           className="w-full p-2 border rounded-md"
                         />
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-2 py-2">
                         <textarea
                           rows={3}
                           cols={60}
@@ -132,7 +147,7 @@ const RegulationList = () => {
                           className="w-full p-2 border rounded-md resize-none"
                         />
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-1 py-2">
                         <input
                           type="text"
                           value={currentEditData.version}
@@ -142,7 +157,7 @@ const RegulationList = () => {
                           className="w-full p-2 border rounded-md"
                         />
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="py-2">
                         <ButtonSecundary
                           type="button"
                           onClick={() => handleUpdate(id)}
@@ -152,6 +167,11 @@ const RegulationList = () => {
                           type="button"
                           onClick={() => handleDelete(id)}
                           children="Eliminar"
+                        />
+                        <ButtonSecundary
+                          type="button"
+                          onClick={() => handleDeleteEvaluationForm(id)}
+                          children="Eliminar Formulario"
                         />
                       </td>
                     </tr>
