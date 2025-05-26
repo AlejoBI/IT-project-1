@@ -2,6 +2,12 @@ import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { QuestionType } from "../../../domain/models/types/EvaluationFormTypes";
 
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../shared/constants";
+
 interface QuestionEditorProps {
   sectionIndex: number;
   questionIndex: number;
@@ -40,19 +46,35 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
   const questionType = watch(`${basePath}.type`);
 
   return (
-    <div className="border p-6 rounded-md space-y-2">
+    <div
+      className={`border p-6 rounded-md space-y-2
+        ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}
+      `}
+    >
       <input
         {...register(`${basePath}.text`, { required: true })}
         placeholder="Texto de la pregunta"
-        className="w-full p-2 rounded-md border"
+        className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+          border-gray-300
+        `}
       />
       <select
         {...register(`${basePath}.type`, { required: true })}
-        className="w-full p-2 rounded-md border"
+        className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+          border-gray-300
+        `}
       >
         {Object.values(QuestionType).map((type) => (
           <option key={type} value={type}>
-            {type}
+            {type === "single-choice"
+              ? "Opción única"
+              : type === "multiple-choice"
+              ? "Opción múltiple"
+              : "Respuesta de texto"}
           </option>
         ))}
       </select>
@@ -68,7 +90,11 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   required: true,
                 })}
                 placeholder={`Opción ${optIndex + 1}`}
-                className="w-full p-2 rounded-md border"
+                className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+                  ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                  border-gray-300
+                `}
               />
               <input
                 {...register(`${basePath}.options.${optIndex}.score`, {
@@ -79,12 +105,19 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 })}
                 placeholder="Valor porcentual de la opción (0-100)"
                 type="number"
-                className="w-full p-2 rounded-md border"
+                className={`w-full p-2 rounded-md border
+                  ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
+                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                  border-gray-300
+                `}
               />
+              <div className="flex-1" />
               <button
                 type="button"
                 onClick={() => removeOption(optIndex)}
-                className="text-red-500 hover:text-red-700"
+                className={`text-red-500 hover:text-red-700 transition-colors
+                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                `}
               >
                 ❌
               </button>
@@ -93,7 +126,14 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
           <button
             type="button"
             onClick={() => appendOption({ label: "", score: 0 })}
-            className="btn-sm"
+            className={`
+              ${LIGHT_MODE_COLORS.BUTTON_BG} ${DARK_MODE_COLORS.BUTTON_BG}
+              ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+              ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} ${DARK_MODE_COLORS.BUTTON_HOVER_BG}
+              border border-gray-300
+              transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}
+              rounded-md px-3 py-1 mt-4
+            `}
           >
             Agregar opción
           </button>
@@ -102,18 +142,30 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
       {/* Subpreguntas */}
       {subQuestions.map((sub, subIndex) => (
-        <div key={sub.id}>
-          <div className="flex flex-row">
+        <div
+          key={sub.id}
+          className={`mt-4
+          ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}
+        `}
+        >
+          <div className="flex flex-row items-center gap-2">
+            <h3
+              className={`flex text-lg font-semibold
+                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                `}
+            >
+              Subpregunta {subIndex + 1}
+            </h3>
+            <div className="flex-1" />
             <button
               type="button"
               onClick={() => removeSubQuestion(subIndex)}
-              className="flex text-red-500 hover:text-red-700 transition-colors"
+              className={`text-red-500 hover:text-red-700 transition-colors
+                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                `}
             >
               ❌
             </button>
-            <h3 className="flex text-lg font-semibold">
-              Subpregunta {subIndex + 1}
-            </h3>
           </div>
           <QuestionEditor
             sectionIndex={sectionIndex}
@@ -127,7 +179,14 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
         onClick={() =>
           appendSubQuestion({ text: "", type: "text", options: [] })
         }
-        className="btn"
+        className={`
+          ${LIGHT_MODE_COLORS.BUTTON_BG} ${DARK_MODE_COLORS.BUTTON_BG}
+          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+          ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} ${DARK_MODE_COLORS.BUTTON_HOVER_BG}
+          border border-gray-300
+          transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}
+          rounded-md px-3 py-1 mt-4
+        `}
       >
         Agregar subpregunta
       </button>

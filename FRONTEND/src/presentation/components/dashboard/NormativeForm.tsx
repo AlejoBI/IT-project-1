@@ -13,6 +13,7 @@ import SectionEditor from "./SectionEditor";
 import Button from "../UI/Button";
 import { useRegulation } from "../../hooks/useRegulation";
 import Notification from "../common/Notification";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../../shared/constants";
 
 const NormativeForm = () => {
   const dispatch = useAppDispatch();
@@ -49,18 +50,31 @@ const NormativeForm = () => {
   return (
     <FormProvider {...methods}>
       {error && <Notification message={error} type="error" />}
-      <section>
-        <h2 className="text-xl font-semibold mb-4 text-center">
+      <section
+        className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} p-6 rounded-lg shadow-md`}
+      >
+        <h2
+          className={`text-2xl font-bold mb-6 text-center
+            ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+        >
           Crear Formulario
         </h2>
         {loading ? (
-          <p>Cargando...</p>
+          <p
+            className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+          >
+            Cargando...
+          </p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <select
                 {...register("regulationId", { required: true })}
-                className="w-full p-2 border rounded-md"
+                className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+                  border-gray-300
+                  ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
+                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                `}
               >
                 <option value="">-- Selecciona una normativa --</option>
                 {(regulations ?? []).map((r) => (
@@ -74,17 +88,33 @@ const NormativeForm = () => {
             <input
               {...register("name", { required: true })}
               placeholder="Nombre del formulario"
-              className="w-full p-2 rounded-md border"
+              className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+                border-gray-300
+                ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
+                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+              `}
             />
             <textarea
               {...register("description")}
               placeholder="Descripción"
-              className="w-full p-2 rounded-md border"
+              className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none
+                border-gray-300
+                ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
+                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+              `}
             />
 
             {sections.map((section, index) => (
               <div key={section.id}>
-                <div className="flex flex-row">
+                <div className="flex flex-row items-center gap-2 mb-2">
+                  <h3
+                    className={`flex text-lg font-semibold
+                      ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                      `}
+                  >
+                    Sección {index + 1}
+                  </h3>
+                  <div className="flex-1" />
                   <button
                     type="button"
                     onClick={() => removeSection(index)}
@@ -92,9 +122,6 @@ const NormativeForm = () => {
                   >
                     ❌
                   </button>
-                  <h3 className="flex text-lg font-semibold mb-2">
-                    Sección {index + 1}
-                  </h3>
                 </div>
                 <SectionEditor key={section.id} sectionIndex={index} />
               </div>

@@ -12,25 +12,35 @@ import { useUser } from "../hooks/useUser";
 import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchUserAction } from "../../application/store/users/usersActions";
-import Loader from "../components/common/Loader";
+import Loader from "../components/common/Loader"; 
 
 const AuditToUser = () => {
-  const { user: AuthUser, loading: AuthLoading } = useAuth();
-  const { user, loading: UserLoading } = useUser();
+  const { user: AuthUser } = useAuth();
+  const { user, loading } = useUser(); 
   const dispatch = useAppDispatch();
 
-  const evaluationCount = user?.evaluationsCount || 0;
-  const auditCount = user?.auditsCount || 0;
-  const evaluationsAverage =
-    user?.evaluationsAverage !== undefined && user?.evaluationsAverage !== null
-      ? `${user.evaluationsAverage}%`
-      : "0%";
-
   useEffect(() => {
-    dispatch(fetchUserAction(AuthUser?.uid || ""));
+    if (AuthUser?.uid) {
+      dispatch(fetchUserAction(AuthUser.uid));
+    }
   }, [AuthUser, dispatch]);
 
-  if (AuthLoading || UserLoading) return <Loader />;
+  if (loading) return <Loader />;
+
+  if (!user) {
+    return (
+      <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
+        No se encontró información del usuario.
+      </div>
+    );
+  }
+
+  const evaluationCount = user.evaluationsCount || 0;
+  const auditCount = user.auditsCount || 0;
+  const evaluationsAverage =
+    typeof user.evaluationsAverage === "number"
+      ? `${user.evaluationsAverage.toFixed(2)}%`
+      : "0%";
 
   return (
     <div
@@ -44,6 +54,7 @@ const AuditToUser = () => {
           Visualiza tu progreso y tareas pendientes en las auditorías.
         </p>
       </div>
+
       <div className="flex justify-center items-center">
         <StatsOverview
           evaluationCount={evaluationCount}
@@ -51,6 +62,7 @@ const AuditToUser = () => {
           evaluationsAverage={evaluationsAverage}
         />
       </div>
+
       <div className="mt-6">
         <AuditsUser />
       </div>

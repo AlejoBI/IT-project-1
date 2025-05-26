@@ -7,7 +7,7 @@ import SupportedNorms from "../components/home/SupportedNorms";
 import FinalCTA from "../components/home/FinalCTA";
 import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { clearNotification } from "../../application/store/auth/authSlice";
+import { clearNotification, clearLoader } from "../../application/store/auth/authSlice";
 import Loader from "../components/common/Loader";
 
 const HomePage = () => {
@@ -16,6 +16,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(clearNotification());
+    dispatch(clearLoader());
   }, [dispatch]);
 
   if (loading) {

@@ -3,6 +3,7 @@ import { fetchRegulationsAction } from "../../application/store/regulations/regu
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useRegulation } from "../hooks/useRegulation";
 import { useAuth } from "../hooks/useAuth";
+import { useCompliance } from "../hooks/useCompliance";
 import SectionScoresChart from "../components/reports/SectionScoresChart";
 import CompletedReports from "../components/reports/CompletedReports";
 import RegulationReport from "../components/reports/RegulationReport";
@@ -17,11 +18,16 @@ const Reports = () => {
   const dispatch = useAppDispatch();
   const { loading } = useRegulation();
   const { user } = useAuth();
+  const { selfAssessmentReport, complianceReport } = useCompliance();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchRegulationsAction());
   }, [dispatch]);
+
+  const hasReports =
+    (selfAssessmentReport?.length ?? 0) > 0 ||
+    (complianceReport?.length ?? 0) > 0;
 
   if (loading) {
     return <Loader />;
@@ -37,46 +43,53 @@ const Reports = () => {
         Reportes de Cumplimiento
       </h1>
 
-      <div className="flex flex-row mb-8">
-        <div className="w-1/2">
-          <CompletedReports userId={user?.uid || ""} />
-        </div>
-        <div className="w-1/2">
-          <RegulationReport userId={user?.uid || ""} />
-        </div>
-      </div>
+      {hasReports ? (
+        <>
+          <div className="flex flex-row mb-8 flex-wrap gap-4">
+            <div className="w-full md:w-1/2">
+              <CompletedReports userId={user?.uid || ""} />
+            </div>
+            <div className="w-full md:w-1/2">
+              <RegulationReport userId={user?.uid || ""} />
+            </div>
+          </div>
 
-      <section className="mb-8 border rounded-lg overflow-hidden">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-full text-left px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-1000 font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          {isOpen ? "▼" : "►"} Resultados por Normativa
-        </button>
+          <section className="mb-8 border rounded-lg overflow-hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={`w-full text-left px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-1000 font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+            >
+              {isOpen ? "▼" : "►"} Resultados por Normativa
+            </button>
 
-        <div
-          className={`transition-all duration-1000 overflow-hidden ${
-            isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
-          {isOpen && (
-            <div className="px-4 py-6">
-              <p
-                className={`text-sm mb-4 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-              >
-                Visualiza el nivel de cumplimiento por sección según cada
-                estándar.
-              </p>
-
-              {loading ? (
-                <p className="text-gray-500">Cargando estándares...</p>
-              ) : (
-                <SectionScoresChart userId={user?.uid || ""} />
+            <div
+              className={`transition-all duration-1000 overflow-hidden ${
+                isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              {isOpen && (
+                <div className="px-4 py-6">
+                  <p
+                    className={`text-sm mb-4 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+                  >
+                    Visualiza el nivel de cumplimiento por sección según cada
+                    estándar.
+                  </p>
+                  <SectionScoresChart userId={user?.uid || ""} />
+                </div>
               )}
             </div>
-          )}
+          </section>
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center mt-20 text-center text-gray-500 dark:text-gray-400">
+          <p className="text-lg font-medium">Aún no hay reportes generados</p>
+          <p className="text-sm mt-2">
+            Completa al menos una autoevaluación para ver tus reportes de
+            cumplimiento.
+          </p>
         </div>
-      </section>
+      )}
     </div>
   );
 };

@@ -4,16 +4,14 @@ import { useUser } from "../../hooks/useUser";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
-  GRADIENTS,
-  DARK_GRADIENTS,
   ANIMATION_TIMINGS,
 } from "../../../shared/constants";
+import { Pencil } from "lucide-react";
 import { roles } from "../../../shared/utils";
 import {
   fetchUsersAction,
   updateUserAction,
 } from "../../../application/store/users/usersActions";
-import ButtonSecundary from "../UI/ButtonSecundary";
 import Notification from "../common/Notification";
 import { clearNotification } from "../../../application/store/users/usersSlice";
 import Loader from "../common/Loader";
@@ -74,7 +72,7 @@ const UserManagement = () => {
 
   return (
     <section
-      className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`${LIGHT_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-xl shadow-md transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       {message && <Notification message={message} type="success" />}
       {error && <Notification message={error} type="error" />}
@@ -94,20 +92,52 @@ const UserManagement = () => {
         <Loader />
       ) : (
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full table-auto text-left">
-            <thead>
+          <table
+            className={`min-w-full text-sm border-collapse rounded-lg shadow-sm
+    ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
+  `}
+          >
+            <thead
+              className={`text-gray-700 uppercase text-xs tracking-wider
+      ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
+    `}
+            >
               <tr>
-                <th className="px-4 py-2">Nombre</th>
-                <th className="px-4 py-2">Email</th>
-                <th className="px-4 py-2">Rol</th>
-                <th className="px-4 py-2"></th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Nombre
+                </th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Email
+                </th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Rol
+                </th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
-              {users?.map((user) => (
+              {users?.map((user, index) => (
                 <tr
                   key={user.uid}
-                  className="hover:bg-black/5 dark:hover:bg-white/5 transition"
+                  className={`${
+                    index % 2 === 0
+                      ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
+                      : LIGHT_MODE_COLORS.BACKGROUND
+                  } ${
+                    DARK_MODE_COLORS.BACKGROUND_COMPONENT
+                  } border-t transition-colors ${
+                    ANIMATION_TIMINGS.TRANSITION_DURATION
+                  }`}
                 >
                   <td className="px-4 py-2">
                     <input
@@ -116,15 +146,14 @@ const UserManagement = () => {
                       onChange={(e) =>
                         handleInputChange(user.uid, "name", e.target.value)
                       }
-                      className={`w-full p-2 rounded-md border 
-                        ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} 
-                        ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-                        ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
-                        ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+                      className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+              ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+              ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+            `}
                     />
                   </td>
                   <td
-                    className={`px-6 py-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+                    className={`px-4 py-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
                   >
                     {user.email}
                   </td>
@@ -134,11 +163,10 @@ const UserManagement = () => {
                       onChange={(e) =>
                         handleInputChange(user.uid, "role", e.target.value)
                       }
-                      className={`w-full p-2 border border-gray-300 rounded-md 
-                        ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} 
-                        ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-                        ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
-                        ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+                      className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+              ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+              ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+            `}
                     >
                       <option value="" disabled>
                         -- Selecciona un rol --
@@ -150,12 +178,14 @@ const UserManagement = () => {
                       ))}
                     </select>
                   </td>
-                  <td>
-                    <ButtonSecundary
+                  <td className="px-4 py-2">
+                    <button
                       onClick={() => handleUpdate(user.uid)}
-                      type="button"
-                      children="Actualizar"
-                    />
+                      title="Editar usuario"
+                      className={`text-blue-600 hover:text-blue-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                    >
+                      <Pencil size={18} />
+                    </button>
                   </td>
                 </tr>
               ))}

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import Button from "../UI/Button";
+import Loader from "../common/Loader";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
   ANIMATION_TIMINGS,
 } from "../../../shared/constants";
-import Loader from "../common/Loader";
 import { useAudit } from "../../hooks/useAudit";
 import { useAuth } from "../../hooks/useAuth";
 import { fetchSelfAssessmentToAudits } from "../../../application/store/audits/auditActions";
@@ -18,7 +18,7 @@ const AuditListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { selfAssessmentToAudits, loading } = useAudit();
+  const { selfAssessmentToAudits, loading } = useAudit(); 
 
   const [isOpen, setIsOpen] = useState<Record<string, boolean>>({});
   const userId = user?.uid || "";
@@ -33,7 +33,6 @@ const AuditListPage = () => {
     navigate(`/audit-report/${selfAssessmentId}`);
   };
 
-  // Agrupar por nombre base de regulación (sin versión)
   const grouped = selfAssessmentToAudits?.reduce<
     Record<string, SelfAssessmentToAudit[]>
   >((acc, curr) => {
@@ -52,9 +51,17 @@ const AuditListPage = () => {
 
   if (loading) return <Loader />;
 
+  if (!grouped || Object.keys(grouped).length === 0) {
+    return (
+      <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
+        No tienes evaluaciones disponibles aún.
+      </div>
+    );
+  }
+
   return (
     <div>
-      {Object.entries(grouped ?? {}).map(([baseName, forms]) => (
+      {Object.entries(grouped).map(([baseName, forms]) => (
         <div
           key={baseName}
           className={`md:grid-cols-2 border rounded-lg overflow-hidden ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}

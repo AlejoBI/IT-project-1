@@ -6,6 +6,10 @@ import Layout from "../components/layout/Layout";
 import { ScrollToTop } from "../../shared/helpers";
 
 import Home from "../pages/Home";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import PrivacyPolicies from "../pages/PrivacyPolicies";
+
 import Auth from "../pages/Auth";
 import Audit from "../pages/Audit";
 import Compliance from "../pages/Compliance";
@@ -14,7 +18,7 @@ import Dashboard from "../pages/Dashboard";
 import NotFound from "../pages/NotFound";
 import RecoverPassword from "../pages/RecoverPassword";
 import EvaluationFormPage from "../pages/EvaluationFormPage";
-import AuditListPage from "../pages/AuditListPage"; 
+import AuditListPage from "../pages/AuditListPage";
 import AuditFormPage from "../pages/AuditFormPage";
 import AuditReport from "../pages/AuditReport";
 import AuditToUser from "../pages/AuditToUser";
@@ -34,7 +38,11 @@ const App = () => {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy-policies" element={<PrivacyPolicies />} />
 
+            {/* Public and Protected Routes */}
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Auth />} />
               <Route path="/recover-password" element={<RecoverPassword />} />
@@ -43,13 +51,22 @@ const App = () => {
             <Route element={<ProtectedRoute />}>
               <Route path="/audits" element={<Audit />} />
               <Route path="/audit-list/:userId" element={<AuditListPage />} />
-              <Route path="/audit-form/:selfAssessmentId" element={<AuditFormPage />} />
+              <Route
+                path="/audit-form/:selfAssessmentId"
+                element={<AuditFormPage />}
+              />
               <Route path="/audit-user" element={<AuditToUser />} />
-              <Route path="/audit-report/:selfAssessmentId" element={<AuditReport />} />
+              <Route
+                path="/audit-report/:selfAssessmentId"
+                element={<AuditReport />}
+              />
               <Route path="/self-assessments" element={<Compliance />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/evaluation/:regulationId" element={<EvaluationFormPage />} />
+              <Route
+                path="/evaluation/:regulationId"
+                element={<EvaluationFormPage />}
+              />
             </Route>
 
             <Route path="*" element={<NotFound />} />

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
-  GRADIENTS,
-  DARK_GRADIENTS,
   ANIMATION_TIMINGS,
 } from "../../../shared/constants";
 import Button from "../UI/Button";
@@ -52,24 +50,26 @@ const StandardManagement = () => {
 
   return (
     <section
-      className={`p-6 rounded-xl shadow-lg ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`p-8 rounded-2xl shadow-xl ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       {error && <Notification message={error} type="error" />}
       {message && <Notification message={message} type="success" />}
+
       <h2
-        className={`text-xl font-semibold mb-4 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+        className={`text-3xl font-bold mb-2 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
         Gestión de Normativas
       </h2>
+
       <p
-        className={`mb-4 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        className={`text-md mb-6 text-center max-w-2xl mx-auto ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
       >
-        Aquí puedes crear, editar y eliminar las preguntas de normativas del
-        sistema.
+        Administra normativas del sistema: crea nuevas, edita las existentes o
+        diseña formularios de evaluación de manera sencilla.
       </p>
 
       {/* Menú de navegación */}
-      <div className="flex flex-wrap gap-4 mb-6">
+      <div className="flex flex-wrap justify-center gap-4 mb-8">
         <Button
           onClick={() => setSelectedSection("createRegulation")}
           children="Crear Normativa"
@@ -88,9 +88,18 @@ const StandardManagement = () => {
       </div>
 
       {/* Secciones condicionales */}
-      {selectedSection === "createRegulation" && <RegulationForm />}
+      {selectedSection === "createRegulation" && (
+        <div
+          className={`flex flex-col gap-6 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-xl`}
+        >
+          <RegulationForm />
+        </div>
+      )}
+
       {selectedSection === "createForm" && (
-        <div className="flex flex-col gap-4">
+        <div
+          className={`flex flex-col gap-6 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-xl`}
+        >
           <FileUpload
             onJsonExtracted={handleJsonUpload}
             onError={handleUploadError}
@@ -99,16 +108,8 @@ const StandardManagement = () => {
           <NormativeForm />
         </div>
       )}
-      {selectedSection === "regulationList" && <RegulationList />}
 
-      {/* Mensaje inicial */}
-      {!selectedSection && (
-        <div
-          className={`p-4 text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
-        >
-          Selecciona una opción del menú para gestionar normativas.
-        </div>
-      )}
+      {selectedSection === "regulationList" && <RegulationList />}
     </section>
   );
 };

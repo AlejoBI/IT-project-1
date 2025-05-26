@@ -34,6 +34,9 @@ const authSlice = createSlice({
     clearNotification: (state) => {
       state.error = null;
     },
+    clearLoader: (state) => {
+      state.loading = false;
+    }
   },
   extraReducers: (builder) => {
     // Login
@@ -112,5 +115,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearNotification } = authSlice.actions;
+export const { setUser, clearNotification, clearLoader } = authSlice.actions;
 export default authSlice.reducer;

@@ -10,7 +10,7 @@ import {
 import Loader from "../components/common/Loader";
 import { useAudit } from "../hooks/useAudit";
 import { fetchSelfAssessmentToAudits } from "../../application/store/audits/auditActions";
-import { SelfAssessmentToAudit  } from "../../domain/models/types/auditTypes";
+import { SelfAssessmentToAudit } from "../../domain/models/types/auditTypes";
 
 const AuditListPage = () => {
   const dispatch = useAppDispatch();
@@ -79,11 +79,20 @@ const AuditListPage = () => {
           Volver
         </button>
       </div>
-      <h1
-        className={`text-2xl font-bold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-      >
-        Evaluaciones del usuario
-      </h1>
+      <div className="flex flex-col items-center mb-6">
+        <h1
+          className={`text-3xl font-bold mb-2 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+        >
+          Evaluaciones del usuario
+        </h1>
+        <p
+          className={`text-center mb-8 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        >
+          Aquí puedes ver todas las evaluaciones asociadas al usuario
+          seleccionado. Haz clic en una regulación para ver los formularios
+          disponibles y comenzar la auditoría.
+        </p>
+      </div>
 
       {Object.entries(grouped ?? {}).map(([baseName, forms]) => (
         <div
