@@ -24,11 +24,8 @@ const AuthPage = () => {
   }, [dispatch]);
 
   return (
-    <main
-      className={`flex flex-col items-center justify-center min-h-screen px-4`}
-    >
-      {/* Header con flecha y logo */}
-      <header className="w-full max-w-md flex items-center gap-3 p-6">
+    <main className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6">
+      <header className="w-full max-w-md flex items-center gap-3 p-4 sm:p-6">
         <Link
           to="/"
           aria-label="Volver a la página principal"
@@ -43,21 +40,17 @@ const AuthPage = () => {
         </Link>
       </header>
 
-      {/* Contenedor principal del formulario */}
       <section
-        className={`relative z-10 flex flex-col items-center w-full max-w-md p-8 space-y-6 rounded-2xl shadow-2xl
-          ${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+        className={`relative z-10 w-full max-w-md px-6 py-8 sm:p-8 space-y-6 rounded-2xl shadow-2xl ${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
       >
         <h1
-          className={`text-3xl font-bold text-center transition-colors 
-            ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+          className={`text-2xl sm:text-3xl font-bold text-center transition-colors ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
         >
           Bienvenido a ISOlytics
         </h1>
 
         <p
-          className={`text-sm text-center transition-colors 
-            ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+          className={`text-sm sm:text-base text-center transition-colors ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
           Inicia sesión o regístrate para continuar
         </p>
@@ -65,7 +58,6 @@ const AuthPage = () => {
         <div className="w-full space-y-4">
           {message && <Notification message={message} type="success" />}
           {error && <Notification message={error} type="error" />}
-
           {isLogin ? (
             <LoginForm onSwitchToRegister={() => setIsLogin(false)} />
           ) : (

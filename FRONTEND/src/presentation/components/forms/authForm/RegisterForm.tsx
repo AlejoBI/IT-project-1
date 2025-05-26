@@ -69,7 +69,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
   return (
     <form
       onSubmit={handleSubmit(onFormSubmit)}
-      className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl space-y-6 max-w-md mx-auto transition-colors"
+      className="bg-white dark:bg-gray-800 px-4 py-6 sm:p-6 rounded-2xl shadow-2xl space-y-6 w-full max-w-md mx-auto transition-colors"
       noValidate
     >
       {step === 1 && (
@@ -107,14 +107,13 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
             )}
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
             <Button type="button" onClick={onSwitchToLogin}>
               <span className="flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
                 Iniciar sesión
               </span>
             </Button>
-
             <Button type="button" onClick={nextStep}>
               <span className="flex items-center gap-2">
                 Siguiente
@@ -155,7 +154,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
             )}
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
             <Button type="button" onClick={prevStep}>
               <span className="flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
