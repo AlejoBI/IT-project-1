@@ -57,13 +57,10 @@ const AuditListPage = () => {
     <div className="p-6">
       <div className="mb-4">
         <button
-          type="button"
           onClick={handleBack}
           className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER} ${ANIMATION_TIMINGS.TRANSITION_DURATION} flex items-center`}
-          aria-label="Volver"
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 mr-1"
             fill="none"
             viewBox="0 0 24 24"
@@ -79,14 +76,15 @@ const AuditListPage = () => {
           Volver
         </button>
       </div>
-      <div className="flex flex-col items-center mb-6">
+
+      <div className="flex flex-col items-center mb-6 text-center">
         <h1
-          className={`text-3xl font-bold mb-2 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+          className={`text-2xl sm:text-3xl font-bold mb-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
         >
           Evaluaciones del usuario
         </h1>
         <p
-          className={`text-center mb-8 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+          className={`text-sm sm:text-base mb-6 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
           Aquí puedes ver todas las evaluaciones asociadas al usuario
           seleccionado. Haz clic en una regulación para ver los formularios
@@ -113,16 +111,16 @@ const AuditListPage = () => {
                 : "max-h-0 opacity-0"
             }`}
           >
-            <div className="px-4 py-4">
+            <div className="px-4 py-4 space-y-2">
               {forms.map((form, index) => (
                 <div
                   key={`${form.formId}-${index}`}
-                  className="flex items-center justify-between mb-2 p-3 rounded border border-gray-200 dark:border-[#2A4C61]"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded border border-gray-200 dark:border-[#2A4C61]"
                 >
-                  <span className="w-1/3 text-gray-800 dark:text-white font-medium">
+                  <span className="sm:w-1/3 text-gray-800 dark:text-white font-medium">
                     {form.formName}
                   </span>
-                  <span className="w-1/3 text-center text-gray-700 dark:text-gray-300">
+                  <span className="sm:w-1/3 text-center text-gray-700 dark:text-gray-300">
                     {form.auditStatus === "sin_auditar"
                       ? "Sin auditar"
                       : form.auditStatus === "en_proceso"
@@ -131,7 +129,7 @@ const AuditListPage = () => {
                       ? "Completado"
                       : ""}
                   </span>
-                  <div className="w-1/3 text-right">
+                  <div className="sm:w-1/3 text-center sm:text-right">
                     <Button onClick={() => handleAudit(form.id || "")}>
                       Auditar
                     </Button>

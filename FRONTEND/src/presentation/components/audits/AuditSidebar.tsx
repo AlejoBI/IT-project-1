@@ -7,14 +7,10 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-const AuditSidebar = ({
-  sections,
-  selectedSectionId,
-  onSelect,
-}: Props) => {
+const AuditSidebar = ({ sections, selectedSectionId, onSelect }: Props) => {
   return (
     <aside
-      className={`${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG} w-80 mb-6 mt-4 h-screen p-4 rounded-2xl border border-gray-200 dark:border-[#2A4C61]`}
+      className={`${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG} w-full md:w-80 mb-6 mt-4 p-4 rounded-2xl border border-gray-200 dark:border-[#2A4C61]`}
     >
       <h3
         className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} text-lg font-semibold mb-4`}

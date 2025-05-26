@@ -1,4 +1,5 @@
 import React from "react";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
 
 const Section = ({
   title,
@@ -8,7 +9,7 @@ const Section = ({
   children: React.ReactNode;
 }) => (
   <section className="mb-6">
-    <div className="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 transition-all duration-300">
+    <div className={`${LIGHT_MODE_COLORS.BACKGROUND_COMPONENT} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} shadow-md rounded-2xl p-6 transition-all duration-300`}>
       <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white border-b pb-2">
         {title}
       </h2>

@@ -18,7 +18,7 @@ const AuditListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { selfAssessmentToAudits, loading } = useAudit(); 
+  const { selfAssessmentToAudits, loading } = useAudit();
 
   const [isOpen, setIsOpen] = useState<Record<string, boolean>>({});
   const userId = user?.uid || "";
@@ -60,11 +60,11 @@ const AuditListPage = () => {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
       {Object.entries(grouped).map(([baseName, forms]) => (
         <div
           key={baseName}
-          className={`md:grid-cols-2 border rounded-lg overflow-hidden ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          className={`border rounded-lg overflow-hidden ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
         >
           <button
             onClick={() => toggleRegulation(baseName)}
@@ -80,19 +80,19 @@ const AuditListPage = () => {
                 : "max-h-0 opacity-0"
             }`}
           >
-            <div className="px-4 py-4">
+            <div className="px-4 py-4 space-y-3">
               {forms.map((form, index) => (
                 <div
                   key={`${form.formId}-${index}`}
-                  className="flex items-center justify-between mb-2 p-3 rounded border border-gray-200 dark:border-[#2A4C61]"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 p-3 rounded border border-gray-200 dark:border-[#2A4C61]"
                 >
-                  <span className="w-1/3 text-gray-800 dark:text-white font-medium">
+                  <span className="text-sm font-medium text-gray-800 dark:text-white w-full sm:w-1/3">
                     {form.formName}
                   </span>
-                  <div className="w-1/3 text-right">
+                  <div className="w-full sm:w-1/3 text-right">
                     <ButtonPDF selfAssessmentId={form.id || ""} />
                   </div>
-                  <div className="w-1/3 text-right">
+                  <div className="w-full sm:w-1/3 text-right">
                     <Button onClick={() => handleAudit(form.id || "")}>
                       Revisar
                     </Button>

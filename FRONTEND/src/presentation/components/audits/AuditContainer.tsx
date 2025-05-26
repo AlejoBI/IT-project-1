@@ -107,9 +107,10 @@ const AuditContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
           selectedSectionId={selectedSectionId}
         />
       </div>
+
       {selectedSectionId && (
         <div
-          className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow`}
+          className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mt-6`}
         >
           <h3
             className={`text-xl font-semibold mb-4 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
@@ -146,11 +147,8 @@ const AuditContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
                 <option value="Parcialmente cumple">Cumple Parcialmente</option>
               </select>
             </div>
-            <div className="flex justify-end p-0">
-              <Button
-                type="submit"
-                children="Guardar Sección de Cumplimiento"
-              />
+            <div className="flex justify-end">
+              <Button type="submit">Guardar Sección de Cumplimiento</Button>
             </div>
           </form>
         </div>
