@@ -43,7 +43,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
   return (
     <form
       onSubmit={handleSubmit(onFormSubmit)}
-      className={`bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl space-y-4 max-w-md mx-auto transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className="bg-white dark:bg-gray-800 px-4 py-6 sm:p-6 rounded-2xl shadow-2xl space-y-4 w-full max-w-md mx-auto transition-colors"
     >
       <div className="flex flex-col">
         <Label htmlFor="email">Correo Electrónico:</Label>
@@ -88,7 +88,9 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
         </Button>
       </div>
 
-      <p className={`text-center text-sm ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
+      <p
+        className={`text-center text-sm ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+      >
         ¿No tienes una cuenta?{" "}
         <span
           onClick={onSwitchToRegister}
