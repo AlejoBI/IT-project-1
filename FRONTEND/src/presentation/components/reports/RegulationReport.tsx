@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,8 +9,6 @@ import {
   Legend,
 } from "chart.js";
 import { useCompliance } from "../../hooks/useCompliance";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { fetchComplianceReports } from "../../../application/store/compliance/complianceActions";
 import {
   LIGHT_MODE_COLORS,
   DARK_MODE_COLORS,
@@ -19,23 +17,12 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-interface Props {
-  userId: string;
-}
-
-const RegulationReport = ({ userId }: Props) => {
+const RegulationReport = () => {
   const { complianceReport } = useCompliance();
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!complianceReport?.length) {
-      dispatch(fetchComplianceReports(userId));
-    }
-  }, [dispatch, userId, complianceReport?.length]);
+  if (!complianceReport || complianceReport.length === 0) return null;
 
-  if (!complianceReport || complianceReport.length === 0) return;
-
-  const versionMap: Record<string, number> = {}; 
+  const versionMap: Record<string, number> = {};
   const chartData = {
     labels: complianceReport.map((report) => {
       const { regulationId, regulationName } = report;
@@ -52,7 +39,7 @@ const RegulationReport = ({ userId }: Props) => {
       {
         label: "Puntaje total (%)",
         data: complianceReport.map((report) => report.totalScore),
-        backgroundColor: "#10b981", // verde
+        backgroundColor: "#10b981",
         borderRadius: 6,
         barThickness: 40,
       },
@@ -88,23 +75,17 @@ const RegulationReport = ({ userId }: Props) => {
 
   return (
     <div
-      className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION} rounded-2xl shadow-md hover:shadow-lg transition-shadow w-full max-w-4xl mx-auto p-6`}
+      className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION} rounded-xl shadow-md w-full h-full p-6`}
     >
       <h2
-        className={`text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION} mb-2`}
+        className={`text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION} mb-4`}
       >
         Comparativa de Cumplimiento por Normativa
       </h2>
 
-      {complianceReport?.length ? (
-        <div className="relative w-full h-80">
-          <Bar data={chartData} options={options} />
-        </div>
-      ) : (
-        <p className="text-gray-500 text-sm text-center">
-          No hay datos disponibles
-        </p>
-      )}
+      <div className="relative w-full h-72 md:h-80">
+        <Bar data={chartData} options={options} />
+      </div>
     </div>
   );
 };
