@@ -2,50 +2,58 @@ import React, { useState } from "react";
 import UserManagement from "../components/dashboard/UserManagement";
 import StandardManagement from "../components/dashboard/StandardManagement";
 
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
-
-import ButtonGradient from "../components/UI/ButtonGradient";
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  GRADIENTS,
+  DARK_GRADIENTS,
+} from "../../shared/constants";
 
 const Dashboard = () => {
-  const [selectedSection, setSelectedSection] = useState<
-    "user" | "standard" | null
-  >(null);
+  const [selectedSection, setSelectedSection] = useState<"user" | "standard">(
+    "user"
+  );
 
   return (
-    <div className="flex flex-col gap-6 p-4 min-h-screen">
-      <h1
-        className={`text-2xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <aside
+        className={`w-64 mt-6 p-6 rounded-xl shadow-md ${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG} border-gray-300 dark:border-gray-700`}
       >
-        Panel de Administración
-      </h1>
-
-      {/* Menú de navegación */}
-      <div className="flex flex-wrap gap-4 mb-6">
-        <ButtonGradient
-          onClick={() => setSelectedSection("user")}
-          children="Gestión de Usuarios"
-          type="button"
-        />
-        <ButtonGradient
-          onClick={() => setSelectedSection("standard")}
-          children="Gestión de Normativas"
-          type="button"
-        />
-      </div>
-
-      {/* Secciones condicionales */}
-      {selectedSection === "user" && <UserManagement />}
-      {selectedSection === "standard" && <StandardManagement />}
-
-      {/* Mensaje inicial */}
-      {!selectedSection && (
-        <div
-          className={`p-4 text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        <h2
+          className={`text-xl font-semibold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
         >
-          Selecciona una opción del menú para gestionar usuarios y roles, o
-          normativas.
-        </div>
-      )}
+          Panel de Administración
+        </h2>
+        <nav className="flex flex-col gap-3">
+          <button
+            onClick={() => setSelectedSection("user")}
+            className={`text-left px-4 py-2 rounded font-medium transition-colors duration-300 ${
+              selectedSection === "user"
+                ? `${GRADIENTS.BUTTON_BG_SECONDARY} ${DARK_GRADIENTS.BUTTON_BG_SECONDARY} text-white`
+                : `${LIGHT_MODE_COLORS.HOVER_BG} ${DARK_MODE_COLORS.HOVER_BG} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`
+            }`}
+          >
+            Gestión de Usuarios
+          </button>
+          <button
+            onClick={() => setSelectedSection("standard")}
+            className={`text-left px-4 py-2 rounded font-medium transition-colors duration-300 ${
+              selectedSection === "standard"
+                ? `${GRADIENTS.BUTTON_BG_SECONDARY} ${DARK_GRADIENTS.BUTTON_BG_SECONDARY} text-white`
+                : `${LIGHT_MODE_COLORS.HOVER_BG} ${DARK_MODE_COLORS.HOVER_BG} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`
+            }`}
+          >
+            Gestión de Normativas
+          </button>
+        </nav>
+      </aside>
+
+      {/* Contenido principal */}
+      <main className="flex-1 p-6">
+        {selectedSection === "user" && <UserManagement />}
+        {selectedSection === "standard" && <StandardManagement />}
+      </main>
     </div>
   );
 };

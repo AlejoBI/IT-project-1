@@ -7,6 +7,11 @@ import { fetchAuditsBySelfAssessmentId } from "../../../application/store/audits
 import { useCompliance } from "../../hooks/useCompliance";
 import { useAuth } from "../../hooks/useAuth";
 import { useAudit } from "../../../presentation/hooks/useAudit";
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../shared/constants";
 
 interface ButtonPDFProps {
   selfAssessmentId: string;
@@ -69,7 +74,17 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
   return (
     <button
       onClick={handleDownload}
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+      className={`
+    ${LIGHT_MODE_COLORS.BUTTON_BG} 
+    ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER.replace("hover:", "hover:")} 
+    ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} 
+    ${DARK_MODE_COLORS.BUTTON_BG} 
+    ${DARK_MODE_COLORS.BUTTON_HOVER_BG} 
+    ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
+    px-4 py-2 rounded 
+    ${ANIMATION_TIMINGS.TRANSITION_DURATION} 
+    ${DARK_MODE_COLORS.TEXT_PRIMARY}
+  `}
       disabled={loading}
     >
       {loading ? "Generando PDF..." : "Descargar PDF"}

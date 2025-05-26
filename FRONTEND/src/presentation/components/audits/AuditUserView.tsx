@@ -70,7 +70,7 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
         {sectionAudit.sectionTitle || "Sección no definida"}
       </h3>
       <p
-        className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-2`}
+        className={`mb-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
         Puedes ver los comentarios y el estado de cumplimiento de la sección{" "}
         {sectionAudit.sectionTitle}
@@ -83,16 +83,16 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
           className="w-12 h-12 rounded-full object-cover border"
         />
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
+          <div className={`flex items-center gap-2 mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
             <span className="font-semibold">{auditorName}</span>
           </div>
-          <div className="bg-gray-100 dark:bg-gray-800 rounded-xl px-4 py-3 mb-2 shadow-sm">
-            <p className="text-gray-800 dark:text-gray-100">
+          <div className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} rounded-xl px-4 py-3 mb-2 shadow-sm`}>
+            <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               {sectionAudit.observation}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-sm">Estado:</span>
+            <span className={`font-medium text-sm ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Estado:</span>
             <span
               className={`inline-block px-2 py-1 rounded text-white ${
                 sectionAudit.status === "Cumple"

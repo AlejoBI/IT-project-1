@@ -38,6 +38,7 @@ export const getUsers = async (req: Request, res: Response): Promise<any> => {
 // Obtener perfil de usuario
 export const getUser = async (req: Request, res: Response): Promise<any> => {
   const { uid } = req.params;
+
   try {
     const userRef = doc(firestore, "users", uid);
     const userSnapshot = await getDoc(userRef);
@@ -46,39 +47,49 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
 
+    // Obtener evaluaciones del usuario
     const evaluationsQuery = query(
       collection(firestore, "selfAssessments"),
       where("userId", "==", uid)
     );
     const evaluationsSnapshot = await getDocs(evaluationsQuery);
     const evaluationsCount = evaluationsSnapshot.size;
-    const evaluations = evaluationsSnapshot.docs;
 
+    // Si no hay evaluaciones, respondemos directamente
     if (evaluationsCount === 0) {
-      return null;
+      return res.status(200).json({
+        userId: userSnapshot.id,
+        ...userSnapshot.data(),
+        evaluationsCount: 0,
+        auditsCount: 0,
+        evaluationsAverage: null,
+      });
     }
 
-    const auditsCounts = await Promise.all(
-      evaluations.map(async (evalDoc) => {
-        const selfAssessmentId = evalDoc.id;
-        const auditsQuery = query(
-          collection(firestore, "audits"),
-          where("selfAssessmentId", "==", selfAssessmentId)
-        );
-        const auditsSnapshot = await getDocs(auditsQuery);
-        return auditsSnapshot.size;
-      })
-    );
+    // Procesar auditorías si hay evaluaciones
+    const evaluationsDocs = evaluationsSnapshot.docs;
+
+    const auditsCountPromises = evaluationsDocs.map(async (evalDoc) => {
+      const selfAssessmentId = evalDoc.id;
+      const auditsQuery = query(
+        collection(firestore, "audits"),
+        where("selfAssessmentId", "==", selfAssessmentId)
+      );
+      const auditsSnapshot = await getDocs(auditsQuery);
+      return auditsSnapshot.size;
+    });
+
+    const auditsCounts = await Promise.all(auditsCountPromises);
     const auditsCount = auditsCounts.reduce((acc, count) => acc + count, 0);
 
-    // Obtener los totalScores de complianceReports para el usuario
+    // Obtener promedio de cumplimiento si hay
     const complianceReportsQuery = query(
       collection(firestore, "complianceReports"),
       where("userId", "==", uid)
     );
     const complianceReportsSnapshot = await getDocs(complianceReportsQuery);
 
-    let evaluationsAverage = null;
+    let evaluationsAverage: number | null = null;
     if (!complianceReportsSnapshot.empty) {
       const totalScores: number[] = [];
       complianceReportsSnapshot.forEach((doc) => {
@@ -104,7 +115,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
       FIREBASE_ERRORS[firebaseError] || "Error al obtener el usuario";
-    return res.status(400).json({ error: errorMessage });
+    return res.status(500).json({ error: errorMessage });
   }
 };
 

@@ -6,8 +6,14 @@ import {
   fetchRegulationsAction,
   updateRegulationAction,
 } from "../../../application/store/regulations/regulationsActions";
-import ButtonSecundary from "../UI/ButtonSecundary";
 import { deleteEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
+import { Pencil, Trash2, FileMinus } from "lucide-react";
+
+import {
+  LIGHT_MODE_COLORS,
+  DARK_MODE_COLORS,
+  ANIMATION_TIMINGS,
+} from "../../../shared/constants";
 
 const RegulationList = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +21,6 @@ const RegulationList = () => {
   const [localData, setLocalData] = useState<
     Record<string, { name: string; description: string; version: string }>
   >({});
-
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,17 +28,19 @@ const RegulationList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (regulations) {
+    if (regulations && Array.isArray(regulations)) {
       const initialData: Record<
         string,
         { name: string; description: string; version: string }
       > = {};
       regulations.forEach((regulation) => {
-        initialData[regulation.id] = {
-          name: regulation.name || "",
-          description: regulation.description || "",
-          version: regulation.version || "",
-        };
+        if (regulation.id) {
+          initialData[regulation.id] = {
+            name: regulation.name || "",
+            description: regulation.description || "",
+            version: regulation.version || "",
+          };
+        }
       });
       setLocalData(initialData);
     }
@@ -60,7 +67,9 @@ const RegulationList = () => {
       await dispatch(fetchRegulationsAction()).unwrap();
     } catch (error) {
       setDeleteError(
-        error instanceof Error ? error.message : "Error al actualizar la normativa"
+        error instanceof Error
+          ? error.message
+          : "Error al actualizar la normativa"
       );
       setTimeout(() => setDeleteError(null), 3000);
     }
@@ -72,10 +81,11 @@ const RegulationList = () => {
       await dispatch(deleteRegulationAction(uid)).unwrap();
       await dispatch(deleteEvaluationFormAction(uid)).unwrap();
       await dispatch(fetchRegulationsAction());
-
     } catch (error) {
       setDeleteError(
-        error instanceof Error ? error.message : "Error al eliminar la normativa"
+        error instanceof Error
+          ? error.message
+          : "Error al eliminar la normativa"
       );
       setTimeout(() => setDeleteError(null), 3000);
     }
@@ -94,96 +104,161 @@ const RegulationList = () => {
       );
       setTimeout(() => setDeleteError(null), 3000);
     }
-  }
+  };
 
   return (
-    <section>
-      <h2 className="text-xl font-semibold mb-4 text-center">Regulaciones</h2>
+    <section
+      className={`${LIGHT_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+    >
+      <h2
+        className={`text-2xl font-bold mb-6 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+      >
+        Regulaciones
+      </h2>
 
-      {/* Cargando... */}
       {loading ? (
-        <p>Cargando...</p>
+        <p
+          className={`text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        >
+          Cargando...
+        </p>
       ) : (
-        <div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto">
-              <thead>
-                <tr>
-                  <th className="px-1 py-2">Nombre</th>
-                  <th className="px-2 py-2">Descripción</th>
-                  <th className="px-1 py-2">Versión</th>
-                  <th className="px-4 py-2"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {(regulations ?? []).map((r) => {
-                  const { id, name, description, version } = r;
-                  const currentEditData = localData[id] || {
-                    name,
-                    description,
-                    version,
-                  };
+        <div className="overflow-x-auto">
+          <table
+            className={`min-w-full text-sm border-collapse rounded-lg shadow-sm
+              ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
+              `}
+          >
+            <thead
+              className={`text-gray-700 uppercase text-xs tracking-wider
+              ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
+              `}
+            >
+              <tr>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Nombre
+                </th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Descripción
+                </th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Versión
+                </th>
+                <th
+                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                >
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {regulations?.map((regulation, index) => {
+                const id = regulation?.id;
+                if (!id) return null;
 
-                  return (
-                    <tr key={id}>
-                      <td className="px-1 py-2">
-                        <input
-                          type="text"
-                          value={currentEditData.name}
-                          onChange={(e) =>
-                            handleEditChange(id, "name", e.target.value)
-                          }
-                          className="w-full p-2 border rounded-md"
-                        />
-                      </td>
-                      <td className="px-2 py-2">
-                        <textarea
-                          rows={3}
-                          cols={60}
-                          value={currentEditData.description}
-                          onChange={(e) =>
-                            handleEditChange(id, "description", e.target.value)
-                          }
-                          className="w-full p-2 border rounded-md resize-none"
-                        />
-                      </td>
-                      <td className="px-1 py-2">
-                        <input
-                          type="text"
-                          value={currentEditData.version}
-                          onChange={(e) =>
-                            handleEditChange(id, "version", e.target.value)
-                          }
-                          className="w-full p-2 border rounded-md"
-                        />
-                      </td>
-                      <td className="py-2">
-                        <ButtonSecundary
-                          type="button"
+                const currentEditData = localData[id] ?? {
+                  name: "",
+                  description: "",
+                  version: "",
+                };
+
+                return (
+                  <tr
+                    key={id}
+                    className={`${
+                      index % 2 === 0
+                        ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
+                        : LIGHT_MODE_COLORS.BACKGROUND
+                    } ${
+                      DARK_MODE_COLORS.BACKGROUND_COMPONENT
+                    } border-t transition-colors ${
+                      ANIMATION_TIMINGS.TRANSITION_DURATION
+                    }`}
+                  >
+                    <td className="px-4 py-2">
+                      <input
+                        type="text"
+                        value={currentEditData.name}
+                        onChange={(e) =>
+                          handleEditChange(id, "name", e.target.value)
+                        }
+                        className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+                          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+                          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                        `}
+                      />
+                    </td>
+                    <td className="px-4 py-2">
+                      <textarea
+                        rows={2}
+                        value={currentEditData.description}
+                        onChange={(e) =>
+                          handleEditChange(id, "description", e.target.value)
+                        }
+                        className={`w-full px-2 py-1 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-400
+                          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+                          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                        `}
+                      />
+                    </td>
+                    <td className="px-4 py-2">
+                      <input
+                        type="text"
+                        value={currentEditData.version}
+                        onChange={(e) =>
+                          handleEditChange(id, "version", e.target.value)
+                        }
+                        className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
+                          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
+                          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
+                        `}
+                      />
+                    </td>
+                    <td className="px-4 py-2">
+                      <div className="flex gap-2 justify-start items-center">
+                        <button
                           onClick={() => handleUpdate(id)}
-                          children="Actualizar"
-                        />
-                        <ButtonSecundary
-                          type="button"
+                          title="Actualizar normativa"
+                          className={`text-blue-600 hover:text-blue-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button
                           onClick={() => handleDelete(id)}
-                          children="Eliminar"
-                        />
-                        <ButtonSecundary
-                          type="button"
+                          title="Eliminar normativa"
+                          className={`text-red-600 hover:text-red-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                        <button
                           onClick={() => handleDeleteEvaluationForm(id)}
-                          children="Eliminar Formulario"
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                          title="Eliminar formulario"
+                          className={`text-yellow-600 hover:text-yellow-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                        >
+                          <FileMinus size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
+
       {deleteError && (
-        <p className="text-red-600 font-medium mb-2">{deleteError}</p>
+        <p
+          className={`text-red-600 font-semibold mt-6 text-center ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+        >
+          {deleteError}
+        </p>
       )}
     </section>
   );

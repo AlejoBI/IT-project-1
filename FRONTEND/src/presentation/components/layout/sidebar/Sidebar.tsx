@@ -30,27 +30,43 @@ const Sidebar = ({
     return undefined;
   };
 
+  const navigation_all = [
+    "Inicio",
+    "Iniciar Sesión",
+    "Sobre Nosotros",
+    "Contactanos",
+    "Politicas de Privacidad",
+  ];
+
   const navigation = [
-    { name: "Home", href: "/" },
+    { name: "Inicio", href: "/" },
+    { name: "Sobre Nosotros", href: "/about" },
+    { name: "Contactanos", href: "/contact" },
+    { name: "Politicas de Privacidad", href: "/privacy-policies" },
     { name: "Autoevaluaciones", href: "/self-assessments" },
     // Solo agregar "Auditorías" si el usuario es auditor o standard_user
     ...(user?.role === "auditor" || user?.role === "standard_user"
       ? [{ name: "Auditorías", href: getAuditsHref() }]
       : []),
     { name: "Reportes", href: "/reports" },
-    { name: "Dashboard", href: "/dashboard" },
-    { name: "Login", href: "/login" },
-    { name: "Logout", action: logout },
+    { name: "Panel de Administración", href: "/dashboard" },
+    { name: "Iniciar Sesión", href: "/login" },
+    { name: "Cerrar Sesión", action: logout },
   ];
 
   const filteredNavigation = navigation.filter((item) => {
-    if (item.name === "Login" && isAuthenticated) return false;
-    if (item.name === "Dashboard" && !isAuthenticated) return false;
-    if (item.name === "Logout" && !isAuthenticated) return false;
-    if (item.name === "Dashboard" && user?.role !== "admin") return false;
+    if (!user || !isAuthenticated) return navigation_all.includes(item.name);
+    if (item.name === "Iniciar Sesión" && isAuthenticated) return false;
+    if (item.name === "Panel de Administración" && !isAuthenticated)
+      return false;
+    if (item.name === "Cerrar Sesión" && !isAuthenticated) return false;
+    if (item.name === "Panel de Administración" && user?.role !== "admin")
+      return false;
     if (item.name === "Auditorías" && user?.role == "admin") return false;
-    if (item.name === "Reportes" && user?.role !== "standard_user") return false;
-    if (item.name === "Autoevaluaciones" && user?.role !== "standard_user") return false;
+    if (item.name === "Reportes" && user?.role !== "standard_user")
+      return false;
+    if (item.name === "Autoevaluaciones" && user?.role !== "standard_user")
+      return false;
     return true;
   });
 

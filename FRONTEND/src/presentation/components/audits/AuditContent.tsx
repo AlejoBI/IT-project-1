@@ -124,20 +124,26 @@ const AuditContent = ({
               Pregunta: {question.questionText}
             </p>
             {question.value !== null && (
-              <p
+                <p
                 className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-2`}
-              >
+                >
                 Respuesta: {String(question.value)}
-              </p>
-            )}
-            {question.questionUrl !== null && (
-              <p
-                className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-2`}
-              >
-                URL: {question.questionUrl}
-              </p>
-            )}
-            {question.subQuestions.length > 0 && (
+                </p>
+              )}
+              {question.questionUrl && (
+                <div className="mb-2">
+                <span className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>URL Evidencia: </span>
+                <a
+                  href={question.questionUrl.startsWith("http") ? question.questionUrl : `//${question.questionUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} underline hover:text-blue-600 dark:hover:text-blue-400`}
+                >
+                  {question.questionUrl}
+                </a>
+                </div>
+              )}
+              {question.subQuestions.length > 0 && (
               <div className="ml-4 p-3 mt-4 border-l-4 border-blue-400 bg-gray-50 dark:bg-[#0F172A]">
                 {question.subQuestions.map((sub) => (
                   <div key={sub.id} className="mb-3">
