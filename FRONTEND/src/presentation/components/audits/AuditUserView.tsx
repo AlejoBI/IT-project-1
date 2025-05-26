@@ -49,7 +49,9 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
 
   if (!sectionAudit)
     return (
-      <div className={`text-gray-500 dark:text-gray-400 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} text-center p-6 rounded-2xl shadow mt-6`}>
+      <div
+        className={`text-gray-500 dark:text-gray-400 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} text-center p-6 rounded-2xl shadow mt-6`}
+      >
         No hay auditoría disponible para esta sección.
       </div>
     );
@@ -61,7 +63,7 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
 
   return (
     <div
-      className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mt-6`}
+      className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mt-6 w-full max-w-screen-lg mx-auto`}
     >
       <h3
         className={`text-xl font-semibold mb-4 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
@@ -76,23 +78,33 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
         {sectionAudit.sectionTitle}
       </p>
 
-      <div className="mt-6 flex items-start gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row items-start gap-4">
         <img
           src={auditorAvatar}
           alt={auditorName}
           className="w-12 h-12 rounded-full object-cover border"
         />
         <div className="flex-1">
-          <div className={`flex items-center gap-2 mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
+          <div
+            className={`flex items-center gap-2 mb-1 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+          >
             <span className="font-semibold">{auditorName}</span>
           </div>
-          <div className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} rounded-xl px-4 py-3 mb-2 shadow-sm`}>
-            <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
+          <div
+            className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} rounded-xl px-4 py-3 mb-2 shadow-sm`}
+          >
+            <p
+              className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+            >
               {sectionAudit.observation}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`font-medium text-sm ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Estado:</span>
+            <span
+              className={`font-medium text-sm ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+            >
+              Estado:
+            </span>
             <span
               className={`inline-block px-2 py-1 rounded text-white ${
                 sectionAudit.status === "Cumple"

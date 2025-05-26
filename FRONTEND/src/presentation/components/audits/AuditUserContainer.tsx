@@ -46,7 +46,7 @@ const AuditUserContainer = ({
 
   return (
     <div>
-      <div className="flex flex-col gap-6 md:flex-row">
+      <div className="flex flex-col md:flex-row gap-6 px-4 sm:px-6 md:px-8 lg:px-10">
         <AuditSidebar
           sections={uniqueSections.map(({ sectionId, sectionTitle }) => ({
             sectionId,
@@ -60,11 +60,14 @@ const AuditUserContainer = ({
           selectedSectionId={selectedSectionId}
         />
       </div>
+
       {selectedSectionId && (
-        <AuditUserView
-          selfAssessmentId={selfAssessmentId}
-          sectionId={selectedSectionId}
-        />
+        <div className="px-4 sm:px-6 md:px-8 lg:px-10">
+          <AuditUserView
+            selfAssessmentId={selfAssessmentId}
+            sectionId={selectedSectionId}
+          />
+        </div>
       )}
     </div>
   );

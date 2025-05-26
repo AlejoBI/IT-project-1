@@ -12,11 +12,11 @@ import { useUser } from "../hooks/useUser";
 import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchUserAction } from "../../application/store/users/usersActions";
-import Loader from "../components/common/Loader"; 
+import Loader from "../components/common/Loader";
 
 const AuditToUser = () => {
   const { user: AuthUser } = useAuth();
-  const { user, loading } = useUser(); 
+  const { user, loading } = useUser();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -44,13 +44,15 @@ const AuditToUser = () => {
 
   return (
     <div
-      className={`min-h-screen px-6 py-8 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`min-h-screen px-4 sm:px-6 py-6 sm:py-8 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       <div
-        className={`p-6 rounded-2xl shadow-md mb-8 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+        className={`p-4 sm:p-6 rounded-2xl shadow-md mb-6 sm:mb-8 text-center sm:text-left ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
       >
-        <h1 className="text-3xl font-bold">Evaluaciones y Auditorías</h1>
-        <p className="mt-2 text-sm opacity-90">
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          Evaluaciones y Auditorías
+        </h1>
+        <p className="mt-2 text-sm sm:text-base opacity-90">
           Visualiza tu progreso y tareas pendientes en las auditorías.
         </p>
       </div>
