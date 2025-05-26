@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { fetchRegulationsAction } from "../../application/store/regulations/regulationsActions";
+import {
+  fetchSelfAssessmentReport,
+  fetchComplianceReports,
+} from "../../application/store/compliance/complianceActions";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useRegulation } from "../hooks/useRegulation";
 import { useAuth } from "../hooks/useAuth";
@@ -22,8 +26,11 @@ const Reports = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    if (!user?.uid) return;
     dispatch(fetchRegulationsAction());
-  }, [dispatch]);
+    dispatch(fetchSelfAssessmentReport(user.uid));
+    dispatch(fetchComplianceReports(user.uid));
+  }, [dispatch, user?.uid]);
 
   const hasReports =
     (selfAssessmentReport?.length ?? 0) > 0 ||
@@ -45,13 +52,10 @@ const Reports = () => {
 
       {hasReports ? (
         <>
-          <div className="flex flex-row mb-8 flex-wrap gap-4">
-            <div className="w-full md:w-1/2">
-              <CompletedReports userId={user?.uid || ""} />
-            </div>
-            <div className="w-full md:w-1/2">
-              <RegulationReport userId={user?.uid || ""} />
-            </div>
+          {/* Layout responsive de 2 columnas */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <CompletedReports />
+            <RegulationReport />
           </div>
 
           <section className="mb-8 border rounded-lg overflow-hidden">

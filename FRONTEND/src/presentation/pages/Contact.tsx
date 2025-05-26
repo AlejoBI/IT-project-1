@@ -4,7 +4,7 @@ import ContactInfo from "../components/contact/ContactInfo";
 
 const Contact = () => {
   return (
-    <div className="min-h-screen py-12 px-6 md:px-20 bg-white dark:bg-gray-900 transition-all duration-300">
+    <div className="min-h-screen py-12 px-6 md:px-20">
       {/* Encabezado */}
       <section className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">

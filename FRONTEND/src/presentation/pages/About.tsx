@@ -11,12 +11,17 @@ import TeamMemberCard from "../components/about/TeamMemberCard";
 
 import juanFoto from "../../assets/img/team/juan_jaramillo.jpg";
 import alejoFoto from "../../assets/img/team/alejandro_bravo.jpg";
+import ludyFoto from "../../assets/img/team/ludy_astrid.jpg";
 
 const teamMembers = [
   { name: "Juan Jaramillo", role: "Desarrollador Backend", image: juanFoto },
-  { name: "Ludy Astrid", role: "Diseñadora UI/UX y Frontend", image: "ludy_astrid.jpg" },
+  { name: "Ludy Astrid", role: "Diseñadora UI/UX y Frontend", image: ludyFoto },
   { name: "Alejandro Bravo", role: "Arquitecto de Software", image: alejoFoto },
-  { name: "José Sterling", role: "Ingeniero DevOps", image: "jose_sterling.jpg" },
+  {
+    name: "José Sterling",
+    role: "Ingeniero DevOps",
+    image: "jose_sterling.jpg",
+  },
 ];
 
 const About = () => {
@@ -74,7 +79,7 @@ const About = () => {
               key={member.name}
               name={member.name}
               role={member.role}
-              image={member.image} 
+              image={member.image}
             />
           ))}
         </div>
