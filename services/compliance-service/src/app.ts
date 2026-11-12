@@ -26,8 +26,8 @@ app.get("/ready", (_req: Request, res: Response) => {
   res.status(200).json({ status: "ready", service: "compliance-service" });
 });
 
-app.use((err: any, _req: Request, res: Response) => {
-  console.error(err.stack);
+app.use((err: unknown, _req: Request, res: Response) => {
+  console.error(err instanceof Error ? err.stack : err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
