@@ -137,7 +137,7 @@ secretos ni datos reales de prueba.
 **Objetivo:** convertir resultados en acciones verificables.
 
 - [x] Revisar puntajes por sección y regulación.
-- [x] Mostrar cumplimiento, brechas y preguntas afectadas.
+- [ ] Mostrar cumplimiento, brechas y preguntas afectadas.
 - [x] Asociar recomendaciones a cada brecha.
 - [x] Añadir responsable y fecha objetivo para cada acción.
 - [x] Definir estados: pendiente, en progreso, resuelta y vencida.
