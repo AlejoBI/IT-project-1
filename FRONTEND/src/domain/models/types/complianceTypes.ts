@@ -122,6 +122,15 @@ export interface ReportAction {
   updatedAt: string;
 }
 
+export interface ReportChange {
+  id: string;
+  reportId: string;
+  actionId: string;
+  type: "created" | "updated";
+  changedFields: string[];
+  changedAt: string;
+}
+
 export interface SelfAssessmentReport {
   answers: DraftAnswer[];
   completedSections: CompletedSection[];

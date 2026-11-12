@@ -3,6 +3,7 @@ import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } fro
 import {
   createReportAction,
   getReportActions,
+  getReportActionHistory,
   updateReportAction,
 } from "../controllers/reportActionController.js";
 
@@ -67,5 +68,23 @@ describe("reportActionController", () => {
 
     expect(updateDoc).toHaveBeenCalledWith("report-ref", expect.objectContaining({ status: "resuelta" }));
     expect(res.status).toHaveBeenCalledWith(200);
+  });
+
+  it("devuelve el historial ordenado por fecha", async () => {
+    const res = response();
+    (getDocs as jest.Mock).mockResolvedValue({
+      docs: [
+        { id: "change-old", data: () => ({ changedAt: "2026-01-01T00:00:00.000Z", type: "created" }) },
+        { id: "change-new", data: () => ({ changedAt: "2026-02-01T00:00:00.000Z", type: "updated" }) },
+      ],
+    });
+
+    await getReportActionHistory(request(), res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith([
+      expect.objectContaining({ id: "change-new" }),
+      expect.objectContaining({ id: "change-old" }),
+    ]);
   });
 });

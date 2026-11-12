@@ -85,7 +85,10 @@ const AuditListPage = () => {
                     {form.formName}
                   </span>
                   <div className="w-full sm:w-1/3 text-right">
-                    <ButtonPDF selfAssessmentId={form.id || ""} />
+                    <ButtonPDF
+                      selfAssessmentId={form.id || ""}
+                      canDownload={Boolean(form.id && form.userId === userId)}
+                    />
                   </div>
                   <div className="w-full sm:w-1/3 text-right">
                     <Button onClick={() => handleAudit(form.id || "")}>Revisar</Button>

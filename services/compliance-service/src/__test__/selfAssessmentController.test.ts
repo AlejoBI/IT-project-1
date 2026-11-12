@@ -67,7 +67,7 @@ describe("saveDraftController", () => {
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
-    } as any as Response;
+    } as unknown as Response;
 
     mockFirestore.getDocs.mockResolvedValue({ empty: true });
     mockFirestore.addDoc.mockResolvedValue({});
@@ -96,7 +96,7 @@ describe("saveDraftController", () => {
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
-    } as any as Response;
+    } as unknown as Response;
 
     mockFirestore.getDocs.mockResolvedValue({
       empty: false,
@@ -256,8 +256,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 404 si no hay autoevaluaciones completadas o iniciadas", async () => {
-    const req = { params: { userId: "user1" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { userId: "user1" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDocs.mockResolvedValue({ empty: true });
 
     await getSelfAssessmentController(req, res);
@@ -269,8 +269,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 404 si no hay autoevaluaciones completadas para auditoría", async () => {
-    const req = { params: { userId: "user1" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { userId: "user1" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDocs.mockResolvedValue({ empty: true });
 
     await getSelfAssessmentToAuditsByUserId(req, res);
@@ -282,8 +282,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 404 si no existe la autoevaluación con ese ID", async () => {
-    const req = { params: { selfAssessmentId: "id1" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { selfAssessmentId: "id1" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDoc.mockResolvedValue({ exists: () => false });
 
     await getSelfAssessmentByAssessmentId(req, res);
@@ -295,8 +295,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 400 si ocurre un error inesperado al obtener autoevaluación por ID", async () => {
-    const req = { params: { selfAssessmentId: "id1" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { selfAssessmentId: "id1" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDoc.mockRejectedValue(new Error("Firestore error"));
 
     await getSelfAssessmentByAssessmentId(req, res);
@@ -306,8 +306,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 400 si ocurre un error inesperado al obtener autoevaluación por ID", async () => {
-    const req = { params: { selfAssessmentId: "id1" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { selfAssessmentId: "id1" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDoc.mockRejectedValue(new Error("Firestore error"));
 
     await getSelfAssessmentByAssessmentId(req, res);
@@ -317,8 +317,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 400 si ocurre un error inesperado al obtener draft", async () => {
-    const req = { params: { userId: "u", regulationId: "r" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { userId: "u", regulationId: "r" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDocs.mockRejectedValue(new Error("Firestore error"));
 
     await getDraftController(req, res);
@@ -336,8 +336,8 @@ describe("submitSelfAssessmentController", () => {
         formId: "f",
         formName: "fn",
       },
-    } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDocs.mockResolvedValue({
       empty: false,
       docs: [{ ref: { id: "mockSelfAssessmentId" }, data: () => ({ answers: [] }) }],
@@ -354,13 +354,13 @@ describe("submitSelfAssessmentController", () => {
     expect(res.status).toHaveBeenCalledWith(400);
 
     // Verifica que el error sea un objeto Error o un string
-    const errorArg = res.json.mock.calls[0][0].error;
+    const errorArg = (res.json as unknown as jest.Mock).mock.calls[0][0].error;
     expect(typeof errorArg === "string" || errorArg instanceof Error).toBeTruthy();
   });
 
   it("devuelve 400 si ocurre un error inesperado al obtener autoevaluaciones", async () => {
-    const req = { params: { userId: "u" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { userId: "u" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDocs.mockRejectedValue(new Error("Firestore error"));
 
     await getSelfAssessmentController(req, res);
@@ -370,8 +370,8 @@ describe("submitSelfAssessmentController", () => {
   });
 
   it("devuelve 400 si ocurre un error inesperado al obtener autoevaluaciones para auditoría", async () => {
-    const req = { params: { userId: "u" } } as any;
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+    const req = { params: { userId: "u" } } as unknown as Request;
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
     mockFirestore.getDocs.mockRejectedValue(new Error("Firestore error"));
 
     await getSelfAssessmentToAuditsByUserId(req, res);

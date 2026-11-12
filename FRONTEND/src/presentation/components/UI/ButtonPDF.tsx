@@ -9,9 +9,10 @@ import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../..
 
 interface ButtonPDFProps {
   selfAssessmentId: string;
+  canDownload?: boolean;
 }
 
-const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
+const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId, canDownload = true }) => {
   const { selfAssessmentToAudit } = useCompliance();
   const { audits } = useAudit();
   const { user } = useAuth();
@@ -69,7 +70,7 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
     generatePDF();
   }, [selfAssessmentToAudit, audits, user]);
 
-  if (!user || !selfAssessmentId) return null;
+  if (!user || !selfAssessmentId || !canDownload) return null;
 
   return (
     <div>

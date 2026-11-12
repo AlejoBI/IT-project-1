@@ -1,5 +1,5 @@
 import api from "./axios";
-import { ReportAction, ReportActionStatus } from "../../domain/models/types/complianceTypes";
+import { ReportAction, ReportActionStatus, ReportChange } from "../../domain/models/types/complianceTypes";
 
 export type ReportActionInput = {
   title: string;
@@ -19,6 +19,11 @@ export const createReportActionApi = async (
   input: ReportActionInput
 ): Promise<{ id: string; message: string }> => {
   const response = await api.post(`/api/compliance/compliance-reports/${reportId}/actions`, input);
+  return response.data;
+};
+
+export const getReportActionHistoryApi = async (reportId: string): Promise<ReportChange[]> => {
+  const response = await api.get(`/api/compliance/compliance-reports/${reportId}/history`);
   return response.data;
 };
 

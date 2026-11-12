@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ComplianceReport, ReportAction } from "../../../domain/models/types/complianceTypes";
+import { ComplianceReport, ReportAction, ReportChange } from "../../../domain/models/types/complianceTypes";
 import {
   createReportActionApi,
   getReportActionsApi,
+  getReportActionHistoryApi,
   updateReportActionApi,
 } from "../../../infrastructure/api/reportActionsApi";
 
@@ -12,11 +13,15 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
   const [responsible, setResponsible] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [responsibleFilter, setResponsibleFilter] = useState("");
+  const [history, setHistory] = useState<ReportChange[]>([]);
 
   const loadActions = useCallback(async () => {
     try {
       const results = await Promise.all(reports.map((report) => getReportActionsApi(report.id)));
       setActions(results.flat());
+      const historyResults = await Promise.all(reports.map((report) => getReportActionHistoryApi(report.id)));
+      setHistory(historyResults.flat());
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "No se pudieron cargar las acciones.");
     }
@@ -24,8 +29,15 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
 
   useEffect(() => {
     if (reports.length > 0) void loadActions();
-    else setActions([]);
+    else {
+      setActions([]);
+      setHistory([]);
+    }
   }, [loadActions, reports]);
+
+  const filteredActions = actions.filter((action) =>
+    !responsibleFilter || (action.responsible ?? "Sin responsable").toLowerCase().includes(responsibleFilter.toLowerCase())
+  );
 
   const handleCreate = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -65,11 +77,15 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
         <input type="date" value={dueDate} onChange={(event) => setDueDate(event.target.value)} className="rounded border p-2" />
         <button type="submit" className="rounded bg-blue-600 px-4 py-2 font-semibold text-white md:col-span-4">Añadir acción</button>
       </form>
-      {actions.length === 0 ? (
+      <label className="mb-4 block text-sm font-medium">
+        Filtrar por responsable
+        <input value={responsibleFilter} onChange={(event) => setResponsibleFilter(event.target.value)} placeholder="Todos los responsables" className="mt-1 w-full rounded border p-2" />
+      </label>
+      {filteredActions.length === 0 ? (
         <p className="text-sm text-gray-600 dark:text-gray-300">No hay acciones correctivas registradas.</p>
       ) : (
         <ul className="space-y-3">
-          {actions.map((action) => (
+          {filteredActions.map((action) => (
             <li key={action.id} className="flex flex-col gap-2 rounded border p-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-medium">{action.title}</p>
@@ -84,6 +100,18 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
             </li>
           ))}
         </ul>
+      )}
+      {history.length > 0 && (
+        <details className="mt-6 rounded border p-3">
+          <summary className="cursor-pointer font-medium">Historial de cambios ({history.length})</summary>
+          <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+            {history.map((change) => (
+              <li key={change.id}>
+                {new Date(change.changedAt).toLocaleString()} · {change.type === "created" ? "Creada" : "Actualizada"} · {change.changedFields.join(", ") || "sin detalle"}
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
     </section>
   );

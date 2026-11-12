@@ -1,5 +1,5 @@
 import { register, login, logout } from "../controllers/authController";
-import { Request } from "express";
+import { Request, Response } from "express";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,7 +16,7 @@ const mockReq = {} as Request;
 const mockRes = {
   status: jest.fn().mockReturnThis(),
   json: jest.fn(),
-} as any;
+} as unknown as Response;
 
 beforeEach(() => {
   jest.clearAllMocks();

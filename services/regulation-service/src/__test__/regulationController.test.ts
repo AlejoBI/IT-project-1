@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import {
   addRegulation,
   getRegulations,
@@ -28,7 +28,7 @@ describe("regulationController", () => {
   const mockRes = {
     status: jest.fn().mockReturnThis(),
     json: jest.fn(),
-  } as any;
+  } as unknown as Response;
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -79,7 +79,7 @@ describe("regulationController", () => {
 
       (getDoc as jest.Mock).mockResolvedValue(mockReg);
 
-      const req = { params: { id: "reg1" } } as any;
+      const req = { params: { id: "reg1" } } as unknown as Request;
 
       await getRegulation(req, mockRes);
 
@@ -95,7 +95,7 @@ describe("regulationController", () => {
     it("debería manejar error si no existe", async () => {
       (getDoc as jest.Mock).mockResolvedValue({ exists: () => false });
 
-      const req = { params: { id: "reg1" } } as any;
+      const req = { params: { id: "reg1" } } as unknown as Request;
 
       await getRegulation(req, mockRes);
 
@@ -112,7 +112,7 @@ describe("regulationController", () => {
 
       const req = {
         body: { name: "Nueva Normativa", description: "Desc", version: "1.0" },
-      } as any;
+      } as unknown as Request;
 
       await addRegulation(req, mockRes);
 
@@ -129,7 +129,7 @@ describe("regulationController", () => {
 
       const req = {
         body: { name: "Nueva Normativa", description: "Desc", version: "1.0" },
-      } as any;
+      } as unknown as Request;
 
       await addRegulation(req, mockRes);
 
@@ -152,7 +152,7 @@ describe("regulationController", () => {
       const req = {
         params: { id: "reg1" },
         body: { name: "Actualizado", description: "Desc", version: "2.0" },
-      } as any;
+      } as unknown as Request;
 
       await updateRegulation(req, mockRes);
 
@@ -174,7 +174,7 @@ describe("regulationController", () => {
       const req = {
         params: { id: "reg1" },
         body: { name: "Actualizado", description: "Desc", version: "2.0" },
-      } as any;
+      } as unknown as Request;
 
       await updateRegulation(req, mockRes);
 
@@ -192,7 +192,7 @@ describe("regulationController", () => {
       });
       (deleteDoc as jest.Mock).mockResolvedValue(undefined);
 
-      const req = { params: { id: "reg1" } } as any;
+      const req = { params: { id: "reg1" } } as unknown as Request;
 
       await deleteRegulation(req, mockRes);
 
@@ -206,7 +206,7 @@ describe("regulationController", () => {
     it("debería manejar error si no existe", async () => {
       (getDoc as jest.Mock).mockResolvedValue({ exists: () => false });
 
-      const req = { params: { id: "reg1" } } as any;
+      const req = { params: { id: "reg1" } } as unknown as Request;
 
       await deleteRegulation(req, mockRes);
 

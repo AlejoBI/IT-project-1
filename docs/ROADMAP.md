@@ -143,10 +143,10 @@ secretos ni datos reales de prueba.
 - [x] Definir estados: pendiente, en progreso, resuelta y vencida.
 - [x] Permitir comparar evaluaciones entre periodos.
 - [x] Mejorar PDF con fecha, versión y alcance.
-- [ ] Añadir filtros por regulación, estado, responsable y periodo.
-- [ ] Validar permisos de lectura y descarga.
+- [x] Añadir filtros por regulación, estado, responsable y periodo.
+- [x] Validar permisos de lectura y descarga.
 - [x] Relacionar auditorías con una evaluación y su versión exacta.
-- [ ] Añadir historial de cambios del informe.
+- [x] Añadir historial de cambios del informe.
 
 **Entregable:** reportes útiles para seguimiento y auditoría.
 
@@ -185,12 +185,12 @@ secretos ni datos reales de prueba.
 - [ ] Añadir prueba del flujo completo de evaluación.
 - [ ] Añadir pruebas de generación de PDF.
 - [x] Añadir pruebas de auditoría y notificaciones.
-- [ ] Añadir pruebas de componentes críticos del frontend.
+- [x] Añadir pruebas de componentes críticos del frontend.
 - [ ] Acordar cobertura mínima por servicio.
 - [x] Ejecutar lint, typecheck, tests y build en CI.
 - [x] Evitar que CI dependa de Firebase de producción.
 - [x] Estandarizar formato con Prettier en frontend y servicios.
-- [ ] Eliminar `any` residual de controladores y pruebas.
+- [x] Eliminar `any` residual de controladores y pruebas.
 
 **Entregable:** pipeline reproducible que bloquee regresiones.
 
@@ -270,6 +270,14 @@ tareas de despliegue solo se marcarán con evidencia reproducible.
   upstreams y propagación de correlation ID.
 - Los reportes ahora persisten y muestran preguntas/subpreguntas con puntaje
   inferior al umbral de brecha, además de la sección afectada.
+- La descarga PDF de evaluaciones queda condicionada explícitamente al usuario
+  propietario en la interfaz y continúa respaldada por endpoints protegidos.
+- Las acciones correctivas permiten filtrar por responsable y conservan un
+  historial de creación y actualización consultable por reporte.
+- Se añadió Vitest con Testing Library y dos pruebas ejecutables para los
+  componentes de resumen de salud y comparación histórica.
+- Se eliminaron los `any` explícitos de controladores y pruebas de servicios;
+  `grep` no encuentra usos residuales en los archivos TypeScript de servicios.
 
 #### 2026-11-12 — Fase 6: navegación accesible
 
