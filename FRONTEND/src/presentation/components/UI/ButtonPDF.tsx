@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { pdf } from "@react-pdf/renderer";
-import PDFTemplateReports from "../export-pdf/PDFTemplateReports";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchSelfAssessmentByAssessmentId } from "../../../application/store/compliance/complianceActions";
 import { fetchAuditsBySelfAssessmentId } from "../../../application/store/audits/auditActions";
@@ -46,6 +44,10 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
     const generatePDF = async () => {
       if (shouldDownload.current && user && selfAssessmentToAudit) {
         try {
+          const [{ pdf }, { default: PDFTemplateReports }] = await Promise.all([
+            import("@react-pdf/renderer"),
+            import("../export-pdf/PDFTemplateReports"),
+          ]);
           const doc = (
             <PDFTemplateReports
               user={user}
