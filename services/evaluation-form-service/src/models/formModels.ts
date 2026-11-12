@@ -8,6 +8,7 @@ export interface EvaluationForm {
   regulationId: string;
   name: string;
   description: string;
+  version?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

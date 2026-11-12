@@ -15,6 +15,7 @@ import { calculateScores } from "../services/calculateScores.js";
 import { createComplianceReport } from "./complianceReportController.js";
 import { Answer } from "../models/selfAssessmentModel.js";
 import { getFirebaseErrorMessage } from "../utils/error.js";
+import { validateAnswersAgainstForm } from "../services/formAnswerValidation.js";
 
 interface AssessmentGroupItem {
   id: string;
@@ -31,6 +32,10 @@ interface AssessmentGroupItem {
 export const saveDraftController = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId, regulationId, formId, sectionId, sectionTitle, answers } = req.body;
+    const formValidation = await validateAnswersAgainstForm(formId, regulationId, answers);
+    if (!formValidation.valid) {
+      return res.status(422).json({ error: formValidation.error });
+    }
 
     const q = query(
       collection(firestore, "selfAssessmentSessions"),
@@ -47,6 +52,7 @@ export const saveDraftController = async (req: Request, res: Response): Promise<
         userId,
         regulationId,
         formId,
+        formVersion: formValidation.formVersion,
         answers,
         completedSections: [{ sectionId, sectionTitle }],
         status: "in_progress",
@@ -75,6 +81,7 @@ export const saveDraftController = async (req: Request, res: Response): Promise<
 
       await updateDoc(draftDoc.ref, {
         answers: updatedAnswers,
+        formVersion: existing.formVersion || formValidation.formVersion,
         completedSections: updatedSections,
         updatedAt: new Date(),
       });
@@ -130,6 +137,15 @@ export const submitSelfAssessmentController = async (req: Request, res: Response
     const draftDoc = snapshot.docs[0];
     const draft = draftDoc.data();
 
+    const formValidation = await validateAnswersAgainstForm(
+      draft.formId || formId,
+      regulationId,
+      draft.answers || []
+    );
+    if (!formValidation.valid) {
+      return res.status(422).json({ error: formValidation.error });
+    }
+
     const { totalScore, sectionScores } = calculateScores(draft.answers);
 
     const selfAssessmentRef = doc(collection(firestore, "selfAssessments"));
@@ -138,6 +154,7 @@ export const submitSelfAssessmentController = async (req: Request, res: Response
       regulationId,
       regulationName,
       formId,
+      formVersion: draft.formVersion || formValidation.formVersion,
       formName,
       answers: draft.answers,
       totalScore,

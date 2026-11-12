@@ -12,9 +12,9 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 | Recuperación de contraseña | Parcial | Controlador y ruta `/api/auth/recover-password` | Verificar correo real y proveedor de email. |
 | Gestión de usuarios | Funciona localmente | `userController.test.ts` (17 pruebas) | Autorización por rol y aislamiento por organización. |
 | Regulaciones | Funciona localmente | `regulationController.test.ts` (11 pruebas) | Versionado, vigencia y permisos administrativos. |
-| Formularios | Parcial | Controladores, rutas y build TypeScript | El servicio solo tiene smoke test; faltan pruebas CRUD. |
+| Formularios | Parcial | Controladores, rutas, versionado y build TypeScript | El servicio solo tiene smoke test; faltan pruebas CRUD. |
 | Guardado de borrador | Parcial | Rutas `/self-assessments/draft` y controladores | Prueba de reanudación y expiración/versionado. |
-| Evaluación y puntajes | Parcial | `selfAssessmentController.test.ts` y `calculateScores.ts` | Flujo de extremo a extremo y fórmula documentada con casos límite. |
+| Evaluación y puntajes | Parcial | `selfAssessmentController.test.ts`, `formAnswerValidation.test.ts` y `calculateScores.ts` | Flujo de extremo a extremo, respuestas obligatorias y Firebase Emulator. |
 | Reportes de cumplimiento | Funciona localmente | `complianceReportController.test.ts` | PDF, permisos de descarga y trazabilidad histórica. |
 | Auditorías | Parcial | Rutas/controlador compilados | Solo smoke test; faltan pruebas de creación, consulta y permisos. |
 | Notificaciones | Funciona localmente | `notificationController.test.ts` (4 pruebas) | Probar MailerSend sin secreto real y reintentos. |
@@ -29,7 +29,7 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 |---|---|---|---|---|
 | auth | OK | 6 pasan | OK, warnings | Cobertura de controlador 76.47 %. |
 | users | OK | 17 pasan | OK, warnings | Mock de Firestore estabilizado. |
-| compliance | OK | 22 pasan | OK, warnings | Incluye pruebas directas de la fórmula de puntajes. |
+| compliance | OK | 32 pasan | OK, warnings | Incluye ownership, validación de respuestas, versionado y fórmula de puntajes. |
 | notifications | OK | 4 pasan | OK, warnings | MailerSend requiere configuración para envío real. |
 | regulations | OK | 11 pasan | OK, warnings | Cobertura de controlador 86.36 %. |
 | evaluation forms | OK | 7 pasan | OK, warnings | Cubre reglas Zod de preguntas, opciones y formularios completos. |

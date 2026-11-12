@@ -61,8 +61,10 @@
 
 ## Validación posterior — 2026-11-12
 
-- Los siete servicios pasan `npm test`: 86 pruebas en total (incluye autorización
+- Los siete servicios pasan `npm test`: 88 pruebas en total (incluye autorización
   de Users y Compliance).
+- La validación de respuestas de Compliance añade pertenencia a formulario,
+  sección, normativa, tipo, opción y subpregunta; también conserva `formVersion`.
 - Los siete servicios pasan build y lint; frontend pasa build y lint.
 - `test-runtime-services.ps1` verificó `/health` y `/ready` con HTTP 200 en los
   siete servicios usando plantillas de entorno.

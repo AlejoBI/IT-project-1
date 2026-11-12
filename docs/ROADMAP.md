@@ -118,14 +118,14 @@ secretos ni datos reales de prueba.
 - [x] Definir el ciclo de vida de una regulación.
 - [x] Definir versiones y vigencia de normas.
 - [x] Definir estados de formularios y evaluaciones.
-- [ ] Validar que cada pregunta pertenezca a una sección y regulación.
+- [x] Validar que cada pregunta pertenezca a una sección y regulación.
 - [x] Añadir guardado parcial de evaluaciones.
 - [x] Añadir reanudación de evaluaciones incompletas.
 - [ ] Validar respuestas obligatorias y tipos de respuesta.
-- [ ] Versionar formularios para conservar evaluaciones históricas.
+- [x] Versionar formularios para conservar evaluaciones históricas.
 - [x] Separar el cálculo de puntajes de la capa HTTP.
 - [x] Documentar fórmula de cumplimiento y preguntas sin respuesta.
-- [ ] Trazar cada resultado hasta regulación, sección y pregunta.
+- [x] Trazar cada resultado hasta regulación, sección y pregunta.
 - [x] Mostrar que el resultado es apoyo y no una conclusión jurídica definitiva.
 
 **Entregable:** evaluación reproducible, versionada y explicable.
@@ -292,7 +292,8 @@ solo cuando exista evidencia reproducible.
 #### 2026-11-12 — validación y seguridad
 
 - La suite completa de servicios pasó: 83 pruebas en los siete servicios; las
-  pruebas adicionales de autorización elevan el total actual a 86.
+  pruebas adicionales de autorización y trazabilidad elevan el total actual a
+  88.
 - Build y lint pasan en los siete servicios y en el frontend.
 - Los siete servicios respondieron `200` en `/health` y `/ready` usando
   `test-runtime-services.ps1`.
@@ -301,3 +302,16 @@ solo cuando exista evidencia reproducible.
 - Se verificó token Firebase en los endpoints internos y autorización por rol y
   propietario en Users. Quedan pendientes roles/aislamiento en los demás
   controladores y reglas de Firestore.
+
+#### 2026-11-12 — trazabilidad de evaluaciones
+
+- Las respuestas de Compliance se contrastan con las secciones y preguntas
+  existentes del formulario, incluyendo normativa, tipo, opciones y
+  subpreguntas.
+- Los formularios nuevos comienzan en versión 1 y cada actualización incrementa
+  su versión; las sesiones y resultados guardan `formVersion`.
+- Los resultados conservan `formId`, `regulationId`, `sectionId` y `questionId`
+  dentro de la evaluación para permitir trazabilidad histórica.
+- Compliance pasa build, lint y 32 pruebas; Evaluation Forms pasa build, lint y
+  7 pruebas. Los warnings restantes son `any` preexistentes en pruebas y
+  controladores.

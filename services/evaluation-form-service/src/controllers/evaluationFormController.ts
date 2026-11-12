@@ -48,6 +48,7 @@ export const createFullEvaluationForm = async (req: Request, res: Response): Pro
       regulationId,
       name,
       description,
+      version: 1,
       createdAt: now,
       updatedAt: now,
     };
@@ -133,6 +134,7 @@ export const addEvaluationForm = async (req: Request, res: Response): Promise<vo
     const formsRef = collection(firestore, "evaluationForms");
     await addDoc(formsRef, {
       ...formData,
+      version: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -225,9 +227,11 @@ export const updateEvaluationForm = async (req: Request, res: Response): Promise
     }
 
     const updateData = req.body;
+    const currentVersion = Number(snapshot.data().version) || 1;
 
     await updateDoc(formRef, {
       ...updateData,
+      version: currentVersion + 1,
       updatedAt: new Date(),
     });
 
