@@ -18,7 +18,7 @@ const Reports = () => {
   const dispatch = useAppDispatch();
   const { loading } = useRegulation();
   const { user } = useAuth();
-  const { selfAssessmentReport, complianceReport } = useCompliance();
+  const { selfAssessmentReport, complianceReport, error } = useCompliance();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -44,6 +44,12 @@ const Reports = () => {
         Reportes de Cumplimiento
       </h1>
 
+      {error && (
+        <p role="alert" className="mb-6 rounded-lg bg-red-50 p-4 text-red-700 dark:bg-red-950 dark:text-red-200">
+          No pudimos cargar los reportes: {error}
+        </p>
+      )}
+
       {hasReports ? (
         <>
           {/* Layout responsive de 2 columnas */}
@@ -54,13 +60,17 @@ const Reports = () => {
 
           <section className="mb-8 border rounded-lg overflow-hidden">
             <button
+              type="button"
               onClick={() => setIsOpen(!isOpen)}
+              aria-expanded={isOpen}
+              aria-controls="reports-by-regulation"
               className={`w-full text-left px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-1000 font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
             >
               {isOpen ? "▼" : "►"} Resultados por Normativa
             </button>
 
             <div
+              id="reports-by-regulation"
               className={`transition-all duration-1000 overflow-hidden ${
                 isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
               }`}

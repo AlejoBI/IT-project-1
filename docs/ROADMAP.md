@@ -160,7 +160,7 @@ secretos ni datos reales de prueba.
 - [x] Mejorar navegación, sidebar y breadcrumbs.
 - [x] Mostrar progreso de formularios largos.
 - [x] Permitir guardar y continuar después.
-- [ ] Mejorar estados de carga, vacío, error y éxito.
+- [x] Mejorar estados de carga, vacío, error y éxito.
 - [x] Añadir confirmación antes de eliminar información.
 - [x] Mejorar dashboard con métricas accionables.
 - [x] Mejorar gráficos para móvil y accesibilidad.
