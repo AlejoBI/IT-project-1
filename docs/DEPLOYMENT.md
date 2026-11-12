@@ -29,6 +29,21 @@ Para validar la configuración de Compose sin crear archivos `.env` permanentes:
 powershell -ExecutionPolicy Bypass -File .\check-compose-config.ps1
 ```
 
+Para comprobar los endpoints protegidos con un token real del usuario actual
+(el token no se guarda en disco):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\check-api-endpoints.ps1 `
+  -BaseUrl "http://localhost" `
+  -Token $env:FIREBASE_ID_TOKEN `
+  -UserId "UID_DEL_USUARIO" `
+  -RegulationId "ID_DE_LA_NORMATIVA"
+```
+
+El backend debe tener `FIREBASE_ADMIN_PROJECT_ID=it-project-34ac1`,
+`FIREBASE_ADMIN_CLIENT_EMAIL` y `FIREBASE_ADMIN_PRIVATE_KEY` del mismo proyecto.
+La configuración web (`VITE_FIREBASE_*`) no sustituye las credenciales Admin SDK.
+
 ## Frontend
 
 El build usa:
