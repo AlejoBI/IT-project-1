@@ -20,9 +20,7 @@ const AuditContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
   const dispatch = useAppDispatch();
   const { selfAssessmentToAudit, loading } = useCompliance();
   const { user } = useAuth();
-  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
-    null
-  );
+  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
   const { register, handleSubmit, reset } = useForm<{
     auditComment: string;
     complianceStatus: string;
@@ -64,15 +62,10 @@ const AuditContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
     }
   }, [selectedSectionId, uniqueSections]);
 
-  const handleSaveAudit = (data: {
-    auditComment: string;
-    complianceStatus: string;
-  }) => {
+  const handleSaveAudit = (data: { auditComment: string; complianceStatus: string }) => {
     if (!selectedSectionId) return;
 
-    const section = uniqueSections.find(
-      (s) => s.sectionId === selectedSectionId
-    );
+    const section = uniqueSections.find((s) => s.sectionId === selectedSectionId);
     if (!section) return;
 
     const audit: Audit = {
@@ -102,10 +95,7 @@ const AuditContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
           selectedSectionId={selectedSectionId}
           onSelect={setSelectedSectionId}
         />
-        <AuditContent
-          sectionAnswers={sectionAnswers}
-          selectedSectionId={selectedSectionId}
-        />
+        <AuditContent sectionAnswers={sectionAnswers} selectedSectionId={selectedSectionId} />
       </div>
 
       {selectedSectionId && (

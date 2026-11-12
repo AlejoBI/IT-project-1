@@ -2,11 +2,7 @@ import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { QuestionType } from "../../../domain/models/types/EvaluationFormTypes";
 
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 interface QuestionEditorProps {
   sectionIndex: number;
@@ -73,15 +69,14 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
             {type === "single-choice"
               ? "Opción única"
               : type === "multiple-choice"
-              ? "Opción múltiple"
-              : "Respuesta de texto"}
+                ? "Opción múltiple"
+                : "Respuesta de texto"}
           </option>
         ))}
       </select>
 
       {/* Opciones para preguntas tipo choice */}
-      {(questionType === "single-choice" ||
-        questionType === "multiple-choice") && (
+      {(questionType === "single-choice" || questionType === "multiple-choice") && (
         <div className="space-y-1">
           {options.map((option, optIndex) => (
             <div key={option.id} className="flex items-center gap-2">
@@ -176,9 +171,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
       ))}
       <button
         type="button"
-        onClick={() =>
-          appendSubQuestion({ text: "", type: "text", options: [] })
-        }
+        onClick={() => appendSubQuestion({ text: "", type: "text", options: [] })}
         className={`
           ${LIGHT_MODE_COLORS.BUTTON_BG} ${DARK_MODE_COLORS.BUTTON_BG}
           ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}

@@ -10,9 +10,7 @@ import {
 } from "../../shared/constants";
 
 const Dashboard = () => {
-  const [selectedSection, setSelectedSection] = useState<"user" | "standard">(
-    "user"
-  );
+  const [selectedSection, setSelectedSection] = useState<"user" | "standard">("user");
 
   return (
     <div className="flex min-h-screen">

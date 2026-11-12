@@ -16,11 +16,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password, username, name } = req.body;
 
   try {
-    const { user } = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
     await signOut(auth);
 
     await updateProfile(user, { displayName: username });
@@ -40,8 +36,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al crear la cuenta";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al crear la cuenta";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -49,11 +44,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
     const userRef = doc(firestore, "users", user.uid);
@@ -64,9 +55,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     }
 
     if (!user.emailVerified) {
-      return res
-        .status(403)
-        .json({ error: "Por favor verifica tu correo electrónico" });
+      return res.status(403).json({ error: "Por favor verifica tu correo electrónico" });
     }
 
     const userData = userDoc.data();
@@ -80,8 +69,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al iniciar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -92,8 +80,7 @@ export const logout = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Sesión cerrada exitosamente" });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al cerrar sesión";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al cerrar sesión";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -106,8 +93,7 @@ export const recoverPassword = async (req: Request, res: Response) => {
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] ||
-      "Error al enviar el correo de recuperación";
+      FIREBASE_ERRORS[firebaseError] || "Error al enviar el correo de recuperación";
     res.status(400).json({ error: errorMessage });
   }
 };

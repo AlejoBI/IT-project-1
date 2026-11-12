@@ -14,10 +14,7 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
   const { audits } = useAudit();
   const dispatch = useAppDispatch();
 
-  const auditArray = useMemo(
-    () => (Array.isArray(audits) ? audits : []),
-    [audits]
-  );
+  const auditArray = useMemo(() => (Array.isArray(audits) ? audits : []), [audits]);
 
   const sectionAudit = useMemo(() => {
     const auditsForSelfAssessment = auditArray.filter(
@@ -26,8 +23,7 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
 
     for (const audit of auditsForSelfAssessment) {
       const match = audit.sectionAudits.find(
-        (section: AuditSection) =>
-          String(section.sectionId) === String(sectionId)
+        (section: AuditSection) => String(section.sectionId) === String(sectionId)
       );
       if (match) {
         return {
@@ -68,12 +64,9 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
       <h3
         className={`text-xl font-semibold mb-4 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
-        Visualización de Auditoría de{" "}
-        {sectionAudit.sectionTitle || "Sección no definida"}
+        Visualización de Auditoría de {sectionAudit.sectionTitle || "Sección no definida"}
       </h3>
-      <p
-        className={`mb-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-      >
+      <p className={`mb-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
         Puedes ver los comentarios y el estado de cumplimiento de la sección{" "}
         {sectionAudit.sectionTitle}
       </p>
@@ -93,9 +86,7 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
           <div
             className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} rounded-xl px-4 py-3 mb-2 shadow-sm`}
           >
-            <p
-              className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-            >
+            <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               {sectionAudit.observation}
             </p>
           </div>
@@ -110,8 +101,8 @@ const AuditUserView = ({ sectionId, selfAssessmentId }: AuditUserViewProps) => {
                 sectionAudit.status === "Cumple"
                   ? "bg-green-600"
                   : sectionAudit.status === "No Cumple"
-                  ? "bg-red-600"
-                  : "bg-blue-600"
+                    ? "bg-red-600"
+                    : "bg-blue-600"
               }`}
             >
               {sectionAudit.status}

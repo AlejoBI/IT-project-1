@@ -21,10 +21,7 @@ export const getEvaluationFormById = async (uid: string) => {
   return response.data;
 };
 
-export const updateEvaluationFormApi = async (
-  uid: string,
-  updates: Partial<Form>
-) => {
+export const updateEvaluationFormApi = async (uid: string, updates: Partial<Form>) => {
   const response = await api.put(`/api/evaluation/forms/${uid}`, updates);
   return response.data;
 };

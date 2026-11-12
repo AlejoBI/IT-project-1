@@ -38,9 +38,7 @@ const AuditToUser = () => {
   const evaluationCount = user.evaluationsCount || 0;
   const auditCount = user.auditsCount || 0;
   const evaluationsAverage =
-    typeof user.evaluationsAverage === "number"
-      ? `${user.evaluationsAverage.toFixed(2)}%`
-      : "0%";
+    typeof user.evaluationsAverage === "number" ? `${user.evaluationsAverage.toFixed(2)}%` : "0%";
 
   return (
     <div
@@ -49,9 +47,7 @@ const AuditToUser = () => {
       <div
         className={`p-4 sm:p-6 rounded-2xl shadow-md mb-6 sm:mb-8 text-center sm:text-left ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
       >
-        <h1 className="text-2xl sm:text-3xl font-bold">
-          Evaluaciones y Auditorías
-        </h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">Evaluaciones y Auditorías</h1>
         <p className="mt-2 text-sm sm:text-base opacity-90">
           Visualiza tu progreso y tareas pendientes en las auditorías.
         </p>

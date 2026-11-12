@@ -6,10 +6,7 @@ import {
   deleteFormSection,
 } from "../controllers/sectionsController.js";
 import { validate } from "../middlewares/validate.js";
-import {
-  formSectionSchema,
-  formSectionUpdateSchema,
-} from "../schemas/evaluationFormSchema.js";
+import { formSectionSchema, formSectionUpdateSchema } from "../schemas/evaluationFormSchema.js";
 
 const router = Router();
 

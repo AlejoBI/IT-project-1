@@ -2,11 +2,7 @@ import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import QuestionEditor from "./QuestionEditor";
 
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 interface SectionEditorProps {
   sectionIndex: number;

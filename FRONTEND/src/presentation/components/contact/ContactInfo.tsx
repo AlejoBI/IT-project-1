@@ -24,29 +24,15 @@ const ContactInfo = () => {
       </div>
 
       <div className="pt-6 border-t border-gray-300 dark:border-gray-700">
-        <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-100">
-          Síguenos
-        </h3>
+        <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-100">Síguenos</h3>
         <div className="flex gap-4">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
             <Facebook className="w-6 h-6 hover:text-blue-600" />
           </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
             <Linkedin className="w-6 h-6 hover:text-blue-500" />
           </a>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
             <Github className="w-6 h-6 hover:text-gray-900 dark:hover:text-white" />
           </a>
         </div>

@@ -1,10 +1,6 @@
 import React from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
-import { norms } from "../../../shared/utils"
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { norms } from "../../../shared/utils";
 
 const SupportedNorms = () => (
   <section

@@ -9,10 +9,7 @@ export const registerApi = async (userData: {
   return response.data.message;
 };
 
-export const loginApi = async (credentials: {
-  email: string;
-  password: string;
-}) => {
+export const loginApi = async (credentials: { email: string; password: string }) => {
   const response = await api.post("/api/auth/login", credentials);
   return response.data;
 };

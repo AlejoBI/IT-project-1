@@ -20,10 +20,7 @@ export const getRegulation = async (uid: string) => {
 };
 
 // Actualizar regulacion
-export const updateRegulation = async (
-  uid: string,
-  updates: Partial<Regulation>
-) => {
+export const updateRegulation = async (uid: string, updates: Partial<Regulation>) => {
   const response = await api.put(`/api/regulations/${uid}`, updates);
   return response.data;
 };

@@ -40,6 +40,5 @@ const notificationSlice = createSlice({
   },
 });
 
-export const { clearNotificationState } =
-  notificationSlice.actions;
+export const { clearNotificationState } = notificationSlice.actions;
 export default notificationSlice.reducer;

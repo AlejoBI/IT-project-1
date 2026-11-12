@@ -1,13 +1,5 @@
 import { Request, Response } from "express";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  collection,
-  getDocs,
-  deleteDoc,
-  addDoc,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, collection, getDocs, deleteDoc, addDoc } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
@@ -30,8 +22,7 @@ export const addRegulation = async (req: Request, res: Response) => {
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al agregar la normativa";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al agregar la normativa";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -54,14 +45,13 @@ export const getRegulations = async (req: Request, res: Response) => {
     res.status(200).json(regulations);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener las normativas";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener las normativas";
     res.status(400).json({ error: errorMessage });
   }
 };
 
 // Obtener una normativa específica
-export const getRegulation  = async (req: Request, res: Response): Promise<any> => {
+export const getRegulation = async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
   try {
     const regulationRef = doc(firestore, "regulations", id);
@@ -79,8 +69,7 @@ export const getRegulation  = async (req: Request, res: Response): Promise<any> 
     res.status(200).json(regulation);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener la normativa";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener la normativa";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -108,8 +97,7 @@ export const updateRegulation = async (req: Request, res: Response): Promise<any
     res.status(200).json({ message: "Normativa actualizada exitosamente." });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al actualizar la normativa";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al actualizar la normativa";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -129,8 +117,7 @@ export const deleteRegulation = async (req: Request, res: Response): Promise<any
     res.status(200).json({ message: "Normativa eliminada exitosamente." });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al eliminar la normativa";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al eliminar la normativa";
     res.status(400).json({ error: errorMessage });
   }
 };

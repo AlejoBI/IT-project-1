@@ -14,10 +14,7 @@ import { firestore } from "../utils/firebaseConfig.js";
 
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
-export const createOrUpdateAudit = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const createOrUpdateAudit = async (req: Request, res: Response): Promise<any> => {
   const { selfAssessmentId, auditorId, auditorName, sectionAudit } = req.body;
   try {
     // Verificar si la sección ya fue auditada por cualquier auditor
@@ -65,16 +62,12 @@ export const createOrUpdateAudit = async (
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
     const errorMessage =
-      FIREBASE_ERRORS[firebaseError] ||
-      "Error creando o actualizando auditoría.";
+      FIREBASE_ERRORS[firebaseError] || "Error creando o actualizando auditoría.";
     res.status(400).json({ error: errorMessage });
   }
 };
 
-export const getAuditsBySelfAssessmentId = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const getAuditsBySelfAssessmentId = async (req: Request, res: Response): Promise<any> => {
   try {
     const { selfAssessmentId } = req.params;
 
@@ -87,9 +80,7 @@ export const getAuditsBySelfAssessmentId = async (
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ error: "No hay auditorías para esta evaluación." });
+      return res.status(404).json({ error: "No hay auditorías para esta evaluación." });
     }
 
     const audits = snapshot.docs.map((doc) => ({
@@ -100,8 +91,7 @@ export const getAuditsBySelfAssessmentId = async (
     return res.status(200).json(audits);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error obteniendo auditorías.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo auditorías.";
     res.status(400).json({ error: errorMessage });
   }
 };

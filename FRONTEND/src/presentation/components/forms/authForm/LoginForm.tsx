@@ -59,9 +59,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           })}
           className={inputClassName}
         />
-        {errors.email && (
-          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-        )}
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
       </div>
 
       <div className="flex flex-col">
@@ -74,9 +72,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           })}
           className={inputClassName}
         />
-        {errors.password && (
-          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
       </div>
 
       <div className="flex justify-center mt-4">

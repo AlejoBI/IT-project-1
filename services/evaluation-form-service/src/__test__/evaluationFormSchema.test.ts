@@ -1,6 +1,4 @@
-import {
-  answerEnum,
-} from "../models/formModels.js";
+import { answerEnum } from "../models/formModels.js";
 import {
   formQuestionSchema,
   fullEvaluationFormSchema,

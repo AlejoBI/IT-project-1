@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 const MainContent = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -15,13 +15,9 @@ import { calculateScores } from "../services/calculateScores.js";
 import { createComplianceReport } from "./complianceReportController.js";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
-export const saveDraftController = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const saveDraftController = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { userId, regulationId, formId, sectionId, sectionTitle, answers } =
-      req.body;
+    const { userId, regulationId, formId, sectionId, sectionTitle, answers } = req.body;
 
     const q = query(
       collection(firestore, "selfAssessmentSessions"),
@@ -44,9 +40,7 @@ export const saveDraftController = async (
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      return res
-        .status(201)
-        .json({ message: "Nueva evaluación iniciada y avance guardado." });
+      return res.status(201).json({ message: "Nueva evaluación iniciada y avance guardado." });
     } else {
       // solo debe haber una activa, tomamos la primera
       const draftDoc = snapshot.docs[0];
@@ -59,10 +53,10 @@ export const saveDraftController = async (
 
       const updatedSections = Array.from(
         new Map(
-          [
-            ...(existing.completedSections || []),
-            { sectionId, sectionTitle },
-          ].map((section) => [section.sectionId, section])
+          [...(existing.completedSections || []), { sectionId, sectionTitle }].map((section) => [
+            section.sectionId,
+            section,
+          ])
         ).values()
       );
 
@@ -72,22 +66,16 @@ export const saveDraftController = async (
         updatedAt: new Date(),
       });
 
-      return res
-        .status(200)
-        .json({ message: "Avance actualizado exitosamente." });
+      return res.status(200).json({ message: "Avance actualizado exitosamente." });
     }
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error guardando avance.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error guardando avance.";
     return res.status(400).json({ error: errorMessage });
   }
 };
 
-export const getDraftController = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const getDraftController = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId, regulationId } = req.params;
 
@@ -101,24 +89,18 @@ export const getDraftController = async (
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ error: "No hay avance guardado para esta normativa." });
+      return res.status(404).json({ error: "No hay avance guardado para esta normativa." });
     }
 
     return res.status(200).json(snapshot.docs[0].data());
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error obteniendo avance.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo avance.";
     return res.status(400).json({ error: errorMessage });
   }
 };
 
-export const submitSelfAssessmentController = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const submitSelfAssessmentController = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId, regulationId, regulationName, formId, formName } = req.body;
 
@@ -131,9 +113,7 @@ export const submitSelfAssessmentController = async (
 
     const snapshot = await getDocs(q);
     if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ error: "No existe evaluación en progreso para enviar." });
+      return res.status(404).json({ error: "No existe evaluación en progreso para enviar." });
     }
 
     const draftDoc = snapshot.docs[0];
@@ -170,35 +150,24 @@ export const submitSelfAssessmentController = async (
       updatedAt: new Date(),
     });
 
-    return res
-      .status(200)
-      .json({ message: "Autoevaluación enviada exitosamente." });
+    return res.status(200).json({ message: "Autoevaluación enviada exitosamente." });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || error;
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || error;
     return res.status(400).json({ error: errorMessage });
   }
 };
 
-export const getSelfAssessmentController = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const getSelfAssessmentController = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId } = req.params;
 
-    const q = query(
-      collection(firestore, "selfAssessmentSessions"),
-      where("userId", "==", userId)
-    );
+    const q = query(collection(firestore, "selfAssessmentSessions"), where("userId", "==", userId));
 
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ error: "No hay autoevaluaciones completadas o iniciadas." });
+      return res.status(404).json({ error: "No hay autoevaluaciones completadas o iniciadas." });
     }
 
     const selfAssessmentsSessions = snapshot.docs.map((doc) => ({
@@ -209,8 +178,7 @@ export const getSelfAssessmentController = async (
     return res.status(200).json(selfAssessmentsSessions);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -222,17 +190,12 @@ export const getSelfAssessmentToAuditsByUserId = async (
   try {
     const { userId } = req.params;
 
-    const q = query(
-      collection(firestore, "selfAssessments"),
-      where("userId", "==", userId)
-    );
+    const q = query(collection(firestore, "selfAssessments"), where("userId", "==", userId));
 
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ error: "No hay autoevaluaciones completadas." });
+      return res.status(404).json({ error: "No hay autoevaluaciones completadas." });
     }
 
     // Agrupar por formId y regulationId
@@ -273,15 +236,11 @@ export const getSelfAssessmentToAuditsByUserId = async (
           if (!auditSnapshot.empty) {
             const auditDoc = auditSnapshot.docs[0].data();
             const sectionAudits = auditDoc.sectionAudits || [];
-            auditStatus =
-              sectionAudits.length >= totalSections
-                ? "completada"
-                : "en_proceso";
+            auditStatus = sectionAudits.length >= totalSections ? "completada" : "en_proceso";
           }
 
           // Construir solo los campos visibles + auditStatus
-          const { id, formId, regulationId, formName, regulationName, userId } =
-            item;
+          const { id, formId, regulationId, formName, regulationName, userId } = item;
 
           return {
             id,
@@ -299,8 +258,7 @@ export const getSelfAssessmentToAuditsByUserId = async (
     return res.status(200).json(result);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -311,18 +269,12 @@ export const getSelfAssessmentByAssessmentId = async (
 ): Promise<any> => {
   try {
     const { selfAssessmentId } = req.params;
-    
-    const selfAssessmentRef = doc(
-      firestore,
-      "selfAssessments",
-      selfAssessmentId
-    );
+
+    const selfAssessmentRef = doc(firestore, "selfAssessments", selfAssessmentId);
     const snapshot = await getDoc(selfAssessmentRef);
 
     if (!snapshot.exists()) {
-      return res
-        .status(404)
-        .json({ error: "No hay autoevaluaciones completadas con ese ID." });
+      return res.status(404).json({ error: "No hay autoevaluaciones completadas con ese ID." });
     }
 
     const selfAssessment = snapshot.data();
@@ -333,8 +285,7 @@ export const getSelfAssessmentByAssessmentId = async (
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
     return res.status(400).json({ error: errorMessage });
   }
 };

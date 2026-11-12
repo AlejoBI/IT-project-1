@@ -39,10 +39,9 @@ const About = () => {
         <p
           className={`max-w-3xl mx-auto text-lg ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
-          Somos estudiantes de Ingeniería Informática de la Universidad Autónoma
-          de Occidente. Conformamos <strong>ByteForge</strong>, una empresa
-          emergente dedicada al desarrollo de soluciones digitales enfocadas en
-          la gestión de cumplimiento normativo.
+          Somos estudiantes de Ingeniería Informática de la Universidad Autónoma de Occidente.
+          Conformamos <strong>ByteForge</strong>, una empresa emergente dedicada al desarrollo de
+          soluciones digitales enfocadas en la gestión de cumplimiento normativo.
         </p>
       </section>
 
@@ -89,12 +88,10 @@ const About = () => {
       <section
         className={`rounded-xl p-6 text-white text-center ${GRADIENTS.WELCOME_BANNER} ${DARK_GRADIENTS.WELCOME_BANNER}`}
       >
-        <h3 className="text-2xl font-bold mb-2">
-          ByteForge: Innovando el cumplimiento normativo
-        </h3>
+        <h3 className="text-2xl font-bold mb-2">ByteForge: Innovando el cumplimiento normativo</h3>
         <p>
-          Tu empresa puede estar siempre lista para auditorías, regulaciones y
-          mejoras continuas con nuestras soluciones.
+          Tu empresa puede estar siempre lista para auditorías, regulaciones y mejoras continuas con
+          nuestras soluciones.
         </p>
       </section>
     </div>

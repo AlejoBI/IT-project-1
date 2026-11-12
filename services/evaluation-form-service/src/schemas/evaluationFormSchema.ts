@@ -29,8 +29,7 @@ export const questionSchema: z.ZodType<any> = z
       data.type !== answerEnum.SINGLE_CHOICE ||
       (Array.isArray(data.options) && data.options.length >= 1),
     {
-      message:
-        "Las preguntas de tipo 'single-choice' deben tener al menos 1 opción.",
+      message: "Las preguntas de tipo 'single-choice' deben tener al menos 1 opción.",
       path: ["options"],
     }
   )
@@ -39,8 +38,7 @@ export const questionSchema: z.ZodType<any> = z
       data.type !== answerEnum.MULTIPLE_CHOICE ||
       (Array.isArray(data.options) && data.options.length >= 2),
     {
-      message:
-        "Las preguntas de tipo 'multiple-choice' deben tener al menos 2 opciones.",
+      message: "Las preguntas de tipo 'multiple-choice' deben tener al menos 2 opciones.",
       path: ["options"],
     }
   );
@@ -83,9 +81,7 @@ const baseFormQuestionSchema = z.object({
 export const formQuestionSchema = baseFormQuestionSchema.refine(
   (data) =>
     (data.type === answerEnum.TEXT && !data.options) ||
-    ([answerEnum.MULTIPLE_CHOICE, answerEnum.SINGLE_CHOICE].includes(
-      data.type
-    ) &&
+    ([answerEnum.MULTIPLE_CHOICE, answerEnum.SINGLE_CHOICE].includes(data.type) &&
       Array.isArray(data.options) &&
       data.options.length > 0),
   {

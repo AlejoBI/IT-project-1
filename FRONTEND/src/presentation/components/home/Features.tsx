@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 import Norm from "../../../assets/img/Norm.webp";
 
 const Features = () => (
@@ -17,12 +13,10 @@ const Features = () => (
         >
           El cumplimiento no debería ser un dolor de cabeza
         </h2>
-        <p
-          className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
-        >
-          Simplifica tu trabajo con una plataforma que organiza y guía tus
-          autoevaluaciones, auditorías y reportes , diseñada específicamente
-          para estándares como <strong>ISO 9001, ITIL 4, NIST y más.</strong>
+        <p className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
+          Simplifica tu trabajo con una plataforma que organiza y guía tus autoevaluaciones,
+          auditorías y reportes , diseñada específicamente para estándares como{" "}
+          <strong>ISO 9001, ITIL 4, NIST y más.</strong>
         </p>
       </div>
       <img

@@ -85,13 +85,10 @@ const evaluationFormSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(
-      fetchEvaluationFormByIdAction.fulfilled,
-      (state, action) => {
-        state.loading = false;
-        state.forms = action.payload;
-      }
-    );
+    builder.addCase(fetchEvaluationFormByIdAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.forms = action.payload;
+    });
     builder.addCase(fetchEvaluationFormByIdAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
@@ -113,7 +110,6 @@ const evaluationFormSlice = createSlice({
   },
 });
 
-export const { setForm, clearNotification, clearForms } =
-  evaluationFormSlice.actions;
+export const { setForm, clearNotification, clearForms } = evaluationFormSlice.actions;
 
 export default evaluationFormSlice.reducer;

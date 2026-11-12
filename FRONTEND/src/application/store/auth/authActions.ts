@@ -8,10 +8,7 @@ import {
 } from "../../../infrastructure/api/authApi";
 import { AuthUser } from "../../../domain/models/types/authTypes";
 import { validateClient } from "../../../shared/zodUtils";
-import {
-  registerSchema,
-  loginSchema,
-} from "../../../domain/models/schemas/authSchema";
+import { registerSchema, loginSchema } from "../../../domain/models/schemas/authSchema";
 
 export const registerUser = createAsyncThunk<
   string,
@@ -73,18 +70,17 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
   }
 );
 
-export const recoverPasswordUser = createAsyncThunk<
-  string,
-  string,
-  { rejectValue: string }
->("auth/recoverPassword", async (email, { rejectWithValue }) => {
-  try {
-    const res = await recoverPasswordApi(email);
-    return res.data.message;
-  } catch (error: unknown) {
-    const axiosError = error as AxiosError;
-    const errorData = axiosError.response?.data as { error: string };
-    const errorMessage = errorData?.error || "Error al recuperar la contraseña";
-    return rejectWithValue(errorMessage);
+export const recoverPasswordUser = createAsyncThunk<string, string, { rejectValue: string }>(
+  "auth/recoverPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await recoverPasswordApi(email);
+      return res.data.message;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data as { error: string };
+      const errorMessage = errorData?.error || "Error al recuperar la contraseña";
+      return rejectWithValue(errorMessage);
+    }
   }
-});
+);

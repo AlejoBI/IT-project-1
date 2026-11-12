@@ -3,7 +3,7 @@ export type Notification = {
   subject: string;
   htmlContent: string;
   textContent: string;
-}
+};
 
 export enum EmailTemplateType {
   WELCOME = "WELCOME",

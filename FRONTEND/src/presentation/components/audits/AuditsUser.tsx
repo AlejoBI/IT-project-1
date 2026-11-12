@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import Button from "../UI/Button";
 import Loader from "../common/Loader";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 import { useAudit } from "../../hooks/useAudit";
 import { useAuth } from "../../hooks/useAuth";
 import { fetchSelfAssessmentToAudits } from "../../../application/store/audits/auditActions";
@@ -33,14 +29,15 @@ const AuditListPage = () => {
     navigate(`/audit-report/${selfAssessmentId}`);
   };
 
-  const grouped = selfAssessmentToAudits?.reduce<
-    Record<string, SelfAssessmentToAudit[]>
-  >((acc, curr) => {
-    const baseName = curr.regulationName.replace(/ v\d+$/, "");
-    if (!acc[baseName]) acc[baseName] = [];
-    acc[baseName].push(curr);
-    return acc;
-  }, {});
+  const grouped = selfAssessmentToAudits?.reduce<Record<string, SelfAssessmentToAudit[]>>(
+    (acc, curr) => {
+      const baseName = curr.regulationName.replace(/ v\d+$/, "");
+      if (!acc[baseName]) acc[baseName] = [];
+      acc[baseName].push(curr);
+      return acc;
+    },
+    {}
+  );
 
   const toggleRegulation = (name: string) => {
     setIsOpen((prev) => ({
@@ -75,9 +72,7 @@ const AuditListPage = () => {
 
           <div
             className={`transition-all duration-700 overflow-hidden ${
-              isOpen[baseName]
-                ? "max-h-[1000px] opacity-100"
-                : "max-h-0 opacity-0"
+              isOpen[baseName] ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             }`}
           >
             <div className="px-4 py-4 space-y-3">
@@ -93,9 +88,7 @@ const AuditListPage = () => {
                     <ButtonPDF selfAssessmentId={form.id || ""} />
                   </div>
                   <div className="w-full sm:w-1/3 text-right">
-                    <Button onClick={() => handleAudit(form.id || "")}>
-                      Revisar
-                    </Button>
+                    <Button onClick={() => handleAudit(form.id || "")}>Revisar</Button>
                   </div>
                 </div>
               ))}

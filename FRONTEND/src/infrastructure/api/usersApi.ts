@@ -20,10 +20,7 @@ export const getUserProfilesWithEvaluationsAndAudits = async () => {
 };
 
 // Actualizar perfil de usuario
-export const updateUserProfile = async (
-  uid: string,
-  updates: Partial<User>
-) => {
+export const updateUserProfile = async (uid: string, updates: Partial<User>) => {
   const response = await api.put(`/api/users/${uid}`, updates);
   return response.data;
 };

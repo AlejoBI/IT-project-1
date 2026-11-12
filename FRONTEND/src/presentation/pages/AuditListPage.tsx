@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import Button from "../components/UI/Button";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 import { useAudit } from "../hooks/useAudit";
 import { fetchSelfAssessmentToAudits } from "../../application/store/audits/auditActions";
@@ -35,14 +31,15 @@ const AuditListPage = () => {
   };
 
   // Agrupar por nombre base de regulación (sin versión)
-  const grouped = selfAssessmentToAudits?.reduce<
-    Record<string, SelfAssessmentToAudit[]>
-  >((acc, curr) => {
-    const baseName = curr.regulationName.replace(/ v\d+$/, "");
-    if (!acc[baseName]) acc[baseName] = [];
-    acc[baseName].push(curr);
-    return acc;
-  }, {});
+  const grouped = selfAssessmentToAudits?.reduce<Record<string, SelfAssessmentToAudit[]>>(
+    (acc, curr) => {
+      const baseName = curr.regulationName.replace(/ v\d+$/, "");
+      if (!acc[baseName]) acc[baseName] = [];
+      acc[baseName].push(curr);
+      return acc;
+    },
+    {}
+  );
 
   const toggleRegulation = (name: string) => {
     setIsOpen((prev) => ({
@@ -60,12 +57,7 @@ const AuditListPage = () => {
           onClick={handleBack}
           className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER} ${ANIMATION_TIMINGS.TRANSITION_DURATION} flex items-center`}
         >
-          <svg
-            className="h-6 w-6 mr-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+          <svg className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -86,9 +78,8 @@ const AuditListPage = () => {
         <p
           className={`text-sm sm:text-base mb-6 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
-          Aquí puedes ver todas las evaluaciones asociadas al usuario
-          seleccionado. Haz clic en una regulación para ver los formularios
-          disponibles y comenzar la auditoría.
+          Aquí puedes ver todas las evaluaciones asociadas al usuario seleccionado. Haz clic en una
+          regulación para ver los formularios disponibles y comenzar la auditoría.
         </p>
       </div>
 
@@ -106,9 +97,7 @@ const AuditListPage = () => {
 
           <div
             className={`transition-all duration-700 overflow-hidden ${
-              isOpen[baseName]
-                ? "max-h-[1000px] opacity-100"
-                : "max-h-0 opacity-0"
+              isOpen[baseName] ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             }`}
           >
             <div className="px-4 py-4 space-y-2">
@@ -124,15 +113,13 @@ const AuditListPage = () => {
                     {form.auditStatus === "sin_auditar"
                       ? "Sin auditar"
                       : form.auditStatus === "en_proceso"
-                      ? "En proceso"
-                      : form.auditStatus === "completado"
-                      ? "Completado"
-                      : ""}
+                        ? "En proceso"
+                        : form.auditStatus === "completado"
+                          ? "Completado"
+                          : ""}
                   </span>
                   <div className="sm:w-1/3 text-center sm:text-right">
-                    <Button onClick={() => handleAudit(form.id || "")}>
-                      Auditar
-                    </Button>
+                    <Button onClick={() => handleAudit(form.id || "")}>Auditar</Button>
                   </div>
                 </div>
               ))}

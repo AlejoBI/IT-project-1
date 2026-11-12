@@ -35,10 +35,7 @@ describe("NotificationController", () => {
   it("debería enviar una notificación correctamente", async () => {
     (sendEmail as jest.Mock).mockResolvedValue(undefined);
 
-    await notificationController.sendNotification(
-      mockReq as Request,
-      mockRes as Response
-    );
+    await notificationController.sendNotification(mockReq as Request, mockRes as Response);
 
     expect(sendEmail).toHaveBeenCalledWith(
       "test@example.com",
@@ -53,14 +50,9 @@ describe("NotificationController", () => {
   });
 
   it("debería manejar error al enviar notificación", async () => {
-    (sendEmail as jest.Mock).mockRejectedValue(
-      new Error("Error al enviar el correo electrónico")
-    );
+    (sendEmail as jest.Mock).mockRejectedValue(new Error("Error al enviar el correo electrónico"));
 
-    await notificationController.sendNotification(
-      mockReq as Request,
-      mockRes as Response
-    );
+    await notificationController.sendNotification(mockReq as Request, mockRes as Response);
 
     expect(mockRes.status).toHaveBeenCalledWith(500);
     expect(mockRes.json).toHaveBeenCalledWith({
@@ -71,10 +63,7 @@ describe("NotificationController", () => {
   it("debería devolver error si faltan campos requeridos", async () => {
     mockReq.body = {}; // No pasa los campos necesarios
 
-    await notificationController.sendNotification(
-      mockReq as Request,
-      mockRes as Response
-    );
+    await notificationController.sendNotification(mockReq as Request, mockRes as Response);
 
     expect(mockRes.status).toHaveBeenCalledWith(400);
     expect(mockRes.json).toHaveBeenCalledWith({

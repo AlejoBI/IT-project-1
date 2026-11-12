@@ -4,11 +4,7 @@ import AuditContainer from "../components/audits/AuditContainer";
 import { useAudit } from "../hooks/useAudit";
 import Notification from "../components/common/Notification";
 import Loader from "../components/common/Loader";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 
 const AuditFormPage = () => {
   const { selfAssessmentId } = useParams<{ selfAssessmentId: string }>();
@@ -37,12 +33,7 @@ const AuditFormPage = () => {
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
         Volver
       </button>

@@ -21,14 +21,12 @@ const Footer = () => {
           <p
             className={`text-sm ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
           >
-            Software diseñado para evaluar y mejorar el cumplimiento con
-            normativas internacionales.
+            Software diseñado para evaluar y mejorar el cumplimiento con normativas internacionales.
           </p>
           <p
             className={`text-sm ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} mt-2 transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
           >
-            Version 1.0 | © {new Date().getFullYear()} ByteForge. Todos los
-            derechos reservados.
+            Version 1.0 | © {new Date().getFullYear()} ByteForge. Todos los derechos reservados.
           </p>
         </div>
 

@@ -41,8 +41,7 @@ export const fetchEvaluationFormsAction = createAsyncThunk(
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
-      const errorMessage =
-        errorData?.error || "Error al obtener los formularios";
+      const errorMessage = errorData?.error || "Error al obtener los formularios";
       return rejectWithValue(errorMessage);
     }
   }
@@ -71,10 +70,7 @@ export const updateEvaluationFormAction = createAsyncThunk<
   { rejectValue: { error: string } }
 >(
   "evaluationForm/update",
-  async (
-    { uid, updates }: { uid: string; updates: Partial<Form> },
-    { rejectWithValue }
-  ) => {
+  async ({ uid, updates }: { uid: string; updates: Partial<Form> }, { rejectWithValue }) => {
     const validation = validateClient(formSchema, updates);
     if (!validation.success) {
       return rejectWithValue({ error: validation.error ?? "Datos inválidos" });
@@ -86,8 +82,7 @@ export const updateEvaluationFormAction = createAsyncThunk<
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
-      const errorMessage =
-        errorData?.error || "Error al actualizar el formulario";
+      const errorMessage = errorData?.error || "Error al actualizar el formulario";
       return rejectWithValue({ error: errorMessage });
     }
   }

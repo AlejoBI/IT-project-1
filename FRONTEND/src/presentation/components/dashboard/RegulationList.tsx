@@ -9,11 +9,7 @@ import {
 import { deleteEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 import { Pencil, Trash2, FileMinus } from "lucide-react";
 
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 const RegulationList = () => {
   const dispatch = useAppDispatch();
@@ -29,10 +25,8 @@ const RegulationList = () => {
 
   useEffect(() => {
     if (regulations && Array.isArray(regulations)) {
-      const initialData: Record<
-        string,
-        { name: string; description: string; version: string }
-      > = {};
+      const initialData: Record<string, { name: string; description: string; version: string }> =
+        {};
       regulations.forEach((regulation) => {
         if (regulation.id) {
           initialData[regulation.id] = {
@@ -66,11 +60,7 @@ const RegulationList = () => {
       await dispatch(updateRegulationAction({ uid, updates })).unwrap();
       await dispatch(fetchRegulationsAction()).unwrap();
     } catch (error) {
-      setDeleteError(
-        error instanceof Error
-          ? error.message
-          : "Error al actualizar la normativa"
-      );
+      setDeleteError(error instanceof Error ? error.message : "Error al actualizar la normativa");
       setTimeout(() => setDeleteError(null), 3000);
     }
   };
@@ -82,11 +72,7 @@ const RegulationList = () => {
       await dispatch(deleteEvaluationFormAction(uid)).unwrap();
       await dispatch(fetchRegulationsAction());
     } catch (error) {
-      setDeleteError(
-        error instanceof Error
-          ? error.message
-          : "Error al eliminar la normativa"
-      );
+      setDeleteError(error instanceof Error ? error.message : "Error al eliminar la normativa");
       setTimeout(() => setDeleteError(null), 3000);
     }
   };
@@ -98,9 +84,7 @@ const RegulationList = () => {
       await dispatch(fetchRegulationsAction());
     } catch (error) {
       setDeleteError(
-        error instanceof Error
-          ? error.message
-          : "Error al eliminar el formulario de evaluación"
+        error instanceof Error ? error.message : "Error al eliminar el formulario de evaluación"
       );
       setTimeout(() => setDeleteError(null), 3000);
     }
@@ -175,9 +159,7 @@ const RegulationList = () => {
                       index % 2 === 0
                         ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
                         : LIGHT_MODE_COLORS.BACKGROUND
-                    } ${
-                      DARK_MODE_COLORS.BACKGROUND_COMPONENT
-                    } border-t transition-colors ${
+                    } ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} border-t transition-colors ${
                       ANIMATION_TIMINGS.TRANSITION_DURATION
                     }`}
                   >
@@ -185,9 +167,7 @@ const RegulationList = () => {
                       <input
                         type="text"
                         value={currentEditData.name}
-                        onChange={(e) =>
-                          handleEditChange(id, "name", e.target.value)
-                        }
+                        onChange={(e) => handleEditChange(id, "name", e.target.value)}
                         className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
                           ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
                           ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
@@ -198,9 +178,7 @@ const RegulationList = () => {
                       <textarea
                         rows={2}
                         value={currentEditData.description}
-                        onChange={(e) =>
-                          handleEditChange(id, "description", e.target.value)
-                        }
+                        onChange={(e) => handleEditChange(id, "description", e.target.value)}
                         className={`w-full px-2 py-1 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-400
                           ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
                           ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
@@ -211,9 +189,7 @@ const RegulationList = () => {
                       <input
                         type="text"
                         value={currentEditData.version}
-                        onChange={(e) =>
-                          handleEditChange(id, "version", e.target.value)
-                        }
+                        onChange={(e) => handleEditChange(id, "version", e.target.value)}
                         className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
                           ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
                           ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}

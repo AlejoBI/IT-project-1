@@ -5,11 +5,7 @@ import { fetchAuditsBySelfAssessmentId } from "../../../application/store/audits
 import { useCompliance } from "../../hooks/useCompliance";
 import { useAuth } from "../../hooks/useAuth";
 import { useAudit } from "../../../presentation/hooks/useAudit";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 interface ButtonPDFProps {
   selfAssessmentId: string;
@@ -49,17 +45,10 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
             import("../export-pdf/PDFTemplateReports"),
           ]);
           const doc = (
-            <PDFTemplateReports
-              user={user}
-              data={selfAssessmentToAudit}
-              audits={audits ?? []}
-            />
+            <PDFTemplateReports user={user} data={selfAssessmentToAudit} audits={audits ?? []} />
           );
           const blob = await pdf(doc).toBlob();
-          downloadBlob(
-            blob,
-            `reporte-${user?.name ?? "usuario"}-${Date.now()}.pdf`
-          );
+          downloadBlob(blob, `reporte-${user?.name ?? "usuario"}-${Date.now()}.pdf`);
         } catch (err) {
           console.error("Error al generar el PDF:", err);
         } finally {

@@ -40,26 +40,23 @@ export const saveSelfAssessmentDraft = createAsyncThunk<
   string,
   SaveDraftPayload,
   { rejectValue: string | string[] }
->(
-  "compliance/saveSelfAssessmentDraft",
-  async (payload, { rejectWithValue }) => {
-    const validation = validateClient(SaveDraftSchema, payload);
+>("compliance/saveSelfAssessmentDraft", async (payload, { rejectWithValue }) => {
+  const validation = validateClient(SaveDraftSchema, payload);
 
-    if (!validation.success) {
-      return rejectWithValue(validation.error ?? "Datos inválidos");
-    }
-    if (!validation.data) {
-      throw new Error("Validación fallida");
-    }
-
-    try {
-      const saved = await saveSelfAssessmentApi(validation.data);
-      return saved.message;
-    } catch (error) {
-      return rejectWithValue((error as Error).message);
-    }
+  if (!validation.success) {
+    return rejectWithValue(validation.error ?? "Datos inválidos");
   }
-);
+  if (!validation.data) {
+    throw new Error("Validación fallida");
+  }
+
+  try {
+    const saved = await saveSelfAssessmentApi(validation.data);
+    return saved.message;
+  } catch (error) {
+    return rejectWithValue((error as Error).message);
+  }
+});
 
 export const completeSelfAssessment = createAsyncThunk<
   string,
@@ -101,37 +98,30 @@ export const fetchSelfAssessmentReport = createAsyncThunk<
   SelfAssessmentReport[],
   string,
   { rejectValue: string }
->(
-  "compliance/fetchSelfAssessmentReport",
-  async (userId, { rejectWithValue }) => {
-    try {
-      const response = await getSelfAssessmentReportApi(userId);
-      return response;
-    } catch (error: unknown) {
-      const axiosError = error as AxiosError;
-      const errorData = axiosError.response?.data as { error: string };
-      const errorMessage = errorData?.error || "Error al obtener los reportes";
-      return rejectWithValue(errorMessage);
-    }
+>("compliance/fetchSelfAssessmentReport", async (userId, { rejectWithValue }) => {
+  try {
+    const response = await getSelfAssessmentReportApi(userId);
+    return response;
+  } catch (error: unknown) {
+    const axiosError = error as AxiosError;
+    const errorData = axiosError.response?.data as { error: string };
+    const errorMessage = errorData?.error || "Error al obtener los reportes";
+    return rejectWithValue(errorMessage);
   }
-);
+});
 
 export const fetchSelfAssessmentByAssessmentId = createAsyncThunk<
   SelfAssessmentToAudit,
   string,
   { rejectValue: string }
->(
-  "compliance/fetchSelfAssessmentByAssessmentId",
-  async (selfAssessmentId, { rejectWithValue }) => {
-    try {
-      const response = await getSelfAssessmentByAssessmentId(selfAssessmentId);
-      return response;
-    } catch (error: unknown) {
-      const axiosError = error as AxiosError;
-      const errorData = axiosError.response?.data as { error: string };
-      const errorMessage =
-        errorData?.error || "Error al obtener los resultados";
-      return rejectWithValue(errorMessage);
-    }
+>("compliance/fetchSelfAssessmentByAssessmentId", async (selfAssessmentId, { rejectWithValue }) => {
+  try {
+    const response = await getSelfAssessmentByAssessmentId(selfAssessmentId);
+    return response;
+  } catch (error: unknown) {
+    const axiosError = error as AxiosError;
+    const errorData = axiosError.response?.data as { error: string };
+    const errorMessage = errorData?.error || "Error al obtener los resultados";
+    return rejectWithValue(errorMessage);
   }
-);
+});

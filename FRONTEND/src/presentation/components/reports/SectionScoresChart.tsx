@@ -12,20 +12,9 @@ import {
 import { useCompliance } from "../../hooks/useCompliance";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchComplianceReports } from "../../../application/store/compliance/complianceActions";
-import {
-  DARK_MODE_COLORS,
-  LIGHT_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
-ChartJS.register(
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend
-);
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 interface Props {
   userId: string;
@@ -50,9 +39,7 @@ const SectionScoresChart = ({ userId }: Props) => {
   if (loading) return <p className="text-center text-gray-500">Cargando...</p>;
 
   if (!complianceReport || complianceReport.length === 0)
-    return (
-      <p className="text-center text-gray-500">No hay datos disponibles.</p>
-    );
+    return <p className="text-center text-gray-500">No hay datos disponibles.</p>;
 
   // Agrupar reportes por regulationId
   const groupedByRegulation: Record<string, GroupedReport> = {};
@@ -74,17 +61,13 @@ const SectionScoresChart = ({ userId }: Props) => {
     <div className="max-h-[80vh] overflow-y-auto pr-2 space-y-8 pb-10">
       {groupedReportsArray.map(({ regulationId, regulationName, reports }) => {
         const allSectionsSet = new Set<string>();
-        reports?.forEach((r) =>
-          r.sectionScores.forEach((s) => allSectionsSet.add(s.sectionTitle))
-        );
+        reports?.forEach((r) => r.sectionScores.forEach((s) => allSectionsSet.add(s.sectionTitle)));
         const allSections = Array.from(allSectionsSet);
 
         const datasets = reports?.map((report, index) => ({
           label: `Evaluación ${index + 1}`,
           data: allSections.map((sectionTitle) => {
-            const found = report.sectionScores.find(
-              (s) => s.sectionTitle === sectionTitle
-            );
+            const found = report.sectionScores.find((s) => s.sectionTitle === sectionTitle);
             return found ? found.score : null;
           }),
           borderColor: `hsl(${(index * 60) % 360}, 70%, 50%)`,

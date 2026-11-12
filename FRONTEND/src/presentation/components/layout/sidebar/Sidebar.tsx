@@ -15,13 +15,7 @@ interface NavigationItem {
   action?: () => void;
 }
 
-const Sidebar = ({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
+const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -57,22 +51,17 @@ const Sidebar = ({
     { name: "Cerrar Sesión", action: logout },
   ];
 
-  const navigation: NavigationItem[] = isAuthenticated
-    ? navigation_authenticated
-    : navigation_all;
+  const navigation: NavigationItem[] = isAuthenticated ? navigation_authenticated : navigation_all;
 
   const filteredNavigation = navigation.filter((item) => {
     if (!isAuthenticated) return true;
 
     if (item.name === "Iniciar Sesión") return false;
-    if (item.name === "Panel de Administración" && user?.role !== "admin")
-      return false;
+    if (item.name === "Panel de Administración" && user?.role !== "admin") return false;
     if (item.name === "Cerrar Sesión" && !isAuthenticated) return false;
     if (item.name === "Auditorías" && user?.role === "admin") return false;
-    if (item.name === "Reportes" && user?.role !== "standard_user")
-      return false;
-    if (item.name === "Autoevaluaciones" && user?.role !== "standard_user")
-      return false;
+    if (item.name === "Reportes" && user?.role !== "standard_user") return false;
+    if (item.name === "Autoevaluaciones" && user?.role !== "standard_user") return false;
 
     return true;
   });
@@ -82,9 +71,7 @@ const Sidebar = ({
   );
 
   const basicItems = uniqueNavigation.filter((item) =>
-    navigation_all.some(
-      (nav) => nav.name === item.name && item.name !== "Iniciar Sesión"
-    )
+    navigation_all.some((nav) => nav.name === item.name && item.name !== "Iniciar Sesión")
   );
 
   const loginLogoutItems = uniqueNavigation.filter(
@@ -135,9 +122,7 @@ const Sidebar = ({
               : `${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`
           } block w-full text-left py-2 px-4 ${LIGHT_MODE_COLORS.HOVER_BG} ${
             DARK_MODE_COLORS.HOVER_BG
-          } transition-colors ${
-            ANIMATION_TIMINGS.TRANSITION_DURATION
-          } font-medium`}
+          } transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION} font-medium`}
         >
           {item.name}
         </a>
@@ -182,13 +167,9 @@ const Sidebar = ({
         </h2>
         <nav className="mt-4">
           {basicItems.map((item) => renderItem(item))}
-          {basicItems.length > 0 && (
-            <hr className="my-2 border-gray-300 dark:border-gray-600" />
-          )}
+          {basicItems.length > 0 && <hr className="my-2 border-gray-300 dark:border-gray-600" />}
           {middleItems.map((item) => renderItem(item))}
-          {middleItems.length > 0 && (
-            <hr className="my-2 border-gray-300 dark:border-gray-600" />
-          )}
+          {middleItems.length > 0 && <hr className="my-2 border-gray-300 dark:border-gray-600" />}
           {loginLogoutItems.map((item) => renderItem(item))}
         </nav>
       </div>

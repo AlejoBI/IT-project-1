@@ -10,9 +10,7 @@ const ContactForm = () => {
   });
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -41,9 +39,7 @@ const ContactForm = () => {
       className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-8 space-y-6 max-w-lg mx-auto"
     >
       <div>
-        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-1">
-          Nombre
-        </label>
+        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-1">Nombre</label>
         <input
           type="text"
           name="name"
@@ -71,9 +67,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-1">
-          Asunto
-        </label>
+        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-1">Asunto</label>
         <input
           type="text"
           name="subject"
@@ -86,9 +80,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-1">
-          Mensaje
-        </label>
+        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-1">Mensaje</label>
         <textarea
           name="message"
           rows={5}

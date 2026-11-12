@@ -1,13 +1,10 @@
 import { generateEmailTemplate } from "./emailTemplates";
 import { sendNotification } from "../../../application/store/notification/notificationActions";
-import {
-  EmailTemplate,
-  EmailTemplateType,
-} from "../../../domain/models/types/notificationTypes";
+import { EmailTemplate, EmailTemplateType } from "../../../domain/models/types/notificationTypes";
 import { AppDispatch } from "../../../application/store/store";
 
 interface SendEmailNotificationParams {
-  to: string
+  to: string;
   type: EmailTemplateType;
   plainTextContent: string;
   dispatch: AppDispatch;

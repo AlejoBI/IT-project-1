@@ -1,13 +1,5 @@
 import { Request, Response } from "express";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  collection,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
 
@@ -29,8 +21,7 @@ export const getUsers = async (req: Request, res: Response): Promise<any> => {
     return res.status(200).json(users);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -113,8 +104,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener el usuario";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener el usuario";
     return res.status(500).json({ error: errorMessage });
   }
 };
@@ -136,13 +126,10 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
       updatedAt: new Date(),
     });
 
-    return res
-      .status(200)
-      .json({ message: "Perfil de usuario actualizado exitosamente" });
+    return res.status(200).json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al actualizar el perfil";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al actualizar el perfil";
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -207,8 +194,7 @@ export const getUsersWithEvaluationsAndAudits = async (
     res.status(200).json(filteredUsers);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener los usuarios";
     return res.status(400).json({ error: errorMessage });
   }
 };

@@ -16,10 +16,7 @@ import {
   EmailTemplateFormCompleted,
 } from "../../../domain/models/types/notificationTypes";
 
-export const generateEmailTemplate = (
-  type: EmailTemplateType,
-  template: EmailTemplate
-): string => {
+export const generateEmailTemplate = (type: EmailTemplateType, template: EmailTemplate): string => {
   switch (type) {
     case EmailTemplateType.WELCOME:
       return welcomeTemplate(template as EmailTemplateWelcome);
@@ -31,9 +28,7 @@ export const generateEmailTemplate = (
       return warningTemplate(template as EmailTemplateWarning);
 
     case EmailTemplateType.SECTION_COMPLETED:
-      return sectionCompletedTemplate(
-        template as EmailTemplateSectionCompleted
-      );
+      return sectionCompletedTemplate(template as EmailTemplateSectionCompleted);
     case EmailTemplateType.FORM_COMPLETED:
       return formCompletedTemplate(template as EmailTemplateFormCompleted);
 

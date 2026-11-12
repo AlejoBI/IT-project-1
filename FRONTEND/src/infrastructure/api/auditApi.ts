@@ -8,9 +8,7 @@ export const createOrUpdateAuditApi = async (Data: Audit) => {
 
 // GET: Obtener las evaluaciones para auditoría
 export const getSelfAssessmentToAuditsApi = async (userId: string) => {
-  const response = await api.get(
-    `/api/compliance/self-assessments/for-audits/${userId}`
-  );
+  const response = await api.get(`/api/compliance/self-assessments/for-audits/${userId}`);
   return response.data;
 };
 

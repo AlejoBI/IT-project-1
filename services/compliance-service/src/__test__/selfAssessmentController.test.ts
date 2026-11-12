@@ -234,16 +234,12 @@ describe("submitSelfAssessmentController", () => {
     mockFirestore.setDoc.mockResolvedValue({});
     mockFirestore.updateDoc.mockResolvedValue({});
 
-    (
-      complianceReportController.createComplianceReport as jest.Mock
-    ).mockResolvedValue(undefined);
+    (complianceReportController.createComplianceReport as jest.Mock).mockResolvedValue(undefined);
 
     await submitSelfAssessmentController(req, res);
 
     expect(mockFirestore.setDoc).toHaveBeenCalled();
-    expect(
-      complianceReportController.createComplianceReport
-    ).toHaveBeenCalledWith({
+    expect(complianceReportController.createComplianceReport).toHaveBeenCalledWith({
       userId: req.body.userId,
       selfAssessmentId: "mockSelfAssessmentId",
       regulationId: req.body.regulationId,
@@ -344,9 +340,7 @@ describe("submitSelfAssessmentController", () => {
     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
     mockFirestore.getDocs.mockResolvedValue({
       empty: false,
-      docs: [
-        { ref: { id: "mockSelfAssessmentId" }, data: () => ({ answers: [] }) },
-      ],
+      docs: [{ ref: { id: "mockSelfAssessmentId" }, data: () => ({ answers: [] }) }],
     });
     (calculateScores as jest.Mock).mockReturnValue({
       totalScore: 100,
@@ -361,9 +355,7 @@ describe("submitSelfAssessmentController", () => {
 
     // Verifica que el error sea un objeto Error o un string
     const errorArg = res.json.mock.calls[0][0].error;
-    expect(
-      typeof errorArg === "string" || errorArg instanceof Error
-    ).toBeTruthy();
+    expect(typeof errorArg === "string" || errorArg instanceof Error).toBeTruthy();
   });
 
   it("devuelve 400 si ocurre un error inesperado al obtener autoevaluaciones", async () => {

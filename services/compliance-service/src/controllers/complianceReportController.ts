@@ -39,26 +39,18 @@ export const createComplianceReport = async ({
   }
 };
 
-export const getComplianceReportsController = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const getComplianceReportsController = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId } = req.params;
 
-    const q = query(
-      collection(firestore, "complianceReports"),
-      where("userId", "==", userId)
-    );
+    const q = query(collection(firestore, "complianceReports"), where("userId", "==", userId));
 
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      return res
-        .status(404)
-        .json({ error: "No hay autoevaluaciones completadas." });
+      return res.status(404).json({ error: "No hay autoevaluaciones completadas." });
     }
-    
+
     const reports = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -67,8 +59,7 @@ export const getComplianceReportsController = async (
     return res.status(200).json(reports);
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
     res.status(400).json({ error: errorMessage });
   }
 };

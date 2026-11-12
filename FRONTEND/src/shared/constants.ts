@@ -45,11 +45,9 @@ export const GRADIENTS = {
 };
 
 export const DARK_GRADIENTS = {
-  WELCOME_BANNER:
-    "dark:bg-gradient-to-r dark:from-[#336E86] dark:via-[#3D8BA6] dark:to-[#1F3A4D]",
+  WELCOME_BANNER: "dark:bg-gradient-to-r dark:from-[#336E86] dark:via-[#3D8BA6] dark:to-[#1F3A4D]",
   BUTTON_BG: "dark:bg-gradient-to-r dark:from-[#336E86] dark:to-[#3D8BA6]",
-  BUTTON_BG_SECONDARY:
-    "dark:bg-gradient-to-r dark:from-[#336E86] dark:to-[#3D8BA6]",
+  BUTTON_BG_SECONDARY: "dark:bg-gradient-to-r dark:from-[#336E86] dark:to-[#3D8BA6]",
 };
 
 // Tiempos de Animación

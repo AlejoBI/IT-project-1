@@ -6,14 +6,7 @@ import {
   getUsersWithEvaluationsAndAudits,
 } from "../controller/userController.js";
 import * as firestore from "firebase/firestore";
-import {
-  collection,
-  doc,
-  getDocs,
-  getDoc,
-  updateDoc,
-  query,
-} from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, updateDoc, query } from "firebase/firestore";
 
 // Mock de firestore desde utils
 jest.mock("../utils/firebaseConfig", () => ({
@@ -188,10 +181,7 @@ describe("usersController", () => {
       });
 
       // Ensure query is a mock function
-      const mockQueryObj = {} as unknown as firestore.Query<
-        unknown,
-        firestore.DocumentData
-      >;
+      const mockQueryObj = {} as unknown as firestore.Query<unknown, firestore.DocumentData>;
       if (typeof (query as jest.Mock).mockReturnValue !== "function") {
         jest.spyOn(firestore, "query").mockReturnValue(mockQueryObj);
       } else {
@@ -234,9 +224,7 @@ describe("usersController", () => {
         // cuarta llamada: complianceReports
         .mockResolvedValueOnce({
           empty: false,
-          forEach: (
-            cb: (doc: { data: () => { totalScore: number } }) => void
-          ) => {
+          forEach: (cb: (doc: { data: () => { totalScore: number } }) => void) => {
             cb({ data: () => ({ totalScore: 80 }) });
             cb({ data: () => ({ totalScore: 90 }) });
           },
@@ -350,10 +338,7 @@ describe("usersController", () => {
     it("debe devolver 404 si no hay usuarios", async () => {
       (getDocs as jest.Mock).mockResolvedValueOnce({ empty: true });
 
-      await getUsersWithEvaluationsAndAudits(
-        mockReq as Request,
-        mockRes as Response
-      );
+      await getUsersWithEvaluationsAndAudits(mockReq as Request, mockRes as Response);
 
       expect(mockRes.status).toHaveBeenCalledWith(404);
       expect(mockRes.json).toHaveBeenCalledWith({
@@ -406,10 +391,7 @@ describe("usersController", () => {
         },
       ];
 
-      await getUsersWithEvaluationsAndAudits(
-        mockReq as Request,
-        mockRes as Response
-      );
+      await getUsersWithEvaluationsAndAudits(mockReq as Request, mockRes as Response);
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(mockRes.json).toHaveBeenCalledWith(expectedResponse);
@@ -420,10 +402,7 @@ describe("usersController", () => {
         code: "auth/invalid-user-token",
       });
 
-      await getUsersWithEvaluationsAndAudits(
-        mockReq as Request,
-        mockRes as Response
-      );
+      await getUsersWithEvaluationsAndAudits(mockReq as Request, mockRes as Response);
 
       expect(mockRes.status).toHaveBeenCalledWith(400);
       expect(mockRes.json).toHaveBeenCalledWith({

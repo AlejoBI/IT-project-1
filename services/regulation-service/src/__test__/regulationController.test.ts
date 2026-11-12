@@ -6,15 +6,7 @@ import {
   updateRegulation,
   deleteRegulation,
 } from "../controllers/regulationController.js";
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 
 // Mock de firestore desde utils
 jest.mock("../utils/firebaseConfig", () => ({

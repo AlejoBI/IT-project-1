@@ -4,8 +4,7 @@ const DarkModeToggle = () => {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     const theme = localStorage.getItem("theme");
     return (
-      theme === "dark" ||
-      (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
     );
   });
 
@@ -23,10 +22,7 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <button
-      onClick={toggleDarkMode}
-      className="text-gray-700 dark:text-white focus:outline-none"
-    >
+    <button onClick={toggleDarkMode} className="text-gray-700 dark:text-white focus:outline-none">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6"

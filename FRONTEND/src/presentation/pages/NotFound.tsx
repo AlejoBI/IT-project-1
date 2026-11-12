@@ -1,10 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 
 const NotFoundPage = () => {
   return (
@@ -13,9 +9,7 @@ const NotFoundPage = () => {
     >
       <div className="text-center">
         {/* Código de error */}
-        <h1
-          className={`text-6xl font-bold ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}
-        >
+        <h1 className={`text-6xl font-bold ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}>
           404
         </h1>
 

@@ -33,9 +33,8 @@ const Audit = () => {
       <p
         className={`text-center mb-6 text-sm sm:text-base ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
       >
-        Aquí puedes ver la lista de usuarios junto con el número de evaluaciones
-        y auditorías realizadas. Selecciona un usuario para listar sus
-        evaluaciones.
+        Aquí puedes ver la lista de usuarios junto con el número de evaluaciones y auditorías
+        realizadas. Selecciona un usuario para listar sus evaluaciones.
       </p>
 
       <div className="hidden sm:grid grid-cols-4 font-semibold mb-2 px-4">
@@ -83,9 +82,7 @@ const Audit = () => {
               Auditorías: {user.auditsCount ?? 0}
             </span>
             <div className="text-center sm:text-right">
-              <Button onClick={() => handleNavigate(user.uid)}>
-                Listar Evaluaciones
-              </Button>
+              <Button onClick={() => handleNavigate(user.uid)}>Listar Evaluaciones</Button>
             </div>
           </div>
         ))

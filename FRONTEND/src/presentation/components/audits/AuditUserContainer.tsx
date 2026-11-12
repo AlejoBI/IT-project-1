@@ -11,16 +11,10 @@ import AuditContent from "./AuditContent";
 import AuditUserView from "./AuditUserView";
 import Loader from "../common/Loader";
 
-const AuditUserContainer = ({
-  selfAssessmentId,
-}: {
-  selfAssessmentId: string;
-}) => {
+const AuditUserContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
   const dispatch = useAppDispatch();
   const { selfAssessmentToAudit, loading } = useCompliance();
-  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
-    null
-  );
+  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchSelfAssessmentByAssessmentId(selfAssessmentId));
@@ -55,18 +49,12 @@ const AuditUserContainer = ({
           selectedSectionId={selectedSectionId}
           onSelect={setSelectedSectionId}
         />
-        <AuditContent
-          sectionAnswers={sectionAnswers}
-          selectedSectionId={selectedSectionId}
-        />
+        <AuditContent sectionAnswers={sectionAnswers} selectedSectionId={selectedSectionId} />
       </div>
 
       {selectedSectionId && (
         <div className="px-4 sm:px-6 md:px-8 lg:px-10">
-          <AuditUserView
-            selfAssessmentId={selfAssessmentId}
-            sectionId={selectedSectionId}
-          />
+          <AuditUserView selfAssessmentId={selfAssessmentId} sectionId={selectedSectionId} />
         </div>
       )}
     </div>

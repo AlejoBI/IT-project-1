@@ -10,7 +10,6 @@
     "install-regulation": "cd regulation-service && npm install",
     "install-evaluation-form": "cd evaluation-form-service && npm install",
     "install-audit": "cd audit-service && npm install",
-
     "build-all": "npm run build-auth && npm run build-user && npm run build-compliance && npm run build-notification && npm run build-regulation && npm run build-evaluation-form && npm run build-audit",
     "build-auth": "cd auth-service && npm run build",
     "build-user": "cd user-service && npm run build",
@@ -18,6 +17,22 @@
     "build-notification": "cd notification-service && npm run build",
     "build-regulation": "cd regulation-service && npm run build",
     "build-evaluation-form": "cd evaluation-form-service && npm run build",
-    "build-audit": "cd audit-service && npm run build"
+    "build-audit": "cd audit-service && npm run build",
+    "format-all": "npm run format-auth && npm run format-user && npm run format-compliance && npm run format-notification && npm run format-regulation && npm run format-evaluation-form && npm run format-audit",
+    "format-auth": "cd auth-service && npm run format",
+    "format-user": "cd user-service && npm run format",
+    "format-compliance": "cd compliance-service && npm run format",
+    "format-notification": "cd notification-service && npm run format",
+    "format-regulation": "cd regulation-service && npm run format",
+    "format-evaluation-form": "cd evaluation-form-service && npm run format",
+    "format-audit": "cd audit-service && npm run format",
+    "format-check-all": "npm run format-check-auth && npm run format-check-user && npm run format-check-compliance && npm run format-check-notification && npm run format-check-regulation && npm run format-check-evaluation-form && npm run format-check-audit",
+    "format-check-auth": "cd auth-service && npm run format:check",
+    "format-check-user": "cd user-service && npm run format:check",
+    "format-check-compliance": "cd compliance-service && npm run format:check",
+    "format-check-notification": "cd notification-service && npm run format:check",
+    "format-check-regulation": "cd regulation-service && npm run format:check",
+    "format-check-evaluation-form": "cd evaluation-form-service && npm run format:check",
+    "format-check-audit": "cd audit-service && npm run format:check"
   }
 }

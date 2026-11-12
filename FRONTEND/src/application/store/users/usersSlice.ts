@@ -63,13 +63,10 @@ const userSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(
-      fetchUsersWithEvaluationsAndAuditsAction.fulfilled,
-      (state, action) => {
-        state.loading = false;
-        state.users = action.payload as User[];
-      }
-    );
+    builder.addCase(fetchUsersWithEvaluationsAndAuditsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload as User[];
+    });
     builder.addCase(fetchUsersWithEvaluationsAndAuditsAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;

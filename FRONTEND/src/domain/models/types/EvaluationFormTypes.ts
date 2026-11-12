@@ -55,8 +55,8 @@ export type QuestionGetResponse = {
   id: string;
   text: string;
   type: "text" | "single-choice" | "multiple-choice";
-  options?: OptionGetResponse[]; 
-  subQuestions?: QuestionGetResponse[]; 
+  options?: OptionGetResponse[];
+  subQuestions?: QuestionGetResponse[];
 };
 
 export type OptionGetResponse = {

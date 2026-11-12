@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -11,11 +7,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
 }
 
-const ButtonSecundary: React.FC<ButtonProps> = ({
-  children,
-  onClick,
-  type = "button",
-}) => {
+const ButtonSecundary: React.FC<ButtonProps> = ({ children, onClick, type = "button" }) => {
   return (
     <button
       type={type}
@@ -32,6 +24,7 @@ const ButtonSecundary: React.FC<ButtonProps> = ({
     >
       {children}
     </button>
-  );};
+  );
+};
 
 export default ButtonSecundary;

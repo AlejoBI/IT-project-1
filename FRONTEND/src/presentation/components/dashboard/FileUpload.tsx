@@ -8,10 +8,7 @@ interface FileUploadProps {
   onError: (message: string) => void;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({
-  onJsonExtracted,
-  onError,
-}) => {
+const FileUpload: React.FC<FileUploadProps> = ({ onJsonExtracted, onError }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -64,9 +61,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         onClick={triggerFileInput}
         disabled={isUploading}
         className={`flex items-center gap-2 px-5 py-3 rounded-xl shadow-lg font-medium text-white transition-transform duration-300 ${
-          isUploading
-            ? "bg-gray-400 cursor-not-allowed"
-            : `${gradientClasses} hover:scale-105`
+          isUploading ? "bg-gray-400 cursor-not-allowed" : `${gradientClasses} hover:scale-105`
         }`}
       >
         {isUploading ? (

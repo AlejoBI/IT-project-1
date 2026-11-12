@@ -30,13 +30,11 @@ const WelcomeBanner = ({
         >
           Bienvenido a ISOlytics
         </h1>
-        <p
-          className={`mt-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
+        <p className={`mt-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
           {isAuthenticated ? (
             <>
-              Hola, <strong>{user || "Usuario"}</strong>! Continúa trabajando en
-              tu cumplimiento normativo.
+              Hola, <strong>{user || "Usuario"}</strong>! Continúa trabajando en tu cumplimiento
+              normativo.
               <br />
             </>
           ) : (

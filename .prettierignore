@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/coverage
+**/build
+**/.vite
+**/*.map
+*.lock
+**/package-lock.json
+*.min.js
+public

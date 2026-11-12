@@ -6,11 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { clearNotification } from "../../application/store/auth/authSlice";
 import logo from "../../assets/img/ISOlytics.webp";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 

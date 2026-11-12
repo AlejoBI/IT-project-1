@@ -15,18 +15,10 @@ import {
 
 const router = Router();
 
-router.post(
-  "/full",
-  validate(fullEvaluationFormSchema),
-  createFullEvaluationForm
-); 
+router.post("/full", validate(fullEvaluationFormSchema), createFullEvaluationForm);
 router.post("/", validate(evaluationFormSchema), addEvaluationForm);
 router.get("/:regulationId", getEvaluationFormByRegulationId);
-router.put(
-  "/:formId",
-  validate(evaluationFormUpdateSchema),
-  updateEvaluationForm
-);
+router.put("/:formId", validate(evaluationFormUpdateSchema), updateEvaluationForm);
 router.delete("/:regulationId", deleteEvaluationFormByRegulationId);
 
 export default router;

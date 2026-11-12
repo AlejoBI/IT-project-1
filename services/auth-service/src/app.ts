@@ -18,12 +18,12 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 
-app.get('/health', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'ok', service: 'auth-service' });
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ok", service: "auth-service" });
 });
 
-app.get('/ready', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'ready', service: 'auth-service' });
+app.get("/ready", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ready", service: "auth-service" });
 });
 
 app.use((err: any, _req: Request, res: Response) => {
@@ -31,6 +31,4 @@ app.use((err: any, _req: Request, res: Response) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-app.listen(PORT, () =>
-  console.log(`Auth service running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`Auth service running on http://localhost:${PORT}`));

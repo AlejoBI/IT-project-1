@@ -6,10 +6,7 @@ import {
   SelfAssessmentToAudit,
   AuditSection,
 } from "../../../domain/models/types/auditTypes";
-import {
-  SectionAnswer,
-  ChoiceOption,
-} from "../../../domain/models/types/complianceTypes";
+import { SectionAnswer, ChoiceOption } from "../../../domain/models/types/complianceTypes";
 
 const styles = StyleSheet.create({
   page: {
@@ -128,9 +125,7 @@ const groupByMainAndSubQuestions = (answers: SectionAnswer[]) => {
   answers.forEach((ans) => {
     if (ans.subQuestionId && ans.questionId) {
       if (!grouped[ans.questionId]) {
-        const main = answers.find(
-          (a) => a.questionId === ans.questionId && !a.subQuestionId
-        );
+        const main = answers.find((a) => a.questionId === ans.questionId && !a.subQuestionId);
         grouped[ans.questionId] = { main: main || ans, subs: [] };
       }
       grouped[ans.questionId].subs.push(ans);
@@ -143,9 +138,7 @@ const groupByMainAndSubQuestions = (answers: SectionAnswer[]) => {
   return Object.values(grouped);
 };
 
-const renderAnswerValue = (
-  value: string | ChoiceOption | ChoiceOption[] | null | undefined
-) => {
+const renderAnswerValue = (value: string | ChoiceOption | ChoiceOption[] | null | undefined) => {
   try {
     if (Array.isArray(value) && value.length > 0) {
       return (
@@ -189,9 +182,7 @@ const PDFTemplateReports = ({
   data: SelfAssessmentToAudit;
   audits: Audit | Audit[];
 }) => {
-  const sections = groupAnswersBySection(
-    Array.isArray(data.answers) ? data.answers : []
-  );
+  const sections = groupAnswersBySection(Array.isArray(data.answers) ? data.answers : []);
 
   let auditSections: AuditSection[] = [];
   if (Array.isArray(audits)) {
@@ -228,12 +219,8 @@ const PDFTemplateReports = ({
             Detalle de resultados y respuestas del proceso de auditoría
           </Text>
           <View style={styles.headerGroup}>
-            <Text style={styles.headerText}>
-              Nombre de Usuario: {user?.name || "Sin nombre"}
-            </Text>
-            <Text style={styles.headerText}>
-              Formulario: {data?.formName || "No definido"}
-            </Text>
+            <Text style={styles.headerText}>Nombre de Usuario: {user?.name || "Sin nombre"}</Text>
+            <Text style={styles.headerText}>Formulario: {data?.formName || "No definido"}</Text>
             <Text style={styles.headerText}>
               Puntuación Total: {data?.totalScore ?? "No disponible"}
             </Text>
@@ -242,41 +229,33 @@ const PDFTemplateReports = ({
 
         {Object.entries(sections).map(([sectionTitle, answers]) => {
           const sectionId = answers[0]?.sectionId;
-          const sectionAudit = sectionId
-            ? auditSectionMap[sectionId]
-            : undefined;
+          const sectionAudit = sectionId ? auditSectionMap[sectionId] : undefined;
 
           return (
             <View key={sectionTitle} style={styles.section}>
               <Text style={styles.sectionTitle}>{sectionTitle}</Text>
-              {groupByMainAndSubQuestions(answers).map(
-                ({ main, subs }, idx) => (
-                  <View key={idx} style={styles.answerContainer}>
-                    <Text style={styles.questionText}>
-                      {main.questionText || "Pregunta sin texto"}
-                      {main.subQuestionText ? ` – ${main.subQuestionText}` : ""}
-                    </Text>
-                    {renderAnswerValue(main.value)}
-                    {subs.length > 0 &&
-                      subs.map((sub, subIdx) => (
-                        <View key={subIdx} style={styles.subQuestionContainer}>
-                          <Text style={styles.subQuestionLabel}>
-                            Subpregunta:
-                          </Text>
-                          <Text style={styles.subQuestionText}>
-                            {sub.subQuestionText || "Subpregunta sin texto"}
-                          </Text>
-                          {renderAnswerValue(sub.value)}
-                        </View>
-                      ))}
-                  </View>
-                )
-              )}
+              {groupByMainAndSubQuestions(answers).map(({ main, subs }, idx) => (
+                <View key={idx} style={styles.answerContainer}>
+                  <Text style={styles.questionText}>
+                    {main.questionText || "Pregunta sin texto"}
+                    {main.subQuestionText ? ` – ${main.subQuestionText}` : ""}
+                  </Text>
+                  {renderAnswerValue(main.value)}
+                  {subs.length > 0 &&
+                    subs.map((sub, subIdx) => (
+                      <View key={subIdx} style={styles.subQuestionContainer}>
+                        <Text style={styles.subQuestionLabel}>Subpregunta:</Text>
+                        <Text style={styles.subQuestionText}>
+                          {sub.subQuestionText || "Subpregunta sin texto"}
+                        </Text>
+                        {renderAnswerValue(sub.value)}
+                      </View>
+                    ))}
+                </View>
+              ))}
               {sectionAudit && (
                 <View style={styles.auditBlock}>
-                  <Text style={styles.auditStatus}>
-                    Estado de Auditoría: {sectionAudit.status}
-                  </Text>
+                  <Text style={styles.auditStatus}>Estado de Auditoría: {sectionAudit.status}</Text>
                   <Text style={styles.auditObservation}>
                     Observación: {sectionAudit.observation || "Sin observación"}
                   </Text>

@@ -18,12 +18,12 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use("/api/users", userRoutes);
 
-app.get('/health', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'ok', service: 'user-service' });
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ok", service: "user-service" });
 });
 
-app.get('/ready', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'ready', service: 'user-service' });
+app.get("/ready", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ready", service: "user-service" });
 });
 
 app.use((err: any, _req: Request, res: Response) => {
@@ -31,6 +31,4 @@ app.use((err: any, _req: Request, res: Response) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-app.listen(PORT, () =>
-  console.log(`Users service running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`Users service running on http://localhost:${PORT}`));

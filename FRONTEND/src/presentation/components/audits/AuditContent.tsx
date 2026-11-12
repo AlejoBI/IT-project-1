@@ -37,18 +37,14 @@ const AuditContent = ({
     );
   }
 
-  const filteredAnswers = sectionAnswers.filter(
-    (item) => item.sectionId === selectedSectionId
-  );
+  const filteredAnswers = sectionAnswers.filter((item) => item.sectionId === selectedSectionId);
 
   if (filteredAnswers.length === 0) {
     return (
       <div
         className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} h-auto w-auto p-6 rounded-2xl shadow`}
       >
-        <p
-          className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
-        >
+        <p className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
           Esta sección no contiene preguntas.
         </p>
       </div>
@@ -64,16 +60,12 @@ const AuditContent = ({
         value: item.subQuestionId
           ? null
           : Array.isArray(item.value)
-          ? item.value.map((v) =>
-              typeof v === "object" && v !== null && "label" in v
-                ? String(v.label)
-                : String(v)
-            )
-          : typeof item.value === "object" &&
-            item.value !== null &&
-            "label" in item.value
-          ? String(item.value.label)
-          : String(item.value),
+            ? item.value.map((v) =>
+                typeof v === "object" && v !== null && "label" in v ? String(v.label) : String(v)
+              )
+            : typeof item.value === "object" && item.value !== null && "label" in item.value
+              ? String(item.value.label)
+              : String(item.value),
         subQuestions: [],
       };
     }
@@ -84,19 +76,15 @@ const AuditContent = ({
         text: item.subQuestionText || "",
         value: Array.isArray(item.value)
           ? item.value.map((v) =>
-              typeof v === "object" && v !== null && "label" in v
-                ? String(v.label)
-                : String(v)
+              typeof v === "object" && v !== null && "label" in v ? String(v.label) : String(v)
             )
-          : typeof item.value === "object" &&
-            item.value !== null &&
-            "label" in item.value
-          ? String(item.value.label)
-          : typeof item.value === "string"
-          ? item.value
-          : item.value !== undefined && item.value !== null
-          ? String(item.value)
-          : "",
+          : typeof item.value === "object" && item.value !== null && "label" in item.value
+            ? String(item.value.label)
+            : typeof item.value === "string"
+              ? item.value
+              : item.value !== undefined && item.value !== null
+                ? String(item.value)
+                : "",
       });
     }
 

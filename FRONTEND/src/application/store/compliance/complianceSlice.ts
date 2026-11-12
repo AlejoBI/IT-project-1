@@ -147,6 +147,5 @@ const complianceSlice = createSlice({
   },
 });
 
-export const { clearComplianceState, clearNotificationState } =
-  complianceSlice.actions;
+export const { clearComplianceState, clearNotificationState } = complianceSlice.actions;
 export default complianceSlice.reducer;

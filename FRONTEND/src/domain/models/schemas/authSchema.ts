@@ -26,13 +26,11 @@ export const registerSchema = z
       .string()
       .min(3, "El nombre de usuario debe tener al menos 3 caracteres")
       .max(50, "El nombre no puede exceder los 50 caracteres"),
-    confirmPassword: z
-      .string()
-      .min(1, "La confirmación de contraseña es obligatoria"),
+    confirmPassword: z.string().min(1, "La confirmación de contraseña es obligatoria"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",
-    path: ["confirmPassword"], 
+    path: ["confirmPassword"],
   });
 
 export const loginSchema = z.object({

@@ -11,11 +11,7 @@ import { useCompliance } from "../hooks/useCompliance";
 import SectionScoresChart from "../components/reports/SectionScoresChart";
 import CompletedReports from "../components/reports/CompletedReports";
 import RegulationReport from "../components/reports/RegulationReport";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
 const Reports = () => {
@@ -32,9 +28,7 @@ const Reports = () => {
     dispatch(fetchComplianceReports(user.uid));
   }, [dispatch, user?.uid]);
 
-  const hasReports =
-    (selfAssessmentReport?.length ?? 0) > 0 ||
-    (complianceReport?.length ?? 0) > 0;
+  const hasReports = (selfAssessmentReport?.length ?? 0) > 0 || (complianceReport?.length ?? 0) > 0;
 
   if (loading) {
     return <Loader />;
@@ -76,8 +70,7 @@ const Reports = () => {
                   <p
                     className={`text-sm mb-4 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
                   >
-                    Visualiza el nivel de cumplimiento por sección según cada
-                    estándar.
+                    Visualiza el nivel de cumplimiento por sección según cada estándar.
                   </p>
                   <SectionScoresChart userId={user?.uid || ""} />
                 </div>
@@ -89,8 +82,7 @@ const Reports = () => {
         <div className="flex flex-col items-center justify-center mt-20 text-center text-gray-500 dark:text-gray-400">
           <p className="text-lg font-medium">Aún no hay reportes generados</p>
           <p className="text-sm mt-2">
-            Completa al menos una autoevaluación para ver tus reportes de
-            cumplimiento.
+            Completa al menos una autoevaluación para ver tus reportes de cumplimiento.
           </p>
         </div>
       )}

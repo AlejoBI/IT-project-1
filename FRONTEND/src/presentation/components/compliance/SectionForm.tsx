@@ -9,11 +9,7 @@ import { useEvaluation } from "../../hooks/useEvaluation";
 import { useAppDispatch } from "../../../presentation/hooks/useAppDispatch";
 import { saveSelfAssessmentDraft } from "../../../application/store/compliance/complianceActions";
 
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 import { transformSectionAnswers } from "../../../shared/helpers";
 import { sendEmailNotification } from "../notification/sendEmailNotification";

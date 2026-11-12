@@ -9,11 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { useCompliance } from "../../hooks/useCompliance";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 

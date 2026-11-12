@@ -4,10 +4,7 @@ import {
   fetchSelfAssessmentToAudits,
   fetchAuditsBySelfAssessmentId,
 } from "./auditActions";
-import {
-  SelfAssessmentToAudit,
-  Audit,
-} from "../../../domain/models/types/auditTypes";
+import { SelfAssessmentToAudit, Audit } from "../../../domain/models/types/auditTypes";
 
 interface AuditState {
   selfAssessmentToAudits: SelfAssessmentToAudit[] | null;
@@ -75,13 +72,10 @@ const auditSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(
-      fetchAuditsBySelfAssessmentId.fulfilled,
-      (state, action) => {
-        state.loading = false;
-        state.audits = action.payload;
-      }
-    );
+    builder.addCase(fetchAuditsBySelfAssessmentId.fulfilled, (state, action) => {
+      state.loading = false;
+      state.audits = action.payload;
+    });
     builder.addCase(fetchAuditsBySelfAssessmentId.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
@@ -89,6 +83,5 @@ const auditSlice = createSlice({
   },
 });
 
-export const { clearSelfAssessmentState, clearNotificationState } =
-  auditSlice.actions;
+export const { clearSelfAssessmentState, clearNotificationState } = auditSlice.actions;
 export default auditSlice.reducer;

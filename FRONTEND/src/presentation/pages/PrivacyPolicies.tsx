@@ -1,15 +1,11 @@
 import React from "react";
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
 
-const Section = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="mb-6">
-    <div className={`${LIGHT_MODE_COLORS.BACKGROUND_COMPONENT} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} shadow-md rounded-2xl p-6 transition-all duration-300`}>
+    <div
+      className={`${LIGHT_MODE_COLORS.BACKGROUND_COMPONENT} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} shadow-md rounded-2xl p-6 transition-all duration-300`}
+    >
       <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white border-b pb-2">
         {title}
       </h2>
@@ -29,29 +25,23 @@ const PrivacyPolicies = () => {
         </h1>
 
         <p className="mb-10 text-lg text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          Esta Política de Privacidad describe cómo ByteForge recopila, utiliza
-          y protege la información personal que usted proporciona cuando utiliza
-          nuestra plataforma.
+          Esta Política de Privacidad describe cómo ByteForge recopila, utiliza y protege la
+          información personal que usted proporciona cuando utiliza nuestra plataforma.
         </p>
 
         <div className="space-y-6">
           <Section title="1. Información que recopilamos">
             <ul className="list-disc list-inside space-y-1">
               <li>
-                Datos de identificación: nombre completo, dirección de correo
-                electrónico, número de teléfono.
+                Datos de identificación: nombre completo, dirección de correo electrónico, número de
+                teléfono.
               </li>
+              <li>Datos de cuenta: nombre de usuario, contraseña encriptada.</li>
               <li>
-                Datos de cuenta: nombre de usuario, contraseña encriptada.
+                Información técnica: dirección IP, tipo de navegador, sistema operativo, fecha y
+                hora de acceso.
               </li>
-              <li>
-                Información técnica: dirección IP, tipo de navegador, sistema
-                operativo, fecha y hora de acceso.
-              </li>
-              <li>
-                Información de uso: páginas visitadas, clics, tiempo de
-                permanencia.
-              </li>
+              <li>Información de uso: páginas visitadas, clics, tiempo de permanencia.</li>
               <li>Cookies y tecnologías similares.</li>
             </ul>
           </Section>
@@ -61,14 +51,8 @@ const PrivacyPolicies = () => {
             <ul className="list-disc list-inside space-y-1">
               <li>Gestionar su cuenta y autenticación.</li>
               <li>Proporcionar acceso seguro a nuestros servicios.</li>
-              <li>
-                Mejorar la funcionalidad y la experiencia del usuario en la
-                plataforma.
-              </li>
-              <li>
-                Enviar notificaciones importantes, actualizaciones o cambios de
-                servicio.
-              </li>
+              <li>Mejorar la funcionalidad y la experiencia del usuario en la plataforma.</li>
+              <li>Enviar notificaciones importantes, actualizaciones o cambios de servicio.</li>
               <li>Ofrecer soporte técnico y atención al cliente.</li>
               <li>Cumplir con obligaciones legales y regulatorias.</li>
             </ul>
@@ -77,27 +61,19 @@ const PrivacyPolicies = () => {
           <Section title="3. Base legal para el tratamiento de datos">
             <p>Procesamos sus datos personales basándonos en:</p>
             <ul className="list-disc list-inside space-y-1">
-              <li>
-                Su consentimiento explícito al registrarse o utilizar nuestros
-                servicios.
-              </li>
+              <li>Su consentimiento explícito al registrarse o utilizar nuestros servicios.</li>
               <li>La necesidad de ejecutar un contrato con usted.</li>
-              <li>
-                Intereses legítimos, como mejorar la seguridad y funcionalidad.
-              </li>
+              <li>Intereses legítimos, como mejorar la seguridad y funcionalidad.</li>
               <li>Cumplimiento de obligaciones legales.</li>
             </ul>
           </Section>
 
           <Section title="4. Compartición de datos">
             <p>
-              No compartimos su información personal con terceros, salvo en los
-              siguientes casos:
+              No compartimos su información personal con terceros, salvo en los siguientes casos:
             </p>
             <ul className="list-disc list-inside space-y-1">
-              <li>
-                Proveedores de servicios bajo acuerdos de confidencialidad.
-              </li>
+              <li>Proveedores de servicios bajo acuerdos de confidencialidad.</li>
               <li>Obligaciones legales o requerimientos judiciales.</li>
               <li>Prevención de fraudes o amenazas a la seguridad.</li>
             </ul>
@@ -105,8 +81,7 @@ const PrivacyPolicies = () => {
 
           <Section title="5. Seguridad de los datos">
             <p>
-              Implementamos medidas técnicas y organizativas para proteger sus
-              datos, incluyendo:
+              Implementamos medidas técnicas y organizativas para proteger sus datos, incluyendo:
             </p>
             <ul className="list-disc list-inside space-y-1">
               <li>Encriptación SSL/TLS en la transmisión de datos.</li>
@@ -117,9 +92,8 @@ const PrivacyPolicies = () => {
 
           <Section title="6. Conservación de datos">
             <p>
-              Conservamos sus datos personales durante el tiempo necesario para
-              cumplir los fines descritos en esta política, salvo que la ley
-              requiera un período mayor.
+              Conservamos sus datos personales durante el tiempo necesario para cumplir los fines
+              descritos en esta política, salvo que la ley requiera un período mayor.
             </p>
           </Section>
 
@@ -142,17 +116,15 @@ const PrivacyPolicies = () => {
 
           <Section title="8. Uso de cookies">
             <p>
-              Utilizamos cookies para personalizar la experiencia del usuario y
-              analizar patrones de uso. Puede modificar sus preferencias de
-              cookies en la configuración de su navegador.
+              Utilizamos cookies para personalizar la experiencia del usuario y analizar patrones de
+              uso. Puede modificar sus preferencias de cookies en la configuración de su navegador.
             </p>
           </Section>
 
           <Section title="9. Cambios a esta política">
             <p>
-              Podemos actualizar esta Política de Privacidad ocasionalmente.
-              Notificaremos cualquier cambio importante en nuestra plataforma o
-              por correo electrónico si corresponde.
+              Podemos actualizar esta Política de Privacidad ocasionalmente. Notificaremos cualquier
+              cambio importante en nuestra plataforma o por correo electrónico si corresponde.
             </p>
           </Section>
         </div>

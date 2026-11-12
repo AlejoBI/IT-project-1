@@ -81,10 +81,7 @@ export const updateRegulationAction = createAsyncThunk<
   { rejectValue: { error: string } }
 >(
   "regulation/update",
-  async (
-    { uid, updates }: { uid: string; updates: Partial<Regulation> },
-    { rejectWithValue }
-  ) => {
+  async ({ uid, updates }: { uid: string; updates: Partial<Regulation> }, { rejectWithValue }) => {
     const validation = validateClient(regulationUpdateSchema, updates);
     if (!validation.success) {
       return rejectWithValue({ error: validation.error ?? "Datos inválidos" });

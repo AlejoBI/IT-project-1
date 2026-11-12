@@ -1,24 +1,16 @@
 import React from "react";
 import { useWatch, useFormContext } from "react-hook-form";
 import { QuestionGetResponse } from "../../../domain/models/types/EvaluationFormTypes";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 interface Props {
   question: QuestionGetResponse;
   sectionId: string;
   fieldName?: string;
-  isSubQuestion?: boolean; 
+  isSubQuestion?: boolean;
 }
 
-const QuestionField: React.FC<Props> = ({
-  question,
-  sectionId,
-  isSubQuestion = false,
-}) => {
+const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = false }) => {
   const {
     register,
     control,
@@ -28,9 +20,7 @@ const QuestionField: React.FC<Props> = ({
   const fieldName = `sections.${sectionId}.answers.${question.id}`;
   const answerValue = useWatch({ control, name: fieldName });
 
-  const selectedOption = question.options?.find(
-    (opt) => opt.id === answerValue
-  );
+  const selectedOption = question.options?.find((opt) => opt.id === answerValue);
   const shouldShowSubQuestions =
     selectedOption?.label?.toLowerCase().includes("sí") ||
     selectedOption?.label?.toLowerCase().includes("parcialmente");
@@ -150,9 +140,7 @@ const QuestionField: React.FC<Props> = ({
       )}
 
       {/* Error */}
-      {errors[fieldName] && (
-        <p className="text-sm text-red-500 mt-2">Este campo es obligatorio.</p>
-      )}
+      {errors[fieldName] && <p className="text-sm text-red-500 mt-2">Este campo es obligatorio.</p>}
 
       {/* SUBPREGUNTAS */}
       {shouldShowSubQuestions &&

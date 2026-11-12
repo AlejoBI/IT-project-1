@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import { recoverPasswordUser } from "../../application/store/auth/authActions";
 import { useAppDispatch } from "../../presentation/hooks/useAppDispatch";
 

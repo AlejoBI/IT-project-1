@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  loginUser,
-  registerUser,
-  logoutUser,
-  recoverPasswordUser,
-} from "./authActions";
+import { loginUser, registerUser, logoutUser, recoverPasswordUser } from "./authActions";
 import { AuthUser } from "../../../domain/models/types/authTypes";
 
 interface AuthState {
@@ -36,7 +31,7 @@ const authSlice = createSlice({
     },
     clearLoader: (state) => {
       state.loading = false;
-    }
+    },
   },
   extraReducers: (builder) => {
     // Login

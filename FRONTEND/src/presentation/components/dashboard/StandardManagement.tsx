@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 import Button from "../UI/Button";
 import NormativeForm from "./NormativeForm";
 import RegulationForm from "./RegulationForm";
@@ -18,8 +14,7 @@ import { Form } from "../../../domain/models/types/EvaluationFormTypes";
 import { createEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 
 const StandardManagement = () => {
-  const { error: regulationError, message: regulationMessage } =
-    useRegulation();
+  const { error: regulationError, message: regulationMessage } = useRegulation();
   const { error: formsError, message: formsMessage } = useEvaluation();
 
   const dispatch = useAppDispatch();
@@ -64,8 +59,8 @@ const StandardManagement = () => {
       <p
         className={`text-md mb-6 text-center max-w-2xl mx-auto ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
       >
-        Administra normativas del sistema: crea nuevas, edita las existentes o
-        diseña formularios de evaluación de manera sencilla.
+        Administra normativas del sistema: crea nuevas, edita las existentes o diseña formularios de
+        evaluación de manera sencilla.
       </p>
 
       {/* Menú de navegación */}
@@ -100,10 +95,7 @@ const StandardManagement = () => {
         <div
           className={`flex flex-col gap-6 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-xl`}
         >
-          <FileUpload
-            onJsonExtracted={handleJsonUpload}
-            onError={handleUploadError}
-          />
+          <FileUpload onJsonExtracted={handleJsonUpload} onError={handleUploadError} />
           {uploadError && <Notification message={uploadError} type="error" />}
           <NormativeForm />
         </div>

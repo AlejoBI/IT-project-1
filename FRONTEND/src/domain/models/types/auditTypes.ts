@@ -5,8 +5,8 @@ export type Audit = {
   auditorName: string;
   selfAssessmentId: string;
   sectionAudit: AuditSection;
-  sectionAudits?: AuditSection[]; 
-  sectionAuditIds?: string[]; 
+  sectionAudits?: AuditSection[];
+  sectionAuditIds?: string[];
   auditedAt?: string;
 };
 

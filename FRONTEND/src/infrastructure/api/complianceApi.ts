@@ -15,29 +15,19 @@ export const fetchSelfAssessmentApi = async (data: GetDraftRequest) => {
 
 // POST: Guardar una autoevaluación (borrador o avance)
 export const saveSelfAssessmentApi = async (draft: SaveDraftPayload) => {
-  const response = await api.post(
-    "/api/compliance/self-assessments/save",
-    draft
-  );
+  const response = await api.post("/api/compliance/self-assessments/save", draft);
   return response.data;
 };
 
 // POST: Completar la autoevaluación
-export const completeSelfAssessmentApi = async (
-  payload: SubmitSelfAssessmentRequest
-) => {
-  const response = await api.post(
-    `/api/compliance/self-assessments/submit`,
-    payload
-  );
+export const completeSelfAssessmentApi = async (payload: SubmitSelfAssessmentRequest) => {
+  const response = await api.post(`/api/compliance/self-assessments/submit`, payload);
   return response.data;
 };
 
 // GET: Obtener los reportes de cumplimiento
 export const getComplianceReportsApi = async (userId: string) => {
-  const response = await api.get(
-    `/api/compliance/compliance-reports/${userId}`
-  );
+  const response = await api.get(`/api/compliance/compliance-reports/${userId}`);
   return response.data;
 };
 
@@ -46,11 +36,7 @@ export const getSelfAssessmentReportApi = async (userId: string) => {
   return reponse.data;
 };
 
-export const getSelfAssessmentByAssessmentId = async (
-  selfAssessmentId: string
-) => {
-  const response = await api.get(
-    `/api/compliance/self-assessments/assessment/${selfAssessmentId}`
-  );
+export const getSelfAssessmentByAssessmentId = async (selfAssessmentId: string) => {
+  const response = await api.get(`/api/compliance/self-assessments/assessment/${selfAssessmentId}`);
   return response.data;
 };

@@ -52,10 +52,7 @@ const EvaluationFormPage = () => {
   }, [regulationId, dispatch, userId]);
 
   // Validación por tipo de respuesta
-  function validateAnswer(
-    answer: string | string[] | null | undefined,
-    type: string
-  ): boolean {
+  function validateAnswer(answer: string | string[] | null | undefined, type: string): boolean {
     switch (type) {
       case "text":
         return typeof answer === "string" && answer.trim().length > 0;
@@ -81,9 +78,7 @@ const EvaluationFormPage = () => {
       } = { sections: {} };
 
       if (currentDraft.completedSections?.length) {
-        setCompletedSections(
-          currentDraft.completedSections.map((s) => s.sectionId)
-        );
+        setCompletedSections(currentDraft.completedSections.map((s) => s.sectionId));
       }
 
       currentDraft.answers.forEach((answer) => {
@@ -101,13 +96,8 @@ const EvaluationFormPage = () => {
           !Array.isArray(answer.value)
         ) {
           answers[targetKey] = (answer.value as { id: string }).id || "";
-        } else if (
-          answer.type === "multiple-choice" &&
-          Array.isArray(answer.value)
-        ) {
-          answers[targetKey] = answer.value.map(
-            (opt) => (opt as { id: string }).id
-          );
+        } else if (answer.type === "multiple-choice" && Array.isArray(answer.value)) {
+          answers[targetKey] = answer.value.map((opt) => (opt as { id: string }).id);
         } else if (answer.type === "text" && typeof answer.value === "string") {
           answers[targetKey] = answer.value;
         }
@@ -153,9 +143,7 @@ const EvaluationFormPage = () => {
   }, [currentDraft, methods, forms, activeSectionId]);
 
   const isFormComplete =
-    forms?.sections?.every((section) =>
-      completedSections.includes(section.id)
-    ) ?? false;
+    forms?.sections?.every((section) => completedSections.includes(section.id)) ?? false;
 
   const handleCompleteForm = () => {
     if (!userId || !regulationId) return;
@@ -178,8 +166,7 @@ const EvaluationFormPage = () => {
       buttonText: "Ver reporte",
       buttonUrl: `${urlDeploy}/reports`,
       formTitle: forms?.name || "Formulario sin título",
-      plainTextContent:
-        "Has completado el formulario de autoevaluación exitosamente.",
+      plainTextContent: "Has completado el formulario de autoevaluación exitosamente.",
       type: EmailTemplateType.FORM_COMPLETED,
       dispatch,
     });
@@ -236,9 +223,7 @@ const EvaluationFormPage = () => {
           {activeSectionId ? (
             forms.sections
               .filter((section) => section.id === activeSectionId)
-              .map((section) => (
-                <SectionForm key={section.id} section={section} />
-              ))
+              .map((section) => <SectionForm key={section.id} section={section} />)
           ) : (
             <div
               className={`
@@ -249,12 +234,11 @@ const EvaluationFormPage = () => {
                 text-gray-600 dark:text-[#A0B5C3]`}
             >
               <p className="mb-2">
-                Por favor, selecciona una sección en la barra lateral para
-                comenzar tu autoevaluación.
+                Por favor, selecciona una sección en la barra lateral para comenzar tu
+                autoevaluación.
               </p>
               <p className="text-sm text-gray-500 dark:text-[#7A97A9]">
-                Haz clic en el título de una sección para visualizar sus
-                preguntas.
+                Haz clic en el título de una sección para visualizar sus preguntas.
               </p>
             </div>
           )}

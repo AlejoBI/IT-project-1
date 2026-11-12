@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useUser } from "../../hooks/useUser";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 import { Pencil } from "lucide-react";
 import { roles } from "../../../shared/utils";
-import {
-  fetchUsersAction,
-  updateUserAction,
-} from "../../../application/store/users/usersActions";
+import { fetchUsersAction, updateUserAction } from "../../../application/store/users/usersActions";
 import Notification from "../common/Notification";
 import { clearNotification } from "../../../application/store/users/usersSlice";
 import Loader from "../common/Loader";
@@ -20,9 +13,7 @@ const UserManagement = () => {
   const dispatch = useAppDispatch();
   const { users, loading, message, error } = useUser();
 
-  const [localData, setLocalData] = useState<
-    Record<string, { name: string; role: string }>
-  >({});
+  const [localData, setLocalData] = useState<Record<string, { name: string; role: string }>>({});
 
   useEffect(() => {
     dispatch(fetchUsersAction());
@@ -41,11 +32,7 @@ const UserManagement = () => {
     }
   }, [users]);
 
-  const handleInputChange = (
-    uid: string,
-    field: "name" | "role",
-    value: string
-  ) => {
+  const handleInputChange = (uid: string, field: "name" | "role", value: string) => {
     setLocalData((prev) => ({
       ...prev,
       [uid]: {
@@ -133,9 +120,7 @@ const UserManagement = () => {
                     index % 2 === 0
                       ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
                       : LIGHT_MODE_COLORS.BACKGROUND
-                  } ${
-                    DARK_MODE_COLORS.BACKGROUND_COMPONENT
-                  } border-t transition-colors ${
+                  } ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} border-t transition-colors ${
                     ANIMATION_TIMINGS.TRANSITION_DURATION
                   }`}
                 >
@@ -143,9 +128,7 @@ const UserManagement = () => {
                     <input
                       type="text"
                       value={localData[user.uid]?.name || ""}
-                      onChange={(e) =>
-                        handleInputChange(user.uid, "name", e.target.value)
-                      }
+                      onChange={(e) => handleInputChange(user.uid, "name", e.target.value)}
                       className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
               ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
               ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
@@ -160,9 +143,7 @@ const UserManagement = () => {
                   <td className="px-4 py-2">
                     <select
                       value={localData[user.uid]?.role || ""}
-                      onChange={(e) =>
-                        handleInputChange(user.uid, "role", e.target.value)
-                      }
+                      onChange={(e) => handleInputChange(user.uid, "role", e.target.value)}
                       className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
               ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
               ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}

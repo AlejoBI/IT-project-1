@@ -80,7 +80,7 @@ export type SectionScore = {
   sectionId: string;
   score: number;
   sectionTitle: string;
-}
+};
 
 export interface ComplianceReport {
   id: string;

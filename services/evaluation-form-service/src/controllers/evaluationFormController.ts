@@ -12,18 +12,11 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { FIREBASE_ERRORS } from "../utils/constants.js";
-import {
-  EvaluationForm,
-  FormSection,
-  FormQuestion,
-} from "../models/formModels.js";
+import { EvaluationForm, FormSection, FormQuestion } from "../models/formModels.js";
 
 import { uid } from "uid";
 
-export const createFullEvaluationForm = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const createFullEvaluationForm = async (req: Request, res: Response): Promise<any> => {
   try {
     const { regulationId, name, description, sections } = req.body;
 
@@ -31,15 +24,11 @@ export const createFullEvaluationForm = async (
     const regulationSnapshot = await getDoc(regulationRef);
 
     if (!regulationSnapshot.exists()) {
-      return res
-        .status(404)
-        .json({ error: "La normativa especificada no existe." });
+      return res.status(404).json({ error: "La normativa especificada no existe." });
     }
 
     // Validar duplicado por regulationId
-    const existingFormsSnapshot = await getDocs(
-      collection(firestore, "evaluationForms")
-    );
+    const existingFormsSnapshot = await getDocs(collection(firestore, "evaluationForms"));
     const formWithSameRegulation = existingFormsSnapshot.docs.find(
       (doc) => doc.data().regulationId === regulationId
     );
@@ -60,10 +49,7 @@ export const createFullEvaluationForm = async (
       updatedAt: now,
     };
 
-    const formRef = await addDoc(
-      collection(firestore, "evaluationForms"),
-      formData
-    );
+    const formRef = await addDoc(collection(firestore, "evaluationForms"), formData);
 
     // Crear secciones y preguntas en paralelo
     await Promise.all(
@@ -75,10 +61,7 @@ export const createFullEvaluationForm = async (
           updatedAt: now,
         };
 
-        const sectionRef = await addDoc(
-          collection(firestore, "formSections"),
-          sectionData
-        );
+        const sectionRef = await addDoc(collection(firestore, "formSections"), sectionData);
 
         await Promise.all(
           section.questions.map((question: any) => {
@@ -113,17 +96,13 @@ export const createFullEvaluationForm = async (
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al crear el formulario completo";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al crear el formulario completo";
     res.status(400).json({ error: errorMessage });
   }
 };
 
 // Crear un nuevo formulario de evaluación individualmente sin secciones y preguntas
-export const addEvaluationForm = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const addEvaluationForm = async (req: Request, res: Response): Promise<any> => {
   try {
     const formData = req.body;
 
@@ -131,15 +110,11 @@ export const addEvaluationForm = async (
     const regulationSnapshot = await getDoc(regulationRef);
 
     if (!regulationSnapshot.exists()) {
-      return res
-        .status(404)
-        .json({ error: "La normativa especificada no existe." });
+      return res.status(404).json({ error: "La normativa especificada no existe." });
     }
 
     // Validar que no exista un formulario con el mismo regulationId
-    const existingFormsSnapshot = await getDocs(
-      collection(firestore, "evaluationForms")
-    );
+    const existingFormsSnapshot = await getDocs(collection(firestore, "evaluationForms"));
 
     const formWithSameRegulation = existingFormsSnapshot.docs.find(
       (doc) => doc.data().regulationId === formData.regulationId
@@ -163,8 +138,7 @@ export const addEvaluationForm = async (
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al agregar el formulario";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al agregar el formulario";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -229,17 +203,13 @@ export const getEvaluationFormByRegulationId = async (
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al obtener el formulario";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener el formulario";
     res.status(400).json({ error: errorMessage });
   }
 };
 
 // Actualizar un formulario de evaluación
-export const updateEvaluationForm = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const updateEvaluationForm = async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
 
   try {
@@ -260,8 +230,7 @@ export const updateEvaluationForm = async (
     res.status(200).json({ message: "Formulario actualizado exitosamente." });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al actualizar el formulario";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al actualizar el formulario";
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -305,7 +274,7 @@ export const deleteEvaluationFormByRegulationId = async (
           where("sectionId", "==", sectionId)
         );
         const questionsSnapshot = await getDocs(questionsQuery);
-        
+
         await Promise.all(
           questionsSnapshot.docs.map((questionDoc) =>
             deleteDoc(doc(firestore, "formQuestions", questionDoc.id))
@@ -325,8 +294,7 @@ export const deleteEvaluationFormByRegulationId = async (
     });
   } catch (error) {
     const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al eliminar el formulario";
+    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al eliminar el formulario";
     res.status(400).json({ error: errorMessage });
   }
 };

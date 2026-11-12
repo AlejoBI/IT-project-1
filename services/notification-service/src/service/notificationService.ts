@@ -7,7 +7,7 @@ const MAILERSEND_API_KEY = process.env.MAILERSEND_API_KEY || "";
 const EMAIL_FROM = process.env.EMAIL_FROM || "";
 
 const mailerSend = new MailerSend({
-  apiKey: MAILERSEND_API_KEY, 
+  apiKey: MAILERSEND_API_KEY,
 });
 
 export const sendEmail = async (

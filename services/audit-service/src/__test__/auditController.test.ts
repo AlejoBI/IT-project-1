@@ -3,15 +3,7 @@ import {
   createOrUpdateAudit,
   getAuditsBySelfAssessmentId,
 } from "../controllers/auditController.js";
-import {
-  arrayUnion,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { arrayUnion, doc, getDoc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
 
 jest.mock("../utils/firebaseConfig.js", () => ({ firestore: {} }));
 
@@ -139,8 +131,6 @@ describe("auditController", () => {
     await getAuditsBySelfAssessmentId(request(), res);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith([
-      { id: "audit-1", auditorId: "auditor-1" },
-    ]);
+    expect(res.json).toHaveBeenCalledWith([{ id: "audit-1", auditorId: "auditor-1" }]);
   });
 });

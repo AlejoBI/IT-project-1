@@ -18,12 +18,12 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use("/api/notifications", notificationRoutes);
 
-app.get('/health', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'ok', service: 'notification-service' });
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ok", service: "notification-service" });
 });
 
-app.get('/ready', (_req: Request, res: Response) => {
-  res.status(200).json({ status: 'ready', service: 'notification-service' });
+app.get("/ready", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ready", service: "notification-service" });
 });
 
 app.use((err: any, _req: Request, res: Response) => {

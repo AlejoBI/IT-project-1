@@ -87,22 +87,26 @@ Asegúrate de tener instalado **Node.js** y **npm** o **yarn** en tu sistema.
 ## Explicación de la Arquitectura
 
 ### 1. `application/`
+
 Contiene la lógica de negocio de la aplicación y la configuración del store de Redux. Aquí se gestionan los diferentes slices y acciones relacionadas con el estado global.
 
 - **store/**: Slices y lógica de Redux para cada dominio (auth, users, audits, etc).
 
 ### 2. `domain/`
+
 Define los modelos, tipos y esquemas que representan la lógica de negocio y las entidades principales de la aplicación.
 
 - **models/**: Modelos y tipos TypeScript, organizados en `schemas/` y `types/`.
 
 ### 3. `infrastructure/`
+
 Incluye la integración con servicios externos, APIs y middlewares.
 
 - **api/**: Llamadas a servicios externos o APIs.
 - **middlewares/**: Middlewares personalizados para Redux u otras integraciones.
 
 ### 4. `presentation/`
+
 Contiene todo lo relacionado con la interfaz de usuario.
 
 - **components/**: Componentes reutilizables.
@@ -111,6 +115,7 @@ Contiene todo lo relacionado con la interfaz de usuario.
 - **routes/**: Definición de rutas y navegación.
 
 ### 5. `shared/`
+
 Recursos compartidos como constantes, utilidades, helpers y estilos globales.
 
 ---
@@ -123,12 +128,7 @@ Ejemplo de un slice de Redux:
 
 ```ts
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  loginUser,
-  registerUser,
-  logoutUser,
-  recoverPasswordUser,
-} from "./authActions";
+import { loginUser, registerUser, logoutUser, recoverPasswordUser } from "./authActions";
 import { AuthUser } from "../../../domain/models/types/authTypes";
 
 interface AuthState {
@@ -249,11 +249,7 @@ Ejemplo de un componente estilizado:
 
 ```tsx
 import React from "react";
-import {
-  LIGHT_MODE_COLORS,
-  DARK_MODE_COLORS,
-  ANIMATION_TIMINGS,
-} from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -261,11 +257,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
 }
 
-const Button: React.FC<ButtonProps> = ({
-  children,
-  onClick,
-  type = "button",
-}) => {
+const Button: React.FC<ButtonProps> = ({ children, onClick, type = "button" }) => {
   return (
     <button
       type={type}
@@ -396,11 +388,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ email, password }, thunkAPI) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       return {
         user: userCredential.user,
         token: await userCredential.user.getIdToken(),
@@ -415,11 +403,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async ({ email, password }, thunkAPI) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       return {
         user: userCredential.user,
         token: await userCredential.user.getIdToken(),
@@ -430,17 +414,14 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk(
-  "auth/logoutUser",
-  async (_, thunkAPI) => {
-    try {
-      await signOut(auth);
-      return null;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, thunkAPI) => {
+  try {
+    await signOut(auth);
+    return null;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 ```
 
 ✅ **Explicación**
@@ -520,9 +501,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           className={`p-3 border rounded-lg outline-none focus:ring-2 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:ring-indigo-400 dark:focus:ring-indigo-500 transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
         />
         {errors.email && (
-          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
-            {errors.email.message}
-          </p>
+          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>{errors.email.message}</p>
         )}
       </div>
 
@@ -538,9 +517,7 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           className={`p-3 border rounded-lg outline-none focus:ring-2 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:ring-indigo-400 dark:focus:ring-indigo-500 transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
         />
         {errors.password && (
-          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>
-            {errors.password.message}
-          </p>
+          <p className={`text-red-500 dark:text-red-400 text-sm mt-1`}>{errors.password.message}</p>
         )}
       </div>
 

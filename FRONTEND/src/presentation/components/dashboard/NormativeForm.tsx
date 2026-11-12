@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  useForm,
-  useFieldArray,
-  FormProvider,
-  SubmitHandler,
-} from "react-hook-form";
+import { useForm, useFieldArray, FormProvider, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { createEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
 import { fetchRegulationsAction } from "../../../application/store/regulations/regulationsActions";
@@ -60,9 +55,7 @@ const NormativeForm = () => {
           Crear Formulario
         </h2>
         {loading ? (
-          <p
-            className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-          >
+          <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
             Cargando...
           </p>
         ) : (

@@ -4,10 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../../../domain/models/schemas/authSchema";
 import { z } from "zod";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import {
-  registerUser,
-  logoutUser,
-} from "../../../../application/store/auth/authActions";
+import { registerUser, logoutUser } from "../../../../application/store/auth/authActions";
 import { sendEmailNotification } from "../../notification/sendEmailNotification";
 import { EmailTemplateType } from "../../../../domain/models/types/notificationTypes";
 import Button from "../../UI/Button";
@@ -76,35 +73,20 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
         <>
           <div className="flex flex-col">
             <Label htmlFor="username">Nombre de Usuario:</Label>
-            <input
-              id="username"
-              {...register("username")}
-              className={inputClass}
-            />
-            {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
-            )}
+            <input id="username" {...register("username")} className={inputClass} />
+            {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
           </div>
 
           <div className="flex flex-col">
             <Label htmlFor="name">Nombre:</Label>
             <input id="name" {...register("name")} className={inputClass} />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
 
           <div className="flex flex-col">
             <Label htmlFor="email">Correo Electrónico:</Label>
-            <input
-              id="email"
-              type="email"
-              {...register("email")}
-              className={inputClass}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
+            <input id="email" type="email" {...register("email")} className={inputClass} />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
           <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -128,15 +110,8 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
         <>
           <div className="flex flex-col">
             <Label htmlFor="password">Contraseña:</Label>
-            <input
-              id="password"
-              type="password"
-              {...register("password")}
-              className={inputClass}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
+            <input id="password" type="password" {...register("password")} className={inputClass} />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
 
           <div className="flex flex-col">
@@ -148,9 +123,7 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
               className={inputClass}
             />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">
-                {errors.confirmPassword.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
             )}
           </div>
 

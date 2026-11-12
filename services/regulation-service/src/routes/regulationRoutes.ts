@@ -7,10 +7,7 @@ import {
   deleteRegulation,
 } from "../controllers/regulationController.js";
 import { validate } from "../middlewares/validate.js";
-import {
-  addRegulationSchema,
-  updateRegulationSchema,
-} from "../schemas/regulationSchemas.js";
+import { addRegulationSchema, updateRegulationSchema } from "../schemas/regulationSchemas.js";
 
 const router = express.Router();
 
