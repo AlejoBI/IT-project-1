@@ -55,8 +55,20 @@
 - El script de tests instala dependencias automáticamente y reporta varias
   vulnerabilidades npm que deben clasificarse antes de actualizar.
 - El Gateway contiene URLs de Render hardcodeadas.
+- `docker compose config` requiere archivos `.env` porque `env_file` no acepta
+  automáticamente `.env.example`; `check-compose-config.ps1` crea copias
+  temporales, valida la configuración y las elimina siempre.
+
+## Validación posterior — 2026-11-12
+
+- Los siete servicios pasan `npm test`: 83 pruebas en total.
+- Los siete servicios pasan build y lint; frontend pasa build y lint.
+- `test-runtime-services.ps1` verificó `/health` y `/ready` con HTTP 200 en los
+  siete servicios usando plantillas de entorno.
+- `check-compose-config.ps1` verificó `docker compose config` sin conservar
+  archivos `.env` temporales.
 
 ## Próximo objetivo
 
-Completar la Fase 0 del roadmap y dejar todos los comandos de validación
-reproducibles sin Firebase de producción.
+Completar autorización por propietario/organización, revisar reglas de Firestore
+y continuar con pruebas de integración mediante Firebase Emulator.

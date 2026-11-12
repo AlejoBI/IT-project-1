@@ -23,6 +23,12 @@ powershell -ExecutionPolicy Bypass -File .\test-runtime-services.ps1
 El script usa únicamente `.env.example`, comprueba `/health` y `/ready`, y
 elimina los archivos temporales al finalizar.
 
+Para validar la configuración de Compose sin crear archivos `.env` permanentes:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\check-compose-config.ps1
+```
+
 ## Frontend
 
 El build usa:

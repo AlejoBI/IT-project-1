@@ -288,3 +288,15 @@ solo cuando exista evidencia reproducible.
   rango; Regulation compila, pasa lint y sus 11 pruebas.
 - Se eliminaron retornos `any` de los controladores de Users y del reporte de
   Compliance; Users pasa build, lint y 17 pruebas; Compliance pasa build y 27.
+
+#### 2026-11-12 — validación y seguridad
+
+- La suite completa de servicios pasó: 83 pruebas en los siete servicios.
+- Build y lint pasan en los siete servicios y en el frontend.
+- Los siete servicios respondieron `200` en `/health` y `/ready` usando
+  `test-runtime-services.ps1`.
+- `check-compose-config.ps1` valida Compose con copias temporales de las
+  plantillas y las elimina al terminar.
+- Se verificó token Firebase en los endpoints internos y autorización por rol y
+  propietario en Users. Quedan pendientes roles/aislamiento en los demás
+  controladores y reglas de Firestore.
