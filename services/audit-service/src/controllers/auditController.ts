@@ -15,7 +15,7 @@ import { firestore } from "../utils/firebaseConfig.js";
 import { getFirebaseErrorMessage } from "../utils/error.js";
 
 export const createOrUpdateAudit = async (req: Request, res: Response): Promise<void> => {
-  const { selfAssessmentId, auditorId, auditorName, sectionAudit } = req.body;
+  const { selfAssessmentId, formVersion, auditorId, auditorName, sectionAudit } = req.body;
   try {
     if (req.auth && req.auth.uid !== auditorId && req.auth.role !== "admin") {
       res.status(403).json({ error: "El auditor indicado no coincide con el usuario autenticado." });
@@ -46,6 +46,7 @@ export const createOrUpdateAudit = async (req: Request, res: Response): Promise<
       // Crear nuevo documento de auditoría con 1 sección
       await setDoc(auditDocRef, {
         selfAssessmentId,
+        ...(formVersion ? { formVersion } : {}),
         auditorId,
         auditorName,
         auditedAt: new Date().toISOString(),

@@ -72,6 +72,7 @@ const AuditContainer = ({ selfAssessmentId }: { selfAssessmentId: string }) => {
       auditorId,
       auditorName,
       selfAssessmentId,
+      formVersion: selfAssessmentToAudit?.formVersion,
       sectionAudit: {
         sectionId: section.sectionId,
         sectionTitle: section.sectionTitle,

@@ -324,6 +324,8 @@ solo cuando exista evidencia reproducible.
 - Se añadió gestión de acciones correctivas por reporte con responsable, fecha
   objetivo y estados `pendiente`, `en_progreso`, `resuelta` y `vencida`, protegida
   por propietario, admin o auditor.
+- Las auditorías conservan `formVersion` cuando se relacionan con una
+  evaluación, evitando perder la versión exacta del formulario auditado.
 - Los siete servicios registran método, ruta, estado, latencia y `request_id`
   propagado por el Gateway para facilitar diagnóstico sin registrar tokens.
 

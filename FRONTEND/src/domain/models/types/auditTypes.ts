@@ -4,6 +4,7 @@ export type Audit = {
   auditorId: string;
   auditorName: string;
   selfAssessmentId: string;
+  formVersion?: number;
   sectionAudit: AuditSection;
   sectionAudits?: AuditSection[];
   sectionAuditIds?: string[];
@@ -17,6 +18,7 @@ export type AuditByUser = {
   regulationName: string;
   formId: string;
   formName: string;
+  formVersion?: number;
   auditStatus?: string;
   totalScore?: number;
   answers?: SectionAnswer[];
@@ -42,6 +44,7 @@ export interface SelfAssessmentToAudit {
   regulationName: string;
   formId: string;
   formName: string;
+  formVersion?: number;
   version?: string;
   auditStatus?: string;
   totalScore?: number;

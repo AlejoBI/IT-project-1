@@ -9,6 +9,7 @@ export const sectionAuditSchema = z.object({
 
 export const auditSchema = z.object({
   selfAssessmentId: z.string(),
+  formVersion: z.number().int().positive().optional(),
   auditorId: z.string(),
   auditorName: z.string(),
   sectionAudit: sectionAuditSchema, // solo 1 sección a la vez
