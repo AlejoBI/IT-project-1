@@ -13,7 +13,20 @@ import {
 import { firestore } from "../utils/firebaseConfig.js";
 import { calculateScores } from "../services/calculateScores.js";
 import { createComplianceReport } from "./complianceReportController.js";
-import { FIREBASE_ERRORS } from "../utils/constants.js";
+import { Answer } from "../models/selfAssessmentModel.js";
+import { getFirebaseErrorMessage } from "../utils/error.js";
+
+interface AssessmentGroupItem {
+  id: string;
+  createdAt: Date | string;
+  sectionScores?: unknown;
+  formId?: string;
+  regulationId?: string;
+  formName?: string;
+  regulationName?: string;
+  userId?: string;
+  [key: string]: unknown;
+}
 
 export const saveDraftController = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -47,7 +60,7 @@ export const saveDraftController = async (req: Request, res: Response): Promise<
       const existing = draftDoc.data();
 
       const updatedAnswers = [
-        ...existing.answers.filter((a: any) => a.sectionId !== sectionId),
+        ...existing.answers.filter((a: Answer) => a.sectionId !== sectionId),
         ...answers,
       ];
 
@@ -69,8 +82,7 @@ export const saveDraftController = async (req: Request, res: Response): Promise<
       return res.status(200).json({ message: "Avance actualizado exitosamente." });
     }
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error guardando avance.";
+    const errorMessage = getFirebaseErrorMessage(error, "Error guardando avance.");
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -94,8 +106,7 @@ export const getDraftController = async (req: Request, res: Response): Promise<a
 
     return res.status(200).json(snapshot.docs[0].data());
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo avance.";
+    const errorMessage = getFirebaseErrorMessage(error, "Error obteniendo avance.");
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -152,8 +163,7 @@ export const submitSelfAssessmentController = async (req: Request, res: Response
 
     return res.status(200).json({ message: "Autoevaluación enviada exitosamente." });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || error;
+    const errorMessage = getFirebaseErrorMessage(error, "Error enviando autoevaluación.");
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -177,8 +187,7 @@ export const getSelfAssessmentController = async (req: Request, res: Response): 
 
     return res.status(200).json(selfAssessmentsSessions);
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = getFirebaseErrorMessage(error, "Error obteniendo información.");
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -199,7 +208,7 @@ export const getSelfAssessmentToAuditsByUserId = async (
     }
 
     // Agrupar por formId y regulationId
-    const grouped: Record<string, any[]> = {};
+    const grouped: Record<string, AssessmentGroupItem[]> = {};
     snapshot.docs.forEach((doc) => {
       const data = doc.data();
       const { createdAt, sectionScores, ...rest } = data;
@@ -257,8 +266,7 @@ export const getSelfAssessmentToAuditsByUserId = async (
 
     return res.status(200).json(result);
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = getFirebaseErrorMessage(error, "Error obteniendo información.");
     return res.status(400).json({ error: errorMessage });
   }
 };
@@ -284,8 +292,7 @@ export const getSelfAssessmentByAssessmentId = async (
       ...selfAssessment,
     });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error obteniendo información.";
+    const errorMessage = getFirebaseErrorMessage(error, "Error obteniendo información.");
     return res.status(400).json({ error: errorMessage });
   }
 };
