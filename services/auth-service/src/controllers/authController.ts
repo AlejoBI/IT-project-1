@@ -11,6 +11,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, firestore } from "../utils/firebaseConfig.js";
 
 import { getFirebaseErrorMessage } from "../utils/error.js";
+import { getAdminAuth } from "../utils/firebaseAdmin.js";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password, username, name } = req.body;
@@ -30,6 +31,10 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    if (process.env.FIREBASE_ADMIN_CLIENT_EMAIL && process.env.FIREBASE_ADMIN_PRIVATE_KEY) {
+      await getAdminAuth().setCustomUserClaims(user.uid, { role: "standard_user" });
+    }
 
     res.status(201).json({
       message: "Registro exitoso. Por favor verifica tu correo electrónico.",

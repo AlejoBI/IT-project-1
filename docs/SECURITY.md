@@ -21,6 +21,9 @@ Users ya aplica autorización de claims: los listados requieren `admin`, los
 datos de auditoría requieren `admin` o `auditor`, y un perfil solo puede ser
 consultado o actualizado por su propietario o un `admin`. Los claims de rol
 deben ser administrados desde un proceso confiable, nunca desde el frontend.
+Los nuevos registros reciben automáticamente el claim `standard_user` cuando
+el servicio Auth tiene configurado Firebase Admin; la asignación de `admin` y
+`auditor` queda reservada a un proceso operativo controlado.
 
 ## Datos
 
