@@ -66,6 +66,14 @@ const RegulationList = () => {
   };
 
   const handleDelete = async (uid: string) => {
+    if (
+      !window.confirm(
+        "¿Eliminar esta normativa y su formulario de evaluación? Esta acción no se puede deshacer."
+      )
+    ) {
+      return;
+    }
+
     setDeleteError(null);
     try {
       await dispatch(deleteRegulationAction(uid)).unwrap();
@@ -78,6 +86,10 @@ const RegulationList = () => {
   };
 
   const handleDeleteEvaluationForm = async (uid: string) => {
+    if (!window.confirm("¿Eliminar el formulario de evaluación? Esta acción no se puede deshacer.")) {
+      return;
+    }
+
     setDeleteError(null);
     try {
       await dispatch(deleteEvaluationFormAction(uid)).unwrap();
@@ -105,6 +117,13 @@ const RegulationList = () => {
           className={`text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
           Cargando...
+        </p>
+      ) : regulations?.length === 0 ? (
+        <p
+          role="status"
+          className={`py-8 text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+        >
+          No hay regulaciones registradas.
         </p>
       ) : (
         <div className="overflow-x-auto">
@@ -199,21 +218,27 @@ const RegulationList = () => {
                     <td className="px-4 py-2">
                       <div className="flex gap-2 justify-start items-center">
                         <button
+                          type="button"
                           onClick={() => handleUpdate(id)}
+                          aria-label={`Actualizar normativa ${currentEditData.name}`}
                           title="Actualizar normativa"
                           className={`text-blue-600 hover:text-blue-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
                         >
                           <Pencil size={18} />
                         </button>
                         <button
+                          type="button"
                           onClick={() => handleDelete(id)}
+                          aria-label={`Eliminar normativa ${currentEditData.name}`}
                           title="Eliminar normativa"
                           className={`text-red-600 hover:text-red-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
                         >
                           <Trash2 size={18} />
                         </button>
                         <button
+                          type="button"
                           onClick={() => handleDeleteEvaluationForm(id)}
+                          aria-label={`Eliminar formulario de ${currentEditData.name}`}
                           title="Eliminar formulario"
                           className={`text-yellow-600 hover:text-yellow-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
                         >

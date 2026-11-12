@@ -161,7 +161,7 @@ secretos ni datos reales de prueba.
 - [x] Mostrar progreso de formularios largos.
 - [ ] Permitir guardar y continuar después.
 - [ ] Mejorar estados de carga, vacío, error y éxito.
-- [ ] Añadir confirmación antes de eliminar información.
+- [x] Añadir confirmación antes de eliminar información.
 - [ ] Mejorar dashboard con métricas accionables.
 - [ ] Mejorar gráficos para móvil y accesibilidad.
 - [ ] Revisar contraste, foco de teclado y etiquetas.
