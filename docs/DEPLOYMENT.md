@@ -70,3 +70,35 @@ producción compartida.
 URLs Render escritas directamente en `nginx.conf`. Antes de reutilizarlo como
 producción se debe reconstruir la configuración por entorno y publicar imágenes
 con tags inmutables.
+
+## Procedimiento de despliegue seguro
+
+1. Ejecutar en CI lint, typecheck, pruebas y build de frontend y servicios.
+2. Publicar cada imagen con un tag inmutable basado en el commit, por ejemplo
+   `sha-<commit>`; no reutilizar `latest` ni `v1`.
+3. Configurar las variables y secretos en el proveedor, sin copiar archivos
+   `.env` al servidor.
+4. Desplegar primero el Gateway y los servicios en staging, comprobar `/health`
+   y `/ready`, y ejecutar una prueba de lectura y escritura con datos de prueba.
+5. Publicar el frontend apuntando al Gateway de staging y comprobar login,
+   evaluación, reporte y auditoría.
+6. Promover exactamente los mismos tags a producción y comprobar healthchecks,
+   CORS y HTTPS.
+
+## Rollback
+
+- Conservar el tag de la versión anterior y el manifiesto de variables asociado.
+- Si falla el healthcheck o una prueba de humo, detener la promoción y volver a
+  desplegar los tags anteriores del frontend, Gateway y servicios.
+- No revertir reglas de Firestore automáticamente: revisar primero si el cambio
+  es compatible hacia atrás y aplicar una migración explícita si corresponde.
+- Registrar commit, hora, causa, servicios afectados y resultado del rollback.
+- Después del rollback, comprobar `/health`, `/ready`, login, lectura de
+  normativas y acceso a reportes.
+
+## Restauración de datos
+
+Las copias de Firestore deben configurarse en el proyecto de producción y
+probarse periódicamente en un proyecto separado. Una restauración requiere
+aprobación, ventana de mantenimiento, respaldo del estado actual y verificación
+de reglas antes de volver a abrir el tráfico.
