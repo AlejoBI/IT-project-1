@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import { firestore } from "../utils/firebaseConfig.js";
 import { collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { FIREBASE_ERRORS } from "../utils/constants.js";
 import { FormSection } from "../models/formModels.js";
+import { getFirebaseErrorMessage } from "../utils/error.js";
 
 // Crear una nueva sección en un formulario
-export const addFormSection = async (req: Request, res: Response): Promise<any> => {
+export const addFormSection = async (req: Request, res: Response): Promise<void> => {
   try {
     const sectionData = req.body;
     const formRef = doc(firestore, "evaluationForms", sectionData.formId);
     const formSnapshot = await getDoc(formRef);
 
     if (!formSnapshot.exists()) {
-      return res.status(404).json({ error: "Formulario no encontrado." });
+      res.status(404).json({ error: "Formulario no encontrado." });
+      return;
     }
 
     const sectionsRef = collection(firestore, "formSections");
@@ -26,14 +27,13 @@ export const addFormSection = async (req: Request, res: Response): Promise<any> 
       message: "Sección agregada exitosamente.",
     });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al agregar la sección";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al agregar la sección");
     res.status(400).json({ error: errorMessage });
   }
 };
 
 // Obtener todas las secciones de un formulario
-export const getFormSections = async (req: Request, res: Response): Promise<any> => {
+export const getFormSections = async (req: Request, res: Response): Promise<void> => {
   const { formId } = req.params;
   try {
     const sectionsRef = collection(firestore, "formSections");
@@ -47,32 +47,34 @@ export const getFormSections = async (req: Request, res: Response): Promise<any>
       .filter((section) => section.formId === formId);
 
     if (sections.length === 0) {
-      return res.status(404).json({ error: "No se encontraron secciones." });
+      res.status(404).json({ error: "No se encontraron secciones." });
+      return;
     }
 
     res.status(200).json(sections);
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener las secciones";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al obtener las secciones");
     res.status(400).json({ error: errorMessage });
   }
 };
 
 // Actualizar una sección de un formulario
-export const updateFormSection = async (req: Request, res: Response): Promise<any> => {
+export const updateFormSection = async (req: Request, res: Response): Promise<void> => {
   const { sectionId } = req.params;
   try {
     const sectionRef = doc(firestore, "formSections", sectionId);
     const snapshot = await getDoc(sectionRef);
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ error: "Sección no encontrada." });
+      res.status(404).json({ error: "Sección no encontrada." });
+      return;
     }
 
     const updateData = req.body;
 
     if (updateData.formId && updateData.formId !== snapshot.data().formId) {
-      return res.status(400).json({ error: "No se permite cambiar el formId." });
+      res.status(400).json({ error: "No se permite cambiar el formId." });
+      return;
     }
 
     await updateDoc(sectionRef, {
@@ -82,21 +84,21 @@ export const updateFormSection = async (req: Request, res: Response): Promise<an
 
     res.status(200).json({ message: "Sección actualizada exitosamente." });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al actualizar la sección";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al actualizar la sección");
     res.status(400).json({ error: errorMessage });
   }
 };
 
 // Eliminar una sección y sus preguntas asociadas
-export const deleteFormSection = async (req: Request, res: Response): Promise<any> => {
+export const deleteFormSection = async (req: Request, res: Response): Promise<void> => {
   const { sectionId } = req.params;
   try {
     const sectionRef = doc(firestore, "formSections", sectionId);
     const sectionSnapshot = await getDoc(sectionRef);
 
     if (!sectionSnapshot.exists()) {
-      return res.status(404).json({ error: "Sección no encontrada." });
+      res.status(404).json({ error: "Sección no encontrada." });
+      return;
     }
 
     // Eliminar preguntas asociadas a esta sección
@@ -118,9 +120,10 @@ export const deleteFormSection = async (req: Request, res: Response): Promise<an
 
     res.status(200).json({ message: "Sección y preguntas eliminadas exitosamente." });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage =
-      FIREBASE_ERRORS[firebaseError] || "Error al eliminar la sección y sus preguntas";
+    const errorMessage = getFirebaseErrorMessage(
+      error,
+      "Error al eliminar la sección y sus preguntas"
+    );
     res.status(400).json({ error: errorMessage });
   }
 };
