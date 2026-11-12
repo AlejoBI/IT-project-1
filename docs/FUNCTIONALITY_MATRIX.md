@@ -29,7 +29,7 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 |---|---|---|---|---|
 | auth | OK | 6 pasan | OK, warnings | Cobertura de controlador 76.47 %. |
 | users | OK | 17 pasan | OK, warnings | Mock de Firestore estabilizado. |
-| compliance | OK | 32 pasan | OK, warnings | Incluye ownership, validación de respuestas, versionado y fórmula de puntajes. |
+| compliance | OK | 35 pasan | OK, warnings | Incluye ownership, validación de respuestas, versionado, fórmula de puntajes y acciones correctivas. |
 | notifications | OK | 4 pasan | OK, warnings | MailerSend requiere configuración para envío real. |
 | regulations | OK | 11 pasan | OK, warnings | Cobertura de controlador 86.36 %. |
 | evaluation forms | OK | 7 pasan | OK, warnings | Cubre reglas Zod de preguntas, opciones y formularios completos. |
