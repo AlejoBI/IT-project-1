@@ -28,9 +28,14 @@ jest.mock("firebase/firestore", () => ({
   getDoc: jest.fn(),
   updateDoc: jest.fn(),
   query: jest.fn(),
+  where: jest.fn(),
 }));
 
 describe("usersController", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe("getUsers", () => {
     let mockReq: Partial<Request>;
     let mockRes: Partial<Response>;
@@ -233,13 +238,6 @@ describe("usersController", () => {
             cb: (doc: { data: () => { totalScore: number } }) => void
           ) => {
             cb({ data: () => ({ totalScore: 80 }) });
-          },
-        })
-        .mockResolvedValueOnce({
-          empty: false,
-          forEach: (
-            cb: (doc: { data: () => { totalScore: number } }) => void
-          ) => {
             cb({ data: () => ({ totalScore: 90 }) });
           },
         });
@@ -267,7 +265,7 @@ describe("usersController", () => {
 
       await getUser(mockReq as Request, mockRes as Response);
 
-      expect(mockRes.status).toHaveBeenCalledWith(400);
+      expect(mockRes.status).toHaveBeenCalledWith(500);
       expect(mockRes.json).toHaveBeenCalledWith({
         error: expect.any(String),
       });

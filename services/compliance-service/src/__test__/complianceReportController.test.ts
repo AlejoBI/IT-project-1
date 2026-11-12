@@ -2,6 +2,10 @@ import { getComplianceReportsController } from "../controllers/complianceReportC
 import { Request, Response } from "express";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
+jest.mock("firebase/auth", () => ({
+  getAuth: jest.fn(() => ({})),
+}));
+
 // Mock completo para firebase/firestore
 jest.mock("firebase/firestore", () => {
   const original = jest.requireActual("firebase/firestore");

@@ -16,19 +16,15 @@ export const sendEmail = async (
   htmlContent: string,
   textContent: string
 ): Promise<void> => {
-  try {
-    const sentFrom = new Sender(EMAIL_FROM, "ISOlitycs");
-    const recipients = [new Recipient(to, "Recipient Name")];
-    const emailParams = new EmailParams()
-      .setFrom(sentFrom)
-      .setTo(recipients)
-      .setReplyTo(sentFrom)
-      .setSubject(subject)
-      .setHtml(htmlContent)
-      .setText(textContent);
+  const sentFrom = new Sender(EMAIL_FROM, "ISOlytics");
+  const recipients = [new Recipient(to, "Recipient Name")];
+  const emailParams = new EmailParams()
+    .setFrom(sentFrom)
+    .setTo(recipients)
+    .setReplyTo(sentFrom)
+    .setSubject(subject)
+    .setHtml(htmlContent)
+    .setText(textContent);
 
-    await mailerSend.email.send(emailParams);
-  } catch (error) {
-    throw error;
-  }
+  await mailerSend.email.send(emailParams);
 };
