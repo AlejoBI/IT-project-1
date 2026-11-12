@@ -24,6 +24,9 @@ deben ser administrados desde un proceso confiable, nunca desde el frontend.
 Los nuevos registros reciben automáticamente el claim `standard_user` cuando
 el servicio Auth tiene configurado Firebase Admin; la asignación de `admin` y
 `auditor` queda reservada a un proceso operativo controlado.
+Compliance restringe autoevaluaciones e informes al propietario, `admin` o
+`auditor` según la operación; sus rutas de datos para auditoría exigen `admin`
+o `auditor`.
 
 ## Datos
 
