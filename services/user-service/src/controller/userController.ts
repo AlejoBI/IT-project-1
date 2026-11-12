@@ -4,13 +4,14 @@ import { firestore } from "../utils/firebaseConfig.js";
 import { getFirebaseErrorMessage } from "../utils/error.js";
 
 // Obtener perfiles de usuarios
-export const getUsers = async (req: Request, res: Response): Promise<any> => {
+export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const usersRef = collection(firestore, "users");
     const usersSnapshot = await getDocs(usersRef);
 
     if (usersSnapshot.empty) {
-      return res.status(404).json({ error: "No se encontraron usuarios." });
+      res.status(404).json({ error: "No se encontraron usuarios." });
+      return;
     }
 
     const users = usersSnapshot.docs.map((doc) => ({
@@ -18,15 +19,15 @@ export const getUsers = async (req: Request, res: Response): Promise<any> => {
       ...doc.data(),
     }));
 
-    return res.status(200).json(users);
+    res.status(200).json(users);
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error, "Error al obtener los usuarios");
-    return res.status(400).json({ error: errorMessage });
+    res.status(400).json({ error: errorMessage });
   }
 };
 
 // Obtener perfil de usuario
-export const getUser = async (req: Request, res: Response): Promise<any> => {
+export const getUser = async (req: Request, res: Response): Promise<void> => {
   const { uid } = req.params;
 
   try {
@@ -34,7 +35,8 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     const userSnapshot = await getDoc(userRef);
 
     if (!userSnapshot.exists()) {
-      return res.status(404).json({ error: "Usuario no encontrado." });
+      res.status(404).json({ error: "Usuario no encontrado." });
+      return;
     }
 
     // Obtener evaluaciones del usuario
@@ -47,13 +49,14 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
 
     // Si no hay evaluaciones, respondemos directamente
     if (evaluationsCount === 0) {
-      return res.status(200).json({
+      res.status(200).json({
         userId: userSnapshot.id,
         ...userSnapshot.data(),
         evaluationsCount: 0,
         auditsCount: 0,
         evaluationsAverage: null,
       });
+      return;
     }
 
     // Procesar auditorías si hay evaluaciones
@@ -94,7 +97,7 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
       }
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       userId: userSnapshot.id,
       ...userSnapshot.data(),
       evaluationsCount,
@@ -103,12 +106,12 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     });
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error, "Error al obtener el usuario");
-    return res.status(500).json({ error: errorMessage });
+    res.status(500).json({ error: errorMessage });
   }
 };
 
 // Actualizar perfil de usuario
-export const updateUser = async (req: Request, res: Response): Promise<any> => {
+export const updateUser = async (req: Request, res: Response): Promise<void> => {
   const { userId } = req.params;
   const updates = req.body;
   try {
@@ -116,7 +119,8 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
     const userSnapshot = await getDoc(userRef);
 
     if (!userSnapshot.exists()) {
-      return res.status(404).json({ error: "Usuario no encontrado." });
+      res.status(404).json({ error: "Usuario no encontrado." });
+      return;
     }
 
     await updateDoc(userRef, {
@@ -124,10 +128,10 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
       updatedAt: new Date(),
     });
 
-    return res.status(200).json({ message: "Perfil de usuario actualizado exitosamente" });
+    res.status(200).json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error, "Error al actualizar el perfil");
-    return res.status(400).json({ error: errorMessage });
+    res.status(400).json({ error: errorMessage });
   }
 };
 
@@ -135,13 +139,14 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
 export const getUsersWithEvaluationsAndAudits = async (
   req: Request,
   res: Response
-): Promise<any> => {
+): Promise<void> => {
   try {
     const usersRef = collection(firestore, "users");
     const usersSnapshot = await getDocs(usersRef);
 
     if (usersSnapshot.empty) {
-      return res.status(404).json({ error: "No se encontraron usuarios." });
+      res.status(404).json({ error: "No se encontraron usuarios." });
+      return;
     }
 
     const usersWithCounts = await Promise.all(
@@ -191,6 +196,6 @@ export const getUsersWithEvaluationsAndAudits = async (
     res.status(200).json(filteredUsers);
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error, "Error al obtener los usuarios");
-    return res.status(400).json({ error: errorMessage });
+    res.status(400).json({ error: errorMessage });
   }
 };
