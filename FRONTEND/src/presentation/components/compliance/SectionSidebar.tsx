@@ -24,7 +24,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
   return (
     <div
       className={`
-      w-64 rounded-2xl shadow-sm p-4 border
+      w-full rounded-2xl shadow-sm p-4 border lg:w-64 lg:shrink-0
       ${LIGHT_MODE_COLORS.BACKGROUND_WHITE}
       ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
       border-gray-200 dark:border-[#2A4C61]
@@ -50,7 +50,9 @@ const SectionSidebar: React.FC<SidebarProps> = ({
                 <span className="absolute -left-1 -top-1 w-3 h-3 bg-green-500 rounded-full z-10"></span>
               )}
               <button
+                type="button"
                 onClick={() => onSelectSection(sec.id)}
+                aria-label={`Abrir sección ${sec.title}${isCompleted ? ", completada" : ""}`}
                 className={`
                 w-full text-left px-4 py-2 rounded-xl font-medium
                 border border-transparent
@@ -71,6 +73,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
       </ul>
 
       <button
+        type="button"
         onClick={() => navigate("/self-assessments")}
         className={`
         mt-6 text-sm hover:underline underline-offset-2
@@ -84,6 +87,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
       </button>
       {isFormComplete && onCompleteForm && (
         <button
+          type="button"
           onClick={onCompleteForm}
           className={`
       w-full mt-6 py-3 px-4 text-white font-semibold rounded-xl

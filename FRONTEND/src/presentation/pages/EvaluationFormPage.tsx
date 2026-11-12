@@ -205,7 +205,7 @@ const EvaluationFormPage = () => {
   return (
     <FormProvider {...methods}>
       {message && <Notification message={message} type="success" />}
-      <div className="flex max-w-7xl mx-auto p-6 space-x-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 sm:p-6 lg:flex-row">
         <SectionSidebar
           sections={forms.sections}
           completedSections={completedSections}
