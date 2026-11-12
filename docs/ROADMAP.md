@@ -305,6 +305,9 @@ solo cuando exista evidencia reproducible.
 - El frontend ahora inicia sesión en Firebase, adjunta el Bearer token en Axios
   y espera la restauración de sesión antes de cargar rutas protegidas; esto
   corrige la carga de evaluaciones y datos administrativos que respondían `401`.
+- Auth sincroniza ahora los roles persistidos en Firestore con custom claims al
+  iniciar sesión y al actualizar usuarios, evitando que un admin válido sea
+  rechazado por no tener el claim actualizado.
 
 #### 2026-11-12 — trazabilidad de evaluaciones
 

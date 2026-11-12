@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { doc, getDoc, updateDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { getFirebaseErrorMessage } from "../utils/error.js";
+import { getAdminAuth } from "../utils/firebaseAdmin.js";
 
 // Obtener perfiles de usuarios
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
@@ -127,6 +128,19 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
       ...updates,
       updatedAt: new Date(),
     });
+
+    if (
+      updates.role === "admin" ||
+      updates.role === "auditor" ||
+      updates.role === "standard_user"
+    ) {
+      const adminAuth = getAdminAuth();
+      const adminUser = await adminAuth.getUser(userId);
+      await adminAuth.setCustomUserClaims(userId, {
+        ...(adminUser.customClaims || {}),
+        role: updates.role,
+      });
+    }
 
     res.status(200).json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {

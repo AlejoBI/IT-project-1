@@ -66,6 +66,23 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     const userData = userDoc.data();
 
+    // Firestore stores the operational role, while protected Express services
+    // authorize from verified token claims. Keep both sources synchronized before
+    // the frontend obtains its Firebase ID token.
+    if (
+      (userData.role === "admin" ||
+        userData.role === "auditor" ||
+        userData.role === "standard_user") &&
+      process.env.FIREBASE_ADMIN_CLIENT_EMAIL &&
+      process.env.FIREBASE_ADMIN_PRIVATE_KEY
+    ) {
+      const adminUser = await getAdminAuth().getUser(user.uid);
+      await getAdminAuth().setCustomUserClaims(user.uid, {
+        ...(adminUser.customClaims || {}),
+        role: userData.role,
+      });
+    }
+
     res.status(200).json({
       uid: user.uid,
       name: user.displayName,
