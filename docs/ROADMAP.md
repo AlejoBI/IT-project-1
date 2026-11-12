@@ -156,7 +156,7 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** reducir fricción y hacer comprensible el sistema.
 
-- [ ] Rediseñar la página inicial con propuesta de valor clara.
+- [x] Rediseñar la página inicial con propuesta de valor clara.
 - [x] Mejorar navegación, sidebar y breadcrumbs.
 - [x] Mostrar progreso de formularios largos.
 - [ ] Permitir guardar y continuar después.
