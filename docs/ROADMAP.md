@@ -162,7 +162,7 @@ secretos ni datos reales de prueba.
 - [ ] Permitir guardar y continuar después.
 - [ ] Mejorar estados de carga, vacío, error y éxito.
 - [x] Añadir confirmación antes de eliminar información.
-- [ ] Mejorar dashboard con métricas accionables.
+- [x] Mejorar dashboard con métricas accionables.
 - [ ] Mejorar gráficos para móvil y accesibilidad.
 - [ ] Revisar contraste, foco de teclado y etiquetas.
 - [ ] Añadir diseño responsive para tabletas y móviles.
