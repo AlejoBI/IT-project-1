@@ -326,6 +326,8 @@ solo cuando exista evidencia reproducible.
   por propietario, admin o auditor.
 - Las auditorías conservan `formVersion` cuando se relacionan con una
   evaluación, evitando perder la versión exacta del formulario auditado.
+- Reportes incorpora comparación histórica por normativa, con orden temporal,
+  estado, puntaje y variación frente a la evaluación anterior.
 - Los siete servicios registran método, ruta, estado, latencia y `request_id`
   propagado por el Gateway para facilitar diagnóstico sin registrar tokens.
 

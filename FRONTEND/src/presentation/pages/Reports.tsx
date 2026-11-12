@@ -13,6 +13,7 @@ import CompletedReports from "../components/reports/CompletedReports";
 import RegulationReport from "../components/reports/RegulationReport";
 import ReportGaps from "../components/reports/ReportGaps";
 import ReportActions from "../components/reports/ReportActions";
+import HistoricalComparison from "../components/reports/HistoricalComparison";
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
@@ -104,6 +105,7 @@ const Reports = () => {
           </div>
           <ReportGaps reports={filteredReports ?? []} />
           <ReportActions reports={filteredReports ?? []} />
+          <HistoricalComparison reports={filteredReports ?? []} />
 
           <section className="mb-8 border rounded-lg overflow-hidden">
             <button
