@@ -225,7 +225,9 @@ const PDFTemplateReports = ({
             </Text>
             <Text style={styles.headerText}>Normativa: {data?.regulationName || "No definida"}</Text>
             <Text style={styles.headerText}>Formulario: {data?.formName || "No definido"}</Text>
-            <Text style={styles.headerText}>Versión: {data?.version || "No definida"}</Text>
+            <Text style={styles.headerText}>
+              Versión: {data?.formVersion ?? data?.version ?? "No definida"}
+            </Text>
             <Text style={styles.headerText}>
               Puntuación Total: {data?.totalScore ?? "No disponible"}
             </Text>

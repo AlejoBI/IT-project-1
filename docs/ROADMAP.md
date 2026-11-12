@@ -328,6 +328,8 @@ solo cuando exista evidencia reproducible.
   evaluación, evitando perder la versión exacta del formulario auditado.
 - Reportes incorpora comparación histórica por normativa, con orden temporal,
   estado, puntaje y variación frente a la evaluación anterior.
+- La descarga PDF conserva la versión del formulario y muestra errores de carga
+  o generación de forma visible para el usuario.
 - Los siete servicios registran método, ruta, estado, latencia y `request_id`
   propagado por el Gateway para facilitar diagnóstico sin registrar tokens.
 
