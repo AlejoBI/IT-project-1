@@ -249,9 +249,10 @@ secretos ni datos reales de prueba.
 
 ## Próximo paso
 
-El siguiente trabajo es completar la **Fase 0**: ejecutar la línea base,
-documentar resultados y construir la matriz de funcionalidades. No se harán
-refactors grandes hasta conocer qué está funcionando realmente.
+La línea base y la Fase 6 ya están documentadas. El siguiente bloque prioritario
+es la **Fase 3**, empezando por autenticación de servicios, aislamiento de datos,
+roles y reglas de Firestore. Las tareas de Fase 7–9 se ejecutarán en paralelo
+solo cuando exista evidencia reproducible.
 
 ### Registro de avances
 
@@ -275,3 +276,15 @@ refactors grandes hasta conocer qué está funcionando realmente.
 - Se confirmó manualmente que el sistema puede ejecutarse.
 - Se creó este roadmap para reactivar ISOlytics de forma incremental.
 - Próxima actividad: ejecutar y documentar la línea base técnica.
+
+#### 2026-11-12 — documentación, contratos y núcleo
+
+- Se documentaron promoción, rollback y restauración en `docs/DEPLOYMENT.md`.
+- Se reemplazó el README heredado por instrucciones alineadas con la arquitectura
+  ejecutable.
+- Se añadieron validaciones Zod para recuperación de contraseña y notificaciones;
+  Auth y Notification compilan, pasan lint y sus suites (6 y 4 pruebas).
+- Se definieron fechas opcionales de vigencia de normativas con validación de
+  rango; Regulation compila, pasa lint y sus 11 pruebas.
+- Se eliminaron retornos `any` de los controladores de Users y del reporte de
+  Compliance; Users pasa build, lint y 17 pruebas; Compliance pasa build y 27.
