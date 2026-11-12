@@ -142,7 +142,7 @@ secretos ni datos reales de prueba.
 - [ ] Añadir responsable y fecha objetivo para cada acción.
 - [ ] Definir estados: pendiente, en progreso, resuelta y vencida.
 - [ ] Permitir comparar evaluaciones entre periodos.
-- [ ] Mejorar PDF con fecha, versión y alcance.
+- [x] Mejorar PDF con fecha, versión y alcance.
 - [ ] Añadir filtros por regulación, estado, responsable y periodo.
 - [ ] Validar permisos de lectura y descarga.
 - [ ] Relacionar auditorías con una evaluación y su versión exacta.

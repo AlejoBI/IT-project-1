@@ -64,7 +64,9 @@ const ButtonPDF: React.FC<ButtonPDFProps> = ({ selfAssessmentId }) => {
 
   return (
     <button
+      type="button"
       onClick={handleDownload}
+      aria-label={loading ? "Generando reporte PDF" : "Descargar reporte PDF"}
       className={`
     ${LIGHT_MODE_COLORS.BUTTON_BG} 
     ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER.replace("hover:", "hover:")} 

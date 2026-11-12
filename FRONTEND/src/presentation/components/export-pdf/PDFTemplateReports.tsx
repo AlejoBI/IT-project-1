@@ -220,11 +220,21 @@ const PDFTemplateReports = ({
           </Text>
           <View style={styles.headerGroup}>
             <Text style={styles.headerText}>Nombre de Usuario: {user?.name || "Sin nombre"}</Text>
+            <Text style={styles.headerText}>
+              Fecha de generación: {new Date().toLocaleDateString("es-CO")}
+            </Text>
+            <Text style={styles.headerText}>Normativa: {data?.regulationName || "No definida"}</Text>
             <Text style={styles.headerText}>Formulario: {data?.formName || "No definido"}</Text>
+            <Text style={styles.headerText}>Versión: {data?.version || "No definida"}</Text>
             <Text style={styles.headerText}>
               Puntuación Total: {data?.totalScore ?? "No disponible"}
             </Text>
+            <Text style={styles.headerText}>Alcance: respuestas y auditorías asociadas a esta evaluación</Text>
           </View>
+          <Text style={styles.subtitle}>
+            Este documento es un apoyo operativo y no constituye una conclusión jurídica ni una
+            certificación.
+          </Text>
         </View>
 
         {Object.entries(sections).map(([sectionTitle, answers]) => {

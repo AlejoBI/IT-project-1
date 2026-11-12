@@ -42,6 +42,7 @@ export interface SelfAssessmentToAudit {
   regulationName: string;
   formId: string;
   formName: string;
+  version?: string;
   auditStatus?: string;
   totalScore?: number;
   answers?: SectionAnswer[];
