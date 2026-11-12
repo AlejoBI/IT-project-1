@@ -82,7 +82,7 @@ secretos ni datos reales de prueba.
 - [x] Revisar puertos y nombres de servicios del Compose.
 - [x] Confirmar que el API Gateway apunta a todos los servicios activos.
 - [x] Añadir `/health` y readiness a cada servicio.
-- [ ] Estandarizar errores HTTP.
+- [x] Estandarizar errores HTTP.
 - [x] Estandarizar validación de entradas.
 - [x] Documentar contratos de API y respuestas principales.
 
@@ -96,8 +96,8 @@ secretos ni datos reales de prueba.
 
 - [ ] Revisar Firebase Authentication y reglas de Firestore.
 - [ ] Verificar aislamiento por organización y usuario.
-- [ ] Revisar roles y permisos en frontend, Gateway y servicios.
-- [ ] Impedir que el frontend sea la única barrera de autorización.
+- [x] Revisar roles y permisos en frontend, Gateway y servicios.
+- [x] Impedir que el frontend sea la única barrera de autorización.
 - [x] Validar tokens Firebase en todos los endpoints protegidos.
 - [ ] Revisar expiración y renovación de sesiones.
 - [ ] Eliminar secretos del historial de Git si existiera alguno.
@@ -121,7 +121,7 @@ secretos ni datos reales de prueba.
 - [x] Validar que cada pregunta pertenezca a una sección y regulación.
 - [x] Añadir guardado parcial de evaluaciones.
 - [x] Añadir reanudación de evaluaciones incompletas.
-- [ ] Validar respuestas obligatorias y tipos de respuesta.
+- [x] Validar respuestas obligatorias y tipos de respuesta.
 - [x] Versionar formularios para conservar evaluaciones históricas.
 - [x] Separar el cálculo de puntajes de la capa HTTP.
 - [x] Documentar fórmula de cumplimiento y preguntas sin respuesta.
@@ -136,16 +136,16 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** convertir resultados en acciones verificables.
 
-- [ ] Revisar puntajes por sección y regulación.
-- [ ] Mostrar cumplimiento, brechas y preguntas afectadas.
-- [ ] Asociar recomendaciones a cada brecha.
-- [ ] Añadir responsable y fecha objetivo para cada acción.
-- [ ] Definir estados: pendiente, en progreso, resuelta y vencida.
-- [ ] Permitir comparar evaluaciones entre periodos.
+- [x] Revisar puntajes por sección y regulación.
+- [x] Mostrar cumplimiento, brechas y preguntas afectadas.
+- [x] Asociar recomendaciones a cada brecha.
+- [x] Añadir responsable y fecha objetivo para cada acción.
+- [x] Definir estados: pendiente, en progreso, resuelta y vencida.
+- [x] Permitir comparar evaluaciones entre periodos.
 - [x] Mejorar PDF con fecha, versión y alcance.
 - [ ] Añadir filtros por regulación, estado, responsable y periodo.
 - [ ] Validar permisos de lectura y descarga.
-- [ ] Relacionar auditorías con una evaluación y su versión exacta.
+- [x] Relacionar auditorías con una evaluación y su versión exacta.
 - [ ] Añadir historial de cambios del informe.
 
 **Entregable:** reportes útiles para seguimiento y auditoría.
@@ -178,8 +178,8 @@ secretos ni datos reales de prueba.
 **Objetivo:** detectar regresiones antes de desplegar.
 
 - [x] Mantener pruebas unitarias para cada servicio.
-- [ ] Añadir pruebas de autorización por rol.
-- [ ] Añadir pruebas de aislamiento de datos.
+- [x] Añadir pruebas de autorización por rol.
+- [x] Añadir pruebas de aislamiento de datos.
 - [ ] Añadir pruebas de contratos del API Gateway.
 - [ ] Añadir integración con Firebase Emulator.
 - [ ] Añadir prueba del flujo completo de evaluación.
@@ -200,10 +200,10 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** saber qué ocurre cuando algo falla.
 
-- [ ] Usar logs estructurados con servicio, operación y request ID.
+- [x] Usar logs estructurados con servicio, operación y request ID.
 - [ ] No registrar tokens, contraseñas ni datos sensibles.
 - [x] Propagar correlation ID desde el Gateway.
-- [ ] Medir latencia y errores por servicio.
+- [x] Medir latencia y errores por servicio.
 - [ ] Registrar fallos de Firebase y dependencias externas.
 - [ ] Crear un dashboard básico de salud.
 - [ ] Definir alertas para caídas y aumento de errores.
@@ -249,12 +249,21 @@ secretos ni datos reales de prueba.
 
 ## Próximo paso
 
-La línea base y la Fase 6 ya están documentadas. El siguiente bloque prioritario
-es la **Fase 3**, empezando por autenticación de servicios, aislamiento de datos,
-roles y reglas de Firestore. Las tareas de Fase 7–9 se ejecutarán en paralelo
-solo cuando exista evidencia reproducible.
+La línea base, la Fase 5 parcial y la Fase 6 ya están documentadas. El siguiente
+bloque prioritario es la **Fase 7**, empezando por contratos del Gateway, pruebas
+de componentes y ejecución con Firebase Emulator cuando esté disponible. Las
+tareas de despliegue solo se marcarán con evidencia reproducible.
 
 ### Registro de avances
+
+#### 2026-11-12 — actualización de tareas completadas
+
+- Se marcaron como completadas las tareas de Fases 2, 3, 4, 5, 7 y 8 que ya
+  cuentan con implementación y evidencia local: errores HTTP, autorización,
+  validación de respuestas, reportes históricos, acciones correctivas,
+  trazabilidad de auditoría, pruebas de roles/aislamiento y observabilidad.
+- Permanecen sin marcar las tareas que requieren Firebase Emulator, token real,
+  pruebas E2E, pruebas de PDF/componentes, Gateway desplegado o validación cloud.
 
 #### 2026-11-12 — Fase 6: navegación accesible
 
