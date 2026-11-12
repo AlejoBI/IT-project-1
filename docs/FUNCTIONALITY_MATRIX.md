@@ -16,7 +16,7 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 | Guardado de borrador | Parcial | Rutas `/self-assessments/draft` y controladores | Prueba de reanudación y expiración/versionado. |
 | Evaluación y puntajes | Parcial | `selfAssessmentController.test.ts`, `formAnswerValidation.test.ts` y `calculateScores.ts` | Flujo de extremo a extremo, respuestas obligatorias y Firebase Emulator. |
 | Reportes de cumplimiento | Funciona localmente | `complianceReportController.test.ts` | PDF, permisos de descarga y trazabilidad histórica. |
-| Auditorías | Parcial | Rutas/controlador compilados | Solo smoke test; faltan pruebas de creación, consulta y permisos. |
+| Auditorías | Parcial | Rutas, controladores y 8 pruebas; permisos por rol y auditor autenticado | Falta integración con Firebase Emulator y flujo desplegado. |
 | Notificaciones | Funciona localmente | `notificationController.test.ts` (4 pruebas) | Probar MailerSend sin secreto real y reintentos. |
 | Servicios runtime | Funciona localmente | Los 7 servicios respondieron `200` en `/health` y `/ready` con configuración de ejemplo | Validar dependencias Firebase mediante Emulator. |
 | API Gateway | Funciona como configuración | `nginx.conf`, `/health`, `docker compose config` | Prueba de contrato del proxy y readiness de dependencias. |
@@ -33,7 +33,7 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 | notifications | OK | 4 pasan | OK, warnings | MailerSend requiere configuración para envío real. |
 | regulations | OK | 11 pasan | OK, warnings | Cobertura de controlador 86.36 %. |
 | evaluation forms | OK | 7 pasan | OK, warnings | Cubre reglas Zod de preguntas, opciones y formularios completos. |
-| audits | OK | 6 pasan | OK, warnings | Cubre creación, actualización, duplicados y consulta. |
+| audits | OK | 8 pasan | OK, warnings | Cubre creación, actualización, duplicados, consulta y permisos por rol. |
 
 ## Flujos aún no declarados como verificados
 

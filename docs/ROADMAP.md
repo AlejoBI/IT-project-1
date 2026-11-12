@@ -308,6 +308,10 @@ solo cuando exista evidencia reproducible.
 - Auth sincroniza ahora los roles persistidos en Firestore con custom claims al
   iniciar sesión y al actualizar usuarios, evitando que un admin válido sea
   rechazado por no tener el claim actualizado.
+- Auditoría exige `admin` o `auditor`, comprueba que el `auditorId` coincida con
+  el token y Compliance restringe la consulta por ID de evaluación al propietario
+  o a roles privilegiados. También se corrigió el orden de rutas para que
+  `/assessment/:selfAssessmentId` no sea capturada por `/:userId`.
 
 #### 2026-11-12 — trazabilidad de evaluaciones
 

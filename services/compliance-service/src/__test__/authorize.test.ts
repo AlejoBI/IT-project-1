@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { requireRole, requireUserAccess } from "../middlewares/authorize";
 
+jest.mock("../utils/firebaseConfig", () => ({ firestore: {} }));
+
 const response = () =>
   ({ status: jest.fn().mockReturnThis(), json: jest.fn() }) as unknown as Response;
 
