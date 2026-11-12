@@ -22,6 +22,7 @@ import {
   SubmitAssessmentSchema,
 } from "../../../domain/models/schemas/complianceSchema";
 import { AxiosError } from "axios";
+import { getApiErrorMessage } from "../../../shared/apiError";
 
 export const fetchSelfAssessment = createAsyncThunk<
   GetDraftResponse,
@@ -32,7 +33,7 @@ export const fetchSelfAssessment = createAsyncThunk<
     const response = await fetchSelfAssessmentApi(data);
     return response;
   } catch (error) {
-    return rejectWithValue((error as Error).message);
+    return rejectWithValue(getApiErrorMessage(error, "Error al obtener el avance"));
   }
 });
 
@@ -54,7 +55,7 @@ export const saveSelfAssessmentDraft = createAsyncThunk<
     const saved = await saveSelfAssessmentApi(validation.data);
     return saved.message;
   } catch (error) {
-    return rejectWithValue((error as Error).message);
+    return rejectWithValue(getApiErrorMessage(error, "Error al guardar el avance"));
   }
 });
 
@@ -73,7 +74,7 @@ export const completeSelfAssessment = createAsyncThunk<
     const result = await completeSelfAssessmentApi(payload);
     return result.message;
   } catch (error) {
-    return rejectWithValue((error as Error).message);
+    return rejectWithValue(getApiErrorMessage(error, "Error al completar la evaluación"));
   }
 });
 

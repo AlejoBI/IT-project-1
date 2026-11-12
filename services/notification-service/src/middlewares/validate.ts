@@ -7,7 +7,10 @@ export const validate =
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
-      res.status(400).json({ error: result.error.errors[0]?.message || "Entrada inválida" });
+      res.status(400).json({
+        error: result.error.errors[0]?.message || "Entrada inválida",
+        code: "VALIDATION_ERROR",
+      });
       return;
     }
 

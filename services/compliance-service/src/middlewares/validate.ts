@@ -10,6 +10,7 @@ export const validate =
       const firstError = result.error.errors[0];
       res.status(400).json({
         error: firstError.message,
+        code: "VALIDATION_ERROR",
       });
       return;
     }

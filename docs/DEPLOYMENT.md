@@ -44,6 +44,13 @@ El backend debe tener `FIREBASE_ADMIN_PROJECT_ID=it-project-34ac1`,
 `FIREBASE_ADMIN_CLIENT_EMAIL` y `FIREBASE_ADMIN_PRIVATE_KEY` del mismo proyecto.
 La configuración web (`VITE_FIREBASE_*`) no sustituye las credenciales Admin SDK.
 
+La configuración reproducible del Firebase Emulator está en `firebase.json`,
+`firestore.rules` y `firestore.indexes.json`. Para ejecutarlo con Firebase CLI:
+
+```powershell
+firebase emulators:start --only auth,firestore
+```
+
 ## Frontend
 
 El build usa:

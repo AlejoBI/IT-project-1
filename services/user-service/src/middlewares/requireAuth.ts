@@ -12,7 +12,7 @@ export const requireAuth = async (
     : undefined;
 
   if (!token) {
-    res.status(401).json({ error: "Se requiere un token de autenticación" });
+    res.status(401).json({ error: "Se requiere un token de autenticación", code: "AUTH_REQUIRED" });
     return;
   }
 
@@ -20,6 +20,6 @@ export const requireAuth = async (
     req.auth = await getAdminAuth().verifyIdToken(token);
     next();
   } catch {
-    res.status(401).json({ error: "Token de autenticación inválido o expirado" });
+    res.status(401).json({ error: "Token de autenticación inválido o expirado", code: "AUTH_INVALID" });
   }
 };

@@ -18,7 +18,7 @@ export const requireUserAccess = (source: "body" | "params", parameter: string, 
   (req: Request, res: Response, next: NextFunction): void => {
     const container = source === "body" ? req.body : req.params;
     if (!allows(req, container[parameter], roles)) {
-      res.status(403).json({ error: "No tienes permisos para acceder a estos datos" });
+      res.status(403).json({ error: "No tienes permisos para acceder a estos datos", code: "FORBIDDEN" });
       return;
     }
     next();
@@ -28,7 +28,7 @@ export const requireRole = (...roles: Role[]) =>
   (req: Request, res: Response, next: NextFunction): void => {
     const role = roleOf(req);
     if (!role || !roles.includes(role)) {
-      res.status(403).json({ error: "No tienes permisos para esta operación" });
+      res.status(403).json({ error: "No tienes permisos para esta operación", code: "FORBIDDEN" });
       return;
     }
     next();
@@ -48,7 +48,7 @@ export const requireAssessmentAccess = async (
 
     const role = roleOf(req);
     if (snapshot.data().userId !== req.auth?.uid && role !== "admin" && role !== "auditor") {
-      res.status(403).json({ error: "No tienes permisos para acceder a esta evaluación." });
+      res.status(403).json({ error: "No tienes permisos para acceder a esta evaluación.", code: "FORBIDDEN" });
       return;
     }
     next();

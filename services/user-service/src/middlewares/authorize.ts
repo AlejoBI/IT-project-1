@@ -11,7 +11,7 @@ export const requireRole = (...roles: Role[]) =>
   (req: Request, res: Response, next: NextFunction): void => {
     const role = getRole(req);
     if (!role || !roles.includes(role)) {
-      res.status(403).json({ error: "No tienes permisos para esta operación" });
+      res.status(403).json({ error: "No tienes permisos para esta operación", code: "FORBIDDEN" });
       return;
     }
     next();
@@ -22,7 +22,7 @@ export const requireSelfOrRole = (parameter: string, ...roles: Role[]) =>
     const role = getRole(req);
     const requestedUserId = req.params[parameter];
     if (req.auth?.uid !== requestedUserId && (!role || !roles.includes(role))) {
-      res.status(403).json({ error: "No tienes permisos para acceder a este usuario" });
+      res.status(403).json({ error: "No tienes permisos para acceder a este usuario", code: "FORBIDDEN" });
       return;
     }
     next();

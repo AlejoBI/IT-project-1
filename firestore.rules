@@ -1,0 +1,75 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function admin() {
+      return signedIn() && request.auth.token.role == 'admin';
+    }
+
+    function auditor() {
+      return signedIn() && (request.auth.token.role == 'admin' || request.auth.token.role == 'auditor');
+    }
+
+    function owner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if owner(userId) || admin();
+      allow create: if owner(userId);
+      allow update: if owner(userId) || admin();
+      allow delete: if admin();
+    }
+
+    match /regulations/{regulationId} {
+      allow read: if signedIn();
+      allow write: if admin();
+    }
+
+    match /evaluationForms/{formId} {
+      allow read: if signedIn();
+      allow write: if admin();
+    }
+
+    match /formSections/{sectionId} {
+      allow read: if signedIn();
+      allow write: if admin();
+    }
+
+    match /formQuestions/{questionId} {
+      allow read: if signedIn();
+      allow write: if admin();
+    }
+
+    match /selfAssessmentSessions/{sessionId} {
+      allow read: if owner(resource.data.userId) || auditor();
+      allow create: if owner(request.resource.data.userId);
+      allow update: if owner(resource.data.userId) || admin();
+      allow delete: if owner(resource.data.userId) || admin();
+    }
+
+    match /selfAssessments/{assessmentId} {
+      allow read: if owner(resource.data.userId) || auditor();
+      allow create: if owner(request.resource.data.userId);
+      allow update, delete: if admin();
+    }
+
+    match /complianceReports/{reportId} {
+      allow read: if owner(resource.data.userId) || auditor();
+      allow create: if owner(request.resource.data.userId);
+      allow update, delete: if admin();
+    }
+
+    match /audits/{auditId} {
+      allow read, write: if auditor();
+    }
+
+    match /notifications/{notificationId} {
+      allow read, write: if admin();
+    }
+  }
+}
