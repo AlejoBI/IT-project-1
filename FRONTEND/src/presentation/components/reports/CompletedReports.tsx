@@ -1,19 +1,21 @@
 import React from "react";
 import { useCompliance } from "../../hooks/useCompliance";
+import { SelfAssessmentReport } from "../../../domain/models/types/complianceTypes";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const CompletedReports = () => {
+const CompletedReports = ({ reports }: { reports?: SelfAssessmentReport[] }) => {
   const { selfAssessmentReport } = useCompliance();
+  const source = reports ?? selfAssessmentReport;
 
   const completedCount =
-    selfAssessmentReport?.filter((report) => report.status === "completed").length || 0;
+    source?.filter((report) => report.status === "completed").length || 0;
 
   const inProgressCount =
-    selfAssessmentReport?.filter((report) => report.status === "in_progress").length || 0;
+    source?.filter((report) => report.status === "in_progress").length || 0;
 
   const data = {
     labels: ["Completos", "En Proceso"],
@@ -47,7 +49,7 @@ const CompletedReports = () => {
       >
         Estado de Autoevaluaciones
       </h2>
-      {selfAssessmentReport?.length ? (
+      {source?.length ? (
         <div className="relative w-full h-72 md:h-80">
           <Pie data={data} options={options} />
         </div>

@@ -9,18 +9,20 @@ import {
   Legend,
 } from "chart.js";
 import { useCompliance } from "../../hooks/useCompliance";
+import { ComplianceReport } from "../../../domain/models/types/complianceTypes";
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const RegulationReport = () => {
+const RegulationReport = ({ reports }: { reports?: ComplianceReport[] }) => {
   const { complianceReport } = useCompliance();
+  const source = reports ?? complianceReport;
 
-  if (!complianceReport || complianceReport.length === 0) return null;
+  if (!source || source.length === 0) return null;
 
   const versionMap: Record<string, number> = {};
   const chartData = {
-    labels: complianceReport.map((report) => {
+    labels: source.map((report) => {
       const { regulationId, regulationName } = report;
 
       if (!versionMap[regulationId]) {
@@ -34,7 +36,7 @@ const RegulationReport = () => {
     datasets: [
       {
         label: "Puntaje total (%)",
-        data: complianceReport.map((report) => report.totalScore),
+        data: source.map((report) => report.totalScore),
         backgroundColor: "#10b981",
         borderRadius: 6,
         barThickness: 40,
@@ -80,7 +82,7 @@ const RegulationReport = () => {
       </h2>
 
       <p className="sr-only">
-        Puntajes: {complianceReport
+        Puntajes: {source
           .map((report, index) => `${chartData.labels[index]} ${report.totalScore}%`)
           .join(", ")}.
       </p>

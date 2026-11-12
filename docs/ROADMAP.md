@@ -317,6 +317,8 @@ solo cuando exista evidencia reproducible.
   además del mensaje compatible existente.
 - Se añadieron reglas, índices y configuración reproducible para Auth/Firestore
   Emulator. La ejecución local queda pendiente de instalar Firebase CLI.
+- Reportes incorpora filtros por regulación, estado y periodo sin alterar la
+  consulta protegida del usuario.
 
 #### 2026-11-12 — trazabilidad de evaluaciones
 

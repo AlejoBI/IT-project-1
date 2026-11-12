@@ -20,6 +20,10 @@ const Reports = () => {
   const { user } = useAuth();
   const { selfAssessmentReport, complianceReport, error } = useCompliance();
   const [isOpen, setIsOpen] = useState(false);
+  const [regulationFilter, setRegulationFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -29,6 +33,17 @@ const Reports = () => {
   }, [dispatch, user?.uid]);
 
   const hasReports = (selfAssessmentReport?.length ?? 0) > 0 || (complianceReport?.length ?? 0) > 0;
+  const filteredReports = complianceReport?.filter((report) => {
+    const reportDate = new Date(report.createdAt).getTime();
+    const afterFrom = !fromDate || reportDate >= new Date(`${fromDate}T00:00:00`).getTime();
+    const beforeTo = !toDate || reportDate <= new Date(`${toDate}T23:59:59`).getTime();
+    return (
+      (!regulationFilter || report.regulationId === regulationFilter) &&
+      (!statusFilter || report.complianceStatus === statusFilter) &&
+      afterFrom &&
+      beforeTo
+    );
+  });
 
   if (loading) {
     return <Loader />;
@@ -52,10 +67,38 @@ const Reports = () => {
 
       {hasReports ? (
         <>
+          <section className="mb-6 grid grid-cols-1 gap-4 rounded-xl border p-4 sm:grid-cols-2 lg:grid-cols-4">
+            <label className="text-sm font-medium">
+              Regulación
+              <select value={regulationFilter} onChange={(event) => setRegulationFilter(event.target.value)} className="mt-1 w-full rounded border p-2">
+                <option value="">Todas</option>
+                {Array.from(new Map((complianceReport ?? []).map((report) => [report.regulationId, report.regulationName]))).map(([id, name]) => (
+                  <option key={id} value={id}>{name}</option>
+                ))}
+              </select>
+            </label>
+            <label className="text-sm font-medium">
+              Estado
+              <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="mt-1 w-full rounded border p-2">
+                <option value="">Todos</option>
+                <option value="Cumple">Cumple</option>
+                <option value="Parcialmente Cumple">Parcialmente cumple</option>
+                <option value="No Cumple">No cumple</option>
+              </select>
+            </label>
+            <label className="text-sm font-medium">
+              Desde
+              <input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="mt-1 w-full rounded border p-2" />
+            </label>
+            <label className="text-sm font-medium">
+              Hasta
+              <input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="mt-1 w-full rounded border p-2" />
+            </label>
+          </section>
           {/* Layout responsive de 2 columnas */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <CompletedReports />
-            <RegulationReport />
+            <CompletedReports reports={selfAssessmentReport?.filter((report) => !regulationFilter || report.regulationId === regulationFilter)} />
+            <RegulationReport reports={filteredReports} />
           </div>
 
           <section className="mb-8 border rounded-lg overflow-hidden">

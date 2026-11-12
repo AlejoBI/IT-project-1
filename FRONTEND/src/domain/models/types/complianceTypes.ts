@@ -90,7 +90,7 @@ export interface ComplianceReport {
   formId: string;
   formName: string;
   sectionScores: SectionScore[];
-  complianceStatus: "Cumple" | "No Cumple";
+  complianceStatus: "Cumple" | "Parcialmente Cumple" | "No Cumple";
   selfAssessmentId: string;
   totalScore: number;
   createdAt: Date;
