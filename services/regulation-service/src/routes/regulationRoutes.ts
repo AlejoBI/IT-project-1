@@ -8,8 +8,11 @@ import {
 } from "../controllers/regulationController.js";
 import { validate } from "../middlewares/validate.js";
 import { addRegulationSchema, updateRegulationSchema } from "../schemas/regulationSchemas.js";
+import { requireAuth } from "../middlewares/requireAuth.js";
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 router.post("/", validate(addRegulationSchema), addRegulation);
 router.get("/", getRegulations);

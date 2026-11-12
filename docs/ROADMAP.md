@@ -98,7 +98,7 @@ secretos ni datos reales de prueba.
 - [ ] Verificar aislamiento por organización y usuario.
 - [ ] Revisar roles y permisos en frontend, Gateway y servicios.
 - [ ] Impedir que el frontend sea la única barrera de autorización.
-- [ ] Validar tokens Firebase en todos los endpoints protegidos.
+- [x] Validar tokens Firebase en todos los endpoints protegidos.
 - [ ] Revisar expiración y renovación de sesiones.
 - [ ] Eliminar secretos del historial de Git si existiera alguno.
 - [x] Configurar CORS únicamente para orígenes conocidos.

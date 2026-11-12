@@ -6,6 +6,17 @@ Firebase Authentication identifica al usuario. Las reglas de Firestore y los
 middlewares del backend deben validar que el usuario autenticado pueda acceder
 al recurso solicitado. Ocultar una pantalla en React no es autorización.
 
+### Validación de tokens en servicios
+
+Los servicios internos validan `Authorization: Bearer <Firebase ID token>` con
+Firebase Admin antes de ejecutar sus rutas. Users, Compliance, Regulations,
+Evaluation Forms, Audits y Notifications ya tienen este middleware. Auth mantiene
+registro, login y recuperación públicos por diseño, protegidos por rate limiting.
+
+La ausencia, expiración o invalidez del token produce `401`. La comprobación
+pendiente de propietario, organización y rol debe ejecutarse además dentro de
+cada controlador; un token válido por sí solo no concede acceso global.
+
 ## Datos
 
 - Separar proyectos Firebase de develop y production.
