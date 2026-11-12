@@ -264,6 +264,10 @@ tareas de despliegue solo se marcarán con evidencia reproducible.
   trazabilidad de auditoría, pruebas de roles/aislamiento y observabilidad.
 - Permanecen sin marcar las tareas que requieren Firebase Emulator, token real,
   pruebas E2E, pruebas de PDF/componentes, Gateway desplegado o validación cloud.
+- El Gateway ahora conserva un `X-Request-ID` entrante, genera uno cuando falta y
+  expone `/ready`; `check-gateway-config.ps1` verifica sus rutas y upstreams.
+- Validación del Gateway: `check-gateway-config.ps1` reporta 9 locations, 7
+  upstreams y propagación de correlation ID.
 
 #### 2026-11-12 — Fase 6: navegación accesible
 
