@@ -2,7 +2,11 @@
 
 ## Descripción del Proyecto
 
-Este proyecto tiene como objetivo el desarrollo de una **herramienta de medición de cumplimiento normativo**. La herramienta está diseñada para ayudar a las organizaciones a evaluar y asegurar que sus procesos, políticas y actividades estén alineados con los marcos regulatorios, leyes y estándares aplicables. 
+Este proyecto tiene como objetivo el desarrollo de una **herramienta de medición de cumplimiento normativo**. La herramienta está diseñada para ayudar a las organizaciones a evaluar y asegurar que sus procesos, políticas y actividades estén alineados con los marcos regulatorios, leyes y estándares aplicables.
+
+El plan paso a paso para estabilizar, mejorar y volver a desplegar ISOlytics está
+en [docs/ROADMAP.md](docs/ROADMAP.md). Incluye arquitectura, seguridad,
+cumplimiento, UX, pruebas, observabilidad y operación por entornos.
 
 El cumplimiento normativo es un aspecto crítico para cualquier organización, ya que garantiza la conformidad legal, minimiza riesgos operativos y reputacionales, y fomenta una cultura de transparencia y responsabilidad. Esta herramienta busca simplificar y automatizar el proceso de evaluación, proporcionando análisis claros y accionables.
 
