@@ -291,7 +291,8 @@ solo cuando exista evidencia reproducible.
 
 #### 2026-11-12 — validación y seguridad
 
-- La suite completa de servicios pasó: 83 pruebas en los siete servicios.
+- La suite completa de servicios pasó: 83 pruebas en los siete servicios; las
+  pruebas adicionales de autorización elevan el total actual a 86.
 - Build y lint pasan en los siete servicios y en el frontend.
 - Los siete servicios respondieron `200` en `/health` y `/ready` usando
   `test-runtime-services.ps1`.

@@ -61,7 +61,8 @@
 
 ## Validación posterior — 2026-11-12
 
-- Los siete servicios pasan `npm test`: 83 pruebas en total.
+- Los siete servicios pasan `npm test`: 86 pruebas en total (incluye autorización
+  de Users y Compliance).
 - Los siete servicios pasan build y lint; frontend pasa build y lint.
 - `test-runtime-services.ps1` verificó `/health` y `/ready` con HTTP 200 en los
   siete servicios usando plantillas de entorno.
