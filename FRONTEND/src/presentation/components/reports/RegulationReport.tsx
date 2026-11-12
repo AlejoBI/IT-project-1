@@ -79,7 +79,16 @@ const RegulationReport = () => {
         Comparativa de Cumplimiento por Normativa
       </h2>
 
-      <div className="relative w-full h-72 md:h-80">
+      <p className="sr-only">
+        Puntajes: {complianceReport
+          .map((report, index) => `${chartData.labels[index]} ${report.totalScore}%`)
+          .join(", ")}.
+      </p>
+      <div
+        className="relative h-64 w-full sm:h-72 md:h-80"
+        role="img"
+        aria-label="Gráfico de puntajes por normativa"
+      >
         <Bar data={chartData} options={options} />
       </div>
     </div>

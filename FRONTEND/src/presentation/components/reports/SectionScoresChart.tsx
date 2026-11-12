@@ -119,8 +119,15 @@ const SectionScoresChart = ({ userId }: Props) => {
               {regulationName}
             </h3>
 
-            <div className="overflow-x-auto">
-              <div className="min-w-[600px] min-h-[20rem]">
+            <p className="sr-only">
+              Evolución por sección: {reports
+                ?.flatMap((report) =>
+                  report.sectionScores.map((score) => `${score.sectionTitle} ${score.score}%`)
+                )
+                .join(", ")}.
+            </p>
+            <div className="overflow-x-auto" role="img" aria-label={`Evolución de ${regulationName}`}>
+              <div className="min-h-64 min-w-[min(100%,600px)] sm:min-h-80">
                 <Line data={chartData} options={options} />
               </div>
             </div>
