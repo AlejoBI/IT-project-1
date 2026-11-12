@@ -19,4 +19,18 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
+api.interceptors.response.use(undefined, async (error) => {
+  const request = error.config as (typeof error.config & { _firebaseRetry?: boolean }) | undefined;
+  const user = auth.currentUser;
+
+  if (error.response?.status === 401 && request && user && !request._firebaseRetry) {
+    request._firebaseRetry = true;
+    const refreshedToken = await user.getIdToken(true);
+    request.headers.Authorization = `Bearer ${refreshedToken}`;
+    return api(request);
+  }
+
+  return Promise.reject(error);
+});
+
 export default api;
