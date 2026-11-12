@@ -11,6 +11,7 @@ import { useCompliance } from "../hooks/useCompliance";
 import SectionScoresChart from "../components/reports/SectionScoresChart";
 import CompletedReports from "../components/reports/CompletedReports";
 import RegulationReport from "../components/reports/RegulationReport";
+import ReportGaps from "../components/reports/ReportGaps";
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
@@ -100,6 +101,7 @@ const Reports = () => {
             <CompletedReports reports={selfAssessmentReport?.filter((report) => !regulationFilter || report.regulationId === regulationFilter)} />
             <RegulationReport reports={filteredReports} />
           </div>
+          <ReportGaps reports={filteredReports ?? []} />
 
           <section className="mb-8 border rounded-lg overflow-hidden">
             <button

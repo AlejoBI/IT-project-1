@@ -319,6 +319,8 @@ solo cuando exista evidencia reproducible.
   Emulator. La ejecución local queda pendiente de instalar Firebase CLI.
 - Reportes incorpora filtros por regulación, estado y periodo sin alterar la
   consulta protegida del usuario.
+- Reportes muestra brechas por sección y recomendaciones diferenciadas según
+  severidad para facilitar el seguimiento correctivo.
 - Los siete servicios registran método, ruta, estado, latencia y `request_id`
   propagado por el Gateway para facilitar diagnóstico sin registrar tokens.
 
