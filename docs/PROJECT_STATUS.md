@@ -34,6 +34,9 @@
 - La configuración del Gateway fue probada en un contenedor aislado: `/health`
   devuelve `200`, el preflight autorizado devuelve `204` y ambos incluyen
   `X-Request-ID`.
+- Prettier 3.10.1 quedó centralizado con configuración compartida, scripts de
+  formato y validación en CI. Se inició la eliminación progresiva de `any` con
+  tipos `unknown`, contratos Zod y respuestas Express explícitas.
 - La matriz detallada está en [FUNCTIONALITY_MATRIX.md](FUNCTIONALITY_MATRIX.md).
 
 ## Hallazgos pendientes de resolver

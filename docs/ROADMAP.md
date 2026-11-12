@@ -47,7 +47,7 @@ secretos ni datos reales de prueba.
 - [ ] Probar el flujo de auditoría.
 - [x] Registrar puertos, endpoints y variables requeridas.
 - [x] Crear una matriz de funcionalidades: funciona, falla, incompleta o no
-  implementada.
+      implementada.
 
 **Entregable:** diagnóstico técnico inicial y lista priorizada de fallos.
 
@@ -61,7 +61,7 @@ secretos ni datos reales de prueba.
 - [x] Documentar el diagrama de servicios y el API Gateway.
 - [x] Documentar responsabilidades y endpoints de cada servicio.
 - [x] Documentar usuario, regulación, formulario, evaluación, informe,
-  auditoría y notificación.
+      auditoría y notificación.
 - [x] Documentar variables de entorno de `develop` y `production`.
 - [x] Crear plantillas `.env.example` sin credenciales.
 - [x] Documentar el flujo local con Docker Compose.
@@ -189,6 +189,8 @@ secretos ni datos reales de prueba.
 - [ ] Acordar cobertura mínima por servicio.
 - [x] Ejecutar lint, typecheck, tests y build en CI.
 - [x] Evitar que CI dependa de Firebase de producción.
+- [x] Estandarizar formato con Prettier en frontend y servicios.
+- [ ] Eliminar `any` residual de controladores y pruebas.
 
 **Entregable:** pipeline reproducible que bloquee regresiones.
 

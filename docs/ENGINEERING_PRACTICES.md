@@ -1,6 +1,8 @@
 # Prácticas de ingeniería
 
 - TypeScript estricto para contratos de dominio y API.
+- Prettier centralizado con `format` y `format:check` en frontend y servicios.
+- Evitar `any`; usar `unknown`, tipos de dominio y tipos inferidos desde Zod.
 - Validación de entradas con esquemas reutilizables.
 - Servicios pequeños con una responsabilidad clara.
 - Firebase Emulator para pruebas de integración.
