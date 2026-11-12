@@ -157,8 +157,8 @@ secretos ni datos reales de prueba.
 **Objetivo:** reducir fricción y hacer comprensible el sistema.
 
 - [ ] Rediseñar la página inicial con propuesta de valor clara.
-- [ ] Mejorar navegación, sidebar y breadcrumbs.
-- [ ] Mostrar progreso de formularios largos.
+- [x] Mejorar navegación, sidebar y breadcrumbs.
+- [x] Mostrar progreso de formularios largos.
 - [ ] Permitir guardar y continuar después.
 - [ ] Mejorar estados de carga, vacío, error y éxito.
 - [ ] Añadir confirmación antes de eliminar información.
@@ -254,6 +254,21 @@ documentar resultados y construir la matriz de funcionalidades. No se harán
 refactors grandes hasta conocer qué está funcionando realmente.
 
 ### Registro de avances
+
+#### 2026-11-12 — Fase 6: navegación accesible
+
+- Se mejoró el layout del frontend sin modificar la lógica de negocio:
+  enlace para saltar al contenido, menú con estado ARIA y cierre con `Escape`.
+- Se añadió `role="status"` al loader para anunciar estados de carga a lectores
+  de pantalla.
+- El menú móvil bloquea el scroll mientras está abierto y conserva el cierre
+  mediante botón, navegación y teclado.
+- Validación: `npm run build`, `npm run lint` y `git diff --check` pasan en
+  `FRONTEND`.
+- Pendiente: revisar visualmente breadcrumbs, contraste completo y responsive en
+  tabletas/móviles antes de marcar los ítems globales de la Fase 6.
+- Se mejoraron estados de error y vacío en `Compliance`, y sus tarjetas de
+  normativa ahora son accesibles mediante teclado.
 
 #### 2026-11-12
 

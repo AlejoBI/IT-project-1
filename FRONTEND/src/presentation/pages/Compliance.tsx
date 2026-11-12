@@ -44,14 +44,33 @@ const Compliance = () => {
       )}
 
       {loading && <Loader />}
-      {error && <p className="text-center text-red-500">{error}</p>}
+      {error && (
+        <p
+          role="alert"
+          className="mx-auto mt-6 max-w-2xl rounded-lg border border-red-200 bg-red-50 p-4 text-center text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
+        >
+          {error}
+        </p>
+      )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      {!loading && !error && regulations?.length === 0 && (
+        <div className="mx-auto mt-8 max-w-2xl rounded-xl border border-dashed border-gray-300 p-8 text-center dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            No hay normativas disponibles
+          </h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">
+            Cuando una normativa esté disponible, aparecerá aquí para iniciar una evaluación.
+          </p>
+        </div>
+      )}
+
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {regulations?.map((regulation) => (
-          <div
+          <button
+            type="button"
             key={regulation.id}
             onClick={() => handleNavigate(regulation.id)}
-            className="cursor-pointer border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 rounded-2xl shadow hover:shadow-lg transition-shadow"
+            className="cursor-pointer rounded-2xl border border-gray-300 bg-white p-5 text-left shadow transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800"
           >
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               {regulation.name}
@@ -59,7 +78,7 @@ const Compliance = () => {
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               {regulation.description || "Sin descripción"}
             </p>
-          </div>
+          </button>
         ))}
       </div>
     </div>

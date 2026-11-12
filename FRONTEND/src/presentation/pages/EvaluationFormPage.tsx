@@ -144,6 +144,13 @@ const EvaluationFormPage = () => {
 
   const isFormComplete =
     forms?.sections?.every((section) => completedSections.includes(section.id)) ?? false;
+  const totalSections = forms?.sections?.length ?? 0;
+  const completedSectionCount = forms?.sections?.filter((section) =>
+    completedSections.includes(section.id)
+  ).length ?? 0;
+  const progressPercentage = totalSections
+    ? Math.round((completedSectionCount / totalSections) * 100)
+    : 0;
 
   const handleCompleteForm = () => {
     if (!userId || !regulationId) return;
@@ -212,6 +219,29 @@ const EvaluationFormPage = () => {
             ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} 
             ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}`}
         >
+          <div className="mb-6" aria-label="Progreso de la autoevaluación">
+            <div className="mb-2 flex items-center justify-between gap-4 text-sm">
+              <span className="font-medium text-gray-700 dark:text-gray-200">
+                Progreso de la evaluación
+              </span>
+              <span className="text-gray-600 dark:text-gray-300">
+                {completedSectionCount} de {totalSections} secciones ({progressPercentage}%)
+              </span>
+            </div>
+            <div
+              className="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progressPercentage}
+              aria-label={`${progressPercentage}% completado`}
+            >
+              <div
+                className="h-2.5 rounded-full bg-blue-600 transition-all duration-300"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          </div>
           <h2
             className={`text-3xl font-bold mb-6 
               ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 

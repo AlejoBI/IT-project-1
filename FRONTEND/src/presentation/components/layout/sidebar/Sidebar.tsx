@@ -100,6 +100,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
     if (item.action) {
       return (
         <button
+          type="button"
           key={item.name}
           onClick={() => handleNavigation(undefined, item.action)}
           className={`block w-full text-left py-2 px-4 font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.HOVER_BG} ${DARK_MODE_COLORS.HOVER_BG} transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
@@ -165,7 +166,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
         >
           Menú
         </h2>
-        <nav className="mt-4">
+        <nav id="primary-navigation" aria-label="Navegación principal" className="mt-4">
           {basicItems.map((item) => renderItem(item))}
           {basicItems.length > 0 && <hr className="my-2 border-gray-300 dark:border-gray-600" />}
           {middleItems.map((item) => renderItem(item))}

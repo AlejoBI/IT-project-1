@@ -7,7 +7,13 @@ import {
   ANIMATION_TIMINGS,
 } from "../../../../shared/constants";
 
-const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
+const Header = ({
+  toggleSidebar,
+  isSidebarOpen,
+}: {
+  toggleSidebar: () => void;
+  isSidebarOpen: boolean;
+}) => {
   return (
     <header
       className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} shadow-md transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
@@ -15,7 +21,11 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
       <div className="container mx-auto flex items-center justify-between p-5">
         {/* Botón para alternar el Sidebar */}
         <button
+          type="button"
           onClick={toggleSidebar}
+          aria-label={isSidebarOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+          aria-controls="primary-navigation"
+          aria-expanded={isSidebarOpen}
           className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} focus:outline-none`}
         >
           <svg
@@ -35,7 +45,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
         </button>
 
         {/* Logo */}
-        <a href="/">
+        <a href="/" aria-label="Ir al inicio de ISOlytics">
           <div className="flex items-center cursor-pointer">
             <img
               src={logo}
