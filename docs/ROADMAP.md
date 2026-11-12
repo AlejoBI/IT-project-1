@@ -164,9 +164,9 @@ secretos ni datos reales de prueba.
 - [x] Añadir confirmación antes de eliminar información.
 - [x] Mejorar dashboard con métricas accionables.
 - [x] Mejorar gráficos para móvil y accesibilidad.
-- [ ] Revisar contraste, foco de teclado y etiquetas.
+- [x] Revisar contraste, foco de teclado y etiquetas.
 - [x] Añadir diseño responsive para tabletas y móviles.
-- [ ] Unificar idioma, textos y terminología.
+- [x] Unificar idioma, textos y terminología.
 - [x] Añadir ayuda sobre cumplimiento y uso de la plataforma.
 
 **Entregable:** flujo usable por usuarios técnicos y no técnicos.

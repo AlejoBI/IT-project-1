@@ -126,6 +126,7 @@ const UserManagement = () => {
                 >
                   <td className="px-4 py-2">
                     <input
+                      aria-label={`Nombre de ${user.email}`}
                       type="text"
                       value={localData[user.uid]?.name || ""}
                       onChange={(e) => handleInputChange(user.uid, "name", e.target.value)}
@@ -142,6 +143,7 @@ const UserManagement = () => {
                   </td>
                   <td className="px-4 py-2">
                     <select
+                      aria-label={`Rol de ${user.email}`}
                       value={localData[user.uid]?.role || ""}
                       onChange={(e) => handleInputChange(user.uid, "role", e.target.value)}
                       className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400

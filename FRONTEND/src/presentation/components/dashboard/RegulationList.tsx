@@ -109,7 +109,7 @@ const RegulationList = () => {
       <h2
         className={`text-2xl font-bold mb-6 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
-        Regulaciones
+        Normativas
       </h2>
 
       {loading ? (
@@ -123,7 +123,7 @@ const RegulationList = () => {
           role="status"
           className={`py-8 text-center ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
-          No hay regulaciones registradas.
+          No hay normativas registradas.
         </p>
       ) : (
         <div className="overflow-x-auto">
@@ -184,6 +184,7 @@ const RegulationList = () => {
                   >
                     <td className="px-4 py-2">
                       <input
+                        aria-label={`Nombre de la normativa ${currentEditData.name}`}
                         type="text"
                         value={currentEditData.name}
                         onChange={(e) => handleEditChange(id, "name", e.target.value)}
@@ -195,6 +196,7 @@ const RegulationList = () => {
                     </td>
                     <td className="px-4 py-2">
                       <textarea
+                        aria-label={`Descripción de la normativa ${currentEditData.name}`}
                         rows={2}
                         value={currentEditData.description}
                         onChange={(e) => handleEditChange(id, "description", e.target.value)}
@@ -206,6 +208,7 @@ const RegulationList = () => {
                     </td>
                     <td className="px-4 py-2">
                       <input
+                        aria-label={`Versión de la normativa ${currentEditData.name}`}
                         type="text"
                         value={currentEditData.version}
                         onChange={(e) => handleEditChange(id, "version", e.target.value)}

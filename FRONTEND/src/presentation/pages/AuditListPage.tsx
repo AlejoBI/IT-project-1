@@ -79,7 +79,7 @@ const AuditListPage = () => {
           className={`text-sm sm:text-base mb-6 ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
         >
           Aquí puedes ver todas las evaluaciones asociadas al usuario seleccionado. Haz clic en una
-          regulación para ver los formularios disponibles y comenzar la auditoría.
+          normativa para ver los formularios disponibles y comenzar la auditoría.
         </p>
       </div>
 
