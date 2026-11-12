@@ -12,7 +12,7 @@ COPY postcss.config.js ./
 COPY tailwind.config.js ./
 
 # Instalar dependencias
-RUN npm install
+RUN npm ci
 
 # Copiar el resto del código fuente
 COPY . .
@@ -26,7 +26,7 @@ FROM node:22-alpine AS production
 WORKDIR /app
 
 # Instalar Vite globalmente (solo para preview)
-RUN npm install -g vite
+RUN npm install -g vite@6.4.6
 
 # Copiar archivos construidos desde la etapa anterior
 COPY --from=builder /app/dist ./dist
