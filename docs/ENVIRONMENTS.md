@@ -54,6 +54,11 @@ Cada servicio agrega su puerto:
 | Evaluation forms | `EVALUATION_FORM_PORT` | 5005 |
 | Audits | `AUDIT_PORT` | 5006 |
 
+Los servicios protegidos que validan tokens con Firebase Admin requieren además
+`FIREBASE_ADMIN_PROJECT_ID`, `FIREBASE_ADMIN_CLIENT_EMAIL` y
+`FIREBASE_ADMIN_PRIVATE_KEY`. La clave privada debe venir del gestor de secretos
+del proveedor; nunca se guarda en `.env.example`, Git o logs.
+
 Notifications admite además:
 
 ```env
