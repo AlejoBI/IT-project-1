@@ -14,6 +14,7 @@ import RegulationReport from "../components/reports/RegulationReport";
 import ReportGaps from "../components/reports/ReportGaps";
 import ReportActions from "../components/reports/ReportActions";
 import HistoricalComparison from "../components/reports/HistoricalComparison";
+import ReportSummary from "../components/reports/ReportSummary";
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
@@ -98,6 +99,7 @@ const Reports = () => {
               <input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="mt-1 w-full rounded border p-2" />
             </label>
           </section>
+          <ReportSummary reports={filteredReports ?? []} />
           {/* Layout responsive de 2 columnas */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <CompletedReports reports={selfAssessmentReport?.filter((report) => !regulationFilter || report.regulationId === regulationFilter)} />

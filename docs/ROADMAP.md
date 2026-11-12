@@ -330,6 +330,8 @@ solo cuando exista evidencia reproducible.
   estado, puntaje y variación frente a la evaluación anterior.
 - La descarga PDF conserva la versión del formulario y muestra errores de carga
   o generación de forma visible para el usuario.
+- Reportes muestra un resumen de salud con puntaje promedio, evaluaciones que
+  cumplen y cantidad de brechas dentro de los filtros aplicados.
 - Los siete servicios registran método, ruta, estado, latencia y `request_id`
   propagado por el Gateway para facilitar diagnóstico sin registrar tokens.
 
