@@ -66,7 +66,7 @@ secretos ni datos reales de prueba.
 - [x] Crear plantillas `.env.example` sin credenciales.
 - [x] Documentar el flujo local con Docker Compose.
 - [x] Documentar despliegue y rollback.
-- [ ] Eliminar del README arquitecturas que solo fueron propuestas.
+- [x] Eliminar del README arquitecturas que solo fueron propuestas.
 
 **Entregable:** documentación técnica alineada con la implementación.
 
