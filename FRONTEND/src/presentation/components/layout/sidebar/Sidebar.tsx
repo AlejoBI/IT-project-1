@@ -31,24 +31,24 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
 
   const navigation_all: NavigationItem[] = [
     { name: "Inicio", href: "/" },
-    { name: "Iniciar Sesión", href: "/login" },
+    { name: "Iniciar sesión", href: "/login" },
     { name: "Sobre Nosotros", href: "/about" },
-    { name: "Contactanos", href: "/contact" },
-    { name: "Politicas de Privacidad", href: "/privacy-policies" },
+    { name: "Contáctanos", href: "/contact" },
+    { name: "Políticas de privacidad", href: "/privacy-policies" },
   ];
 
   const navigation_authenticated: NavigationItem[] = [
     { name: "Inicio", href: "/" },
     { name: "Sobre Nosotros", href: "/about" },
-    { name: "Contactanos", href: "/contact" },
-    { name: "Politicas de Privacidad", href: "/privacy-policies" },
+    { name: "Contáctanos", href: "/contact" },
+    { name: "Políticas de privacidad", href: "/privacy-policies" },
     { name: "Autoevaluaciones", href: "/self-assessments" },
     ...(user?.role === "auditor" || user?.role === "standard_user"
       ? [{ name: "Auditorías", href: getAuditsHref() }]
       : []),
     { name: "Reportes", href: "/reports" },
     { name: "Panel de Administración", href: "/dashboard" },
-    { name: "Cerrar Sesión", action: logout },
+    { name: "Cerrar sesión", action: logout },
   ];
 
   const navigation: NavigationItem[] = isAuthenticated ? navigation_authenticated : navigation_all;
@@ -56,9 +56,9 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
   const filteredNavigation = navigation.filter((item) => {
     if (!isAuthenticated) return true;
 
-    if (item.name === "Iniciar Sesión") return false;
+    if (item.name === "Iniciar sesión") return false;
     if (item.name === "Panel de Administración" && user?.role !== "admin") return false;
-    if (item.name === "Cerrar Sesión" && !isAuthenticated) return false;
+    if (item.name === "Cerrar sesión" && !isAuthenticated) return false;
     if (item.name === "Auditorías" && user?.role === "admin") return false;
     if (item.name === "Reportes" && user?.role !== "standard_user") return false;
     if (item.name === "Autoevaluaciones" && user?.role !== "standard_user") return false;
@@ -71,18 +71,18 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
   );
 
   const basicItems = uniqueNavigation.filter((item) =>
-    navigation_all.some((nav) => nav.name === item.name && item.name !== "Iniciar Sesión")
+    navigation_all.some((nav) => nav.name === item.name && item.name !== "Iniciar sesión")
   );
 
   const loginLogoutItems = uniqueNavigation.filter(
-    (item) => item.name === "Iniciar Sesión" || item.name === "Cerrar Sesión"
+    (item) => item.name === "Iniciar sesión" || item.name === "Cerrar sesión"
   );
 
   const middleItems = uniqueNavigation.filter(
     (item) =>
       !navigation_all.some((nav) => nav.name === item.name) &&
-      item.name !== "Iniciar Sesión" &&
-      item.name !== "Cerrar Sesión"
+      item.name !== "Iniciar sesión" &&
+      item.name !== "Cerrar sesión"
   );
 
   const handleNavigation = (href?: string, action?: () => void) => {
