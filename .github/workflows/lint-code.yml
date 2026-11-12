@@ -1,4 +1,4 @@
-name: Generate Coverage Report
+name: Quality checks
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
     branches: [main, master]
 
 jobs:
-  coverage:
+  backend:
     runs-on: ubuntu-latest
-
     strategy:
+      fail-fast: false
       matrix:
         project:
+          - services/audit-service
           - services/auth-service
           - services/compliance-service
           - services/evaluation-form-service
@@ -23,30 +24,48 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22.x"
-          cache: "npm"
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
 
       - name: Install dependencies
         run: npm ci
         working-directory: ${{ matrix.project }}
 
-      - name: Run tests and generate coverage
-        run: npm test
+      - name: Lint
+        run: npm run lint
         working-directory: ${{ matrix.project }}
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+      - name: TypeScript build
+        run: npm run build
+        working-directory: ${{ matrix.project }}
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: FRONTEND
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ${{ matrix.project }}/coverage
-          files: ${{ matrix.project }}/coverage/lcov.info
-          fail_ci_if_error: true
-          verbose: true
-          flags: unittests
-          name: ${{ matrix.project }}
+          node-version: "22.x"
+          cache: npm
+          cache-dependency-path: FRONTEND/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build
