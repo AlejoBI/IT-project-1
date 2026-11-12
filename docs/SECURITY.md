@@ -17,6 +17,11 @@ La ausencia, expiración o invalidez del token produce `401`. La comprobación
 pendiente de propietario, organización y rol debe ejecutarse además dentro de
 cada controlador; un token válido por sí solo no concede acceso global.
 
+Users ya aplica autorización de claims: los listados requieren `admin`, los
+datos de auditoría requieren `admin` o `auditor`, y un perfil solo puede ser
+consultado o actualizado por su propietario o un `admin`. Los claims de rol
+deben ser administrados desde un proceso confiable, nunca desde el frontend.
+
 ## Datos
 
 - Separar proyectos Firebase de develop y production.
