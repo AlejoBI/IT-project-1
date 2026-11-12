@@ -22,6 +22,10 @@ app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', service: 'notification-service' });
 });
 
+app.get('/ready', (_req: Request, res: Response) => {
+  res.status(200).json({ status: 'ready', service: 'notification-service' });
+});
+
 app.use((err: any, _req: Request, res: Response) => {
   console.error(err.stack);
   res.status(500).json({ error: "Internal Server Error" });

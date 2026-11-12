@@ -1,5 +1,6 @@
 # Lista de rutas de los servicios
 $services = @(
+    "services/audit-service",
     "services/auth-service",
     "services/compliance-service",
     "services/evaluation-form-service",
