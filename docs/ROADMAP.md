@@ -137,7 +137,7 @@ secretos ni datos reales de prueba.
 **Objetivo:** convertir resultados en acciones verificables.
 
 - [x] Revisar puntajes por sección y regulación.
-- [ ] Mostrar cumplimiento, brechas y preguntas afectadas.
+- [x] Mostrar cumplimiento, brechas y preguntas afectadas.
 - [x] Asociar recomendaciones a cada brecha.
 - [x] Añadir responsable y fecha objetivo para cada acción.
 - [x] Definir estados: pendiente, en progreso, resuelta y vencida.
@@ -268,6 +268,8 @@ tareas de despliegue solo se marcarán con evidencia reproducible.
   expone `/ready`; `check-gateway-config.ps1` verifica sus rutas y upstreams.
 - Validación del Gateway: `check-gateway-config.ps1` reporta 9 locations, 7
   upstreams y propagación de correlation ID.
+- Los reportes ahora persisten y muestran preguntas/subpreguntas con puntaje
+  inferior al umbral de brecha, además de la sección afectada.
 
 #### 2026-11-12 — Fase 6: navegación accesible
 

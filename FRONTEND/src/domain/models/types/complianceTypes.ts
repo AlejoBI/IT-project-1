@@ -90,10 +90,21 @@ export interface ComplianceReport {
   formId: string;
   formName: string;
   sectionScores: SectionScore[];
+  questionGaps?: QuestionGap[];
   complianceStatus: "Cumple" | "Parcialmente Cumple" | "No Cumple";
   selfAssessmentId: string;
   totalScore: number;
   createdAt: Date;
+}
+
+export interface QuestionGap {
+  sectionId: string;
+  sectionTitle: string;
+  questionId: string;
+  questionText: string;
+  subQuestionId?: string;
+  subQuestionText?: string;
+  score: number;
 }
 
 export type ReportActionStatus = "pendiente" | "en_progreso" | "resuelta" | "vencida";

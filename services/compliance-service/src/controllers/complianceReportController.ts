@@ -18,6 +18,7 @@ export const createComplianceReport = async ({
   formName,
   totalScore,
   sectionScores,
+  questionGaps = [],
 }: CreateComplianceReportParams) => {
   try {
     const complianceStatus = determineComplianceStatus(totalScore);
@@ -32,6 +33,7 @@ export const createComplianceReport = async ({
       complianceStatus,
       totalScore,
       sectionScores,
+      questionGaps,
       createdAt: new Date(),
     });
   } catch {

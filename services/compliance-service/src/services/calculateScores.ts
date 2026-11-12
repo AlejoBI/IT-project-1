@@ -1,6 +1,16 @@
 import { Answer } from "../models/selfAssessmentModel";
 
 export const calculateScores = (answers: Answer[]) => {
+  const scoreForAnswer = (answer: Answer): number => {
+    if (answer.type === "multiple-choice" && Array.isArray(answer.value)) {
+      return Math.min(answer.value.reduce((sum, option) => sum + (option?.score || 0), 0), 100);
+    }
+    if (answer.type === "single-choice" && typeof answer.value === "object" && !Array.isArray(answer.value)) {
+      return Math.min(answer.value.score || 0, 100);
+    }
+    return 100;
+  };
+
   const sectionMap = answers.reduce(
     (acc, answer) => {
       const { sectionId, sectionTitle } = answer;
@@ -23,21 +33,7 @@ export const calculateScores = (answers: Answer[]) => {
 
     const totalEarned = evaluableAnswers
       .map((ans) => {
-        if (ans.type === "multiple-choice" && Array.isArray(ans.value)) {
-          return Math.min(
-            ans.value.reduce((sum, opt) => sum + (opt?.score || 0), 0),
-            100
-          );
-        }
-
-        if (ans.type === "single-choice" && typeof ans.value === "object") {
-          if (Array.isArray(ans.value)) {
-            return 0; // Handle array case, as 'score' does not exist on arrays
-          }
-          return Math.min(ans.value.score || 0, 100);
-        }
-
-        return 100; // Default case for text or other types
+        return scoreForAnswer(ans);
       })
       .reduce((sum, val) => sum + val, 0);
 
@@ -59,5 +55,9 @@ export const calculateScores = (answers: Answer[]) => {
   return {
     totalScore,
     sectionScores,
+    questionGaps: answers
+      .filter((answer) => answer.subQuestionId || answer.subQuestionText)
+      .map((answer) => ({ ...answer, score: scoreForAnswer(answer) }))
+      .filter((answer) => answer.score < 80),
   };
 };

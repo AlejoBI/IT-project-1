@@ -12,7 +12,12 @@ const recommendationFor = (score: number): string => {
 
 const ReportGaps = ({ reports }: Props) => {
   const gaps = reports.flatMap((report) =>
-    report.sectionScores
+    (report.questionGaps ?? report.sectionScores.map((section) => ({
+      ...section,
+      questionId: section.sectionId,
+      questionText: "Brecha de sección",
+      subQuestionText: undefined,
+    })))
       .filter((section) => section.score < 80)
       .map((section) => ({
         ...section,
@@ -37,6 +42,7 @@ const ReportGaps = ({ reports }: Props) => {
               <tr className="border-b">
                 <th className="px-3 py-2">Normativa</th>
                 <th className="px-3 py-2">Sección</th>
+                <th className="px-3 py-2">Pregunta afectada</th>
                 <th className="px-3 py-2">Puntaje</th>
                 <th className="px-3 py-2">Recomendación</th>
               </tr>
@@ -46,6 +52,7 @@ const ReportGaps = ({ reports }: Props) => {
                 <tr key={`${gap.sectionId}-${gap.createdAt}-${index}`} className="border-b align-top">
                   <td className="px-3 py-2">{gap.regulationName}</td>
                   <td className="px-3 py-2">{gap.sectionTitle}</td>
+                  <td className="px-3 py-2">{gap.subQuestionText || gap.questionText}</td>
                   <td className="px-3 py-2 font-semibold">{gap.score}%</td>
                   <td className="px-3 py-2">{recommendationFor(gap.score)}</td>
                 </tr>

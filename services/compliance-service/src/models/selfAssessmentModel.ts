@@ -26,8 +26,19 @@ export interface SelfAssessment {
   answers: Answer[];
   totalScore: number;
   sectionScores: SectionScore[];
+  questionGaps?: QuestionGap[];
   observations?: string;
   createdAt: Date;
+}
+
+export interface QuestionGap {
+  sectionId: string;
+  sectionTitle: string;
+  questionId: string;
+  questionText: string;
+  subQuestionId?: string;
+  subQuestionText?: string;
+  score: number;
 }
 
 export interface SelfAssessmentSession {

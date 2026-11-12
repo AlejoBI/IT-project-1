@@ -146,7 +146,7 @@ export const submitSelfAssessmentController = async (req: Request, res: Response
       return res.status(422).json({ error: formValidation.error });
     }
 
-    const { totalScore, sectionScores } = calculateScores(draft.answers);
+    const { totalScore, sectionScores, questionGaps } = calculateScores(draft.answers);
 
     const selfAssessmentRef = doc(collection(firestore, "selfAssessments"));
     await setDoc(selfAssessmentRef, {
@@ -159,6 +159,7 @@ export const submitSelfAssessmentController = async (req: Request, res: Response
       answers: draft.answers,
       totalScore,
       sectionScores,
+      questionGaps,
       createdAt: new Date(),
     });
 
@@ -171,6 +172,7 @@ export const submitSelfAssessmentController = async (req: Request, res: Response
       formName,
       totalScore,
       sectionScores,
+      questionGaps,
     });
 
     await updateDoc(draftDoc.ref, {

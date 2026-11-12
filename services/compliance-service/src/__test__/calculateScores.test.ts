@@ -28,6 +28,9 @@ describe("calculateScores", () => {
       { sectionId: "section-2", sectionTitle: "Operación", score: 60 },
     ]);
     expect(result.totalScore).toBe(70);
+    expect(result.questionGaps).toEqual([
+      expect.objectContaining({ questionId: "question-1", score: 60 }),
+    ]);
   });
 
   it("limita a 100 el puntaje acumulado de una respuesta múltiple", () => {
