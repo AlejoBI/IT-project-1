@@ -83,7 +83,7 @@ secretos ni datos reales de prueba.
 - [x] Confirmar que el API Gateway apunta a todos los servicios activos.
 - [x] Añadir `/health` y readiness a cada servicio.
 - [ ] Estandarizar errores HTTP.
-- [ ] Estandarizar validación de entradas.
+- [x] Estandarizar validación de entradas.
 - [x] Documentar contratos de API y respuestas principales.
 
 **Entregable:** sistema reproducible localmente con contratos explícitos.
