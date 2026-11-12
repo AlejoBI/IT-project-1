@@ -10,7 +10,7 @@ const PORT = process.env.REGULATION_PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
+app.use(morgan(':method :url :status :response-time ms request_id=:req[x-request-id]'));
 
 app.get("/", (_req: Request, res: Response) => {
   res.status(200).send("Regulation service running");
