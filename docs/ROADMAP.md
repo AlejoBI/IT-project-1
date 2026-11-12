@@ -302,6 +302,9 @@ solo cuando exista evidencia reproducible.
 - Se verificó token Firebase en los endpoints internos y autorización por rol y
   propietario en Users. Quedan pendientes roles/aislamiento en los demás
   controladores y reglas de Firestore.
+- El frontend ahora inicia sesión en Firebase, adjunta el Bearer token en Axios
+  y espera la restauración de sesión antes de cargar rutas protegidas; esto
+  corrige la carga de evaluaciones y datos administrativos que respondían `401`.
 
 #### 2026-11-12 — trazabilidad de evaluaciones
 

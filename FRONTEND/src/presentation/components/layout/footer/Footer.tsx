@@ -45,13 +45,13 @@ const Footer = () => {
             Contacto
           </a>
           <a
-            href="/documentation"
+             href="/about"
             className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} hover:${LIGHT_MODE_COLORS.ACCENT} dark:hover:${DARK_MODE_COLORS.ACCENT} transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
           >
-            Documentación
+            Sobre ISOlytics
           </a>
           <a
-            href="/privacy-policy"
+             href="/privacy-policies"
             className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} hover:${LIGHT_MODE_COLORS.ACCENT} dark:hover:${DARK_MODE_COLORS.ACCENT} transition-all ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
           >
             Política de Privacidad
