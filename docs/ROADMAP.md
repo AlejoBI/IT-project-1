@@ -321,6 +321,9 @@ solo cuando exista evidencia reproducible.
   consulta protegida del usuario.
 - Reportes muestra brechas por sección y recomendaciones diferenciadas según
   severidad para facilitar el seguimiento correctivo.
+- Se añadió gestión de acciones correctivas por reporte con responsable, fecha
+  objetivo y estados `pendiente`, `en_progreso`, `resuelta` y `vencida`, protegida
+  por propietario, admin o auditor.
 - Los siete servicios registran método, ruta, estado, latencia y `request_id`
   propagado por el Gateway para facilitar diagnóstico sin registrar tokens.
 

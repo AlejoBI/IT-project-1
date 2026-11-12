@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { fetchRegulationsAction } from "../../application/store/regulations/regulationsActions";
 import {
   fetchSelfAssessmentReport,
@@ -12,6 +12,7 @@ import SectionScoresChart from "../components/reports/SectionScoresChart";
 import CompletedReports from "../components/reports/CompletedReports";
 import RegulationReport from "../components/reports/RegulationReport";
 import ReportGaps from "../components/reports/ReportGaps";
+import ReportActions from "../components/reports/ReportActions";
 import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
@@ -34,7 +35,7 @@ const Reports = () => {
   }, [dispatch, user?.uid]);
 
   const hasReports = (selfAssessmentReport?.length ?? 0) > 0 || (complianceReport?.length ?? 0) > 0;
-  const filteredReports = complianceReport?.filter((report) => {
+  const filteredReports = useMemo(() => complianceReport?.filter((report) => {
     const reportDate = new Date(report.createdAt).getTime();
     const afterFrom = !fromDate || reportDate >= new Date(`${fromDate}T00:00:00`).getTime();
     const beforeTo = !toDate || reportDate <= new Date(`${toDate}T23:59:59`).getTime();
@@ -44,7 +45,7 @@ const Reports = () => {
       afterFrom &&
       beforeTo
     );
-  });
+  }), [complianceReport, fromDate, regulationFilter, statusFilter, toDate]);
 
   if (loading) {
     return <Loader />;
@@ -102,6 +103,7 @@ const Reports = () => {
             <RegulationReport reports={filteredReports} />
           </div>
           <ReportGaps reports={filteredReports ?? []} />
+          <ReportActions reports={filteredReports ?? []} />
 
           <section className="mb-8 border rounded-lg overflow-hidden">
             <button

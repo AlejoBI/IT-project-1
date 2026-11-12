@@ -56,3 +56,25 @@ export const requireAssessmentAccess = async (
     res.status(500).json({ error: "No se pudo validar el acceso a la evaluación." });
   }
 };
+
+export const requireReportAccess = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const snapshot = await getDoc(doc(firestore, "complianceReports", req.params.reportId));
+    if (!snapshot.exists()) {
+      res.status(404).json({ error: "Reporte no encontrado." });
+      return;
+    }
+    const role = roleOf(req);
+    if (snapshot.data().userId !== req.auth?.uid && role !== "admin" && role !== "auditor") {
+      res.status(403).json({ error: "No tienes permisos para gestionar este reporte.", code: "FORBIDDEN" });
+      return;
+    }
+    next();
+  } catch {
+    res.status(500).json({ error: "No se pudo validar el acceso al reporte." });
+  }
+};

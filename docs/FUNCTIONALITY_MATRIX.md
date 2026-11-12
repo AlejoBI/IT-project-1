@@ -15,7 +15,7 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 | Formularios | Parcial | Controladores, rutas, versionado y build TypeScript | El servicio solo tiene smoke test; faltan pruebas CRUD. |
 | Guardado de borrador | Parcial | Rutas `/self-assessments/draft` y controladores | Prueba de reanudación y expiración/versionado. |
 | Evaluación y puntajes | Parcial | `selfAssessmentController.test.ts`, `formAnswerValidation.test.ts` y `calculateScores.ts` | Flujo de extremo a extremo, respuestas obligatorias y Firebase Emulator. |
-| Reportes de cumplimiento | Funciona localmente | `complianceReportController.test.ts`, filtros frontend por regulación, estado y periodo | PDF, permisos de descarga, responsable y trazabilidad histórica. |
+| Reportes de cumplimiento | Funciona localmente | `complianceReportController.test.ts`, filtros frontend, brechas y acciones correctivas protegidas | PDF, comparación histórica, permisos de descarga y pruebas E2E. |
 | Auditorías | Parcial | Rutas, controladores y 8 pruebas; permisos por rol y auditor autenticado | Falta integración con Firebase Emulator y flujo desplegado. |
 | Notificaciones | Funciona localmente | `notificationController.test.ts` (4 pruebas) | Probar MailerSend sin secreto real y reintentos. |
 | Servicios runtime | Funciona localmente | Los 7 servicios respondieron `200` en `/health` y `/ready` con configuración de ejemplo | Validar dependencias Firebase mediante Emulator. |
