@@ -159,7 +159,7 @@ secretos ni datos reales de prueba.
 - [x] Rediseñar la página inicial con propuesta de valor clara.
 - [x] Mejorar navegación, sidebar y breadcrumbs.
 - [x] Mostrar progreso de formularios largos.
-- [ ] Permitir guardar y continuar después.
+- [x] Permitir guardar y continuar después.
 - [ ] Mejorar estados de carga, vacío, error y éxito.
 - [x] Añadir confirmación antes de eliminar información.
 - [x] Mejorar dashboard con métricas accionables.

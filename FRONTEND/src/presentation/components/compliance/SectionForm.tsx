@@ -17,6 +17,7 @@ import { EmailTemplateType } from "../../../domain/models/types/notificationType
 
 interface Props {
   section: SectionGetResponse;
+  onSaved?: (sectionId: string) => void;
 }
 
 interface SectionFormData {
@@ -29,7 +30,7 @@ interface SectionFormData {
   };
 }
 
-const SectionForm: React.FC<Props> = ({ section }) => {
+const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
   const { handleSubmit } = useFormContext<SectionFormData>();
   const { user } = useAuth();
   const userId = user?.uid;
@@ -57,6 +58,7 @@ const SectionForm: React.FC<Props> = ({ section }) => {
     };
 
     await dispatch(saveSelfAssessmentDraft(payload));
+    onSaved?.(section.id);
     sendEmailNotification({
       to: user.email || "",
       subject: "Sección Actualizada",
@@ -77,9 +79,6 @@ const SectionForm: React.FC<Props> = ({ section }) => {
       id={section.id}
       onSubmit={handleSubmit(async (e) => {
         await onSubmit(e);
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
       })}
       className={`
     mb-10 rounded-2xl shadow-sm p-6 border 
@@ -116,7 +115,7 @@ const SectionForm: React.FC<Props> = ({ section }) => {
       ${ANIMATION_TIMINGS.TRANSITION_DURATION}
       `}
         >
-          Guardar Respuestas
+          Guardar y continuar
         </button>
       </div>
     </form>

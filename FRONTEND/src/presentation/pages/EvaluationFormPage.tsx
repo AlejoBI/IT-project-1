@@ -183,6 +183,12 @@ const EvaluationFormPage = () => {
     }, 3000);
   };
 
+  const handleSectionSaved = (sectionId: string) => {
+    setCompletedSections((previous) =>
+      previous.includes(sectionId) ? previous : [...previous, sectionId]
+    );
+  };
+
   if (formLoading) return <Loader />;
 
   if (!forms?.sections?.length) {
@@ -253,7 +259,13 @@ const EvaluationFormPage = () => {
           {activeSectionId ? (
             forms.sections
               .filter((section) => section.id === activeSectionId)
-              .map((section) => <SectionForm key={section.id} section={section} />)
+              .map((section) => (
+                <SectionForm
+                  key={section.id}
+                  section={section}
+                  onSaved={handleSectionSaved}
+                />
+              ))
           ) : (
             <div
               className={`
