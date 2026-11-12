@@ -116,7 +116,7 @@ secretos ni datos reales de prueba.
 **Objetivo:** hacer confiable y trazable la evaluación.
 
 - [x] Definir el ciclo de vida de una regulación.
-- [ ] Definir versiones y vigencia de normas.
+- [x] Definir versiones y vigencia de normas.
 - [x] Definir estados de formularios y evaluaciones.
 - [ ] Validar que cada pregunta pertenezca a una sección y regulación.
 - [x] Añadir guardado parcial de evaluaciones.

@@ -2,8 +2,10 @@
 
 ## Entidades y ciclo de vida
 
-1. **Regulación:** identifica el marco evaluado mediante nombre, descripción y
-   versión.
+1. **Regulación:** identifica el marco evaluado mediante nombre, descripción,
+   versión y, cuando aplica, `effectiveFrom`/`effectiveTo` en formato ISO 8601.
+   Una fecha final anterior a la inicial es inválida; sin fechas, la vigencia se
+   considera abierta hasta que se configure explícitamente.
 2. **Formulario:** pertenece a una regulación y agrupa secciones y preguntas.
 3. **Sesión de evaluación:** se crea como `in_progress`, acumula respuestas y
    secciones completadas, y puede reanudarse.

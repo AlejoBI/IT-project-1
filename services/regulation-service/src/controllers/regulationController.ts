@@ -5,7 +5,7 @@ import { getFirebaseErrorMessage } from "../utils/error.js";
 
 // Agregar una nueva normativa
 export const addRegulation = async (req: Request, res: Response): Promise<void> => {
-  const { name, description, version } = req.body;
+  const { name, description, version, effectiveFrom, effectiveTo } = req.body;
   try {
     const regulationsRef = collection(firestore, "regulations");
 
@@ -13,6 +13,8 @@ export const addRegulation = async (req: Request, res: Response): Promise<void> 
       name,
       description,
       version,
+      ...(effectiveFrom ? { effectiveFrom } : {}),
+      ...(effectiveTo ? { effectiveTo } : {}),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -75,7 +77,7 @@ export const getRegulation = async (req: Request, res: Response): Promise<void> 
 // Actualizar una normativa
 export const updateRegulation = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const { name, description, version } = req.body;
+  const { name, description, version, effectiveFrom, effectiveTo } = req.body;
 
   try {
     const regulationRef = doc(firestore, "regulations", id);
@@ -90,6 +92,8 @@ export const updateRegulation = async (req: Request, res: Response): Promise<voi
       name,
       description,
       version,
+      ...(effectiveFrom ? { effectiveFrom } : {}),
+      ...(effectiveTo ? { effectiveTo } : {}),
       updatedAt: new Date(),
     });
 
