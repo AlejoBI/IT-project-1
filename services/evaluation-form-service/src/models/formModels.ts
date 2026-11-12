@@ -25,7 +25,7 @@ export interface QuestionOption {
 }
 
 export interface FormQuestion {
-  sectionId: string;
+  sectionId?: string;
   text: string;
   type: string;
   options?: QuestionOption[];

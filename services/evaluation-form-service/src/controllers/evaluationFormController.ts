@@ -11,8 +11,9 @@ import {
   where,
 } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
-import { FIREBASE_ERRORS } from "../utils/constants.js";
 import { EvaluationForm, FormSection, FormQuestion } from "../models/formModels.js";
+import { FullEvaluationFormInput, QuestionInput } from "../schemas/evaluationFormSchema.js";
+import { getFirebaseErrorMessage } from "../utils/error.js";
 
 import { uid } from "uid";
 
@@ -53,7 +54,7 @@ export const createFullEvaluationForm = async (req: Request, res: Response): Pro
 
     // Crear secciones y preguntas en paralelo
     await Promise.all(
-      sections.map(async (section: any) => {
+      sections.map(async (section: FullEvaluationFormInput["sections"][number]) => {
         const sectionData: FormSection = {
           formId: formRef.id,
           title: section.title,
@@ -64,19 +65,19 @@ export const createFullEvaluationForm = async (req: Request, res: Response): Pro
         const sectionRef = await addDoc(collection(firestore, "formSections"), sectionData);
 
         await Promise.all(
-          section.questions.map((question: any) => {
+          section.questions.map((question: QuestionInput) => {
             const questionData: FormQuestion = {
               sectionId: sectionRef.id,
               text: question.text,
               type: question.type,
-              options: (question.options || []).map((option: any) => ({
+              options: (question.options || []).map((option) => ({
                 id: uid(25),
                 ...option,
               })),
-              subQuestions: (question.subQuestions || []).map((sub: any) => ({
+              subQuestions: (question.subQuestions || []).map((sub: QuestionInput) => ({
                 id: uid(25),
                 ...sub,
-                options: (sub.options || []).map((subOption: any) => ({
+                options: (sub.options || []).map((subOption) => ({
                   id: uid(25),
                   ...subOption,
                 })),
@@ -95,8 +96,7 @@ export const createFullEvaluationForm = async (req: Request, res: Response): Pro
       message: "Formulario, secciones y preguntas creados exitosamente.",
     });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al crear el formulario completo";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al crear el formulario completo");
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -137,8 +137,7 @@ export const addEvaluationForm = async (req: Request, res: Response): Promise<an
       message: "Formulario de evaluación agregado exitosamente.",
     });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al agregar el formulario";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al agregar el formulario");
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -202,8 +201,7 @@ export const getEvaluationFormByRegulationId = async (
       sections,
     });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al obtener el formulario";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al obtener el formulario");
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -229,8 +227,7 @@ export const updateEvaluationForm = async (req: Request, res: Response): Promise
 
     res.status(200).json({ message: "Formulario actualizado exitosamente." });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al actualizar el formulario";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al actualizar el formulario");
     res.status(400).json({ error: errorMessage });
   }
 };
@@ -293,8 +290,7 @@ export const deleteEvaluationFormByRegulationId = async (
       message: "Formulario, secciones y preguntas eliminadas exitosamente.",
     });
   } catch (error) {
-    const firebaseError = (error as any).code as keyof typeof FIREBASE_ERRORS;
-    const errorMessage = FIREBASE_ERRORS[firebaseError] || "Error al eliminar el formulario";
+    const errorMessage = getFirebaseErrorMessage(error, "Error al eliminar el formulario");
     res.status(400).json({ error: errorMessage });
   }
 };
