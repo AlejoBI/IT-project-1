@@ -8,6 +8,19 @@ El plan paso a paso para estabilizar, mejorar y volver a desplegar ISOlytics est
 en [docs/ROADMAP.md](docs/ROADMAP.md). Incluye arquitectura, seguridad,
 cumplimiento, UX, pruebas, observabilidad y operación por entornos.
 
+## Documentación técnica
+
+- [Arquitectura](docs/ARCHITECTURE.md)
+- [Componentes](docs/COMPONENTS.md)
+- [API](docs/API.md)
+- [Seguridad](docs/SECURITY.md)
+- [Variables de entorno](docs/ENVIRONMENTS.md)
+- [Prácticas de ingeniería](docs/ENGINEERING_PRACTICES.md)
+- [Despliegue](docs/DEPLOYMENT.md)
+- [Estado actual](docs/PROJECT_STATUS.md)
+- [Matriz de funcionalidades](docs/FUNCTIONALITY_MATRIX.md)
+- [Modelo de cumplimiento](docs/COMPLIANCE_MODEL.md)
+
 El cumplimiento normativo es un aspecto crítico para cualquier organización, ya que garantiza la conformidad legal, minimiza riesgos operativos y reputacionales, y fomenta una cultura de transparencia y responsabilidad. Esta herramienta busca simplificar y automatizar el proceso de evaluación, proporcionando análisis claros y accionables.
 
 ---

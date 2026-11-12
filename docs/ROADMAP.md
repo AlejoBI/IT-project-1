@@ -36,17 +36,17 @@ secretos ni datos reales de prueba.
 **Objetivo:** conocer el estado real antes de refactorizar.
 
 - [x] Confirmar que el sistema puede ejecutarse.
-- [ ] Registrar versiones de Node, npm, Docker y dependencias.
-- [ ] Ejecutar `docker compose config` y corregir advertencias.
-- [ ] Ejecutar `test-all-services.ps1` y guardar el resultado.
-- [ ] Ejecutar lint y build del frontend.
-- [ ] Verificar que todos los servicios levanten sin reinicios.
+- [x] Registrar versiones de Node, npm, Docker y dependencias.
+- [x] Ejecutar `docker compose config` y corregir advertencias.
+- [x] Ejecutar `test-all-services.ps1` y guardar el resultado.
+- [x] Ejecutar lint y build del frontend.
+- [x] Verificar que todos los servicios levanten sin reinicios.
 - [ ] Probar login, recuperación de contraseña y logout.
 - [ ] Probar un flujo completo de evaluación.
 - [ ] Probar generación y descarga de reportes.
 - [ ] Probar el flujo de auditoría.
-- [ ] Registrar puertos, endpoints y variables requeridas.
-- [ ] Crear una matriz de funcionalidades: funciona, falla, incompleta o no
+- [x] Registrar puertos, endpoints y variables requeridas.
+- [x] Crear una matriz de funcionalidades: funciona, falla, incompleta o no
   implementada.
 
 **Entregable:** diagnóstico técnico inicial y lista priorizada de fallos.
@@ -57,14 +57,14 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** que el repositorio describa lo que realmente ejecuta.
 
-- [ ] Reescribir el README raíz con instrucciones verificadas.
-- [ ] Documentar el diagrama de servicios y el API Gateway.
-- [ ] Documentar responsabilidades y endpoints de cada servicio.
-- [ ] Documentar usuario, regulación, formulario, evaluación, informe,
+- [x] Reescribir el README raíz con instrucciones verificadas.
+- [x] Documentar el diagrama de servicios y el API Gateway.
+- [x] Documentar responsabilidades y endpoints de cada servicio.
+- [x] Documentar usuario, regulación, formulario, evaluación, informe,
   auditoría y notificación.
-- [ ] Documentar variables de entorno de `develop` y `production`.
-- [ ] Crear plantillas `.env.example` sin credenciales.
-- [ ] Documentar el flujo local con Docker Compose.
+- [x] Documentar variables de entorno de `develop` y `production`.
+- [x] Crear plantillas `.env.example` sin credenciales.
+- [x] Documentar el flujo local con Docker Compose.
 - [ ] Documentar despliegue y rollback.
 - [ ] Eliminar del README arquitecturas que solo fueron propuestas.
 
@@ -76,15 +76,15 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** eliminar fragilidad causada por configuraciones antiguas.
 
-- [ ] Unificar la versión recomendada de Node.js.
-- [ ] Revisar dependencias vulnerables y obsoletas.
-- [ ] Fijar versiones compatibles en `package.json` y lockfiles.
-- [ ] Revisar puertos y nombres de servicios del Compose.
-- [ ] Confirmar que el API Gateway apunta a todos los servicios activos.
-- [ ] Añadir `/health` y readiness a cada servicio.
+- [x] Unificar la versión recomendada de Node.js.
+- [x] Revisar dependencias vulnerables y obsoletas.
+- [x] Fijar versiones compatibles en `package.json` y lockfiles.
+- [x] Revisar puertos y nombres de servicios del Compose.
+- [x] Confirmar que el API Gateway apunta a todos los servicios activos.
+- [x] Añadir `/health` y readiness a cada servicio.
 - [ ] Estandarizar errores HTTP.
 - [ ] Estandarizar validación de entradas.
-- [ ] Documentar contratos de API y respuestas principales.
+- [x] Documentar contratos de API y respuestas principales.
 
 **Entregable:** sistema reproducible localmente con contratos explícitos.
 
@@ -101,11 +101,11 @@ secretos ni datos reales de prueba.
 - [ ] Validar tokens Firebase en todos los endpoints protegidos.
 - [ ] Revisar expiración y renovación de sesiones.
 - [ ] Eliminar secretos del historial de Git si existiera alguno.
-- [ ] Configurar CORS únicamente para orígenes conocidos.
-- [ ] Añadir rate limiting a autenticación y operaciones sensibles.
+- [x] Configurar CORS únicamente para orígenes conocidos.
+- [x] Añadir rate limiting a autenticación y operaciones sensibles.
 - [ ] Registrar auditoría de cambios administrativos.
 - [ ] Revisar subida de archivos y límites de tamaño/tipo.
-- [ ] Documentar el modelo de amenazas y las reglas de acceso.
+- [x] Documentar el modelo de amenazas y las reglas de acceso.
 
 **Entregable:** matriz de permisos y reglas de datos verificadas.
 
@@ -115,18 +115,18 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** hacer confiable y trazable la evaluación.
 
-- [ ] Definir el ciclo de vida de una regulación.
+- [x] Definir el ciclo de vida de una regulación.
 - [ ] Definir versiones y vigencia de normas.
-- [ ] Definir estados de formularios y evaluaciones.
+- [x] Definir estados de formularios y evaluaciones.
 - [ ] Validar que cada pregunta pertenezca a una sección y regulación.
-- [ ] Añadir guardado parcial de evaluaciones.
-- [ ] Añadir reanudación de evaluaciones incompletas.
+- [x] Añadir guardado parcial de evaluaciones.
+- [x] Añadir reanudación de evaluaciones incompletas.
 - [ ] Validar respuestas obligatorias y tipos de respuesta.
 - [ ] Versionar formularios para conservar evaluaciones históricas.
-- [ ] Separar el cálculo de puntajes de la capa HTTP.
-- [ ] Documentar fórmula de cumplimiento y preguntas sin respuesta.
+- [x] Separar el cálculo de puntajes de la capa HTTP.
+- [x] Documentar fórmula de cumplimiento y preguntas sin respuesta.
 - [ ] Trazar cada resultado hasta regulación, sección y pregunta.
-- [ ] Mostrar que el resultado es apoyo y no una conclusión jurídica definitiva.
+- [x] Mostrar que el resultado es apoyo y no una conclusión jurídica definitiva.
 
 **Entregable:** evaluación reproducible, versionada y explicable.
 
@@ -177,18 +177,18 @@ secretos ni datos reales de prueba.
 
 **Objetivo:** detectar regresiones antes de desplegar.
 
-- [ ] Mantener pruebas unitarias para cada servicio.
+- [x] Mantener pruebas unitarias para cada servicio.
 - [ ] Añadir pruebas de autorización por rol.
 - [ ] Añadir pruebas de aislamiento de datos.
 - [ ] Añadir pruebas de contratos del API Gateway.
 - [ ] Añadir integración con Firebase Emulator.
 - [ ] Añadir prueba del flujo completo de evaluación.
 - [ ] Añadir pruebas de generación de PDF.
-- [ ] Añadir pruebas de auditoría y notificaciones.
+- [x] Añadir pruebas de auditoría y notificaciones.
 - [ ] Añadir pruebas de componentes críticos del frontend.
 - [ ] Acordar cobertura mínima por servicio.
-- [ ] Ejecutar lint, typecheck, tests y build en CI.
-- [ ] Evitar que CI dependa de Firebase de producción.
+- [x] Ejecutar lint, typecheck, tests y build en CI.
+- [x] Evitar que CI dependa de Firebase de producción.
 
 **Entregable:** pipeline reproducible que bloquee regresiones.
 
@@ -200,7 +200,7 @@ secretos ni datos reales de prueba.
 
 - [ ] Usar logs estructurados con servicio, operación y request ID.
 - [ ] No registrar tokens, contraseñas ni datos sensibles.
-- [ ] Propagar correlation ID desde el Gateway.
+- [x] Propagar correlation ID desde el Gateway.
 - [ ] Medir latencia y errores por servicio.
 - [ ] Registrar fallos de Firebase y dependencias externas.
 - [ ] Crear un dashboard básico de salud.
