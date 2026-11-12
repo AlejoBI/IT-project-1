@@ -1,12 +1,19 @@
 import { z } from "zod";
 import { answerEnum } from "../models/formModels.js";
 
+export interface QuestionInput {
+  text: string;
+  type: answerEnum;
+  options?: { label: string; score: number }[];
+  subQuestions?: QuestionInput[];
+}
+
 export const optionSchema = z.object({
   label: z.string(),
   score: z.number().min(0).max(100),
 });
 
-export const questionSchema: z.ZodType<any> = z
+export const questionSchema: z.ZodType<QuestionInput> = z
   .object({
     text: z.string(),
     type: z.nativeEnum(answerEnum),
@@ -54,6 +61,8 @@ export const fullEvaluationFormSchema = z.object({
     })
   ),
 });
+
+export type FullEvaluationFormInput = z.infer<typeof fullEvaluationFormSchema>;
 
 // Schemas for evaluation forms, sections, and questions individually
 export const evaluationFormSchema = z.object({
