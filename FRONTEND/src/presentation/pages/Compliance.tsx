@@ -36,6 +36,21 @@ const Compliance = () => {
         Evaluación Normativa
       </h1>
 
+      <aside
+        role="note"
+        className="mx-auto mb-6 max-w-3xl rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-100"
+      >
+        <h2 className="font-semibold">¿Cómo usar esta sección?</h2>
+        <p className="mt-1">
+          Selecciona una normativa y responde cada sección con la información disponible de tu
+          organización.
+        </p>
+        <p className="mt-1">
+          El resultado es una guía para identificar brechas; no sustituye una asesoría legal ni una
+          certificación.
+        </p>
+      </aside>
+
       {!user?.emailVerified && (
         <Notification
           message="Por favor, verifica tu dirección de correo electrónico."

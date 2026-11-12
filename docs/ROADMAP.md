@@ -167,7 +167,7 @@ secretos ni datos reales de prueba.
 - [ ] Revisar contraste, foco de teclado y etiquetas.
 - [ ] Añadir diseño responsive para tabletas y móviles.
 - [ ] Unificar idioma, textos y terminología.
-- [ ] Añadir ayuda sobre cumplimiento y uso de la plataforma.
+- [x] Añadir ayuda sobre cumplimiento y uso de la plataforma.
 
 **Entregable:** flujo usable por usuarios técnicos y no técnicos.
 
