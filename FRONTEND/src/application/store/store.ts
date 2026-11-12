@@ -13,9 +13,11 @@ import EvaluationFormReducer from "./evaluationForm/evaluationFormSlice";
 import auditReducer from "./audits/auditSlice";
 
 const persistConfig = {
-  key: "root",
+  // Firebase is the source of truth for the session; do not restore stale users
+  // before Firebase has restored its current user and ID token.
+  key: "root-v2",
   storage,
-  whitelist: ["auth"],
+  whitelist: [],
 };
 
 const rootReducer = combineReducers({

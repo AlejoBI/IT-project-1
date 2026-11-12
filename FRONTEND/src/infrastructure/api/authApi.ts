@@ -1,4 +1,6 @@
 import api from "./axios";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth } from "./firebaseConfig";
 
 export const registerApi = async (userData: {
   username: string;
@@ -11,11 +13,12 @@ export const registerApi = async (userData: {
 
 export const loginApi = async (credentials: { email: string; password: string }) => {
   const response = await api.post("/api/auth/login", credentials);
+  await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
   return response.data;
 };
 
 export const logoutApi = async () => {
-  await api.post("/api/auth/logout");
+  await Promise.allSettled([api.post("/api/auth/logout"), signOut(auth)]);
   return true;
 };
 

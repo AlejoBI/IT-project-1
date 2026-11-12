@@ -13,7 +13,8 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
-  loading: false,
+  // Wait for Firebase to restore the client session before routing.
+  loading: true,
   error: null,
   message: undefined,
 };
@@ -30,6 +31,9 @@ const authSlice = createSlice({
       state.error = null;
     },
     clearLoader: (state) => {
+      state.loading = false;
+    },
+    setAuthReady: (state) => {
       state.loading = false;
     },
   },
@@ -110,5 +114,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearNotification, clearLoader } = authSlice.actions;
+export const { setUser, clearNotification, clearLoader, setAuthReady } = authSlice.actions;
 export default authSlice.reducer;
