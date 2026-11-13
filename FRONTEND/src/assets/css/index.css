@@ -11,3 +11,82 @@ body,
   background-position: center;
   height: 100vh;
 }
+
+/* Toasts del sistema: compactos, legibles y consistentes con ISOlytics. */
+.Toastify__toast-container {
+  width: min(420px, calc(100vw - 2rem));
+  padding: 0;
+}
+
+.Toastify__toast {
+  min-height: 64px;
+  margin-bottom: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d7e3e8;
+  border-left: 4px solid #729cac;
+  border-radius: 1rem;
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  box-shadow: 0 14px 28px rgba(31, 41, 55, 0.16);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.Toastify__toast--success {
+  border-left-color: #2f7d68;
+}
+
+.Toastify__toast--error {
+  border-left-color: #a94442;
+}
+
+.Toastify__toast--warning {
+  border-left-color: #9a6a24;
+}
+
+.Toastify__toast--info {
+  border-left-color: #729cac;
+}
+
+.Toastify__toast-body {
+  margin: 0;
+  padding: 0;
+}
+
+.Toastify__progress-bar {
+  height: 3px;
+  background: #729cac;
+}
+
+html.dark .Toastify__toast {
+  border-color: #2a4c61;
+  background: #1a2b3a !important;
+  color: #e6edf3 !important;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+}
+
+html.dark .Toastify__toast--success {
+  border-left-color: #8ccbe2;
+}
+
+html.dark .Toastify__toast--error {
+  border-left-color: #f0a4a4;
+}
+
+html.dark .Toastify__toast--warning {
+  border-left-color: #e8c477;
+}
+
+@media (max-width: 640px) {
+  .Toastify__toast-container {
+    width: calc(100vw - 1.5rem);
+    left: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .Toastify__toast {
+    min-height: 58px;
+    border-radius: 0.875rem;
+  }
+}
