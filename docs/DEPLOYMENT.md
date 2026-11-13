@@ -61,6 +61,32 @@ Build command: npm run build
 Output directory: dist
 ```
 
+## Despliegue remoto
+
+El despliegue actual separa el frontend y el Gateway:
+
+- **Frontend:** Vercel, con `FRONTEND` como root directory, `npm run build` y
+  `dist` como salida.
+- **Gateway:** Render usando `services/api-gateway/Dockerfile`. El contenedor
+  escucha en el puerto `80` y enruta hacia los siete servicios configurados en
+  `services/api-gateway/nginx.conf`.
+- **Servicios:** cada microservicio se despliega como servicio independiente
+  de Node/Docker con sus variables secretas configuradas en el proveedor.
+
+Después de cada despliegue se debe comprobar, en este orden:
+
+1. `/health` y `/ready` del Gateway.
+2. Preflight `OPTIONS` desde el dominio del frontend.
+3. Login y una solicitud protegida con un usuario de prueba.
+4. Carga de normativas, reanudación de borrador, guardado y reporte.
+5. Auditoría y descarga PDF si el cambio afecta esos módulos.
+
+Si el Gateway no inicia, revisar primero la sintaxis de Nginx y ejecutar
+`check-gateway-config.ps1`. No copiar claves privadas al repositorio ni a los
+logs de Render. Las URLs de los upstreams actualmente están declaradas en
+`nginx.conf`; un cambio de servicio requiere actualizar esa configuración y
+volver a desplegar el Gateway.
+
 Variables de producción:
 
 ```env

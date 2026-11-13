@@ -30,6 +30,7 @@ El diagrama y las responsabilidades verificadas están en
 - [Despliegue, rollback y restauración](docs/DEPLOYMENT.md)
 - [Matriz de funcionalidades](docs/FUNCTIONALITY_MATRIX.md)
 - [Prácticas de ingeniería](docs/ENGINEERING_PRACTICES.md)
+- [Procesos funcionales y guía de uso](docs/USER_FLOWS.md)
 
 ## Requisitos
 

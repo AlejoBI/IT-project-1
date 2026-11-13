@@ -18,14 +18,14 @@ El prefijo de cada dominio está definido en `services/api-gateway/nginx.conf`.
 | Base | Operaciones implementadas |
 |---|---|
 | `/api/auth` | `POST /register`, `/login`, `/logout`, `/recover-password` |
-| `/api/users` | `GET /`, `/audit`, `/:uid`; `PUT /:userId` |
+| `/api/users` | `GET /`, `/audit`, `/:uid`; `PUT /:uid`; `DELETE /:userId` |
 | `/api/regulations` | `GET /`, `/:id`; `POST /`; `PUT /:id`; `DELETE /:id` |
-| `/api/evaluation/forms` | `POST /`, `/:regulationId`; `PUT /:regulationId`; `DELETE /:regulationId` |
+| `/api/evaluation/forms` | `POST /`, `/full`; `GET /`, `/:regulationId`; `PUT /:formId`; `DELETE /:regulationId` |
 | `/api/evaluation/sections` | `POST /`; `GET /:formId`; `PUT /:sectionId`; `DELETE /:sectionId` |
 | `/api/evaluation/questions` | `POST /`; `GET /:sectionId`; `PUT /:questionId`; `DELETE /:questionId` |
 | `/api/compliance/self-assessments` | `GET /draft/:regulationId/:userId`, `/:userId`, `/assessment/:selfAssessmentId`, `/for-audits/:userId`; `POST /save`, `/submit` |
-| `/api/compliance/compliance-reports` | `POST /create`; `GET /:userId` |
-| `/api/audit` | `POST /create`; `GET /:selfAssessmentId` |
+| `/api/compliance/compliance-reports` | `POST /create`; `GET /:userId`; acciones `GET/POST /:reportId/actions`, `PATCH /:reportId/actions/:actionId`; historial `GET /:reportId/history` |
+| `/api/audit` | `POST /create`; `GET /:selfAssessmentId`; `GET /events`, `/system-health` |
 | `/api/notifications` | `POST /send` |
 
 ## Reglas de contrato
@@ -33,7 +33,11 @@ El prefijo de cada dominio está definido en `services/api-gateway/nginx.conf`.
 - Los endpoints protegidos reciben el token Firebase según la configuración del
   cliente Axios.
 - Los errores deben devolver status HTTP adecuado y un mensaje no sensible.
+- Un borrador inexistente devuelve `204 No Content`; no debe tratarse como una
+  falla del flujo de evaluación.
 - Las respuestas proxificadas incluyen `X-Request-ID` para diagnóstico.
+- El Gateway agrega CORS únicamente para los orígenes permitidos y conserva los
+  headers CORS también en respuestas de error, incluidos `429`.
 - Las respuestas deben mantener nombres y tipos estables.
 - Los controladores validan entradas antes de acceder a Firestore.
 - Las acciones administrativas deben verificar rol en backend.
