@@ -25,7 +25,7 @@ import { AxiosError } from "axios";
 import { getApiErrorMessage } from "../../../shared/apiError";
 
 export const fetchSelfAssessment = createAsyncThunk<
-  GetDraftResponse,
+  GetDraftResponse | null,
   GetDraftRequest,
   { rejectValue: string }
 >("compliance/fetchSelfAssessment", async (data, { rejectWithValue }) => {
@@ -33,6 +33,11 @@ export const fetchSelfAssessment = createAsyncThunk<
     const response = await fetchSelfAssessmentApi(data);
     return response;
   } catch (error) {
+    // Una evaluación nueva no tiene borrador todavía. El backend antiguo
+    // puede responder 404; lo tratamos igual que la respuesta 204 actual.
+    if (error instanceof AxiosError && error.response?.status === 404) {
+      return null;
+    }
     return rejectWithValue(getApiErrorMessage(error, "Error al obtener el avance"));
   }
 });

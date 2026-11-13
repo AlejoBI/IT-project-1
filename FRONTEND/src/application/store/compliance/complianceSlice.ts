@@ -61,6 +61,7 @@ const complianceSlice = createSlice({
     builder.addCase(fetchSelfAssessment.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.currentDraft = null;
     });
     builder.addCase(fetchSelfAssessment.fulfilled, (state, action) => {
       state.loading = false;

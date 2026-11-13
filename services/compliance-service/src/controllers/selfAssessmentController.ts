@@ -108,7 +108,9 @@ export const getDraftController = async (req: Request, res: Response): Promise<v
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      return void res.status(404).json({ error: "No hay avance guardado para esta normativa." });
+      // No tener borrador es el estado normal al iniciar una evaluación.
+      // 204 evita que el frontend lo trate como un error de red.
+      return void res.status(204).send();
     }
 
     return void res.status(200).json(snapshot.docs[0].data());

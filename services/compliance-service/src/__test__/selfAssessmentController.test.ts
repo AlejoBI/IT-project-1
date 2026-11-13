@@ -128,23 +128,22 @@ describe("getDraftController", () => {
     jest.clearAllMocks();
   });
 
-  it("devuelve 404 si no hay avance guardado", async () => {
+  it("devuelve 204 si no hay avance guardado", async () => {
     const req = {
       params: { userId: "user1", regulationId: "reg1" },
     } as unknown as Request;
 
     const res: Response = {
       status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
       json: jest.fn(),
     } as unknown as Response;
     mockFirestore.getDocs.mockResolvedValue({ empty: true });
 
     await getDraftController(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(404);
-    expect(res.json).toHaveBeenCalledWith({
-      error: "No hay avance guardado para esta normativa.",
-    });
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(res.send).toHaveBeenCalled();
   });
 
   it("devuelve el avance si existe", async () => {

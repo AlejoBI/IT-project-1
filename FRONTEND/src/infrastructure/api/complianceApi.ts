@@ -10,7 +10,7 @@ export const fetchSelfAssessmentApi = async (data: GetDraftRequest) => {
   const response = await api.get(
     `/api/compliance/self-assessments/draft/${data.regulationId}/${data.userId}`
   );
-  return response.data;
+  return response.data ?? null;
 };
 
 // POST: Guardar una autoevaluación (borrador o avance)
