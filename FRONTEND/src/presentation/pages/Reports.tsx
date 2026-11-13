@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { fetchRegulationsAction } from "../../application/store/regulations/regulationsActions";
 import {
   fetchSelfAssessmentReport,
   fetchComplianceReports,
 } from "../../application/store/compliance/complianceActions";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { useRegulation } from "../hooks/useRegulation";
 import { useAuth } from "../hooks/useAuth";
 import { useCompliance } from "../hooks/useCompliance";
 import SectionScoresChart from "../components/reports/SectionScoresChart";
@@ -20,9 +18,8 @@ import Loader from "../components/common/Loader";
 
 const Reports = () => {
   const dispatch = useAppDispatch();
-  const { loading } = useRegulation();
   const { user } = useAuth();
-  const { selfAssessmentReport, complianceReport, error } = useCompliance();
+  const { selfAssessmentReport, complianceReport, error, loading } = useCompliance();
   const [isOpen, setIsOpen] = useState(false);
   const [regulationFilter, setRegulationFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -31,7 +28,6 @@ const Reports = () => {
 
   useEffect(() => {
     if (!user?.uid) return;
-    dispatch(fetchRegulationsAction());
     dispatch(fetchSelfAssessmentReport(user.uid));
     dispatch(fetchComplianceReports(user.uid));
   }, [dispatch, user?.uid]);
