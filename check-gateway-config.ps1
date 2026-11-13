@@ -13,8 +13,8 @@ if ($missing.Count -gt 0) {
     throw "Faltan locations del Gateway: $($missing -join ', ')"
 }
 
-if (-not $config.Contains('map $http_x_request_id $request_id') -or
-    -not $common.Contains('proxy_set_header X-Request-ID $request_id')) {
+if (-not $config.Contains('map $http_x_request_id $gateway_request_id') -or
+    -not $common.Contains('proxy_set_header X-Request-ID $gateway_request_id')) {
     throw "El Gateway no propaga correctamente X-Request-ID."
 }
 
