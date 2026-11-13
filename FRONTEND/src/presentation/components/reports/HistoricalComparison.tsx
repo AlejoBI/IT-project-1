@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { ComplianceReport } from "../../../domain/models/types/complianceTypes";
+import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, UI_COLORS } from "../../../shared/constants";
 
 interface HistoricalGroup {
   regulationId: string;
@@ -36,11 +37,11 @@ const HistoricalComparison = ({ reports }: { reports: ComplianceReport[] }) => {
   if (groups.length === 0) return null;
 
   return (
-    <section className="mb-8 rounded-xl border p-6 shadow-sm" aria-labelledby="historical-comparison-title">
-      <h2 id="historical-comparison-title" className="mb-2 text-xl font-semibold">
+    <section className={`mb-8 rounded-xl border p-6 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`} aria-labelledby="historical-comparison-title">
+      <h2 id="historical-comparison-title" className={`mb-2 text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
         Comparación histórica
       </h2>
-      <p className="mb-5 text-sm text-gray-600 dark:text-gray-300">
+      <p className={`mb-5 text-sm ${UI_COLORS.MUTED}`}>
         Evolución del puntaje total por normativa dentro de los filtros seleccionados.
       </p>
       <div className="space-y-6">
@@ -52,7 +53,7 @@ const HistoricalComparison = ({ reports }: { reports: ComplianceReport[] }) => {
             <div key={group.regulationId} className="overflow-x-auto">
               <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="font-semibold">{group.regulationName}</h3>
-                <span className="text-sm text-gray-600 dark:text-gray-300">
+                <span className={`text-sm ${variation !== null && variation < 0 ? UI_COLORS.DANGER : UI_COLORS.SUCCESS}`}>
                   {variation === null
                     ? "Primera evaluación registrada"
                     : `Variación: ${variation > 0 ? "+" : ""}${variation.toFixed(1)} puntos`}
@@ -60,7 +61,7 @@ const HistoricalComparison = ({ reports }: { reports: ComplianceReport[] }) => {
               </div>
               <table className="min-w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b">
+                  <tr className={UI_COLORS.DIVIDER}>
                     <th className="px-3 py-2">Evaluación</th>
                     <th className="px-3 py-2">Estado</th>
                     <th className="px-3 py-2">Puntaje</th>
@@ -68,10 +69,10 @@ const HistoricalComparison = ({ reports }: { reports: ComplianceReport[] }) => {
                 </thead>
                 <tbody>
                   {group.reports.map((report) => (
-                    <tr key={report.id} className="border-b">
-                      <td className="px-3 py-2">{formatDate(report.createdAt)}</td>
-                      <td className="px-3 py-2">{report.complianceStatus}</td>
-                      <td className="px-3 py-2 font-semibold">{report.totalScore}%</td>
+                    <tr key={report.id} className={UI_COLORS.DIVIDER}>
+                      <td className={`px-3 py-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{formatDate(report.createdAt)}</td>
+                      <td className={`px-3 py-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{report.complianceStatus}</td>
+                      <td className={`px-3 py-2 font-semibold ${report.totalScore >= 80 ? UI_COLORS.SUCCESS : report.totalScore >= 60 ? UI_COLORS.WARNING : UI_COLORS.DANGER}`}>{report.totalScore}%</td>
                     </tr>
                   ))}
                 </tbody>

@@ -6,6 +6,7 @@ import {
   getReportActionHistoryApi,
   updateReportActionApi,
 } from "../../../infrastructure/api/reportActionsApi";
+import { DARK_GRADIENTS, DARK_MODE_COLORS, GRADIENTS, LIGHT_MODE_COLORS, UI_COLORS } from "../../../shared/constants";
 
 const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
   const [actions, setActions] = useState<ReportAction[]>([]);
@@ -68,30 +69,30 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
   };
 
   return (
-    <section className="mb-8 rounded-xl border p-6 shadow-sm" aria-labelledby="report-actions-title">
-      <h2 id="report-actions-title" className="mb-4 text-xl font-semibold">Acciones correctivas</h2>
-      {error && <p role="alert" className="mb-3 text-sm text-red-600">{error}</p>}
+    <section className={`mb-8 rounded-xl border p-6 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`} aria-labelledby="report-actions-title">
+      <h2 id="report-actions-title" className={`mb-4 text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Acciones correctivas</h2>
+      {error && <p role="alert" className={`mb-3 rounded-lg p-3 text-sm ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE}`}>{error}</p>}
       <form onSubmit={handleCreate} className="mb-5 grid gap-3 md:grid-cols-4">
-        <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Acción a realizar" className="rounded border p-2 md:col-span-2" />
-        <input value={responsible} onChange={(event) => setResponsible(event.target.value)} placeholder="Responsable" className="rounded border p-2" />
-        <input type="date" value={dueDate} onChange={(event) => setDueDate(event.target.value)} className="rounded border p-2" />
-        <button type="submit" className="rounded bg-blue-600 px-4 py-2 font-semibold text-white md:col-span-4">Añadir acción</button>
+        <input aria-label="Acción a realizar" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Acción a realizar" className={`rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS} md:col-span-2`} />
+        <input aria-label="Responsable" value={responsible} onChange={(event) => setResponsible(event.target.value)} placeholder="Responsable" className={`rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
+        <input aria-label="Fecha objetivo" type="date" value={dueDate} onChange={(event) => setDueDate(event.target.value)} className={`rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
+        <button type="submit" className={`rounded-lg px-4 py-2 font-semibold text-white transition-colors ${GRADIENTS.BUTTON_BG} ${DARK_GRADIENTS.BUTTON_BG} ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} md:col-span-4`}>Añadir acción</button>
       </form>
       <label className="mb-4 block text-sm font-medium">
         Filtrar por responsable
-        <input value={responsibleFilter} onChange={(event) => setResponsibleFilter(event.target.value)} placeholder="Todos los responsables" className="mt-1 w-full rounded border p-2" />
+        <input aria-label="Filtrar por responsable" value={responsibleFilter} onChange={(event) => setResponsibleFilter(event.target.value)} placeholder="Todos los responsables" className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
       </label>
       {filteredActions.length === 0 ? (
-        <p className="text-sm text-gray-600 dark:text-gray-300">No hay acciones correctivas registradas.</p>
+          <p className={`text-sm ${UI_COLORS.MUTED}`}>No hay acciones correctivas registradas.</p>
       ) : (
         <ul className="space-y-3">
           {filteredActions.map((action) => (
-            <li key={action.id} className="flex flex-col gap-2 rounded border p-3 sm:flex-row sm:items-center sm:justify-between">
+            <li key={action.id} className={`flex flex-col gap-2 rounded-lg border p-3 sm:flex-row sm:items-center sm:justify-between ${UI_COLORS.BORDER}`}>
               <div>
-                <p className="font-medium">{action.title}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">{action.responsible || "Sin responsable"}{action.dueDate ? ` · vence ${new Date(action.dueDate).toLocaleDateString()}` : ""}</p>
+                <p className={`${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} font-medium`}>{action.title}</p>
+                <p className={`text-sm ${UI_COLORS.MUTED}`}>{action.responsible || "Sin responsable"}{action.dueDate ? ` · vence ${new Date(action.dueDate).toLocaleDateString()}` : ""}</p>
               </div>
-              <select value={action.status} onChange={(event) => void handleStatus(action, event.target.value as ReportAction["status"])} className="rounded border p-2 text-sm">
+              <select aria-label={`Estado de ${action.title}`} value={action.status} onChange={(event) => void handleStatus(action, event.target.value as ReportAction["status"])} className={`rounded-lg border p-2 text-sm ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`}>
                 <option value="pendiente">Pendiente</option>
                 <option value="en_progreso">En progreso</option>
                 <option value="resuelta">Resuelta</option>
@@ -102,9 +103,9 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
         </ul>
       )}
       {history.length > 0 && (
-        <details className="mt-6 rounded border p-3">
+        <details className={`mt-6 rounded-lg border p-3 ${UI_COLORS.BORDER}`}>
           <summary className="cursor-pointer font-medium">Historial de cambios ({history.length})</summary>
-          <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+          <ul className={`mt-3 space-y-2 text-sm ${UI_COLORS.MUTED}`}>
             {history.map((change) => (
               <li key={change.id}>
                 {new Date(change.changedAt).toLocaleString()} · {change.type === "created" ? "Creada" : "Actualizada"} · {change.changedFields.join(", ") || "sin detalle"}

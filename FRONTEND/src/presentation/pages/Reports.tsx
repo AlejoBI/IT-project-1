@@ -15,7 +15,7 @@ import ReportGaps from "../components/reports/ReportGaps";
 import ReportActions from "../components/reports/ReportActions";
 import HistoricalComparison from "../components/reports/HistoricalComparison";
 import ReportSummary from "../components/reports/ReportSummary";
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../shared/constants";
 import Loader from "../components/common/Loader";
 
 const Reports = () => {
@@ -71,10 +71,10 @@ const Reports = () => {
 
       {hasReports ? (
         <>
-          <section className="mb-6 grid grid-cols-1 gap-4 rounded-xl border p-4 sm:grid-cols-2 lg:grid-cols-4">
+          <section className={`mb-6 grid grid-cols-1 gap-4 rounded-xl border p-4 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER} sm:grid-cols-2 lg:grid-cols-4`}>
             <label className="text-sm font-medium">
               Regulación
-              <select value={regulationFilter} onChange={(event) => setRegulationFilter(event.target.value)} className="mt-1 w-full rounded border p-2">
+              <select aria-label="Filtrar por regulación" value={regulationFilter} onChange={(event) => setRegulationFilter(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`}>
                 <option value="">Todas</option>
                 {Array.from(new Map((complianceReport ?? []).map((report) => [report.regulationId, report.regulationName]))).map(([id, name]) => (
                   <option key={id} value={id}>{name}</option>
@@ -83,7 +83,7 @@ const Reports = () => {
             </label>
             <label className="text-sm font-medium">
               Estado
-              <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="mt-1 w-full rounded border p-2">
+              <select aria-label="Filtrar por estado" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`}>
                 <option value="">Todos</option>
                 <option value="Cumple">Cumple</option>
                 <option value="Parcialmente Cumple">Parcialmente cumple</option>
@@ -92,11 +92,11 @@ const Reports = () => {
             </label>
             <label className="text-sm font-medium">
               Desde
-              <input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="mt-1 w-full rounded border p-2" />
+              <input aria-label="Filtrar desde" type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
             </label>
             <label className="text-sm font-medium">
               Hasta
-              <input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="mt-1 w-full rounded border p-2" />
+              <input aria-label="Filtrar hasta" type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
             </label>
           </section>
           <ReportSummary reports={filteredReports ?? []} />

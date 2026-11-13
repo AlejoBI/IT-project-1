@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { ComplianceReport } from "../../../domain/models/types/complianceTypes";
+import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, UI_COLORS } from "../../../shared/constants";
 
 const ReportSummary = ({ reports }: { reports: ComplianceReport[] }) => {
   const summary = useMemo(() => {
@@ -19,23 +20,17 @@ const ReportSummary = ({ reports }: { reports: ComplianceReport[] }) => {
   if (reports.length === 0) return null;
 
   const cards = [
-    { label: "Puntaje promedio", value: `${summary.average}%`, tone: "blue" },
-    { label: "Evaluaciones que cumplen", value: `${summary.compliant}/${reports.length}`, tone: "emerald" },
-    { label: "Brechas detectadas", value: summary.gaps, tone: "amber" },
+    { label: "Puntaje promedio", value: `${summary.average}%`, tone: `${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}` },
+    { label: "Evaluaciones que cumplen", value: `${summary.compliant}/${reports.length}`, tone: UI_COLORS.SUCCESS_SURFACE },
+    { label: "Brechas detectadas", value: summary.gaps, tone: UI_COLORS.WARNING_SURFACE },
   ];
 
   return (
     <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3" aria-label="Resumen de salud de cumplimiento">
       {cards.map((card) => (
-        <div key={card.label} className={`rounded-xl border p-5 ${
-          card.tone === "blue"
-            ? "border-blue-100 bg-blue-50 dark:border-blue-900 dark:bg-blue-950"
-            : card.tone === "emerald"
-              ? "border-emerald-100 bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950"
-              : "border-amber-100 bg-amber-50 dark:border-amber-900 dark:bg-amber-950"
-        }`}>
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{card.label}</p>
-          <p className="mt-2 text-3xl font-bold">{card.value}</p>
+        <div key={card.label} className={`rounded-xl border p-5 shadow-sm ${UI_COLORS.BORDER} ${card.tone}`}>
+          <p className={`text-sm font-medium ${UI_COLORS.MUTED}`}>{card.label}</p>
+          <p className={`mt-2 text-3xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{card.value}</p>
         </div>
       ))}
     </section>

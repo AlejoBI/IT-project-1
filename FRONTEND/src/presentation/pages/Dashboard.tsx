@@ -13,6 +13,7 @@ import {
   DARK_MODE_COLORS,
   GRADIENTS,
   DARK_GRADIENTS,
+  UI_COLORS,
 } from "../../shared/constants";
 
 const Dashboard = () => {
@@ -68,15 +69,15 @@ const Dashboard = () => {
       {/* Contenido principal */}
       <main className="min-w-0 flex-1 p-2 sm:p-6">
         <section aria-label="Resumen del panel" className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-blue-100 bg-blue-50 p-5 dark:border-blue-900 dark:bg-blue-950">
-            <p className="text-sm font-medium text-blue-700 dark:text-blue-200">Usuarios registrados</p>
-            <p className="mt-2 text-3xl font-bold text-blue-950 dark:text-white">{users?.length ?? 0}</p>
-            <p className="mt-1 text-sm text-blue-700 dark:text-blue-200">Gestiona sus roles y permisos.</p>
+          <div className={`rounded-xl border p-5 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`}>
+            <p className={`text-sm font-medium ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}>Usuarios registrados</p>
+            <p className={`mt-2 text-3xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{users?.length ?? 0}</p>
+            <p className={`mt-1 text-sm ${UI_COLORS.MUTED}`}>Gestiona sus roles y permisos.</p>
           </div>
-          <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-5 dark:border-emerald-900 dark:bg-emerald-950">
-            <p className="text-sm font-medium text-emerald-700 dark:text-emerald-200">Normativas disponibles</p>
-            <p className="mt-2 text-3xl font-bold text-emerald-950 dark:text-white">{regulations?.length ?? 0}</p>
-            <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-200">Mantén actualizado el catálogo.</p>
+          <div className={`rounded-xl border p-5 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`}>
+            <p className={`text-sm font-medium ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}>Normativas disponibles</p>
+            <p className={`mt-2 text-3xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{regulations?.length ?? 0}</p>
+            <p className={`mt-1 text-sm ${UI_COLORS.MUTED}`}>Mantén actualizado el catálogo.</p>
           </div>
         </section>
         <SystemHealthPanel />

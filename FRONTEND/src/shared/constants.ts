@@ -37,6 +37,19 @@ export const DARK_MODE_COLORS = {
   PROGRESS_BAR_FILL: "dark:bg-[#8CCBE2]", // Relleno de la barra de progreso
 };
 
+export const UI_COLORS = {
+  BORDER: "border-[#D7E3E8] dark:border-[#2A4C61]",
+  DIVIDER: "border-[#E5EDF0] dark:border-[#2A4C61]",
+  MUTED: "text-[#4B5563] dark:text-[#A0B5C3]",
+  SUCCESS: "text-[#2F7D68] dark:text-[#8CCBE2]",
+  SUCCESS_SURFACE: "bg-[#E8F4F0] dark:bg-[#1F4A4A]",
+  WARNING: "text-[#9A6A24] dark:text-[#E8C477]",
+  WARNING_SURFACE: "bg-[#FFF5DF] dark:bg-[#554522]",
+  DANGER: "text-[#A94442] dark:text-[#F0A4A4]",
+  DANGER_SURFACE: "bg-[#FCEBEC] dark:bg-[#542F3A]",
+  FOCUS: "focus:border-[#729CAC] focus:outline-none focus:ring-2 focus:ring-[#729CAC]/30",
+};
+
 // Gradientes
 export const GRADIENTS = {
   WELCOME_BANNER: "bg-gradient-to-r from-[#9AC4D4] via-[#75B5CE] to-[#729CAC]",
