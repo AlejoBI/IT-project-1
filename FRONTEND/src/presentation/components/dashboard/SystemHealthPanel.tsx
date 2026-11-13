@@ -22,9 +22,9 @@ const SystemHealthPanel = () => {
     : status === "degraded" ? `${UI_COLORS.WARNING} ${UI_COLORS.WARNING_SURFACE}` : `${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE}`;
 
   return (
-    <section className={`mb-6 rounded-xl border p-5 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`} aria-labelledby="system-health-title">
+    <section className={`mb-6 rounded-2xl border p-5 shadow-sm ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER}`} aria-labelledby="system-health-title">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 id="system-health-title" className="text-xl font-semibold">Salud técnica de microservicios</h2>
+        <h2 id="system-health-title" className={`text-xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Salud técnica de microservicios</h2>
         {health && <span className={`rounded-full px-3 py-1 text-sm font-semibold ${health.overall === "healthy" ? statusStyle("healthy") : statusStyle("degraded")}`}>{health.overall === "healthy" ? "Operativo" : "Revisar"}</span>}
       </div>
       {error && <p role="alert" className={`rounded-lg p-3 text-sm ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE}`}>{error}</p>}

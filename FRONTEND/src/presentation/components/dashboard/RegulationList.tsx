@@ -128,7 +128,7 @@ const RegulationList = () => {
       ) : (
         <div className={`overflow-x-auto rounded-xl border ${UI_COLORS.BORDER}`}>
           <table
-            className="min-w-[900px] w-full text-sm"
+            className={`min-w-[900px] w-full text-sm ${UI_COLORS.TABLE_SURFACE}`}
           >
             <thead
               className={`${UI_COLORS.TABLE_HEADER} text-xs uppercase tracking-wider`}
@@ -157,7 +157,7 @@ const RegulationList = () => {
               </tr>
             </thead>
             <tbody>
-              {regulations?.map((regulation, index) => {
+              {regulations?.map((regulation) => {
                 const id = regulation?.id;
                 if (!id) return null;
 
@@ -170,11 +170,7 @@ const RegulationList = () => {
                 return (
                   <tr
                     key={id}
-                    className={`${
-                      index % 2 === 0
-                        ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
-                        : LIGHT_MODE_COLORS.BACKGROUND
-                    } ${UI_COLORS.TABLE_ROW} border-t transition-colors ${
+                    className={`${UI_COLORS.TABLE_ROW} border-t transition-colors ${
                       ANIMATION_TIMINGS.TRANSITION_DURATION
                     }`}
                   >
@@ -246,7 +242,7 @@ const RegulationList = () => {
 
       {deleteError && (
         <p
-          className={`text-red-600 font-semibold mt-6 text-center ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          className={`mt-6 text-center font-semibold ${UI_COLORS.DANGER} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
         >
           {deleteError}
         </p>

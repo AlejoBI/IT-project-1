@@ -80,7 +80,7 @@ const UserManagement = () => {
       ) : (
         <div className={`mt-5 overflow-x-auto rounded-xl border ${UI_COLORS.BORDER}`}>
           <table
-            className="min-w-[760px] w-full text-sm"
+            className={`min-w-[760px] w-full text-sm ${UI_COLORS.TABLE_SURFACE}`}
           >
             <thead
               className={`${UI_COLORS.TABLE_HEADER} text-xs uppercase tracking-wider`}
@@ -109,14 +109,10 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {users?.map((user, index) => (
+              {users?.map((user) => (
                 <tr
                   key={user.uid}
-                  className={`${
-                    index % 2 === 0
-                      ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
-                      : LIGHT_MODE_COLORS.BACKGROUND
-                  } ${UI_COLORS.TABLE_ROW} border-t transition-colors ${
+                  className={`${UI_COLORS.TABLE_ROW} border-t transition-colors ${
                     ANIMATION_TIMINGS.TRANSITION_DURATION
                   }`}
                 >
