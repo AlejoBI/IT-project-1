@@ -32,7 +32,11 @@ import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        style={{ top: "calc(4.75rem + env(safe-area-inset-top))", zIndex: 9999 }}
+        toastStyle={{ margin: "0 auto" }}
+      />
       <Router>
         <Layout>
           <ScrollToTop />

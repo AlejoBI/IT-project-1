@@ -187,6 +187,16 @@ const EvaluationFormPage = () => {
     setCompletedSections((previous) =>
       previous.includes(sectionId) ? previous : [...previous, sectionId]
     );
+
+    const currentIndex = forms?.sections.findIndex((section) => section.id === sectionId) ?? -1;
+    const nextSection = currentIndex >= 0 ? forms?.sections[currentIndex + 1] : undefined;
+    setActiveSectionId(nextSection?.id ?? sectionId);
+
+    // Espera al siguiente render para que el destino exista en el DOM.
+    window.setTimeout(() => {
+      const target = document.getElementById(nextSection?.id ?? "evaluation-progress");
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
   };
 
   if (formLoading) return <Loader />;
@@ -225,7 +235,7 @@ const EvaluationFormPage = () => {
             ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} 
             ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}`}
         >
-          <div className="mb-6" aria-label="Progreso de la autoevaluación">
+          <div id="evaluation-progress" className="mb-6 scroll-mt-24" aria-label="Progreso de la autoevaluación">
             <div className="mb-2 flex items-center justify-between gap-4 text-sm">
               <span className="font-medium text-gray-700 dark:text-gray-200">
                 Progreso de la evaluación

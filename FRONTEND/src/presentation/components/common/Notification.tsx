@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 interface NotificationProps {
   message: string;
   type?: "success" | "error" | "info" | "warning";
-  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  position?: "top-right" | "top-left" | "top-center" | "bottom-right" | "bottom-left";
   autoClose?: number; // Duración en milisegundos (default: 5000ms)
   hideProgressBar?: boolean; // Mostrar barra de progreso
   closeOnClick?: boolean;
@@ -17,7 +17,7 @@ interface NotificationProps {
 const Notification = ({
   message,
   type = "info",
-  position = "top-right",
+  position = "top-center",
   autoClose = 3000,
   hideProgressBar = false,
   closeOnClick = true,
