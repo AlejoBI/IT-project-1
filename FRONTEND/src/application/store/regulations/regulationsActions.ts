@@ -45,7 +45,7 @@ export const fetchRegulationsAction = createAsyncThunk(
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
-      const errorMessage = errorData?.error || "Error al obtener los usuarios";
+      const errorMessage = errorData?.error || "Error al obtener las normativas";
       return rejectWithValue(errorMessage);
     }
   }
@@ -69,7 +69,7 @@ export const fetchRegulationAction = createAsyncThunk<
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
     const errorData = axiosError.response?.data as { error: string };
-    const errorMessage = errorData?.error || "Error al obtener los usuarios";
+    const errorMessage = errorData?.error || "Error al obtener la normativa";
     return rejectWithValue(errorMessage);
   }
 });
@@ -93,7 +93,7 @@ export const updateRegulationAction = createAsyncThunk<
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as { error: string };
-      const errorMessage = errorData?.error || "Error al obtener los usuarios";
+      const errorMessage = errorData?.error || "Error al actualizar la normativa";
       return rejectWithValue({ error: errorMessage });
     }
   }

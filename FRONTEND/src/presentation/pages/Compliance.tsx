@@ -7,6 +7,7 @@ import { useRegulation } from "../hooks/useRegulation";
 import { fetchRegulationsAction } from "../../application/store/regulations/regulationsActions";
 import { clearComplianceState } from "../../application/store/compliance/complianceSlice";
 import { clearForms } from "../../application/store/evaluationForm/evaluationFormSlice";
+import { clearNotification } from "../../application/store/regulations/regulationsSlice";
 import Loader from "../components/common/Loader";
 import { BookOpen, ChevronRight, Info } from "lucide-react";
 import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, UI_COLORS } from "../../shared/constants";
@@ -21,6 +22,7 @@ const Compliance = () => {
   useEffect(() => {
     dispatch(clearComplianceState());
     dispatch(clearForms());
+    dispatch(clearNotification());
     dispatch(fetchRegulationsAction());
   }, [dispatch]);
 
