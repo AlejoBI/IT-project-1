@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SectionGetResponse } from "../../../domain/models/types/EvaluationFormTypes";
 
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
+import { CheckCircle2, CircleCheck } from "lucide-react";
 
 interface SidebarProps {
   sections: SectionGetResponse[];
@@ -27,7 +28,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
       w-full rounded-2xl shadow-sm p-4 border lg:w-64 lg:shrink-0
       ${LIGHT_MODE_COLORS.BACKGROUND_WHITE}
       ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
-      border-gray-200 dark:border-[#2A4C61]
+       ${UI_COLORS.BORDER}
     `}
     >
       <h3
@@ -47,7 +48,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
           return (
             <li key={sec.id} className="relative">
               {isCompleted && (
-                <span className="absolute -left-1 -top-1 w-3 h-3 bg-green-500 rounded-full z-10"></span>
+                <CheckCircle2 className={`absolute -left-2 -top-2 z-10 rounded-full ${UI_COLORS.SUCCESS}`} size={18} />
               )}
               <button
                 type="button"
@@ -58,11 +59,11 @@ const SectionSidebar: React.FC<SidebarProps> = ({
                 border border-transparent
                 ${
                   isCompleted
-                    ? "bg-green-50 hover:bg-green-100 text-green-800 dark:bg-[#1B362A] dark:hover:bg-[#214937] dark:text-[#A0F0C7]"
-                    : "bg-blue-50 hover:bg-blue-100 text-blue-800 dark:bg-[#1B2A36] dark:hover:bg-[#213849] dark:text-[#A0CFF0]"
+                     ? `${UI_COLORS.SUCCESS_SURFACE} ${UI_COLORS.SUCCESS}`
+                     : `${UI_COLORS.TABLE_HEADER} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`
                 }
                 transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1
+                 focus:outline-none focus:ring-2 focus:ring-[#729CAC]/40 focus:ring-offset-1
               `}
               >
                 {sec.title}
@@ -79,7 +80,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
         mt-6 text-sm hover:underline underline-offset-2
         ${LIGHT_MODE_COLORS.TEXT_SECONDARY}
         ${DARK_MODE_COLORS.TEXT_SECONDARY}
-        hover:text-gray-700 dark:hover:text-[#E6EDF3]
+         ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}
         ${ANIMATION_TIMINGS.TRANSITION_DURATION}
       `}
       >
@@ -89,13 +90,9 @@ const SectionSidebar: React.FC<SidebarProps> = ({
         <button
           type="button"
           onClick={onCompleteForm}
-          className={`
-      w-full mt-6 py-3 px-4 text-white font-semibold rounded-xl
-      bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700
-      transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400
-    `}
+        className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold text-white shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#729CAC]/40 ${UI_COLORS.PRIMARY_BUTTON}`}
         >
-          ✅ Completar Evaluación
+          <CircleCheck size={18} /> Completar evaluación
         </button>
       )}
     </div>

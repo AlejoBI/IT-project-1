@@ -8,7 +8,8 @@ import SectionEditor from "./SectionEditor";
 import Button from "../UI/Button";
 import { useRegulation } from "../../hooks/useRegulation";
 import Notification from "../common/Notification";
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, UI_COLORS } from "../../../shared/constants";
+import { Trash2 } from "lucide-react";
 
 const NormativeForm = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +47,7 @@ const NormativeForm = () => {
     <FormProvider {...methods}>
       {error && <Notification message={error} type="error" />}
       <section
-        className={`${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} p-6 rounded-lg shadow-md`}
+        className={`${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} rounded-2xl border p-5 shadow-sm sm:p-6`}
       >
         <h2
           className={`text-2xl font-bold mb-6 text-center
@@ -63,11 +64,7 @@ const NormativeForm = () => {
             <div>
               <select
                 {...register("regulationId", { required: true })}
-                className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-                  border-gray-300
-                  ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
-                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                `}
+                className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2.5`}
               >
                 <option value="">-- Selecciona una normativa --</option>
                 {(regulations ?? []).map((r) => (
@@ -81,20 +78,12 @@ const NormativeForm = () => {
             <input
               {...register("name", { required: true })}
               placeholder="Nombre del formulario"
-              className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-                border-gray-300
-                ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
-                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-              `}
+              className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2.5`}
             />
             <textarea
               {...register("description")}
               placeholder="Descripción"
-              className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none
-                border-gray-300
-                ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
-                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-              `}
+              className={`w-full resize-none ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2.5`}
             />
 
             {sections.map((section, index) => (
@@ -111,9 +100,10 @@ const NormativeForm = () => {
                   <button
                     type="button"
                     onClick={() => removeSection(index)}
-                    className="flex text-red-500 hover:text-red-700 transition-colors"
+                    aria-label={`Eliminar sección ${index + 1}`}
+                    className={`rounded-lg p-2 ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE} transition-colors`}
                   >
-                    ❌
+                    <Trash2 size={17} />
                   </button>
                 </div>
                 <SectionEditor key={section.id} sectionIndex={index} />

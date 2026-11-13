@@ -2,7 +2,8 @@ import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import QuestionEditor from "./QuestionEditor";
 
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
+import { Plus, Trash2 } from "lucide-react";
 
 interface SectionEditorProps {
   sectionIndex: number;
@@ -23,16 +24,13 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
   return (
     <div
       className={`border p-6 rounded-lg mb-4 space-y-3
-        ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}
+        ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${UI_COLORS.BORDER}
       `}
     >
       <input
         {...register(`sections.${sectionIndex}.title`, { required: true })}
         placeholder="Título de la sección"
-        className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
-          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-        `}
+        className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
       />
 
       {questions.map((question, questionIndex) => (
@@ -49,9 +47,10 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
             <button
               type="button"
               onClick={() => removeQuestion(questionIndex)}
-              className="flex text-red-500 hover:text-red-700 transition-colors"
+              aria-label={`Eliminar pregunta ${questionIndex + 1}`}
+              className={`rounded-lg p-2 ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE} transition-colors`}
             >
-              ❌
+              <Trash2 size={17} />
             </button>
           </div>
           <QuestionEditor
@@ -66,15 +65,12 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
         type="button"
         onClick={() => appendQuestion({ text: "", type: "text" })}
         className={`
-          ${LIGHT_MODE_COLORS.BUTTON_BG} ${DARK_MODE_COLORS.BUTTON_BG}
-          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-          ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} ${DARK_MODE_COLORS.BUTTON_HOVER_BG}
-          border border-gray-300
+          ${UI_COLORS.SECONDARY_BUTTON}
           transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}
           rounded-md px-3 py-1 mt-4
         `}
       >
-        Agregar Pregunta
+          <Plus size={17} /> Agregar pregunta
       </button>
     </div>
   );

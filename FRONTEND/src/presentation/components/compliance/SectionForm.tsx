@@ -9,7 +9,8 @@ import { useEvaluation } from "../../hooks/useEvaluation";
 import { useAppDispatch } from "../../../presentation/hooks/useAppDispatch";
 import { saveSelfAssessmentDraft } from "../../../application/store/compliance/complianceActions";
 
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
+import { Save } from "lucide-react";
 
 import { transformSectionAnswers } from "../../../shared/helpers";
 import { sendEmailNotification } from "../notification/sendEmailNotification";
@@ -84,7 +85,7 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
     mb-10 rounded-2xl shadow-sm p-6 border 
     ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} 
     ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
-    border-gray-200 dark:border-[#2A4C61]
+    ${UI_COLORS.BORDER}
     `}
     >
       <h3
@@ -107,15 +108,15 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
         <button
           type="submit"
           className={`
-      px-6 py-2 rounded-xl shadow transition text-white 
+      inline-flex items-center gap-2 px-6 py-2 rounded-xl shadow transition text-white
       ${LIGHT_MODE_COLORS.BUTTON_BG} 
       ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} 
       ${DARK_MODE_COLORS.BUTTON_BG} 
       ${DARK_MODE_COLORS.BUTTON_HOVER_BG} 
-      ${ANIMATION_TIMINGS.TRANSITION_DURATION}
+      ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${UI_COLORS.PRIMARY_BUTTON}
       `}
         >
-          Guardar y continuar
+          <Save size={17} /> Guardar y continuar
         </button>
       </div>
     </form>

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { UploadCloud, Loader2 } from "lucide-react";
 import { Form } from "../../../domain/models/types/EvaluationFormTypes";
-import { GRADIENTS, DARK_GRADIENTS } from "../../../shared/constants"; // Asegúrate de ajustar la ruta
+import { GRADIENTS, DARK_GRADIENTS, UI_COLORS } from "../../../shared/constants";
 
 interface FileUploadProps {
   onJsonExtracted: (data: Form) => void;
@@ -44,7 +44,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onJsonExtracted, onError }) => 
 
   return (
     <div className="mb-6">
-      <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
+      <label className={`mb-2 block font-semibold ${UI_COLORS.MUTED}`}>
         Subir archivo JSON
       </label>
 
@@ -61,7 +61,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onJsonExtracted, onError }) => 
         onClick={triggerFileInput}
         disabled={isUploading}
         className={`flex items-center gap-2 px-5 py-3 rounded-xl shadow-lg font-medium text-white transition-transform duration-300 ${
-          isUploading ? "bg-gray-400 cursor-not-allowed" : `${gradientClasses} hover:scale-105`
+          isUploading ? "cursor-not-allowed opacity-60" : `${gradientClasses} hover:-translate-y-0.5`
         }`}
       >
         {isUploading ? (

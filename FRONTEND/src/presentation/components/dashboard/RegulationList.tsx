@@ -7,9 +7,9 @@ import {
   updateRegulationAction,
 } from "../../../application/store/regulations/regulationsActions";
 import { deleteEvaluationFormAction } from "../../../application/store/evaluationForm/evaluationFormActions";
-import { Pencil, Trash2, FileMinus } from "lucide-react";
+import { Trash2, FileMinus, BookOpen, Save } from "lucide-react";
 
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
 
 const RegulationList = () => {
   const dispatch = useAppDispatch();
@@ -104,12 +104,12 @@ const RegulationList = () => {
 
   return (
     <section
-      className={`${LIGHT_MODE_COLORS.BACKGROUND} ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} rounded-2xl border p-5 shadow-sm transition-colors sm:p-6 ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       <h2
-        className={`text-2xl font-bold mb-6 text-center ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+        className={`mb-6 flex items-center justify-center gap-2 text-2xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
-        Normativas
+        <><BookOpen size={23} className={`${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`} /> Normativas</>
       </h2>
 
       {loading ? (
@@ -126,20 +126,16 @@ const RegulationList = () => {
           No hay normativas registradas.
         </p>
       ) : (
-        <div className="overflow-x-auto">
+        <div className={`overflow-x-auto rounded-xl border ${UI_COLORS.BORDER}`}>
           <table
-            className={`min-w-full text-sm border-collapse rounded-lg shadow-sm
-              ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
-              `}
+            className="min-w-[900px] w-full text-sm"
           >
             <thead
-              className={`text-gray-700 uppercase text-xs tracking-wider
-              ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
-              `}
+              className={`${UI_COLORS.TABLE_HEADER} text-xs uppercase tracking-wider`}
             >
               <tr>
                 <th
-                  className={`px-4 py-3 text-left ${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY}`}
+                  className={`px-4 py-3 text-left font-semibold ${UI_COLORS.MUTED}`}
                 >
                   Nombre
                 </th>
@@ -178,7 +174,7 @@ const RegulationList = () => {
                       index % 2 === 0
                         ? LIGHT_MODE_COLORS.BACKGROUND_WHITE
                         : LIGHT_MODE_COLORS.BACKGROUND
-                    } ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} border-t transition-colors ${
+                    } ${UI_COLORS.TABLE_ROW} border-t transition-colors ${
                       ANIMATION_TIMINGS.TRANSITION_DURATION
                     }`}
                   >
@@ -188,10 +184,7 @@ const RegulationList = () => {
                         type="text"
                         value={currentEditData.name}
                         onChange={(e) => handleEditChange(id, "name", e.target.value)}
-                        className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-                          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-                          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                        `}
+                        className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
                       />
                     </td>
                     <td className="px-4 py-2">
@@ -200,10 +193,7 @@ const RegulationList = () => {
                         rows={2}
                         value={currentEditData.description}
                         onChange={(e) => handleEditChange(id, "description", e.target.value)}
-                        className={`w-full px-2 py-1 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-400
-                          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-                          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                        `}
+                        className={`w-full resize-none ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
                       />
                     </td>
                     <td className="px-4 py-2">
@@ -212,10 +202,7 @@ const RegulationList = () => {
                         type="text"
                         value={currentEditData.version}
                         onChange={(e) => handleEditChange(id, "version", e.target.value)}
-                        className={`w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-                          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-                          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                        `}
+                        className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
                       />
                     </td>
                     <td className="px-4 py-2">
@@ -225,16 +212,16 @@ const RegulationList = () => {
                           onClick={() => handleUpdate(id)}
                           aria-label={`Actualizar normativa ${currentEditData.name}`}
                           title="Actualizar normativa"
-                          className={`text-blue-600 hover:text-blue-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                          className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold ${UI_COLORS.SECONDARY_BUTTON} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
                         >
-                          <Pencil size={18} />
+                          <Save size={16} /> Guardar
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDelete(id)}
                           aria-label={`Eliminar normativa ${currentEditData.name}`}
                           title="Eliminar normativa"
-                          className={`text-red-600 hover:text-red-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                          className={`rounded-lg p-2 ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
                         >
                           <Trash2 size={18} />
                         </button>
@@ -243,7 +230,7 @@ const RegulationList = () => {
                           onClick={() => handleDeleteEvaluationForm(id)}
                           aria-label={`Eliminar formulario de ${currentEditData.name}`}
                           title="Eliminar formulario"
-                          className={`text-yellow-600 hover:text-yellow-800 transition ${ANIMATION_TIMINGS.TRANSITION_DURATION} ${LIGHT_MODE_COLORS.TEXT_PRIMARY_HOVER} ${DARK_MODE_COLORS.TEXT_PRIMARY_HOVER}`}
+                          className={`rounded-lg p-2 ${UI_COLORS.WARNING} ${UI_COLORS.WARNING_SURFACE} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
                         >
                           <FileMinus size={18} />
                         </button>

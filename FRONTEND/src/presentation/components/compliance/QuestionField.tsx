@@ -1,7 +1,7 @@
 import React from "react";
 import { useWatch, useFormContext } from "react-hook-form";
 import { QuestionGetResponse } from "../../../domain/models/types/EvaluationFormTypes";
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
 
 interface Props {
   question: QuestionGetResponse;
@@ -69,7 +69,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
                 type="radio"
                 value={opt.id}
                 {...register(fieldName, { required: true })}
-                className="form-radio text-[#729CAC] focus:ring-[#729CAC]"
+          className="form-radio text-[#729CAC] focus:ring-[#729CAC]"
               />
               <span>{opt.label ? opt.label : "Opción sin texto"}</span>
             </label>
@@ -110,7 +110,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
           className={`w-full mt-2 px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 
           ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} 
           ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-          focus:ring-[#729CAC]`}
+           ${UI_COLORS.FOCUS}`}
           placeholder="Escribe tu respuesta aquí"
         />
       )}
@@ -134,13 +134,13 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
             className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 
             ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} 
             ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-            focus:ring-[#729CAC]`}
+             ${UI_COLORS.FOCUS}`}
           />
         </div>
       )}
 
       {/* Error */}
-      {errors[fieldName] && <p className="text-sm text-red-500 mt-2">Este campo es obligatorio.</p>}
+      {errors[fieldName] && <p className={`mt-2 text-sm ${UI_COLORS.DANGER}`}>Este campo es obligatorio.</p>}
 
       {/* SUBPREGUNTAS */}
       {shouldShowSubQuestions &&

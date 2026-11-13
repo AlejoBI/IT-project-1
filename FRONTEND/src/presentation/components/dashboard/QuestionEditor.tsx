@@ -2,7 +2,8 @@ import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { QuestionType } from "../../../domain/models/types/EvaluationFormTypes";
 
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
+import { Plus, Trash2 } from "lucide-react";
 
 interface QuestionEditorProps {
   sectionIndex: number;
@@ -44,25 +45,17 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
   return (
     <div
       className={`border p-6 rounded-md space-y-2
-        ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}
+        ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${UI_COLORS.BORDER}
       `}
     >
       <input
         {...register(`${basePath}.text`, { required: true })}
         placeholder="Texto de la pregunta"
-        className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-          border-gray-300
-        `}
+          className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
       />
       <select
         {...register(`${basePath}.type`, { required: true })}
-        className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-          ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-          border-gray-300
-        `}
+        className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
       >
         {Object.values(QuestionType).map((type) => (
           <option key={type} value={type}>
@@ -85,11 +78,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   required: true,
                 })}
                 placeholder={`Opción ${optIndex + 1}`}
-                className={`w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400
-                  ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} 
-                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                  border-gray-300
-                `}
+                className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
               />
               <input
                 {...register(`${basePath}.options.${optIndex}.score`, {
@@ -100,21 +89,16 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 })}
                 placeholder="Valor porcentual de la opción (0-100)"
                 type="number"
-                className={`w-full p-2 rounded-md border
-                  ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND}
-                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                  border-gray-300
-                `}
+                className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
               />
               <div className="flex-1" />
               <button
                 type="button"
                 onClick={() => removeOption(optIndex)}
-                className={`text-red-500 hover:text-red-700 transition-colors
-                  ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                `}
+                aria-label={`Eliminar opción ${optIndex + 1}`}
+                className={`rounded-lg p-2 ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE} transition-colors`}
               >
-                ❌
+                <Trash2 size={16} />
               </button>
             </div>
           ))}
@@ -122,15 +106,12 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
             type="button"
             onClick={() => appendOption({ label: "", score: 0 })}
             className={`
-              ${LIGHT_MODE_COLORS.BUTTON_BG} ${DARK_MODE_COLORS.BUTTON_BG}
-              ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-              ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} ${DARK_MODE_COLORS.BUTTON_HOVER_BG}
-              border border-gray-300
+              ${UI_COLORS.SECONDARY_BUTTON}
               transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}
               rounded-md px-3 py-1 mt-4
             `}
           >
-            Agregar opción
+            <Plus size={16} /> Agregar opción
           </button>
         </div>
       )}
@@ -155,11 +136,10 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
             <button
               type="button"
               onClick={() => removeSubQuestion(subIndex)}
-              className={`text-red-500 hover:text-red-700 transition-colors
-                ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-                `}
+                aria-label={`Eliminar subpregunta ${subIndex + 1}`}
+                className={`rounded-lg p-2 ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE} transition-colors`}
             >
-              ❌
+                <Trash2 size={16} />
             </button>
           </div>
           <QuestionEditor
@@ -173,15 +153,12 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
         type="button"
         onClick={() => appendSubQuestion({ text: "", type: "text", options: [] })}
         className={`
-          ${LIGHT_MODE_COLORS.BUTTON_BG} ${DARK_MODE_COLORS.BUTTON_BG}
-          ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
-          ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} ${DARK_MODE_COLORS.BUTTON_HOVER_BG}
-          border border-gray-300
+          ${UI_COLORS.SECONDARY_BUTTON}
           transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}
           rounded-md px-3 py-1 mt-4
         `}
       >
-        Agregar subpregunta
+        <Plus size={16} /> Agregar subpregunta
       </button>
     </div>
   );

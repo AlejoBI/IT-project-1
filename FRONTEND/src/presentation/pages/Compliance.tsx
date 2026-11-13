@@ -8,6 +8,8 @@ import { fetchRegulationsAction } from "../../application/store/regulations/regu
 import { clearComplianceState } from "../../application/store/compliance/complianceSlice";
 import { clearForms } from "../../application/store/evaluationForm/evaluationFormSlice";
 import Loader from "../components/common/Loader";
+import { BookOpen, ChevronRight, Info } from "lucide-react";
+import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, UI_COLORS } from "../../shared/constants";
 
 const Compliance = () => {
   const { user, isAuthenticated } = useAuth();
@@ -23,7 +25,7 @@ const Compliance = () => {
   }, [dispatch]);
 
   if (!isAuthenticated) {
-    return <p>Debes iniciar sesión para acceder a esta página.</p>;
+    return <p className={`p-6 ${UI_COLORS.MUTED}`}>Debes iniciar sesión para acceder a esta página.</p>;
   }
 
   const handleNavigate = (regulationId: string) => {
@@ -31,20 +33,20 @@ const Compliance = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-        Evaluación Normativa
+    <div className={`min-h-screen p-4 sm:p-6 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}`}>
+      <h1 className={`mb-2 flex items-center justify-center gap-2 text-center text-3xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
+        <BookOpen className={`${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`} /> Evaluación normativa
       </h1>
 
       <aside
         role="note"
-        className="mx-auto mb-6 max-w-3xl rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-100"
+        className={`mx-auto mb-6 flex max-w-3xl gap-3 rounded-2xl border p-4 text-sm ${UI_COLORS.TABLE_HEADER} ${UI_COLORS.BORDER} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
-        <h2 className="font-semibold">¿Cómo usar esta sección?</h2>
+        <Info className="mt-0.5 shrink-0" size={19} /><div><h2 className="font-semibold">¿Cómo usar esta sección?</h2>
         <p className="mt-1">
           Selecciona una normativa y responde cada sección con la información disponible de tu
           organización.
-        </p>
+        </p></div>
         <p className="mt-1">
           El resultado es una guía para identificar brechas; no sustituye una asesoría legal ni una
           certificación.
@@ -62,18 +64,18 @@ const Compliance = () => {
       {error && (
         <p
           role="alert"
-          className="mx-auto mt-6 max-w-2xl rounded-lg border border-red-200 bg-red-50 p-4 text-center text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
+          className={`mx-auto mt-6 max-w-2xl rounded-xl border p-4 text-center ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE}`}
         >
           {error}
         </p>
       )}
 
       {!loading && !error && regulations?.length === 0 && (
-        <div className="mx-auto mt-8 max-w-2xl rounded-xl border border-dashed border-gray-300 p-8 text-center dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className={`mx-auto mt-8 max-w-2xl rounded-2xl border border-dashed p-8 text-center ${UI_COLORS.BORDER} ${UI_COLORS.SURFACE}`}>
+          <h2 className={`text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
             No hay normativas disponibles
           </h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
+          <p className={`mt-2 ${UI_COLORS.MUTED}`}>
             Cuando una normativa esté disponible, aparecerá aquí para iniciar una evaluación.
           </p>
         </div>
@@ -85,12 +87,13 @@ const Compliance = () => {
             type="button"
             key={regulation.id}
             onClick={() => handleNavigate(regulation.id)}
-            className="cursor-pointer rounded-2xl border border-gray-300 bg-white p-5 text-left shadow transition-shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800"
+            className={`group cursor-pointer rounded-2xl border p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#729CAC]/40 ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER}`}
           >
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            <h2 className={`flex items-center justify-between text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               {regulation.name}
+              <ChevronRight size={19} className={`transition-transform group-hover:translate-x-1 ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`} />
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+            <p className={`mt-2 text-sm ${UI_COLORS.MUTED}`}>
               {regulation.description || "Sin descripción"}
             </p>
           </button>

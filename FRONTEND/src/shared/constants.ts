@@ -48,6 +48,12 @@ export const UI_COLORS = {
   DANGER: "text-[#A94442] dark:text-[#F0A4A4]",
   DANGER_SURFACE: "bg-[#FCEBEC] dark:bg-[#542F3A]",
   FOCUS: "focus:border-[#729CAC] focus:outline-none focus:ring-2 focus:ring-[#729CAC]/30",
+  SURFACE: "bg-white dark:bg-[#1F3A4D]",
+  TABLE_HEADER: "bg-[#F3F7F9] dark:bg-[#243F50]",
+  TABLE_ROW: "border-[#E5EDF0] dark:border-[#2A4C61] hover:bg-[#F7FAFB] dark:hover:bg-[#243F50]",
+  CONTROL: "rounded-lg border border-[#D7E3E8] bg-white text-[#1F2937] dark:border-[#2A4C61] dark:bg-[#1A2B3A] dark:text-[#E6EDF3]",
+  PRIMARY_BUTTON: "bg-[#729CAC] text-white hover:bg-[#36697C] dark:bg-[#336E86] dark:hover:bg-[#61A0B9]",
+  SECONDARY_BUTTON: "border border-[#D7E3E8] bg-white text-[#36697C] hover:bg-[#F3F7F9] dark:border-[#2A4C61] dark:bg-[#1A2B3A] dark:text-[#8CCBE2] dark:hover:bg-[#2A4C61]",
 };
 
 // Gradientes

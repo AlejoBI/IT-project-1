@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import Button from "../UI/Button";
 import Loader from "../common/Loader";
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../../shared/constants";
 import { useAudit } from "../../hooks/useAudit";
 import { useAuth } from "../../hooks/useAuth";
 import { fetchSelfAssessmentToAudits } from "../../../application/store/audits/auditActions";
 import { SelfAssessmentToAudit } from "../../../domain/models/types/auditTypes";
 import ButtonPDF from "../UI/ButtonPDF";
+import { ChevronDown, ChevronRight, ClipboardCheck } from "lucide-react";
 
 const AuditListPage = () => {
   const dispatch = useAppDispatch();
@@ -50,7 +51,7 @@ const AuditListPage = () => {
 
   if (!grouped || Object.keys(grouped).length === 0) {
     return (
-      <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
+      <div className={`mx-auto mt-10 max-w-md rounded-2xl border p-8 text-center ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} ${UI_COLORS.MUTED}`}>
         No tienes evaluaciones disponibles aún.
       </div>
     );
@@ -61,13 +62,14 @@ const AuditListPage = () => {
       {Object.entries(grouped).map(([baseName, forms]) => (
         <div
           key={baseName}
-          className={`border rounded-lg overflow-hidden ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          className={`overflow-hidden rounded-2xl border shadow-sm ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
         >
           <button
             onClick={() => toggleRegulation(baseName)}
-            className={`w-full text-left px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+            className={`flex w-full items-center justify-between px-5 py-4 text-left font-semibold ${UI_COLORS.TABLE_HEADER} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
           >
-            {isOpen[baseName] ? "▼" : "►"} Evaluación {baseName}
+            <span className="flex items-center gap-2"><ClipboardCheck size={19} /> Evaluación {baseName}</span>
+            {isOpen[baseName] ? <ChevronDown size={19} /> : <ChevronRight size={19} />}
           </button>
 
           <div
@@ -79,9 +81,9 @@ const AuditListPage = () => {
               {forms.map((form, index) => (
                 <div
                   key={`${form.formId}-${index}`}
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 p-3 rounded border border-gray-200 dark:border-[#2A4C61]"
+                  className={`flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 ${UI_COLORS.TABLE_ROW}`}
                 >
-                  <span className="text-sm font-medium text-gray-800 dark:text-white w-full sm:w-1/3">
+                  <span className={`w-full text-sm font-medium sm:w-1/3 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                     {form.formName}
                   </span>
                   <div className="w-full sm:w-1/3 text-right">
