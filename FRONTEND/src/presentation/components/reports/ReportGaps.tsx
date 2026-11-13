@@ -28,7 +28,7 @@ const ReportGaps = ({ reports }: Props) => {
   );
 
   return (
-    <section className={`mb-8 rounded-xl border p-6 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`} aria-labelledby="report-gaps-title">
+    <section className={`mb-8 rounded-xl border p-4 shadow-sm sm:p-6 ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER}`} aria-labelledby="report-gaps-title">
       <h2 id="report-gaps-title" className={`mb-4 text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
         Brechas y recomendaciones
       </h2>
@@ -38,14 +38,14 @@ const ReportGaps = ({ reports }: Props) => {
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full text-left text-sm">
+             <table className={`min-w-[760px] w-full text-left text-sm ${UI_COLORS.TABLE_SURFACE}`}>
             <thead>
               <tr className={UI_COLORS.DIVIDER}>
-                <th className="px-3 py-2">Normativa</th>
-                <th className="px-3 py-2">Sección</th>
-                <th className="px-3 py-2">Pregunta afectada</th>
-                <th className="px-3 py-2">Puntaje</th>
-                <th className="px-3 py-2">Recomendación</th>
+                 <th className={`px-3 py-2 font-semibold ${UI_COLORS.MUTED}`}>Normativa</th>
+                 <th className={`px-3 py-2 font-semibold ${UI_COLORS.MUTED}`}>Sección</th>
+                 <th className={`px-3 py-2 font-semibold ${UI_COLORS.MUTED}`}>Pregunta afectada</th>
+                 <th className={`px-3 py-2 font-semibold ${UI_COLORS.MUTED}`}>Puntaje</th>
+                 <th className={`px-3 py-2 font-semibold ${UI_COLORS.MUTED}`}>Recomendación</th>
               </tr>
             </thead>
             <tbody>
@@ -55,7 +55,7 @@ const ReportGaps = ({ reports }: Props) => {
                   <td className={`px-3 py-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{gap.sectionTitle}</td>
                   <td className={`px-3 py-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{gap.subQuestionText || gap.questionText}</td>
                   <td className={`px-3 py-2 font-semibold ${gap.score < 60 ? UI_COLORS.DANGER : UI_COLORS.WARNING}`}>{gap.score}%</td>
-                  <td className="px-3 py-2">{recommendationFor(gap.score)}</td>
+                  <td className={`px-3 py-2 ${UI_COLORS.MUTED}`}>{recommendationFor(gap.score)}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/UI/Button";
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS } from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, UI_COLORS } from "../../shared/constants";
 import { useUser } from "../hooks/useUser";
 import { User } from "../../domain/models/types/userTypes";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -57,14 +57,14 @@ const Audit = () => {
       </div>
 
       {users?.length === 0 ? (
-        <div className="text-center text-gray-500 mt-8">
+        <div className={`mt-8 text-center ${UI_COLORS.MUTED}`}>
           No hay usuarios disponibles para auditoría.
         </div>
       ) : (
         users?.map((user: User) => (
           <div
             key={user.uid}
-            className={`grid sm:grid-cols-4 grid-cols-1 gap-2 items-center p-4 mb-4 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} rounded-lg border border-gray-300 dark:border-[#2A4C61] transition-shadow hover:shadow-md`}
+            className={`mb-4 grid grid-cols-1 items-center gap-2 rounded-xl border p-4 shadow-sm transition-shadow sm:grid-cols-4 hover:shadow-md ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER}`}
           >
             <span
               className={`font-medium truncate ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}

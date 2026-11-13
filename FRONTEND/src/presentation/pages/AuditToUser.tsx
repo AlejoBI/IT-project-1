@@ -7,6 +7,7 @@ import {
   GRADIENTS,
   DARK_GRADIENTS,
   ANIMATION_TIMINGS,
+  UI_COLORS,
 } from "../../shared/constants";
 import { useUser } from "../hooks/useUser";
 import { useAuth } from "../hooks/useAuth";
@@ -29,7 +30,7 @@ const AuditToUser = () => {
 
   if (!user) {
     return (
-      <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
+      <div className={`mt-10 text-center ${UI_COLORS.MUTED}`}>
         No se encontró información del usuario.
       </div>
     );

@@ -13,6 +13,8 @@ import { useCompliance } from "../../hooks/useCompliance";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchComplianceReports } from "../../../application/store/compliance/complianceActions";
 import { DARK_MODE_COLORS, LIGHT_MODE_COLORS, ANIMATION_TIMINGS } from "../../../shared/constants";
+import { UI_COLORS } from "../../../shared/constants";
+import { useDarkMode } from "../../hooks/useDarkMode";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -23,6 +25,7 @@ interface Props {
 const SectionScoresChart = ({ userId }: Props) => {
   const { complianceReport, loading } = useCompliance();
   const dispatch = useAppDispatch();
+  const isDark = useDarkMode();
 
   interface GroupedReport {
     regulationId: string;
@@ -36,10 +39,10 @@ const SectionScoresChart = ({ userId }: Props) => {
     }
   }, [dispatch, userId, complianceReport?.length]);
 
-  if (loading) return <p className="text-center text-gray-500">Cargando...</p>;
+  if (loading) return <p className={`text-center ${UI_COLORS.MUTED}`}>Cargando...</p>;
 
   if (!complianceReport || complianceReport.length === 0)
-    return <p className="text-center text-gray-500">No hay datos disponibles.</p>;
+    return <p className={`text-center ${UI_COLORS.MUTED}`}>No hay datos disponibles.</p>;
 
   // Agrupar reportes por regulationId
   const groupedByRegulation: Record<string, GroupedReport> = {};
@@ -70,8 +73,8 @@ const SectionScoresChart = ({ userId }: Props) => {
             const found = report.sectionScores.find((s) => s.sectionTitle === sectionTitle);
             return found ? found.score : null;
           }),
-          borderColor: `hsl(${(index * 60) % 360}, 70%, 50%)`,
-          backgroundColor: `hsla(${(index * 60) % 360}, 70%, 50%, 0.1)`,
+           borderColor: isDark ? `hsl(${(index * 60) % 360}, 65%, 68%)` : `hsl(${(index * 60) % 360}, 60%, 42%)`,
+           backgroundColor: isDark ? `hsla(${(index * 60) % 360}, 65%, 68%, 0.14)` : `hsla(${(index * 60) % 360}, 60%, 42%, 0.1)`,
           tension: 0.2,
         }));
 
@@ -87,8 +90,8 @@ const SectionScoresChart = ({ userId }: Props) => {
             y: {
               beginAtZero: true,
               max: 100,
-              ticks: { stepSize: 20 },
-              grid: { color: "#e5e7eb" },
+               ticks: { stepSize: 20, color: isDark ? "#E6EDF3" : "#1F2937" },
+               grid: { color: isDark ? "#2A4C61" : "#E5EDF0" },
             },
             x: {
               grid: { display: false },
@@ -98,7 +101,7 @@ const SectionScoresChart = ({ userId }: Props) => {
             legend: {
               position: "top" as const,
               labels: {
-                color: "#4b5563",
+                 color: isDark ? "#E6EDF3" : "#1F2937",
               },
             },
             tooltip: {
@@ -111,7 +114,7 @@ const SectionScoresChart = ({ userId }: Props) => {
         return (
           <div
             key={regulationId}
-            className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${ANIMATION_TIMINGS.TRANSITION_DURATION} p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow`}
+             className={`${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} ${ANIMATION_TIMINGS.TRANSITION_DURATION} rounded-2xl border p-4 shadow-sm transition-shadow hover:shadow-lg sm:p-6`}
           >
             <h3
               className={`text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION} mb-2`}

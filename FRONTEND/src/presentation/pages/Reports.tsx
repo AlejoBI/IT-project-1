@@ -55,7 +55,7 @@ const Reports = () => {
 
   return (
     <div
-      className={`flex flex-col p-6 min-h-screen ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`flex min-h-screen flex-col p-4 sm:p-6 ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       <header className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
@@ -73,8 +73,8 @@ const Reports = () => {
 
       {hasReports ? (
         <>
-          <section className={`mb-6 grid grid-cols-1 gap-4 rounded-xl border p-4 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER} sm:grid-cols-2 lg:grid-cols-4`}>
-            <label className="text-sm font-medium">
+           <section className={`mb-6 grid grid-cols-1 gap-4 rounded-xl border p-4 shadow-sm ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} sm:grid-cols-2 lg:grid-cols-4`}>
+             <label className={`text-sm font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               Regulación
               <select aria-label="Filtrar por regulación" value={regulationFilter} onChange={(event) => setRegulationFilter(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`}>
                 <option value="">Todas</option>
@@ -83,7 +83,7 @@ const Reports = () => {
                 ))}
               </select>
             </label>
-            <label className="text-sm font-medium">
+             <label className={`text-sm font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               Estado
               <select aria-label="Filtrar por estado" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`}>
                 <option value="">Todos</option>
@@ -92,11 +92,11 @@ const Reports = () => {
                 <option value="No Cumple">No cumple</option>
               </select>
             </label>
-            <label className="text-sm font-medium">
+             <label className={`text-sm font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               Desde
               <input aria-label="Filtrar desde" type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
             </label>
-            <label className="text-sm font-medium">
+             <label className={`text-sm font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
               Hasta
               <input aria-label="Filtrar hasta" type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
             </label>
@@ -111,7 +111,7 @@ const Reports = () => {
           <ReportActions reports={filteredReports ?? []} />
           <HistoricalComparison reports={filteredReports ?? []} />
 
-          <section className={`mb-8 overflow-hidden rounded-2xl border shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`}>
+           <section className={`mb-8 overflow-hidden rounded-2xl border shadow-sm ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER}`}>
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
@@ -143,8 +143,8 @@ const Reports = () => {
         </>
       ) : (
           <div className={`mx-auto mt-20 flex max-w-lg flex-col items-center justify-center rounded-2xl border p-10 text-center shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER} ${UI_COLORS.MUTED}`}>
-          <p className="text-lg font-medium">Aún no hay reportes generados</p>
-          <p className="text-sm mt-2">
+           <p className={`text-lg font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Aún no hay reportes generados</p>
+           <p className={`mt-2 text-sm ${UI_COLORS.MUTED}`}>
             Completa al menos una autoevaluación para ver tus reportes de cumplimiento.
           </p>
         </div>

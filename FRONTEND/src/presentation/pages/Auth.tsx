@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { clearNotification } from "../../application/store/auth/authSlice";
 import logo from "../../assets/img/ISOlytics.webp";
-import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS } from "../../shared/constants";
+import { LIGHT_MODE_COLORS, DARK_MODE_COLORS, ANIMATION_TIMINGS, UI_COLORS } from "../../shared/constants";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -25,13 +25,13 @@ const AuthPage = () => {
         <Link
           to="/"
           aria-label="Volver a la página principal"
-          className={`flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+          className={`flex items-center gap-2 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
         >
           <ArrowLeft className="w-6 h-6" />
           <img
             src={logo}
             alt="ISOlytics Logo"
-            className="w-10 h-10 rounded-full shadow-md border-2 border-gray-300 dark:border-gray-600"
+            className={`h-10 w-10 rounded-full border-2 shadow-md ${UI_COLORS.BORDER}`}
           />
         </Link>
       </header>

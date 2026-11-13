@@ -69,7 +69,7 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
   };
 
   return (
-    <section className={`mb-8 rounded-xl border p-6 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`} aria-labelledby="report-actions-title">
+    <section className={`mb-8 rounded-xl border p-4 shadow-sm sm:p-6 ${UI_COLORS.SURFACE} ${UI_COLORS.BORDER}`} aria-labelledby="report-actions-title">
       <h2 id="report-actions-title" className={`mb-4 text-xl font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Acciones correctivas</h2>
       {error && <p role="alert" className={`mb-3 rounded-lg p-3 text-sm ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE}`}>{error}</p>}
       <form onSubmit={handleCreate} className="mb-5 grid gap-3 md:grid-cols-4">
@@ -78,7 +78,7 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
         <input aria-label="Fecha objetivo" type="date" value={dueDate} onChange={(event) => setDueDate(event.target.value)} className={`rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
         <button type="submit" className={`rounded-lg px-4 py-2 font-semibold text-white transition-colors ${GRADIENTS.BUTTON_BG} ${DARK_GRADIENTS.BUTTON_BG} ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} md:col-span-4`}>Añadir acción</button>
       </form>
-      <label className="mb-4 block text-sm font-medium">
+      <label className={`mb-4 block text-sm font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
         Filtrar por responsable
         <input aria-label="Filtrar por responsable" value={responsibleFilter} onChange={(event) => setResponsibleFilter(event.target.value)} placeholder="Todos los responsables" className={`mt-1 w-full rounded-lg border p-2 ${LIGHT_MODE_COLORS.INPUT_BACKGROUND} ${DARK_MODE_COLORS.INPUT_BACKGROUND} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${UI_COLORS.BORDER} ${UI_COLORS.FOCUS}`} />
       </label>
@@ -104,7 +104,7 @@ const ReportActions = ({ reports }: { reports: ComplianceReport[] }) => {
       )}
       {history.length > 0 && (
         <details className={`mt-6 rounded-lg border p-3 ${UI_COLORS.BORDER}`}>
-          <summary className="cursor-pointer font-medium">Historial de cambios ({history.length})</summary>
+          <summary className={`cursor-pointer font-medium ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Historial de cambios ({history.length})</summary>
           <ul className={`mt-3 space-y-2 text-sm ${UI_COLORS.MUTED}`}>
             {history.map((change) => (
               <li key={change.id}>

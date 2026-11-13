@@ -14,6 +14,18 @@ body,
   overflow-x: hidden;
 }
 
+body {
+  color: #1f2937;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  color: #e6edf3;
+}
+
 /* Toasts del sistema: compactos, legibles y consistentes con ISOlytics. */
 .Toastify__toast-container {
   width: min(420px, calc(100vw - 2rem));
