@@ -47,7 +47,7 @@ const NormativeForm = () => {
     <FormProvider {...methods}>
       {error && <Notification message={error} type="error" />}
       <section
-        className={`${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} rounded-2xl border p-5 shadow-sm sm:p-6`}
+        className={`${UI_COLORS.SURFACE} ${UI_COLORS.BORDER} rounded-2xl border p-4 shadow-sm sm:p-6`}
       >
         <h2
           className={`text-2xl font-bold mb-6 text-center
@@ -88,7 +88,7 @@ const NormativeForm = () => {
 
             {sections.map((section, index) => (
               <div key={section.id}>
-                <div className="flex flex-row items-center gap-2 mb-2">
+                <div className="mb-2 flex items-center gap-2">
                   <h3
                     className={`flex text-lg font-semibold
                       ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}
@@ -110,7 +110,7 @@ const NormativeForm = () => {
               </div>
             ))}
 
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Button
                 type="button"
                 onClick={() => appendSection({ title: "", questions: [] })}

@@ -71,4 +71,43 @@ describe("validateAnswersAgainstForm", () => {
       formVersion: 2,
     });
   });
+
+  it("valida el tipo y las opciones de una subpregunta", async () => {
+    firestoreMocks.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({ version: 4 }),
+    });
+    firestoreMocks.getDocs
+      .mockResolvedValueOnce({ docs: [{ id: "section-1", data: () => ({ title: "General" }) }] })
+      .mockResolvedValueOnce({
+        docs: [
+          {
+            id: "question-1",
+            data: () => ({
+              sectionId: "section-1",
+              type: "single-choice",
+              options: [{ id: "yes" }],
+              subQuestions: [
+                { id: "sub-1", type: "text", options: [] },
+              ],
+            }),
+          },
+        ],
+      });
+
+    await expect(
+      validateAnswersAgainstForm("form-1", "regulation-1", [
+        {
+          sectionId: "section-1",
+          sectionTitle: "General",
+          questionId: "question-1",
+          questionText: "Pregunta",
+          subQuestionId: "sub-1",
+          subQuestionText: "Detalle",
+          type: "text",
+          value: "respuesta",
+        },
+      ])
+    ).resolves.toEqual({ valid: true, formVersion: 4 });
+  });
 });

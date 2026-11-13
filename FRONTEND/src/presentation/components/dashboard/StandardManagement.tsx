@@ -45,7 +45,7 @@ const StandardManagement = () => {
 
   return (
     <section
-      className={`p-8 rounded-2xl shadow-xl ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`rounded-2xl p-4 shadow-xl sm:p-8 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       {error && <Notification message={error} type="error" />}
       {message && <Notification message={message} type="success" />}
@@ -64,7 +64,7 @@ const StandardManagement = () => {
       </p>
 
       {/* Menú de navegación */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <div className="mb-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:justify-center">
         <Button
           onClick={() => setSelectedSection("createRegulation")}
           children="Crear Normativa"

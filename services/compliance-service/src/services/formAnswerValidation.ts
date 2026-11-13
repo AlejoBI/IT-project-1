@@ -13,8 +13,13 @@ interface FormQuestionData {
   sectionId: string;
   type?: string;
   options?: Array<{ id?: string }>;
-  subQuestions?: Array<{ id?: string }>;
+  subQuestions?: FormQuestionData[];
 }
+
+const findQuestion = (question: FormQuestionData, subQuestionId?: string): FormQuestionData | undefined => {
+  if (!subQuestionId) return question;
+  return question.subQuestions?.find((subQuestion) => subQuestion.id === subQuestionId);
+};
 
 /** Ensures submitted answer metadata belongs to the selected form and section. */
 export const validateAnswersAgainstForm = async (
@@ -66,13 +71,22 @@ export const validateAnswersAgainstForm = async (
       };
     }
 
-    if (question.type && question.type !== answer.type) {
+    const targetQuestion = findQuestion(question, answer.subQuestionId);
+    if (answer.subQuestionId && !targetQuestion) {
+      return {
+        valid: false,
+        error: `La subpregunta ${answer.subQuestionId} no pertenece a la pregunta indicada.`,
+        formVersion,
+      };
+    }
+
+    if (targetQuestion?.type && targetQuestion.type !== answer.type) {
       return { valid: false, error: `El tipo de respuesta no coincide para la pregunta ${answer.questionId}.`, formVersion };
     }
 
     if (answer.type !== "text") {
       const selected = Array.isArray(answer.value) ? answer.value : [answer.value];
-      const optionIds = new Set((question.options || []).map((option) => option.id));
+      const optionIds = new Set((targetQuestion?.options || []).map((option) => option.id));
       if (
         optionIds.size > 0 &&
         selected.some(
@@ -84,7 +98,7 @@ export const validateAnswersAgainstForm = async (
     }
 
     if (answer.subQuestionId) {
-      const subQuestionExists = question.subQuestions?.some((subQuestion) => subQuestion.id === answer.subQuestionId);
+      const subQuestionExists = Boolean(targetQuestion);
       if (!subQuestionExists) {
         return {
           valid: false,

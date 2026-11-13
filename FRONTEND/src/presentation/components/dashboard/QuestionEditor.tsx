@@ -44,7 +44,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
   return (
     <div
-      className={`border p-6 rounded-md space-y-2
+        className={`space-y-3 rounded-xl border p-3 sm:p-6
         ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${UI_COLORS.BORDER}
       `}
     >
@@ -72,7 +72,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
       {(questionType === "single-choice" || questionType === "multiple-choice") && (
         <div className="space-y-1">
           {options.map((option, optIndex) => (
-            <div key={option.id} className="flex items-center gap-2">
+            <div key={option.id} className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <input
                 {...register(`${basePath}.options.${optIndex}.label`, {
                   required: true,
@@ -87,11 +87,11 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   max: 100,
                   valueAsNumber: true,
                 })}
-                placeholder="Valor porcentual de la opción (0-100)"
+                placeholder="Puntaje (0-100)"
                 type="number"
                 className={`w-full ${UI_COLORS.CONTROL} ${UI_COLORS.FOCUS} p-2`}
               />
-              <div className="flex-1" />
+              <div className="hidden flex-1 sm:block" />
               <button
                 type="button"
                 onClick={() => removeOption(optIndex)}
@@ -124,7 +124,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
           ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}
         `}
         >
-          <div className="flex flex-row items-center gap-2">
+          <div className="flex items-center gap-2">
             <h3
               className={`flex text-lg font-semibold
                 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}

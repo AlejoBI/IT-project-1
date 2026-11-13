@@ -221,7 +221,7 @@ const EvaluationFormPage = () => {
         />
         <div
           className={`
-            flex-1 rounded-2xl shadow p-6 
+            min-w-0 flex-1 rounded-2xl p-4 shadow sm:p-6
             ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} 
             ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}`}
         >
@@ -249,7 +249,7 @@ const EvaluationFormPage = () => {
             </div>
           </div>
           <h2
-            className={`text-3xl font-bold mb-6 
+            className={`mb-6 text-2xl font-bold sm:text-3xl
               ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
               ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
           >

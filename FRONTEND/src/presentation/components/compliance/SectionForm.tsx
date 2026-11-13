@@ -58,7 +58,9 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
       answers,
     };
 
-    await dispatch(saveSelfAssessmentDraft(payload));
+    // La notificación solo se envía cuando el guardado fue aceptado por el backend.
+    // Así evitamos encadenar un POST de notificaciones después de un 422.
+    await dispatch(saveSelfAssessmentDraft(payload)).unwrap();
     onSaved?.(section.id);
     sendEmailNotification({
       to: user.email || "",
@@ -82,7 +84,7 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
         await onSubmit(e);
       })}
       className={`
-    mb-10 rounded-2xl shadow-sm p-6 border 
+       mb-6 rounded-2xl border p-4 shadow-sm sm:mb-10 sm:p-6
     ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} 
     ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
     ${UI_COLORS.BORDER}
@@ -90,7 +92,7 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
     >
       <h3
         className={`
-      text-2xl font-semibold mb-4 
+       mb-4 text-xl font-semibold sm:text-2xl
       ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
       ${DARK_MODE_COLORS.TEXT_PRIMARY}
     `}
@@ -104,11 +106,11 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
         ))}
       </div>
 
-      <div className="mt-6 text-right">
+      <div className="mt-6 flex justify-stretch sm:justify-end">
         <button
           type="submit"
           className={`
-      inline-flex items-center gap-2 px-6 py-2 rounded-xl shadow transition text-white
+      inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-2.5 shadow transition text-white sm:w-auto
       ${LIGHT_MODE_COLORS.BUTTON_BG} 
       ${LIGHT_MODE_COLORS.BUTTON_HOVER_BG} 
       ${DARK_MODE_COLORS.BUTTON_BG} 

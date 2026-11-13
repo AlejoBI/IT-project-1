@@ -26,7 +26,7 @@ const AuditContent = ({
   if (!selectedSectionId) {
     return (
       <div
-        className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} p-6 rounded-2xl shadow mb-6 mt-4 h-auto w-screen max-w-screen-lg mx-auto`}
+        className={`${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} mx-auto mb-6 mt-4 h-auto w-full max-w-screen-lg rounded-2xl p-4 shadow sm:p-6`}
       >
         <p
           className={`${LIGHT_MODE_COLORS.TEXT_SECONDARY} ${DARK_MODE_COLORS.TEXT_SECONDARY} text-center`}

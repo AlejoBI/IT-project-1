@@ -23,7 +23,8 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
 
   return (
     <div
-      className={`border p-6 rounded-lg mb-4 space-y-3
+        className={`mb-4 space-y-3 rounded-xl border p-3
+          sm:p-6
         ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${UI_COLORS.BORDER}
       `}
     >
@@ -35,7 +36,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ sectionIndex }) => {
 
       {questions.map((question, questionIndex) => (
         <div key={question.id}>
-          <div className="flex flex-row items-center gap-2 mb-2">
+          <div className="mb-2 flex items-center gap-2">
             <h3
               className={`flex text-lg font-semibold
                 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}

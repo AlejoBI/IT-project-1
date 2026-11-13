@@ -32,11 +32,11 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
 
   return (
     <div
-      className={`mb-8 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} rounded-lg p-4 shadow-sm`}
+      className={`mb-6 rounded-xl p-3 shadow-sm sm:mb-8 sm:p-4 ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`}
     >
       {/* Pregunta */}
       <label
-        className={`block text-lg font-semibold mb-2 
+        className={`mb-2 block text-base font-semibold sm:text-lg
         ${LIGHT_MODE_COLORS.TEXT_PRIMARY} 
         ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
       >
@@ -54,7 +54,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
 
       {/* SINGLE CHOICE */}
       {question.type === "single-choice" && (
-        <div className="space-y-2 ml-2">
+        <div className="ml-0 space-y-2 sm:ml-2">
           {question.options?.map((opt) => (
             <label
               key={opt.id}
@@ -63,7 +63,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
               ${DARK_MODE_COLORS.TEXT_PRIMARY} 
               ${LIGHT_MODE_COLORS.HOVER_BG} 
               ${DARK_MODE_COLORS.HOVER_BG} 
-              rounded px-2 py-1`}
+              rounded-lg px-2 py-2`}
             >
               <input
                 type="radio"
@@ -79,7 +79,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
 
       {/* MULTIPLE CHOICE */}
       {question.type === "multiple-choice" && (
-        <div className="space-y-2 ml-2">
+        <div className="ml-0 space-y-2 sm:ml-2">
           {question.options?.map((opt) => (
             <label
               key={opt.id}
@@ -88,7 +88,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
               ${DARK_MODE_COLORS.TEXT_PRIMARY} 
               ${LIGHT_MODE_COLORS.HOVER_BG} 
               ${DARK_MODE_COLORS.HOVER_BG} 
-              rounded px-2 py-1`}
+              rounded-lg px-2 py-2`}
             >
               <input
                 type="checkbox"
@@ -147,7 +147,7 @@ const QuestionField: React.FC<Props> = ({ question, sectionId, isSubQuestion = f
         question.subQuestions?.map((sub, index) => (
           <div
             key={`${question.id}-sub-${index}`}
-            className="ml-6 mt-4 border-l-2 border-[#9AC4D4] dark:border-[#336E86] pl-4"
+            className="ml-2 mt-4 border-l-2 border-[#9AC4D4] pl-3 dark:border-[#336E86] sm:ml-6 sm:pl-4"
           >
             <QuestionField
               question={sub}

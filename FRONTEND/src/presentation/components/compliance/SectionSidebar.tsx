@@ -25,7 +25,7 @@ const SectionSidebar: React.FC<SidebarProps> = ({
   return (
     <div
       className={`
-      w-full rounded-2xl shadow-sm p-4 border lg:w-64 lg:shrink-0
+       w-full rounded-2xl border p-3 shadow-sm lg:sticky lg:top-6 lg:w-64 lg:shrink-0 lg:self-start lg:p-4
       ${LIGHT_MODE_COLORS.BACKGROUND_WHITE}
       ${DARK_MODE_COLORS.BACKGROUND_COMPONENT}
        ${UI_COLORS.BORDER}
