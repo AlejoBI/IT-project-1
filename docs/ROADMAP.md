@@ -103,7 +103,7 @@ secretos ni datos reales de prueba.
 - [ ] Eliminar secretos del historial de Git si existiera alguno.
 - [x] Configurar CORS únicamente para orígenes conocidos.
 - [x] Añadir rate limiting a autenticación y operaciones sensibles.
-- [ ] Registrar auditoría de cambios administrativos.
+- [x] Registrar auditoría de cambios administrativos.
 - [ ] Revisar subida de archivos y límites de tamaño/tipo.
 - [x] Documentar el modelo de amenazas y las reglas de acceso.
 
@@ -183,7 +183,7 @@ secretos ni datos reales de prueba.
 - [ ] Añadir pruebas de contratos del API Gateway.
 - [ ] Añadir integración con Firebase Emulator.
 - [ ] Añadir prueba del flujo completo de evaluación.
-- [ ] Añadir pruebas de generación de PDF.
+- [x] Añadir pruebas de generación de PDF.
 - [x] Añadir pruebas de auditoría y notificaciones.
 - [x] Añadir pruebas de componentes críticos del frontend.
 - [ ] Acordar cobertura mínima por servicio.
@@ -205,7 +205,7 @@ secretos ni datos reales de prueba.
 - [x] Propagar correlation ID desde el Gateway.
 - [x] Medir latencia y errores por servicio.
 - [ ] Registrar fallos de Firebase y dependencias externas.
-- [ ] Crear un dashboard básico de salud.
+- [x] Crear un dashboard básico de salud.
 - [ ] Definir alertas para caídas y aumento de errores.
 - [ ] Documentar diagnóstico, rollback y restauración.
 - [ ] Documentar backups y restauración de Firestore.
@@ -276,6 +276,12 @@ tareas de despliegue solo se marcarán con evidencia reproducible.
   historial de creación y actualización consultable por reporte.
 - Se añadió Vitest con Testing Library y dos pruebas ejecutables para los
   componentes de resumen de salud y comparación histórica.
+- Se añadió una prueba ejecutable de generación PDF con `@react-pdf/renderer`.
+- Se añadió auditoría administrativa para cambios de roles/usuarios, normativas,
+  formularios y acciones de reportes; los eventos quedan en `adminAuditEvents` y
+  son consultables por administradores desde Audit Service.
+- El dashboard administrativo consulta la salud de los siete microservicios y
+  muestra estado y latencia por servicio mediante `/api/audit/system-health`.
 - Se eliminaron los `any` explícitos de controladores y pruebas de servicios;
   `grep` no encuentra usos residuales en los archivos TypeScript de servicios.
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { doc, getDoc, updateDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc, updateDoc, collection, getDocs, query, where, addDoc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../utils/firebaseConfig.js";
 import { getFirebaseErrorMessage } from "../utils/error.js";
 import { getAdminAuth } from "../utils/firebaseAdmin.js";
@@ -142,10 +142,41 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
       });
     }
 
+    try {
+      if (typeof addDoc === "function") await addDoc(collection(firestore, "adminAuditEvents"), {
+        actorId: req.auth?.uid ?? "unknown",
+        action: updates.role ? "user.role_changed" : "user.updated",
+        resource: "user",
+        resourceId: userId,
+        changedFields: Object.keys(updates),
+        createdAt: new Date(),
+      });
+    } catch (auditError) {
+      console.error("No se pudo registrar el evento administrativo", auditError);
+    }
+
     res.status(200).json({ message: "Perfil de usuario actualizado exitosamente" });
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error, "Error al actualizar el perfil");
     res.status(400).json({ error: errorMessage });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
+  const { userId } = req.params;
+  try {
+    const userRef = doc(firestore, "users", userId);
+    const snapshot = await getDoc(userRef);
+    if (!snapshot.exists()) {
+      res.status(404).json({ error: "Usuario no encontrado." });
+      return;
+    }
+    await getAdminAuth().deleteUser(userId);
+    await deleteDoc(userRef);
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "user.deleted", resource: "user", resourceId: userId, createdAt: new Date() });
+    res.status(200).json({ message: "Usuario eliminado exitosamente." });
+  } catch (error) {
+    res.status(400).json({ error: getFirebaseErrorMessage(error, "Error al eliminar el usuario") });
   }
 };
 

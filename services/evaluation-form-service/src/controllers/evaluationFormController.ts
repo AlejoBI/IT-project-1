@@ -54,6 +54,7 @@ export const createFullEvaluationForm = async (req: Request, res: Response): Pro
     };
 
     const formRef = await addDoc(collection(firestore, "evaluationForms"), formData);
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "form.created", resource: "evaluationForm", resourceId: formRef.id, createdAt: new Date() });
 
     // Crear secciones y preguntas en paralelo
     await Promise.all(
@@ -132,12 +133,13 @@ export const addEvaluationForm = async (req: Request, res: Response): Promise<vo
     }
 
     const formsRef = collection(firestore, "evaluationForms");
-    await addDoc(formsRef, {
+    const formRef = await addDoc(formsRef, {
       ...formData,
       version: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "form.created", resource: "evaluationForm", resourceId: formRef.id, createdAt: new Date() });
 
     res.status(201).json({
       message: "Formulario de evaluación agregado exitosamente.",
@@ -234,6 +236,7 @@ export const updateEvaluationForm = async (req: Request, res: Response): Promise
       version: currentVersion + 1,
       updatedAt: new Date(),
     });
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "form.updated", resource: "evaluationForm", resourceId: id, changedFields: Object.keys(updateData), createdAt: new Date() });
 
     res.status(200).json({ message: "Formulario actualizado exitosamente." });
   } catch (error) {
@@ -296,6 +299,7 @@ export const deleteEvaluationFormByRegulationId = async (
 
     // Paso 5: Eliminar el formulario
     await deleteDoc(doc(firestore, "evaluationForms", formId));
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "form.deleted", resource: "evaluationForm", resourceId: formId, createdAt: new Date() });
 
     res.status(200).json({
       message: "Formulario, secciones y preguntas eliminadas exitosamente.",

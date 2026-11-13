@@ -3,6 +3,7 @@ import {
   getUsers,
   getUser,
   updateUser,
+  deleteUser,
   getUsersWithEvaluationsAndAudits,
 } from "../controller/userController.js";
 import { validate } from "../middlewares/validate.js";
@@ -23,5 +24,6 @@ router.put(
   validate(updateUserSchema),
   updateUser
 );
+router.delete("/:userId", requireRole("admin"), deleteUser);
 
 export default router;

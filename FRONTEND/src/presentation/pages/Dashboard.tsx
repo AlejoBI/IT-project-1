@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserManagement from "../components/dashboard/UserManagement";
 import StandardManagement from "../components/dashboard/StandardManagement";
+import SystemHealthPanel from "../components/dashboard/SystemHealthPanel";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useUser } from "../hooks/useUser";
 import { useRegulation } from "../hooks/useRegulation";
@@ -78,6 +79,7 @@ const Dashboard = () => {
             <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-200">Mantén actualizado el catálogo.</p>
           </div>
         </section>
+        <SystemHealthPanel />
         {selectedSection === "user" && <UserManagement />}
         {selectedSection === "standard" && <StandardManagement />}
       </main>

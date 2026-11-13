@@ -7,7 +7,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
 import { auth, firestore } from "../utils/firebaseConfig.js";
 
 import { getFirebaseErrorMessage } from "../utils/error.js";
@@ -31,6 +31,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: user.uid, action: "user.created", resource: "user", resourceId: user.uid, createdAt: new Date() });
 
     if (process.env.FIREBASE_ADMIN_CLIENT_EMAIL && process.env.FIREBASE_ADMIN_PRIVATE_KEY) {
       await getAdminAuth().setCustomUserClaims(user.uid, { role: "standard_user" });

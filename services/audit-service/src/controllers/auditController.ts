@@ -101,3 +101,41 @@ export const getAuditsBySelfAssessmentId = async (req: Request, res: Response): 
     res.status(400).json({ error: errorMessage });
   }
 };
+
+export const getAdminAuditEvents = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const snapshot = await getDocs(collection(firestore, "adminAuditEvents"));
+    const events = snapshot.docs
+      .map((event) => ({ id: event.id, ...event.data() }))
+      .slice(-200)
+      .reverse();
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(400).json({ error: getFirebaseErrorMessage(error, "Error obteniendo eventos administrativos.") });
+  }
+};
+
+export const getSystemHealth = async (_req: Request, res: Response): Promise<void> => {
+  const services: Record<string, string> = {
+    auth: process.env.AUTH_HEALTH_URL || "http://localhost:5000/health",
+    users: process.env.USERS_HEALTH_URL || "http://localhost:5001/health",
+    compliance: process.env.COMPLIANCE_HEALTH_URL || "http://localhost:5002/health",
+    notifications: process.env.NOTIFICATIONS_HEALTH_URL || "http://localhost:5003/health",
+    regulations: process.env.REGULATIONS_HEALTH_URL || "http://localhost:5004/health",
+    forms: process.env.FORMS_HEALTH_URL || "http://localhost:5005/health",
+    audits: process.env.AUDITS_HEALTH_URL || "http://localhost:5006/health",
+  };
+  const results = await Promise.all(
+    Object.entries(services).map(async ([service, url]) => {
+      const startedAt = Date.now();
+      try {
+        const response = await fetch(url, { signal: AbortSignal.timeout(3000) });
+        return { service, status: response.ok ? "healthy" : "degraded", httpStatus: response.status, latencyMs: Date.now() - startedAt };
+      } catch {
+        return { service, status: "unavailable", httpStatus: null, latencyMs: Date.now() - startedAt };
+      }
+    })
+  );
+  const overall = results.every((service) => service.status === "healthy") ? "healthy" : "degraded";
+  res.status(200).json({ overall, checkedAt: new Date().toISOString(), services: results });
+};

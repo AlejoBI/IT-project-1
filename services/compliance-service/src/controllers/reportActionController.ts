@@ -28,6 +28,7 @@ export const createReportAction = async (req: Request, res: Response): Promise<v
       changedFields: Object.keys(req.body),
       changedAt: now,
     });
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "report.action_created", resource: "complianceReport", resourceId: req.params.reportId, createdAt: now });
     res.status(201).json({ id: action.id, message: "Acción correctiva creada." });
   } catch (error) {
     res.status(400).json({ error: getFirebaseErrorMessage(error, "Error creando la acción correctiva.") });
@@ -80,6 +81,7 @@ export const updateReportAction = async (req: Request, res: Response): Promise<v
       changedFields: Object.keys(req.body),
       changedAt: new Date(),
     });
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "report.action_updated", resource: "complianceReport", resourceId: req.params.reportId, changedFields: Object.keys(req.body), createdAt: new Date() });
     res.status(200).json({ message: "Acción correctiva actualizada." });
   } catch (error) {
     res.status(400).json({ error: getFirebaseErrorMessage(error, "Error actualizando la acción correctiva.") });

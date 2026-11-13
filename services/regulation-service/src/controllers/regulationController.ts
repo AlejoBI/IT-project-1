@@ -17,7 +17,9 @@ export const addRegulation = async (req: Request, res: Response): Promise<void> 
       ...(effectiveTo ? { effectiveTo } : {}),
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    }).then(async (ref) => addDoc(collection(firestore, "adminAuditEvents"), {
+      actorId: req.auth?.uid ?? "unknown", action: "regulation.created", resource: "regulation", resourceId: ref.id, createdAt: new Date()
+    }));
 
     res.status(201).json({
       message: "Normativa agregada exitosamente.",
@@ -96,6 +98,7 @@ export const updateRegulation = async (req: Request, res: Response): Promise<voi
       ...(effectiveTo ? { effectiveTo } : {}),
       updatedAt: new Date(),
     });
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "regulation.updated", resource: "regulation", resourceId: id, changedFields: Object.keys(req.body), createdAt: new Date() });
 
     res.status(200).json({ message: "Normativa actualizada exitosamente." });
   } catch (error) {
@@ -117,6 +120,7 @@ export const deleteRegulation = async (req: Request, res: Response): Promise<voi
     }
 
     await deleteDoc(regulationRef);
+    await addDoc(collection(firestore, "adminAuditEvents"), { actorId: req.auth?.uid ?? "unknown", action: "regulation.deleted", resource: "regulation", resourceId: id, createdAt: new Date() });
     res.status(200).json({ message: "Normativa eliminada exitosamente." });
   } catch (error) {
     const errorMessage = getFirebaseErrorMessage(error, "Error al eliminar la normativa");
