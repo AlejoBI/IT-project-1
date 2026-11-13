@@ -28,22 +28,19 @@ const Dashboard = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex min-h-screen flex-col gap-4 lg:flex-row">
+    <div className={`flex min-h-screen flex-col gap-6 p-4 sm:p-6 lg:flex-row ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND}`}>
       {/* Sidebar */}
       <aside
-        className={`mt-6 w-full rounded-xl border-gray-300 p-4 shadow-md dark:border-gray-700 sm:p-6 lg:w-64 ${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG}`}
+        className={`w-full self-start rounded-2xl border p-4 shadow-sm sm:p-6 lg:sticky lg:top-6 lg:w-72 ${LIGHT_MODE_COLORS.SIDEBAR_BG} ${DARK_MODE_COLORS.SIDEBAR_BG} ${UI_COLORS.BORDER}`}
       >
-        <h2
-          className={`text-xl font-semibold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
-        >
-          Panel de Administración
-        </h2>
+        <p className={`mb-2 text-xs font-semibold uppercase tracking-[0.18em] ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}>ISOlytics</p>
+        <h2 className={`mb-6 text-2xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Panel de administración</h2>
         <nav className="flex flex-col gap-3">
           <button
             type="button"
             onClick={() => setSelectedSection("user")}
             aria-pressed={selectedSection === "user"}
-            className={`text-left px-4 py-2 rounded font-medium transition-colors duration-300 ${
+              className={`rounded-xl px-4 py-3 text-left font-medium transition-colors duration-300 ${
               selectedSection === "user"
                 ? `${GRADIENTS.BUTTON_BG_SECONDARY} ${DARK_GRADIENTS.BUTTON_BG_SECONDARY} text-white`
                 : `${LIGHT_MODE_COLORS.HOVER_BG} ${DARK_MODE_COLORS.HOVER_BG} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`
@@ -55,7 +52,7 @@ const Dashboard = () => {
             type="button"
             onClick={() => setSelectedSection("standard")}
             aria-pressed={selectedSection === "standard"}
-            className={`text-left px-4 py-2 rounded font-medium transition-colors duration-300 ${
+              className={`rounded-xl px-4 py-3 text-left font-medium transition-colors duration-300 ${
               selectedSection === "standard"
                 ? `${GRADIENTS.BUTTON_BG_SECONDARY} ${DARK_GRADIENTS.BUTTON_BG_SECONDARY} text-white`
                 : `${LIGHT_MODE_COLORS.HOVER_BG} ${DARK_MODE_COLORS.HOVER_BG} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`
@@ -67,7 +64,7 @@ const Dashboard = () => {
       </aside>
 
       {/* Contenido principal */}
-      <main className="min-w-0 flex-1 p-2 sm:p-6">
+      <main className="min-w-0 max-w-7xl flex-1 lg:mx-auto">
         <section aria-label="Resumen del panel" className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className={`rounded-xl border p-5 shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`}>
             <p className={`text-sm font-medium ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}>Usuarios registrados</p>

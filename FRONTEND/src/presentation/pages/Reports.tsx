@@ -57,14 +57,16 @@ const Reports = () => {
     <div
       className={`flex flex-col p-6 min-h-screen ${LIGHT_MODE_COLORS.BACKGROUND} ${DARK_MODE_COLORS.BACKGROUND} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
-      <h1
-        className={`text-3xl font-bold mb-6 ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
-      >
-        Reportes de Cumplimiento
-      </h1>
+      <header className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${LIGHT_MODE_COLORS.ACCENT} ${DARK_MODE_COLORS.ACCENT}`}>Analítica</p>
+          <h1 className={`text-3xl font-bold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY} ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}>Reportes de cumplimiento</h1>
+        </div>
+        <p className={`text-sm ${UI_COLORS.MUTED}`}>{filteredReports?.length ?? 0} reportes visibles</p>
+      </header>
 
       {error && (
-        <p role="alert" className="mb-6 rounded-lg bg-red-50 p-4 text-red-700 dark:bg-red-950 dark:text-red-200">
+        <p role="alert" className={`mb-6 rounded-xl p-4 ${UI_COLORS.DANGER} ${UI_COLORS.DANGER_SURFACE}`}>
           No pudimos cargar los reportes: {error}
         </p>
       )}
@@ -109,15 +111,15 @@ const Reports = () => {
           <ReportActions reports={filteredReports ?? []} />
           <HistoricalComparison reports={filteredReports ?? []} />
 
-          <section className="mb-8 border rounded-lg overflow-hidden">
+          <section className={`mb-8 overflow-hidden rounded-2xl border shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER}`}>
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
               aria-expanded={isOpen}
               aria-controls="reports-by-regulation"
-              className={`w-full text-left px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-1000 font-semibold ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
+              className={`flex w-full items-center justify-between px-5 py-4 text-left font-semibold transition-colors ${LIGHT_MODE_COLORS.HOVER_BG} ${DARK_MODE_COLORS.HOVER_BG} ${LIGHT_MODE_COLORS.TEXT_PRIMARY} ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
             >
-              {isOpen ? "▼" : "►"} Resultados por Normativa
+              <span>Resultados por normativa</span><span aria-hidden="true" className="text-lg">{isOpen ? "−" : "+"}</span>
             </button>
 
             <div
@@ -140,7 +142,7 @@ const Reports = () => {
           </section>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center mt-20 text-center text-gray-500 dark:text-gray-400">
+          <div className={`mx-auto mt-20 flex max-w-lg flex-col items-center justify-center rounded-2xl border p-10 text-center shadow-sm ${LIGHT_MODE_COLORS.BACKGROUND_WHITE} ${DARK_MODE_COLORS.BACKGROUND_COMPONENT} ${UI_COLORS.BORDER} ${UI_COLORS.MUTED}`}>
           <p className="text-lg font-medium">Aún no hay reportes generados</p>
           <p className="text-sm mt-2">
             Completa al menos una autoevaluación para ver tus reportes de cumplimiento.
