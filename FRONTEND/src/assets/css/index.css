@@ -10,6 +10,8 @@ body,
   background-size: cover;
   background-position: center;
   height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Toasts del sistema: compactos, legibles y consistentes con ISOlytics. */

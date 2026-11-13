@@ -67,7 +67,7 @@ const EvaluationFormPage = () => {
 
   // Procesar borrador
   useEffect(() => {
-    if (currentDraft?.answers?.length) {
+    if (currentDraft) {
       const formValues: {
         sections: {
           [key: string]: {
@@ -77,9 +77,7 @@ const EvaluationFormPage = () => {
         };
       } = { sections: {} };
 
-      if (currentDraft.completedSections?.length) {
-        setCompletedSections(currentDraft.completedSections.map((s) => s.sectionId));
-      }
+      setCompletedSections((currentDraft.completedSections ?? []).map((s) => s.sectionId));
 
       currentDraft.answers.forEach((answer) => {
         const sectionId = answer.sectionId;
@@ -183,10 +181,16 @@ const EvaluationFormPage = () => {
     }, 3000);
   };
 
-  const handleSectionSaved = (sectionId: string) => {
+  const handleSectionSaved = async (sectionId: string) => {
     setCompletedSections((previous) =>
       previous.includes(sectionId) ? previous : [...previous, sectionId]
     );
+
+    // Reconciliar con Firestore evita que el siguiente render use respuestas
+    // locales antiguas o que se pierda el estado de completado al cambiar de sección.
+    if (regulationId && userId) {
+      await dispatch(fetchSelfAssessment({ regulationId, userId }));
+    }
 
     const currentIndex = forms?.sections.findIndex((section) => section.id === sectionId) ?? -1;
     const nextSection = currentIndex >= 0 ? forms?.sections[currentIndex + 1] : undefined;

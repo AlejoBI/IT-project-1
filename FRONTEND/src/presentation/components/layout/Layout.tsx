@@ -34,7 +34,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className={`flex flex-col min-h-screen dark:bg-gray-900 transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
+      className={`flex min-h-screen min-w-0 flex-col overflow-x-hidden dark:bg-gray-900 transition-colors ${ANIMATION_TIMINGS.TRANSITION_DURATION}`}
     >
       <a
         href="#main-content"
@@ -45,7 +45,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {!isLoginPage && (
         <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
       )}
-      <div className="flex flex-1 p-4">
+      <div className="flex min-w-0 flex-1 p-4">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
         <MainContent>{children}</MainContent>
       </div>

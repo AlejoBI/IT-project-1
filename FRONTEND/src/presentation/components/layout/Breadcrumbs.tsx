@@ -26,7 +26,7 @@ const Breadcrumbs = () => {
 
   return (
     <nav aria-label="Migas de pan" className="mb-6 overflow-x-auto">
-      <ol className="flex min-w-max items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+      <ol className="flex max-w-full min-w-0 items-center gap-2 overflow-x-auto text-sm text-gray-600 dark:text-gray-300">
         <li>
           <Link
             to="/"

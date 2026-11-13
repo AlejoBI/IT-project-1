@@ -18,7 +18,7 @@ import { EmailTemplateType } from "../../../domain/models/types/notificationType
 
 interface Props {
   section: SectionGetResponse;
-  onSaved?: (sectionId: string) => void;
+  onSaved?: (sectionId: string) => void | Promise<void>;
 }
 
 interface SectionFormData {
@@ -61,7 +61,7 @@ const SectionForm: React.FC<Props> = ({ section, onSaved }) => {
     // La notificación solo se envía cuando el guardado fue aceptado por el backend.
     // Así evitamos encadenar un POST de notificaciones después de un 422.
     await dispatch(saveSelfAssessmentDraft(payload)).unwrap();
-    onSaved?.(section.id);
+    await onSaved?.(section.id);
     sendEmailNotification({
       to: user.email || "",
       subject: "Sección Actualizada",
