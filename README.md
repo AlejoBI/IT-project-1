@@ -13,14 +13,11 @@ de apoyo y no sustituye una asesoría legal ni una certificación.
 - **Persistencia:** Firebase Authentication y Firestore.
 - **Orquestación local:** Docker Compose.
 
-El diagrama y las responsabilidades verificadas están en
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). El plan de trabajo está en
-[docs/ROADMAP.md](docs/ROADMAP.md).
+El diagrama y las responsabilidades del sistema están en
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Documentación
 
-- [Estado del proyecto](docs/PROJECT_STATUS.md)
-- [Roadmap](docs/ROADMAP.md)
 - [Arquitectura](docs/ARCHITECTURE.md)
 - [Componentes](docs/COMPONENTS.md)
 - [API](docs/API.md)
@@ -28,7 +25,6 @@ El diagrama y las responsabilidades verificadas están en
 - [Modelo de cumplimiento](docs/COMPLIANCE_MODEL.md)
 - [Variables de entorno](docs/ENVIRONMENTS.md)
 - [Despliegue, rollback y restauración](docs/DEPLOYMENT.md)
-- [Matriz de funcionalidades](docs/FUNCTIONALITY_MATRIX.md)
 - [Prácticas de ingeniería](docs/ENGINEERING_PRACTICES.md)
 - [Procesos funcionales y guía de uso](docs/USER_FLOWS.md)
 
@@ -83,12 +79,11 @@ No guardar `.env`, claves privadas ni datos reales en Git. Consultar
 [docs/ENVIRONMENTS.md](docs/ENVIRONMENTS.md) para los nombres exactos. Las
 credenciales de producción deben configurarse en el proveedor de despliegue.
 
-## Estado y contribución
+## Contribución
 
-El estado verificable está en `docs/PROJECT_STATUS.md` y la matriz funcional en
-`docs/FUNCTIONALITY_MATRIX.md`. Antes de abrir un cambio:
+Antes de abrir un cambio:
 
-1. Revisar el roadmap y el estado del árbol de Git.
+1. Revisar la arquitectura y los contratos afectados.
 2. Ejecutar las pruebas relacionadas.
 3. Ejecutar lint, typecheck/build y `git diff --check`.
-4. Documentar la evidencia y no marcar una tarea sin implementación y prueba.
+4. Actualizar la documentación operativa si cambia un proceso o contrato.
