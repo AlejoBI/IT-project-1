@@ -20,7 +20,7 @@ Estados: **funciona** significa que existe implementación y evidencia local;
 | Notificaciones | Funciona localmente | `notificationController.test.ts` (4 pruebas) | Probar MailerSend sin secreto real y reintentos. |
 | Servicios runtime | Funciona localmente | Los 7 servicios respondieron `200` en `/health` y `/ready`; dashboard técnico agrega estado y latencia | Validar dependencias Firebase mediante Emulator. |
 | API Gateway | Funciona como configuración | `nginx.conf`, `/health`, `/ready`, `docker compose config`, `check-gateway-config.ps1` | Prueba de contrato runtime del proxy y readiness de dependencias. |
-| Frontend | Funciona como build | `npm run build`, `npm run lint`, `npm test`, Axios con Bearer Firebase, rutas y PDF con code-splitting/versionado | Prueba manual documentada. |
+| Frontend | Funciona como build | `npm run build`, `npm run lint`, `npm test`, Axios con Bearer Firebase, rutas, PDF con code-splitting/versionado y UI claro/oscuro unificada | Prueba manual responsive y navegación autenticada. |
 | Docker Compose | Funciona con `.env` local | Build, stack y 9 contenedores `healthy` con plantillas | Levantar stack completo con Firebase Emulator. |
 
 ## Servicios y calidad actual

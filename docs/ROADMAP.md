@@ -282,6 +282,9 @@ tareas de despliegue solo se marcarán con evidencia reproducible.
   son consultables por administradores desde Audit Service.
 - El dashboard administrativo consulta la salud de los siete microservicios y
   muestra estado y latencia por servicio mediante `/api/audit/system-health`.
+- Se revisaron Dashboard y Reportes para retirar colores aislados y unificar
+  superficies, bordes, textos, estados, focos y controles con el sistema de
+  colores claro/oscuro definido en `shared/constants.ts`.
 - Se eliminaron los `any` explícitos de controladores y pruebas de servicios;
   `grep` no encuentra usos residuales en los archivos TypeScript de servicios.
 
